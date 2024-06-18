@@ -310,7 +310,6 @@ def order_detail(request, order_id):
     return render(request, 'store/order_detail.html', {'order': order, 'order_items': order_items})
 
 # views.py
-
 @login_required
 def leave_review(request, product_id):
     product = get_object_or_404(Product, id=product_id)
@@ -321,32 +320,10 @@ def leave_review(request, product_id):
             review.user = request.user
             review.product = product
             review.save()
-            
-            # Create a notification for the product owner
-            message = f"New review posted for {product.name}."
-            Notification.objects.create(user=product.owner, message=message)
-            
             return redirect('product_detail', product_id=product.id)
     else:
         form = ReviewForm()
     return render(request, 'store/leave_review.html', {'form': form, 'product': product})
-
-
-
-# @login_required
-# def leave_review(request, product_id):
-#     product = get_object_or_404(Product, id=product_id)
-#     if request.method == 'POST':
-#         form = ReviewForm(request.POST)
-#         if form.is_valid():
-#             review = form.save(commit=False)
-#             review.user = request.user
-#             review.product = product
-#             review.save()
-#             return redirect('product_detail', product_id=product.id)
-#     else:
-#         form = ReviewForm()
-#     return render(request, 'store/leave_review.html', {'form': form, 'product': product})
 
 def search(request):
     query = request.GET.get('q')

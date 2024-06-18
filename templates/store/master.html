@@ -78,31 +78,86 @@
                     }
                 }
             </script>
-           <div class="col-lg-3 col-6 text-right">
-            <a href="{% url 'wishlist_detail' %}" class="btn border animate__animated animate__bounceIn">
+
+
+         <div class="col-lg-3 col-6 text-right position-relative">
+            <a href="{% url 'wishlist_detail' %}" class="btn border animate__animated animate__bounceIn position-relative">
                 <i class="fas fa-heart text-primary"></i>
-                <span class="badge"></span>
+                <span class="badge badge-pill badge-danger position-absolute top-0 start-100 translate-middle"></span>
             </a>
-            <a href="{% url 'cart_detail' %}" class="btn border animate__animated animate__bounceIn">
+            <a href="{% url 'cart_detail' %}" class="btn border animate__animated animate__bounceIn position-relative">
                 <i class="fas fa-shopping-cart text-primary"></i>
-                <span class="badge">{{ cart_items_count }}</span>
+                <span class="badge badge-pill badge-danger position-absolute top-0 start-100 translate-middle">{{ cart_items_count }}</span>
             </a>
-            <!-- Add the notifications link and display -->
             {% if request.user.is_authenticated %}
-                <a href="#" class="btn border animate__animated animate__bounceIn">
+                <a href="#" class="btn border animate__animated animate__bounceIn position-relative notification-btn">
                     <i class="fas fa-bell text-primary"></i>
                     {% if request.user.notification_set.all %}
-                        <span class="badge">{{ request.user.notification_set.count }}</span>
+                        <span class="badge badge-pill badge-danger position-absolute top-0 start-100 translate-middle">{{ request.user.notification_set.count }}</span>
                     {% endif %}
                 </a>
-                <ul class="notifications">
+                <ul class="notifications list-group position-absolute">
                     {% for notification in request.user.notification_set.all %}
-                        <li>{{ notification.message }}</li>
+                        <li class="list-group-item">{{ notification.message }}</li>
                     {% endfor %}
                 </ul>
             {% endif %}
         </div>
-        
+        </div>
+
+        <style>
+            .notifications {
+    display: none;
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0 0;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 1000;
+    right: 0;
+    width: 300px;
+}
+
+.notifications .list-group-item {
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.notifications .list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.notification-btn:hover + .notifications,
+.notification-btn:focus + .notifications,
+.notifications:hover {
+    display: block;
+}
+
+.badge {
+    font-size: 0.75em;
+}
+
+.position-absolute {
+    position: absolute;
+}
+
+.top-0 {
+    top: 0;
+}
+
+.start-100 {
+    left: 100%;
+}
+
+.translate-middle {
+    transform: translate(-50%, -50%);
+}
+
+        </style>
+
         </div>
     </div>
     <!-- Topbar End -->
