@@ -47,6 +47,18 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
+import os
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+
 # Machine learning API
 ML_API_URL = os.getenv('ML_API_URL', 'http://localhost:8000/ml')
 
@@ -212,29 +224,13 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-# Define the URL for serving media files
 MEDIA_URL = '/media/'
 
-# Define the directory where media files will be uploadeMEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_REDIRECT_URL = 'home-url'
 LOGIN_URL = 'login-url'
 
 LOGOUT_REDIRECT_URL = 'logout-url'
-
-
-
-# Stripe settings
-# STRIPE_PUBLIC_KEY = 'your_stripe_public_key'
-# STRIPE_SECRET_KEY = 'your_stripe_secret_key'
-# STRIPE_SECRET_KEY = 'sk_test_51PLPxiFYYX5YHgfBLfVEwf4vsM0AOCXRd0oyAncoYe2UeFX7q7tKdBhEi5NmAKXhqvIzMuCGqbVxzLX6AMMnvMNE00OpQFMXKZ'
-# STRIPE_PUBLIC_KEY  = 'pk_test_51PLPxiFYYX5YHgfB8BnLGDZijrDmvm5shkv1aoiU8bvta8HEFgezuMexHoRmvlYnPN1Ly35o6Mrr3wUUkQemqHBq00rrFGMFwH'
-
-# # PayPal settings
-# PAYPAL_CLIENT_ID = 'ARZlIyQyoUCPoxKAzHIDsKTARpcHOvTWERandV-4YXc6A9fkIshnmBEicE5q6sjNFeBnKbesEMbl6QlK'
-# PAYPAL_CLIENT_SECRET = 'EC6HkA1jkJoNOY7_3qVcNi8hXSRuq9mY3Q_a_eJqLDy-2dP34ImOhkijjG3wDjn79xk_PQR7XoKqgoTO'
-# PAYPAL_MODE = 'live'  # Or 'live' for production
-
 
 
 # Stripe settings
