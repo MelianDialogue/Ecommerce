@@ -18,9 +18,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
@@ -188,16 +185,11 @@ import os
 
 # Define the URL for serving static files
 STATIC_URL = '/static/'
-
-# Define the directory where static files will be collected during deployment
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Additional directories for static files (for development purposes)
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-
-# Define the URL for serving media files
 MEDIA_URL = '/media/'
 
 # Define the directory where media files will be uploaded
@@ -246,4 +238,4 @@ STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 # PayPal settings
 PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
 PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
-PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'live')  # Default to 'live' if not set
+PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'live')
