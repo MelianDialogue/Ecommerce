@@ -190,6 +190,22 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
+# Secure Cookies
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_BROWSER_XSS_FILTER = True
+
+# Security settings
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'False').lower() == 'true'
+SECURE_HSTS_SECONDS = int(os.getenv('SECURE_HSTS_SECONDS', '3600'))
+SECURE_HSTS_INCLUDE_SUBDOMAINS = os.getenv('SECURE_HSTS_INCLUDE_SUBDOMAINS', 'True').lower() == 'true'
+SECURE_HSTS_PRELOAD = os.getenv('SECURE_HSTS_PRELOAD', 'True').lower() == 'true'
+
+
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -260,3 +276,107 @@ STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
 PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
 PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'live')
+
+
+# Machine Learning Data Settings
+
+# User-item interaction data
+USER_ITEM_INTERACTIONS = [
+    {"user_id": 1, "item_id": 101, "interaction": 5},
+    {"user_id": 2, "item_id": 102, "interaction": 3},
+    {"user_id": 1, "item_id": 103, "interaction": 2},
+    {"user_id": 3, "item_id": 101, "interaction": 4},
+    {"user_id": 2, "item_id": 104, "interaction": 1},
+]
+
+# Historical prices of products
+HISTORICAL_PRICES = [
+    {"product_id": 101, "competitor_price": 20.5},
+    {"product_id": 102, "competitor_price": 22.0},
+    {"product_id": 103, "competitor_price": 18.0},
+    {"product_id": 104, "competitor_price": 21.5},
+]
+
+# Demand data for products
+DEMAND_DATA = [
+    {"product_id": 101, "demand": 100, "date": "2024-01-01"},
+    {"product_id": 102, "demand": 150, "date": "2024-01-02"},
+    {"product_id": 103, "demand": 80, "date": "2024-01-03"},
+    {"product_id": 104, "demand": 60, "date": "2024-01-04"},
+    {"product_id": 101, "demand": 120, "date": "2024-01-05"},
+]
+
+# Customer demographic data
+CUSTOMER_DATA = [
+    {"customer_id": 1, "age": 25, "income": 50000, "spending_score": 60},
+    {"customer_id": 2, "age": 30, "income": 60000, "spending_score": 70},
+    {"customer_id": 3, "age": 22, "income": 45000, "spending_score": 50},
+    {"customer_id": 4, "age": 35, "income": 70000, "spending_score": 80},
+    {"customer_id": 5, "age": 28, "income": 52000, "spending_score": 65},
+]
+
+# Customer features
+CUSTOMER_FEATURES = [
+    {"customer_id": 1, "feature_1": 0.1, "feature_2": 0.8},
+    {"customer_id": 2, "feature_1": 0.2, "feature_2": 0.9},
+    {"customer_id": 3, "feature_1": 0.3, "feature_2": 0.7},
+    {"customer_id": 4, "feature_1": 0.4, "feature_2": 0.6},
+    {"customer_id": 5, "feature_1": 0.5, "feature_2": 0.5},
+]
+
+# Customer churn target (binary classification)
+CUSTOMER_CHURN_TARGET = [0, 1, 0, 1, 0]
+
+# Transaction data
+TRANSACTION_DATA = [
+    {"transaction_id": 1, "amount": 100.0, "fraud": 0},
+    {"transaction_id": 2, "amount": 150.0, "fraud": 1},
+    {"transaction_id": 3, "amount": 200.0, "fraud": 0},
+    {"transaction_id": 4, "amount": 250.0, "fraud": 1},
+    {"transaction_id": 5, "amount": 300.0, "fraud": 0},
+]
+
+# Reviews for products
+REVIEWS = [
+    "Great product, very satisfied.",
+    "Not what I expected, quite disappointed.",
+    "Average quality, could be better.",
+    "Excellent value for money.",
+    "Terrible experience, will not buy again.",
+]
+
+# Purchase history of users
+PURCHASE_HISTORY = [
+    {"user_id": 1, "items": ["item_101", "item_102"]},
+    {"user_id": 2, "items": ["item_103"]},
+    {"user_id": 3, "items": ["item_104", "item_101"]},
+    {"user_id": 4, "items": ["item_102", "item_103"]},
+    {"user_id": 5, "items": ["item_101", "item_104"]},
+]
+
+# User preferences
+USER_PREFERENCES = {
+    1: "electronics",
+    2: "books",
+    3: "fashion",
+    4: "home appliances",
+    5: "toys",
+}
+
+# User behavior on items
+USER_BEHAVIOR = [
+    {"user_id": 1, "action": "click", "item_id": 101},
+    {"user_id": 2, "action": "view", "item_id": 102},
+    {"user_id": 3, "action": "purchase", "item_id": 103},
+    {"user_id": 4, "action": "click", "item_id": 104},
+    {"user_id": 5, "action": "view", "item_id": 101},
+]
+
+# Search results for products
+SEARCH_RESULTS = [
+    {"product_id": 101, "features": [0.1, 0.2, 0.3]},
+    {"product_id": 102, "features": [0.2, 0.3, 0.4]},
+    {"product_id": 103, "features": [0.3, 0.4, 0.5]},
+    {"product_id": 104, "features": [0.4, 0.5, 0.6]},
+    {"product_id": 105, "features": [0.5, 0.6, 0.7]},
+]
