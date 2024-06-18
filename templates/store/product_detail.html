@@ -1,0 +1,244 @@
+{% extends "store/base.html" %}
+
+{% block content %}
+
+<!-- Page Header Start -->
+<div class="container-fluid bg-secondary mb-5">
+    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+        <h1 class="font-weight-semi-bold text-uppercase mb-3">Our Shop</h1>
+        <div class="d-inline-flex">
+            <p class="m-0"><a href="">Home</a></p>
+            <p class="m-0 px-2">-</p>
+            <p class="m-0">Shop</p>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<!-- Product Detail Start -->
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-6">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" class="img-fluid rounded shadow" alt="{{ product.name }}" data-aos="fade-right">
+            {% else %}
+            <img src="https://via.placeholder.com/400" class="img-fluid rounded shadow" alt="No image available" data-aos="fade-right">
+            {% endif %}
+        </div>
+        <div class="col-lg-6">
+            <h1 class="mb-4" data-aos="fade-up">{{ product.name }}</h1>
+            <p class="text-muted mb-4" data-aos="fade-up">{{ product.description }}</p>
+            <div class="d-flex justify-content-center mb-4" data-aos="fade-up">
+                <h6 class="mr-2">Price: <span class="text-muted" style="text-decoration: line-through;">${{ product.price }}</span></h6>
+                <h6 class="mr-2">Discount: <span class="text-danger">{{ product.discount }}%</span></h6>
+                <h6>Final Price: <span class="text-success">${{ product.final_price }}</span></h6>
+            </div>
+            <p class="text-primary mb-4" data-aos="fade-up">Stock: {{ product.stock }}</p>
+
+            <!-- Quantity Selector Start -->
+            <div class="input-group mb-4" style="max-width: 200px;" data-aos="fade-up">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary" type="button" id="decrease-quantity">-</button>
+                </div>
+                <input type="number" id="quantity" name="quantity" class="form-control text-center" value="1" min="1" max="{{ product.stock }}">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="increase-quantity">+</button>
+                </div>
+            </div>
+            <!-- Quantity Selector End -->
+
+            <div class="mb-4" data-aos="fade-up">
+                <a href="{% url 'add_to_cart' product.id %}" id="add-to-cart-link" data-product-id="{{ product.id }}">
+                    <button class="btn btn-outline-primary rounded-pill mr-3">
+                        <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                    </button>
+                </a>
+                <a href="{% url 'add_to_wishlist' product.id %}">
+                    <button class="btn btn-outline-info rounded-pill">
+                        <i class="fas fa-heart mr-2"></i> Add to Wishlist
+                    </button>
+                </a>
+            </div>
+
+            <div class="d-flex align-items-center mb-4" data-aos="fade-up">
+                <span class="mr-3">Share:</span>
+                <a href="https://facebook.com" class="btn btn-sm btn-outline-primary rounded-pill mr-2"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://twitter.com" class="btn btn-sm btn-outline-info rounded-pill mr-2"><i class="fab fa-twitter"></i></a>
+                <a href="https://pinterest.com" class="btn btn-sm btn-outline-danger rounded-pill"><i class="fab fa-pinterest-p"></i></a>
+            </div>
+
+            <div class="reviews mt-5" data-aos="fade-up">
+                <h2 class="mb-3">Reviews</h2>
+                <ul class="list-unstyled">
+                    {% for review in reviews %}
+                    <li class="review-item">
+                        <strong>{{ review.user.username }}</strong> ({{ review.rating }}/5)
+                        <p>{{ review.comment }}</p>
+                        <small>{{ review.created_at }}</small>
+                    </li>
+                    {% empty %}
+                    <li class="no-reviews">No reviews yet.</li>
+                    {% endfor %}
+                </ul>
+                <a href="{% url 'leave_review' product.id %}" class="btn btn-outline-primary rounded-pill btn-block mt-3">Leave a review</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Product Detail End -->
+
+<!-- Similar Products Section Start -->
+<div class="container py-5">
+    <h2 class="text-center mb-4" data-aos="fade-up">Similar Products</h2>
+    <div class="row">
+        {% for similar_product in similar_products %}
+        <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up">
+            <div class="card product-item border-0">
+                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                    {% if similar_product.image %}
+                    <img class="img-fluid w-100" src="{{ similar_product.image.url }}" alt="{{ similar_product.name }}">
+                    {% else %}
+                    <img class="img-fluid w-100" src="https://via.placeholder.com/200" alt="No image available">
+                    {% endif %}
+                </div>
+                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                    <h6 class="text-truncate mb-3">{{ similar_product.name }}</h6>
+                    <div class="d-flex justify-content-center">
+                        <h6 class="mr-2">Price: <span class="price">${{ similar_product.price }}</span></h6>
+                        <h6 class="mr-2">Discount: <span class="discount">{{ similar_product.discount }}%</span></h6>
+                        <h6>Final Price: <span class="final-price">${{ similar_product.final_price }}</span></h6>
+                    </div>
+                </div>
+                <div class="card-footer bg-light border">
+                    <a href="{% url 'product_detail' similar_product.id %}" class="btn btn-sm text-dark p-0">
+                        <i class="fas fa-eye text-primary mr-1"></i>View Detail
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<!-- Similar Products Section End -->
+
+
+<style>
+    .container img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .container h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .container p {
+        font-size: 1.2rem;
+        color: #666;
+    }
+
+    .container h4 {
+        font-size: 2rem;
+        color: #007bff;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+
+    .btn-outline-info:hover {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+        color: white;
+    }
+
+    .btn-outline-danger:hover {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: white;
+    }
+
+    .rounded-pill {
+        border-radius: 50px;
+    }
+
+    .rounded-circle {
+        border-radius: 50%;
+    }
+
+    .reviews {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .review-item {
+        border-bottom: 1px solid #dee2e6;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    .no-reviews {
+        color: #999;
+    }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        AOS.init();
+        const decreaseQuantityButton = document.getElementById('decrease-quantity');
+        const increaseQuantityButton = document.getElementById('increase-quantity');
+        const quantityInput = document.getElementById('quantity');
+        const addToCartLink = document.getElementById('add-to-cart-link');
+        const totalPriceElement = document.getElementById('total-price');
+        const basePrice = parseFloat(document.querySelector('.product-price').getAttribute('data-base-price'));
+
+        function updateTotalPrice() {
+            const quantity = parseInt(quantityInput.value);
+            const totalPrice = (basePrice * quantity).toFixed(2);
+            totalPriceElement.textContent = totalPrice;
+        }
+
+        decreaseQuantityButton.addEventListener('click', () => {
+            let quantity = parseInt(quantityInput.value);
+            if (quantity > 1) {
+                quantityInput.value = quantity - 1;
+                updateTotalPrice();
+            }
+        });
+
+        increaseQuantityButton.addEventListener('click', () => {
+            let quantity = parseInt(quantityInput.value);
+            if (quantity < parseInt(quantityInput.max)) {
+                quantityInput.value = quantity + 1;
+                updateTotalPrice();
+            }
+        });
+
+        quantityInput.addEventListener('input', () => {
+            if (quantityInput.value < 1) {
+                quantityInput.value = 1;
+            } else if (quantityInput.value > parseInt(quantityInput.max)) {
+                quantityInput.value = quantityInput.max;
+            }
+            updateTotalPrice();
+        });
+
+        addToCartLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            const productId = addToCartLink.getAttribute('data-product-id');
+            const quantity = quantityInput.value;
+            const url = `{% url 'add_to_cart' 0 %}`.replace('0', productId) + `?quantity=${quantity}`;
+            window.location.href = url;
+        });
+
+        updateTotalPrice(); // Initialize total price on page load
+    });
+</script>
+
+{% endblock %}

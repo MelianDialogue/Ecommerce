@@ -1,0 +1,282 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block content %}
+<br>
+<!-- Shop Start -->
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5">
+        <!-- Shop Product Start -->
+        <div class="col-lg-12 col-md-12" data-aos="fade-left">
+            <div class="row pb-3">
+                <div class="col-12 pb-1">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <form action="">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search by name">
+                                <div class="input-group-append">
+                                    <span class="input-group-text bg-transparent text-primary">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="dropdown ml-4">
+                            <button class="btn border dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Sort by
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
+                                <a class="dropdown-item" href="#">Latest</a>
+                                <a class="dropdown-item" href="#">Popularity</a>
+                                <a class="dropdown-item" href="#">Best Rating</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product Loop Start -->
+                <p>{{ voice_search_results }}</p>
+                {% for product in products %}
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:'100' }}">
+                    <div class="card product-item border-0 mb-4 shadow-sm">
+                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            {% if product.image %}
+                            <img class="img-fluid w-100" src="{{ product.image.url }}" alt="{{ product.name }}">
+                            {% else %}
+                            <img class="img-fluid w-100" src="https://via.placeholder.com/200" alt="No image available">
+                            {% endif %}
+                        </div>
+                        <div class="card-body text-center p-4">
+                            <h6 class="text-truncate mb-3">{{ product.name }}</h6>
+                            <div class="d-flex justify-content-center mb-3">
+                                <h6 class="text-muted mr-2">
+                                    <span class="text-muted text-decoration-line-through">${{ product.price }}</span>
+                                </h6>
+                                <h6 class="text-danger mr-2">{{ product.discount }}% OFF</h6>
+                                <h6 class="text-success">${{ product.final_price }}</h6>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'product_detail' product.id %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye"></i> View Detail
+                                </a>
+                                <a href="" class="btn btn-sm btn-outline-success">
+                                    <i class="fas fa-shopping-cart"></i> Add To Cart
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <!-- Product Loop End -->
+
+
+
+              <div class="row">
+
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    
+       <!-- Shop Product End -->
+            <h2>Recommended Products</h2>
+            <ul>
+                {% if recommended_products %}
+                    {% for product in recommended_products %}
+                    <li><img class="img2" src="{{ product.image.url }}" alt="{{ product.name }}"> {{ product.name }} - ${{ product.price }}</li>
+                    {% endfor %}
+                {% else %}
+                    <li>No recommendations available</li>
+                {% endif %}
+            </ul>
+
+                </div>
+                <div class="col-md-3"></div>
+
+              </div>
+
+
+
+
+                <div class="col-12 pb-1">
+                    <nav aria-label="Page navigation">
+                      <ul class="pagination justify-content-center mb-3">
+                        <li class="page-item disabled">
+                          <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                          </a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                          <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- Shop Product End -->
+    </div>
+</div>
+<!-- Shop End -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css"/>
+<style>
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    h1, h2, h3 {
+        margin-top: 30px;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        margin-bottom: 10px;
+    }
+    p {
+        margin-bottom: 20px;
+    }
+    .img2 {
+        max-width: 100px;
+        max-height: 100px;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+    .text-decoration-line-through {
+        text-decoration: line-through;
+    }
+    .price, .discount, .final-price {
+        font-weight: bold;
+        margin: 5px 0;
+    }
+    .price {
+        color: #ffc107; /* Yellow color */
+    }
+    .final-price {
+        color: #28a745; /* Green color */
+    }
+    .card {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+    .btn-outline-primary {
+        color: #007bff;
+        border-color: #007bff;
+    }
+    .btn-outline-primary:hover {
+        background-color: #007bff;
+        color: #fff;
+    }
+    .btn-outline-success {
+        color: #28a745;
+        border-color: #28a745;
+    }
+    .btn-outline-success:hover {
+        background-color: #28a745;
+        color: #fff;
+    }
+</style>
+
+<!-- AOS Animation Script -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+
+
+               <!-- <div class="container">
+            <h1>Product List</h1>
+            <h2>All Products</h2>
+            <ul>
+                {% for product in products %}
+                <li><img class="img2" src="{{ product.image.url }}" alt="{{ product.name }}"> {{ product.name }} - ${{ product.price }}</li>
+                {% endfor %}
+            </ul>
+            <h2>Machine Learning Features</h2>
+            <div>
+                <h3>Dynamic Pricing</h3>
+                <p>{{ dynamic_pricing }}</p>
+    
+                <h3>Customer Segments</h3>
+                <p>{{ customer_segments }}</p>
+    
+                <h3>Churn Predictions</h3>
+                <p>{{ churn_predictions }}</p>
+    
+                <h3>Fraud Detection</h3>
+                <p>{{ fraud_detection }}</p>
+    
+                <h3>Sentiment Analysis</h3>
+                <p>{{ sentiment_analysis }}</p>
+    
+                <h3>Demand Forecast</h3>
+                <p>{{ demand_forecast }}</p>
+    
+                <h3>Understood Query</h3>
+                <p>{{ understood_query }}</p>
+    
+                <h3>Image Search Results</h3>
+                <p>{{ image_search_results }}</p>
+    
+                <h3>Predicted Customer Lifetime Value</h3>
+                <p>{{ predicted_clv }}</p>
+    
+                <h3>Bundled Recommendations</h3>
+                <p>{{ bundled_recommendations }}</p>
+    
+                <h3>Personalized Email Content</h3>
+                <p>{{ personalized_email }}</p>
+    
+                <h3>Adaptive Search Ranking Results</h3>
+                <p>{{ adaptive_ranking_results }}</p>
+    
+                <h3>Personalized User Experience</h3>
+                <p>{{ personalized_experience }}</p>
+    
+                <h3>Abandoned Cart Recovery</h3>
+                <p>{{ abandoned_cart_recovery }}</p>
+    
+                <h3>Voice Search Results</h3>
+                <p>{{ voice_search_results }}</p>
+    
+                <h3>Predicted Trends</h3>
+                <p>{{ predicted_trends }}</p>
+    
+                <h3>Chatbot Response</h3>
+                <p>{{ chatbot_response }}</p>
+    
+                <h3>Security Alerts</h3>
+                <p>{{ security_alerts }}</p>
+    
+                <h3>User Behavior Analysis</h3>
+                <p>{{ user_behavior }}</p>
+    
+                <h3>Dynamic Landing Page</h3>
+                <p>{{ dynamic_landing_page }}</p>
+    
+                <h3>Social Media Analysis</h3>
+                <p>{{ social_media_analysis }}</p>
+    
+                <h3>Supply Chain Optimization</h3>
+                <p>{{ supply_chain_optimization }}</p>
+    
+                <h3>Real-Time Analytics</h3>
+                <p>{{ real_time_analytics }}</p>
+            </div> -->
+        <!-- </div> -->
+    
+  
+{% endblock %}
+
+ 
