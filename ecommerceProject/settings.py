@@ -45,21 +45,23 @@ INSTALLED_APPS = [
     'ml',
     'rest_framework',
     'grappelli',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
-# import os
+import os
 
-# CLOUDINARY_STORAGE = {
-#     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME', 'dnqsiqqu9' ),
-#     'API_KEY': os.getenv('CLOUDINARY_API_KEY', '155569521244935'),
-#     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET','gr59xu00MEcd8EJJvZWP4TZGtoU'),
-# }
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+}
 
-# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 
@@ -138,7 +140,7 @@ DATABASES = {
 
 database_url = os.environ.get('DATABASE_URL')
 if database_url:
-    DATABASES["default"] = dj_database_url.parse(database_url )
+    DATABASES["default"] = dj_database_url.parse(database_url)
 
 
 
