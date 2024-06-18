@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from cloudinary.models import CloudinaryField
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
@@ -8,7 +7,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     discount = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     stock = models.IntegerField()
-    image = CloudinaryField('image', blank=True, null=True)
+    image = models.ImageField(upload_to='product_images/', blank=True, null=True)  # Replace CloudinaryField with ImageField
     category = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -97,16 +96,10 @@ class PolicyPage(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
 
-# notification system
-# models.py
-
-from django.contrib.auth.models import User
-from django.db import models
-from django.utils import timezone
-
+# Notification System
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(default=timezone.now)
+    timestamp = models.DateTimeField(auto_now_add=True)
     message = models.TextField()
 
     def __str__(self):
