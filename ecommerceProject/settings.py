@@ -53,21 +53,6 @@ INSTALLED_APPS = [
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
-
-# CLOUDINARY_STORAGE = {
-#     'CLOUD_NAME': 'dnqsiqqu9',
-#     'API_KEY': '671314852468814',
-#     'API_SECRET': 'q9aexJMZf9PCnq0ziEBMQMnMuYk'
-# }
-
-# cloudinary.config(
-#   cloud_name = CLOUDINARY_STORAGE['CLOUD_NAME'], 
-#   api_key = CLOUDINARY_STORAGE['API_KEY'], 
-#   api_secret = CLOUDINARY_STORAGE['API_SECRET']
-# )
 
 import os
 
