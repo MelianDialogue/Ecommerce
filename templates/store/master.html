@@ -172,12 +172,11 @@
                 </a>
                 <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 1000;">
                     <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-                        <a href="" class="nav-item nav-link animate__animated animate__fadeInLeft">Home</a>
-                        <a href="" class="nav-item nav-link animate__animated animate__fadeInLeft">Shop</a>
-                        <a href="" class="nav-item nav-link animate__animated animate__fadeInLeft">Shop Details</a>
-                        <a href="" class="nav-item nav-link animate__animated animate__fadeInLeft">Shopping Cart</a>
-                        <a href="" class="nav-item nav-link animate__animated animate__fadeInLeft">Checkout</a>
-                        <a href="" class="nav-item nav-link animate__animated animate__fadeInLeft">Wishlist</a>
+                        <a href="{% url 'home-url' %}" class="nav-item nav-link animate__animated animate__fadeInLeft">Home</a>
+                        <a href="{% url 'product_list' %}" class="nav-item nav-link animate__animated animate__fadeInLeft">Shop</a>
+                        <a href="{% url 'cart_detail' %}" class="nav-item nav-link animate__animated animate__fadeInLeft">Shop Details</a>
+                        <a href="{% url 'cart_detail' %}" class="nav-item nav-link animate__animated animate__fadeInLeft">Shopping Cart</a>
+                        <a href="{% url 'wishlist_detail' %}" class="nav-item nav-link animate__animated animate__fadeInLeft">Wishlist</a>
                     </div>
                 </nav>
             </div>
@@ -220,14 +219,16 @@
             <!-- Dashboard Column -->
             <div class="col-lg-3 d-none d-lg-block">
                 <div class="bg-light p-3 rounded shadow-sm animate__animated animate__fadeInLeft">
-                    <h4 class="font-weight-bold">Dashboard</h4>
+                    <h4 class="font-weight-bold"></h4>
                     <ul class="list-unstyled">
                         <li><a href="{% url 'home-url' %}" class="nav-link text-dark">Home</a></li>
                         <li><a href="{% url 'product_list' %}" class="nav-link text-dark">Shop</a></li>
-                        <li><a href="{% url 'cart_detail' %}" class="nav-link text-dark">Shop Details</a></li>
-                        <li><a href="" class="nav-link text-dark">Shopping Cart</a></li>
-                        <li><a href="" class="nav-link text-dark">Checkout</a></li>
-                        <li><a href="" class="nav-link text-dark">Wishlist</a></li>
+                        <li><a href="{% url 'cart_detail' %}" class="nav-link text-dark">Shopping Cart</a></li>
+                        <li><a href="{% url 'wishlist_detail' %}" class="nav-link text-dark">Wishlist</a></li>
+                        <li><a class="text-dark nav-link  mb-2" href="{% url 'terms' %}">Terms and Conditions</a></li>
+                            <li><a class="text-dark nav-link  mb-2" href="{% url 'privacy' %}">Privacy and Policy</a></li>
+                                    <li><a class="text-dark  nav-link  mb-2" href="{% url 'accessibility' %}">Accessibility</a></li>
+
                     </ul>
                 </div>
             </div>
@@ -394,6 +395,66 @@
 
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<style>
+    .cookie-popup {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #f0f0f0;
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: none;
+    }
+    .cookie-popup.show {
+      display: block;
+    }
+    .cookie-popup button {
+      background-color: maroon;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  </style>
+
+
+<div class="cookie-popup" id="cookiePopup">
+    <p>This website uses cookies to ensure you get the best experience.</p>
+    <button onclick="hideCookiePopup()">Got it!</button>
+  </div>
+  
+  <script>
+  // Function to hide the cookie popup and set a cookie
+  function hideCookiePopup() {
+    var popup = document.getElementById('cookiePopup');
+    popup.style.display = 'none';
+    // Set a cookie that expires in 30 days (adjust as needed)
+    document.cookie = 'cookieAccepted=true; expires=' + new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toUTCString() + '; path=/';
+  }
+  
+  // Check if cookieAccepted is present
+  function checkCookieAccepted() {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i].trim();
+      if (cookie.startsWith('cookieAccepted=')) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  // Show cookie popup only if cookieAccepted is not present
+  if (!checkCookieAccepted()) {
+    var popup = document.getElementById('cookiePopup');
+    popup.classList.add('show');
+  }
+  </script>
 
     {% block content %}
 

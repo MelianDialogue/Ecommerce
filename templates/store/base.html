@@ -172,14 +172,13 @@
                 <nav class="collapse position-absolute navbar navbar-vertical navbar-light 
                 align-items-start p-0 border border-top-0 border-bottom-0 bg-light"
                  id="navbar-vertical" style="width: calc(100% - 30px); z-index: 1000;">
-                    <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-                        <a href="" class="nav-item nav-link animate__animated animate__fadeInLeft">Home</a>
-                        <a href="" class="nav-item nav-link animate__animated animate__fadeInLeft">Shop</a>
-                        <a href="" class="nav-item nav-link animate__animated animate__fadeInLeft">Shop Details</a>
-                        <a href="" class="nav-item nav-link animate__animated animate__fadeInLeft">Shopping Cart</a>
-                        <a href="" class="nav-item nav-link animate__animated animate__fadeInLeft">Checkout</a>
-                        <a href="" class="nav-item nav-link animate__animated animate__fadeInLeft">Wishlist</a>
-                    </div>
+                 <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
+                    <a href="{% url 'home-url' %}" class="nav-item nav-link animate__animated animate__fadeInLeft">Home</a>
+                    <a href="{% url 'product_list' %}" class="nav-item nav-link animate__animated animate__fadeInLeft">Shop</a>
+                    <a href="{% url 'cart_detail' %}" class="nav-item nav-link animate__animated animate__fadeInLeft">Shop Details</a>
+                    <a href="{% url 'cart_detail' %}" class="nav-item nav-link animate__animated animate__fadeInLeft">Shopping Cart</a>
+                    <a href="{% url 'wishlist_detail' %}" class="nav-item nav-link animate__animated animate__fadeInLeft">Wishlist</a>
+                </div>
                 </nav>
             </div>
             <div class="col-lg-9">

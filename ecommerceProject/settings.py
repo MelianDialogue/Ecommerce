@@ -266,16 +266,15 @@ PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
 PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
 PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'live')
 
-
 # Machine Learning Data Settings
 
 # User-item interaction data
 USER_ITEM_INTERACTIONS = [
-    {"user_id": 1, "item_id": 101, "interaction": 5},
-    {"user_id": 2, "item_id": 102, "interaction": 3},
-    {"user_id": 1, "item_id": 103, "interaction": 2},
-    {"user_id": 3, "item_id": 101, "interaction": 4},
-    {"user_id": 2, "item_id": 104, "interaction": 1},
+    {"user_id": 1, "product_id": 101, "interaction": 5},
+    {"user_id": 2, "product_id": 102, "interaction": 3},
+    {"user_id": 1, "product_id": 103, "interaction": 2},
+    {"user_id": 3, "product_id": 101, "interaction": 4},
+    {"user_id": 2, "product_id": 104, "interaction": 1},
 ]
 
 # Historical prices of products
