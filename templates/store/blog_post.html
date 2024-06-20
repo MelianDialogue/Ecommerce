@@ -97,15 +97,6 @@
 </style>
 
 <div class="container py-5">
-    <h2><a href="{% url 'create_blog_post' %}">Create Blog Post</a></h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
-
-<div class="container py-5">
     {% for blog_post in blog_posts %}
     <div class="blog-post">
         <h3>{{ blog_post.title }}</h3>

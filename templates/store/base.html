@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en">
+<html lang="zxx">
 
 <head>
     <meta charset="utf-8">
@@ -29,324 +29,359 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
 
+
+
+    <meta charset="UTF-8">
+    <meta name="description" content="Ogani Template">
+    <meta name="keywords" content="Ogani, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MountGuard</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/css/elegant-icons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/css/nice-select.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/css/jquery-ui.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" type="text/css">
+</head>
+
 <body>
-    <!-- Topbar Start -->
-    <div class="container-fluid bg-white shadow-sm animated fadeInDown">
-        <div class="row align-items-center py-3 px-xl-5">
-            <div class="col-lg-3 d-none d-lg-block">
-                <a href="" class="text-decoration-none">
-                    <h2 class="m-0 display-5 font-weight-semi-bold">
-                        <span class="text-primary font-weight-bold border px-3 mr-1 animate__animated animate__bounceInLeft">
-                         M</span>Mount Guard
-                    </h2>
-                </a>
-            </div>
-            <div class="col-lg-6 col-6 text-left">
-                <form action="" method="POST" id="search-form">
-                    {% csrf_token %}
-                    <div class="input-group animate__animated animate__fadeIn">
-                        <input type="text" class="form-control" name="query" id="search-input" placeholder="Search for products">
-                        <div class="input-group-append">
-                            <span class="input-group-text bg-transparent text-primary" style="cursor: pointer;" onclick="submitSearchForm()">
-                                <i class="fa fa-search"></i>
-                            </span>
-                            <button type="button" onclick="startVoiceSearch()" class="btn btn-primary">
-                                <i class="fa fa-microphone"></i> Voice Search
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <script>
-                function submitSearchForm() {
-                    document.getElementById("search-form").submit();
-                }
-            </script>
-            <script>
-                function startVoiceSearch() {
-                    if ('webkitSpeechRecognition' in window) {
-                        const recognition = new webkitSpeechRecognition();
-                        recognition.lang = 'en-US';
-                        recognition.start();
-                        recognition.onresult = function(event) {
-                            document.getElementById('search-input').value = event.results[0][0].transcript;
-                            document.getElementById('search-form').submit();
-                        };
-                    } else {
-                        alert("Your browser does not support voice recognition.");
-                    }
-                }
-            </script>
-           <div class="col-lg-3 col-6 text-right position-relative">
-            <a href="{% url 'wishlist_detail' %}" class="btn border animate__animated animate__bounceIn position-relative">
-                <i class="fas fa-heart text-primary"></i>
-                <span class="badge badge-pill badge-danger position-absolute top-0 start-100 translate-middle"></span>
-            </a>
-            <a href="{% url 'cart_detail' %}" class="btn border animate__animated animate__bounceIn position-relative">
-                <i class="fas fa-shopping-cart text-primary"></i>
-                <span class="badge badge-pill badge-danger position-absolute top-0 start-100 translate-middle">{{ cart_items_count }}</span>
-            </a>
-            {% if request.user.is_authenticated %}
-                <a href="#" class="btn border animate__animated animate__bounceIn position-relative notification-btn">
-                    <i class="fas fa-bell text-primary"></i>
-                    {% if request.user.notification_set.all %}
-                        <span class="badge badge-pill badge-danger position-absolute top-0 start-100 translate-middle">{{ request.user.notification_set.count }}</span>
-                    {% endif %}
-                </a>
-                <ul class="notifications list-group position-absolute">
-                    {% for notification in request.user.notification_set.all %}
-                        <li class="list-group-item">{{ notification.message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+  <!-- Page Preloder -->
+  <div id="preloder">
+    <div class="loader"></div>
+</div>
+
+<!-- Humberger Begin -->
+<div class="humberger__menu__overlay"></div>
+<div class="humberger__menu__wrapper">
+    <div class="humberger__menu__logo">
+        <a href="#"><h4 class="text-dark">MountGuard</h4></a>
+    </div>
+    <div class="humberger__menu__cart">
+        <ul>
+            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
+            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+        </ul>
+    </div>
+    <div class="humberger__menu__widget">
+        <div class="header__top__right__language">
+            <img src="img/language.png" alt="">
+            <div>English</div>
+            <span class="arrow_carrot-down"></span>
+            <ul>
+                <li><a href="#">Spanis</a></li>
+                <li><a href="#">English</a></li>
+            </ul>
         </div>
-
-        <style>
-            .notifications {
-    display: none;
-    list-style-type: none;
-    padding: 0;
-    margin: 10px 0 0;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-    z-index: 1000;
-    right: 0;
-    width: 300px;
-}
-
-.notifications .list-group-item {
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-.notifications .list-group-item:hover {
-    background-color: #f8f9fa;
-}
-
-.notification-btn:hover + .notifications,
-.notification-btn:focus + .notifications,
-.notifications:hover {
-    display: block;
-}
-
-.badge {
-    font-size: 0.75em;
-}
-
-.position-absolute {
-    position: absolute;
-}
-
-.top-0 {
-    top: 0;
-}
-
-.start-100 {
-    left: 100%;
-}
-
-.translate-middle {
-    transform: translate(-50%, -50%);
-}
-
-        </style>
-
+        <div class="header__top__right__auth">
+            <a href="{% url 'login-url' %}"><i class="fa fa-user"></i> Login</a>
         </div>
     </div>
-    <!-- Topbar End -->
+    <nav class="humberger__menu__nav mobile-menu">
+            <li class="active"><a href="{% url 'home-url' %}">Home</a></li>
+            <li><a href="{% url 'product_list' %}">Products</a></li>
+            <li><a href="#">Pages</a>
+                <ul class="header__menu__dropdown">
+                    <li><a href="{% url 'cart_detail' %}">Shoping Cart</a></li>
+                </ul>
+            </li>
+            <li><a href="{% url 'blog_list' %}">Blog</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+        </ul>
+    </nav>
+    <div id="mobile-menu-wrap"></div>
+    <div class="header__top__right__social">
+        <a href="#"><i class="fa fa-facebook"></i></a>
+        <a href="#"><i class="fa fa-twitter"></i></a>
+        <a href="#"><i class="fa fa-linkedin"></i></a>
+        <a href="#"><i class="fa fa-pinterest-p"></i></a>
+    </div>
+    <div class="humberger__menu__contact">
+        <ul>
+            <li><i class="fa fa-envelope"></i> hello@meliandialogue.com</li>
+            <li>Free Shipping for all Order of $100</li>
+        </ul>
+    </div>
+</div>
+<!-- Humberger End -->
 
-    <!-- Navbar Start -->
-    <div class="container-fluid">
-        <div class="row border-top px-xl-5">
-            <div class="col-lg-3 d-none d-lg-block">
-                <a class="btn shadow-none d-flex align-items-center justify-content-between 
-                bg-primary text-white w-100 animate__animated animate__fadeInLeft" 
-                data-toggle="collapse" href="#navbar-vertical" 
-                style="height: 65px; margin-top: -1px; padding: 0 30px;">
-                    <h6 class="m-0">Dashboards</h6>
-                    <i class="fa fa-angle-down text-dark"></i>
-                </a>
-                <nav class="collapse position-absolute navbar navbar-vertical navbar-light 
-                align-items-start p-0 border border-top-0 border-bottom-0 bg-light"
-                 id="navbar-vertical" style="width: calc(100% - 30px); z-index: 1000;">
-                 <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-                    <a href="{% url 'home-url' %}" class="nav-item nav-link animate__animated animate__fadeInLeft">Home</a>
-                    <a href="{% url 'product_list' %}" class="nav-item nav-link animate__animated animate__fadeInLeft">Shop</a>
-                    <a href="{% url 'cart_detail' %}" class="nav-item nav-link animate__animated animate__fadeInLeft">Shop Details</a>
-                    <a href="{% url 'cart_detail' %}" class="nav-item nav-link animate__animated animate__fadeInLeft">Shopping Cart</a>
-                    <a href="{% url 'wishlist_detail' %}" class="nav-item nav-link animate__animated animate__fadeInLeft">Wishlist</a>
+
+ <!-- Header Section Begin -->
+ <header class="header">
+    <div class="header__top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="header__top__left">
+                        <ul>
+                            <li><i class="fa fa-envelope"></i> hello@meliandialogue.com</li>
+                            <li>Free Shipping for all Order of $100</li>
+                        </ul>
+                    </div>
                 </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="header__top__right">
+                        <div class="header__top__right__social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                            <a href="#"><i class="fa fa-pinterest-p"></i></a>
+                        </div>
+                        <div class="header__top__right__language">
+                            <img src="img/language.png" alt="">
+                            <div>English</div>
+                            <span class="arrow_carrot-down"></span>
+                            <ul>
+                                <li><a href="#">Spanis</a></li>
+                                <li><a href="#">English</a></li>
+                            </ul>
+                        </div>
+                        <div class="header__top__right__auth">
+                            <a href="{% url 'login-url' %}"><i class="fa fa-user"></i> Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="header__logo">
+                    <a href="{% url 'home-url' %}"><h2 class="text-dark">MountGuard</h2></a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <nav class="header__menu">
+                    <ul>
+                        <li class="active"><a href="{% url 'home-url' %}">Home</a></li>
+                        <li><a href="{% url 'product_list' %}">Products</a></li>
+                        <li><a href="#">Pages</a>
+                            <ul class="header__menu__dropdown">
+                                <li><a href="{% url 'product_list' %}">Shop Details</a></li>
+                                <li><a href="{% url 'cart_detail' %}">Shoping Cart</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{% url 'blog_list' %}">Blog</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
                 </nav>
+            </div>
+            <div class="col-lg-3">
+                <div class="header__cart">
+                    <ul>
+                        <li>
+                            {% if request.user.is_authenticated %}
+                            <a href="#" class="btn animate__animated animate__bounceIn position-relative notification-btn">
+                                <i class="fa fa-bell text-primary"></i>
+                                {% if request.user.notification_set.all %}
+                                    <span class="badge badge-pill badge-danger position-absolute top-0 start-100 translate-middle">{{ request.user.notification_set.count }}</span>
+                                {% endif %}
+                            </a>
+                            <ul class="notifications list-group position-absolute">
+                                {% for notification in request.user.notification_set.all %}
+                                    <li class="list-group-item">{{ notification.message }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        </li>
+                        <li><a href="#"><i class="fa fa-heart"></i> <span> {{ products.count }}</span></a></li>
+                        <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>{{ cart_items_count }}</span></a></li>
+                    </ul>
+                    <a href="{% url 'profile-url' %}">
+                        {% if user.profile.profile_photo %}
+                            <img class="rounded-circle animate__animated animate__fadeIn" src="{{ user.profile.profile_photo.url }}" alt="Profile Photo" style="height: 40px;">
+                        {% else %}
+                            <img class="rounded-circle animate__animated animate__fadeIn" src="{% static 'img/images (1).jpeg' %}" alt="Photo" style="height: 30px;">
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="humberger__open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header>
+<!-- Header Section End -->
+ <!-- Hero Section Begin -->
+ <section class="hero hero-normal">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="hero__categories">
+                    <div class="hero__categories__all">
+                        <span>Dashboard</span>
+                    </div>
+                    <ul>
+                        <li><a href="{% url 'home-url' %}" class="nav-link text-dark">Home</a></li>
+                        <li><a href="{% url 'product_list' %}" class="nav-link text-dark">Products</a></li>
+                        <li><a href="{% url 'cart_detail' %}" class="nav-link text-dark">Shopping Cart</a></li>
+                        <li><a href="{% url 'wishlist_detail' %}" class="nav-link text-dark">Wishlist</a></li>
+                    </ul>
+                </div>
             </div>
             <div class="col-lg-9">
-                <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0 animate__animated animate__fadeIn">
-                    <a href="" class="text-decoration-none d-block d-lg-none">
-                        <h1 class="m-0 display-5 font-weight-semi-bold">
-                            <span class="text-primary font-weight-bold border px-3 mr-1">M</span>MountGuard</h1>
-                    </a>
-                    <button type="button" class="navbar-toggler" data-toggle="collapse" 
-                    data-target="#navbarCollapse">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                        <div class="navbar-nav mr-auto py-0">
-                            <a href="{% url 'home-url' %}" class="nav-item nav-link active animate__animated animate__fadeIn">Home</a>
-                            <a href="{% url 'product_list' %}" class="nav-item nav-link animate__animated animate__fadeIn">Shop</a>
-                            <a href="{% url 'cart_detail' %}" class="nav-item nav-link animate__animated animate__fadeIn">Shop Detail</a>
-                            <a href="{% url 'contact' %}" class="nav-item nav-link animate__animated animate__fadeIn">Contact</a>
-                        </div>
-                        <div class="navbar-nav ml-auto py-0">
-                            <a href="{% url 'login-url' %}" class="nav-item nav-link animate__animated animate__fadeIn">Login</a>
-                            <a href="{% url 'register-url' %}" class="nav-item nav-link animate__animated animate__fadeIn">Register</a>
-                        </div>
-                        <a href="{% url 'profile-url' %}">
-                            {% if user.profile.profile_photo %}
-                                <img class="rounded-circle animate__animated animate__fadeIn" src="{{ user.profile.profile_photo.url }}" alt="Profile Photo" style="height: 40px;">
-                            {% else %}
-                                <img class="rounded-circle animate__animated animate__fadeIn" src="{% static 'images/avatar.jpg' %}" alt="Photo" style="height: 30px;">
-                            {% endif %}
-                        </a>
+                <div class="hero__search">
+                    <div class="hero__search__form">
+                        <form action="{% url 'search' %}" method="POST" id="search-form">
+                            {% csrf_token %}
+                            <input type="text" placeholder="What do yo u need?">
+                            <button type="submit" class="site-btn">SEARCH</button>
+                        </form>
                     </div>
-                </nav>
+                    <div class="hero__search__phone">
+                        <div class="hero__search__phone__icon">
+                            <i class="fa fa-phone"></i>
+                        </div>
+                        <div class="hero__search__phone__text">
+                            <h5>+447508516836</h5>
+                            <span>support 24/7 time</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <!-- Navbar End -->
-<br>
+</section>
+<!-- Hero Section End -->
+
+
     {% block content %}
 
     {% endblock %}
 
-<!-- Footer Start -->
-<div class="container-fluid bg-secondary text-dark mt-5 pt-5">
-    <div class="row px-xl-5 pt-5">
-        <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
-            <a href="" class="text-decoration-none">
-                <h2 class="mb-4 display-5 font-weight-semi-bold">
-                    <span class="text-primary font-weight-bold border 
-                    border-white px-3 mr-1">M</span>MountGuard</h2>
-            </a>
-            <h5>Improving lives, protecting the planet.</h5>
-            <p>MountGuard is a brand of Core Environmental PLC. Improving lives and 
-                protecting the planet.</p>
-            </p>
-              
-                <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>4 Durham Workspace
-                PityMe, Durham DH1 5JZ, UK</p>
-            <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>hello@meliandialogue.com</p>
-            <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+447508516836</p>
-        </div>
-        <div class="col-lg-8 col-md-12">
-            <div class="row">
-                <div class="col-md-4 mb-5">
-                    <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
-                    <div class="d-flex flex-column justify-content-start">
-                        <a class="text-dark mb-2" href="{% url 'home-url' %}"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                        <a class="text-dark mb-2" href="{% url 'product_list' %}"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                        <a class="text-dark mb-2" href=""><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
-                        <a class="text-dark mb-2" href=""><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
-                        <a class="text-dark mb-2" href=""><i class="fa fa-angle-right mr-2"></i>Checkout</a>
-                        <a class="text-dark mb-2" href="{% url 'faq_list' %}"><i class="fa fa-angle-right mr-2"></i>Faqs</a>
-                        <a class="text-dark mb-2" href="{% url 'blog_list' %}">
-                            <i class="fa fa-angle-right mr-2"></i>blog</a>
-                        <!-- <a class="text-dark mb-2" href="{% url 'policy_page_detail' policy_page_id=1 %}">
-                            <i class="fa fa-angle-right mr-2"></i>policy page</a> -->
-                        <a class="text-dark" href="{% url 'contact' %}"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+<!-- Footer Section Begin -->
+<footer class="footer spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="footer__about">
+                    <div class="footer__about__logo">
+                        <a href="{% url 'home-url' %}">
+                            <h4>MountGuard</h4>
                     </div>
+                    <ul>
+                        <li>Address: 4 Durham Workspace, PityMe, Durham DH1 5JZ, UK</li>
+                        <li>Phone: +447508516836</li>
+                        <li>Email: hello@meliandialogue.com</li>
+                    </ul>
                 </div>
-                <div class="col-md-4 mb-5">
-                    <h5 class="font-weight-bold text-dark mb-4">Legal</h5>
-                    <div class="d-flex flex-column justify-content-start">
-                        <a class="text-dark mb-2" href="{% url 'terms' %}"><i class="fa fa-angle-right mr-2"></i>Terms and Conditions</a>
-                        <a class="text-dark mb-2" href="{% url 'privacy' %}"><i class="fa fa-angle-right mr-2"></i>Privacy and Policy</a>
-                        <a class="text-dark mb-2" href="{% url 'cookies' %}"><i class="fa fa-angle-right mr-2"></i>Cookies</a>
-                        <a class="text-dark mb-2" href="{% url 'accessibility' %}"><i class="fa fa-angle-right mr-2"></i>Accessibility</a>
-
-                    </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
+                <div class="footer__widget">
+                    <h6>Useful Links</h6>
+                    <ul>
+                        <li><a href="{% url 'home-url' %}">Home</a></li>
+                        <li><a href="{% url 'product_list' %}">Our Shop</a></li>
+                        <li><a href="{% url 'cart_detail' %}">Shopping Cart</a></li>
+                        <li><a href="{% url 'faq_list' %}">FAQs</a></li>
+                        <li><a href="{% url 'blog_list' %}">Blog</a></li>
+                        <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    </ul>
+                    <h6>Legal</h6>
+                    <ul>
+                        <li><a href="{% url 'terms' %}">Terms and Conditions</a></li>
+                        <li><a href="{% url 'privacy' %}">Privacy Policy</a></li>
+                        <li><a href="{% url 'cookies' %}">Cookies</a></li>
+                        <li><a href="{% url 'accessibility' %}">Accessibility</a></li>
+                    </ul>
                 </div>
-                <div class="col-md-4 mb-5">
-                    <h5 class="font-weight-bold text-dark mb-4">Newsletter</h5>
-                    {% if success_message %}
-                    <div class="alert alert-success" role="alert">
-                        {{ success_message }}
-                    </div>
-                {% endif %}
-
-                {% if error_message %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error_message }}
-                    </div>
-                {% endif %}
-                    <form class="subscription-form" method="post" action="{% url 'subscribe' %}">
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <div class="footer__widget">
+                    <h6>Join Our Newsletter Now</h6>
+                    <p>Get E-mail updates about our latest shop and special offers.</p>
+                    <form method="post" action="{% url 'subscribe' %}">
                         {% csrf_token %}
-                        <div class="form-group">
-                            <input type="email" name="email" class="form-control border-0 py-4" placeholder="Your Email"
-                                required="required" />
-                        </div>
-                        <div>
-                            <button class="btn btn-primary btn-block border-0 py-3" type="submit">Subscribe Now</button>
-                        </div>
+                        <input type="email" name="email" class="form-control border-0 py-4" placeholder="Enter your mail" required="required" />
+                        <button type="submit" class="site-btn">Subscribe</button>
                     </form>
+                    <div class="footer__widget__social">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-pinterest"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-lg-12">
+                <div class="footer__copyright">
+                    <div class="footer__copyright__text">
+                        <p>&copy;<script>document.write(new Date().getFullYear());</script> All rights reserved <i class="fa fa-heart" aria-hidden="true"></i> by <a href="{% url 'home-url' %}" target="_blank">MountGuard</a></p>
+                    </div>
+                    <div class="footer__copyright__payment">
+                        <img src="{% static 'assets/img/payment-item.png' %}" alt="Payment Methods">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row border-top border-light mx-xl-5 py-4">
-        <div class="col-md-6 px-xl-0">
-            <p class="mb-md-0 text-center text-md-left text-dark">
-                &copy; <a class="text-dark font-weight-semi-bold" href="#">MountGuard</a>. All Rights Reserved. Designed
-                by
-                <a class="text-dark font-weight-semi-bold" href="">MountGuard</a><br>
-                Distributed By <a href="" target="_blank">MountGuard</a>
-            </p>
-        </div>
-        <div class="col-md-6 px-xl-0 text-center text-md-right">
-            <img class="img-fluid" src="{% static 'img/payments.png' %}" alt="">
-        </div>
-    </div>
-</div>
-<!-- Footer End -->
+</footer>
+<!-- Footer Section End -->
 
+
+
+    <!-- Js Plugins -->
+    <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'assets/js/mixitup.min.js' %}"></script>
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+
+    
 
 <!-- Back to Top -->
 <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
-    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'lib/easing/easing.min.js' %}"></script>
+<script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
 
-    <!-- Contact Javascript File -->
-    <script src="{% static 'mail/jqBootstrapValidation.min.js' %}"></script>
-    <script src="{% static 'mail/contact.js' %}"></script>
+<!-- Contact Javascript File -->
+<script src="{% static 'mail/jqBootstrapValidation.min.js' %}"></script>
+<script src="{% static 'mail/contact.js' %}"></script>
 
-    <!-- Template Javascript -->
-    <script src="{% static 'js/main.js' %}"></script>
-    
- <!--Start of Tawk.to Script-->
- <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/665492ba9a809f19fb359301/1hut5qb1c';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
-    </script>
-    <!--End of Tawk.to Script-->
+<!-- Template Javascript -->
+<script src="{% static 'js/main.js' %}"></script>
 
-    <!-- Include AOS JS -->
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/665492ba9a809f19fb359301/1hut5qb1c';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+
+<!-- Include AOS JS -->
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>
-  AOS.init();
+AOS.init();
 </script>
+
+
 
 </body>
 
