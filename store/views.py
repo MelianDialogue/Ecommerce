@@ -438,3 +438,234 @@ def blog_detail(request, blog_post_id):
     blog_post = get_object_or_404(BlogPost, id=blog_post_id)
     return render(request, 'store/blog_detail.html', {'blog_post': blog_post})
 
+
+# views.py
+
+from django.shortcuts import render, get_object_or_404
+from .models import Order
+
+@login_required
+def order_success(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    return render(request, 'store/order_success.html', {'order': order})
+
+
+
+
+
+
+# machine learning implementation
+# ecommerce/views.py
+import requests
+import logging
+from django.conf import settings
+from django.shortcuts import render
+from .models import Product
+import os
+
+
+# Machine learning API
+ML_API_URL = os.getenv('ML_API_URL', 'http://localhost:8000/ml')
+
+logger = logging.getLogger(__name__)
+
+def _make_ml_request(url, method="GET", data=None):
+    try:
+        if method == "POST":
+            response = requests.post(url, json=data)
+        else:
+            response = requests.get(url)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Error with ML API request: {e}")
+        return {}
+    except ValueError as e:
+        logger.error(f"Error decoding JSON response: {e}")
+        return {}
+
+def get_recommendations(user_id):
+    return _make_ml_request(f"{settings.ML_API_URL}/recommend_products/{user_id}/") or []
+
+def get_dynamic_pricing(product_id):
+    return _make_ml_request(f"{settings.ML_API_URL}/dynamic_pricing/{product_id}/")
+
+def get_customer_segments():
+    return _make_ml_request(f"{settings.ML_API_URL}/customer_segmentation/")
+
+def get_churn_predictions():
+    return _make_ml_request(f"{settings.ML_API_URL}/churn_prediction/")
+
+def detect_fraud(transaction):
+    return _make_ml_request(f"{settings.ML_API_URL}/fraud_detection/", method="POST", data=transaction)
+
+def analyze_sentiment(review):
+    return _make_ml_request(f"{settings.ML_API_URL}/sentiment_analysis/", method="POST", data={"review": review})
+
+def get_demand_forecast():
+    return _make_ml_request(f"{settings.ML_API_URL}/forecast_demand/")
+
+def understand_user_query(query):
+    return _make_ml_request(f"{settings.ML_API_URL}/understand_query/", method="POST", data={"query": query})
+
+def image_based_search(image):
+    return _make_ml_request(f"{settings.ML_API_URL}/image_search/", method="POST", data={"image": image})
+
+def predict_customer_lifetime_value(user_id):
+    return _make_ml_request(f"{settings.ML_API_URL}/predict_clv/{user_id}/")
+
+def recommend_product_bundles(user_id):
+    return _make_ml_request(f"{settings.ML_API_URL}/recommend_bundles/{user_id}/")
+
+def personalize_email_content(user_id):
+    return _make_ml_request(f"{settings.ML_API_URL}/personalize_email/{user_id}/")
+
+def adaptive_search_ranking(query, user_id):
+    return _make_ml_request(f"{settings.ML_API_URL}/adaptive_ranking/", method="POST", data={"query": query, "user_id": user_id})
+
+def personalize_user_experience(user_id):
+    return _make_ml_request(f"{settings.ML_API_URL}/personalize_experience/{user_id}/")
+
+def recover_abandoned_cart(user_id):
+    return _make_ml_request(f"{settings.ML_API_URL}/recover_abandoned_cart/{user_id}/")
+
+def process_voice_search(voice_input):
+    return _make_ml_request(f"{settings.ML_API_URL}/voice_search/", method="POST", data={"voice_input": voice_input})
+
+def predict_trends():
+    return _make_ml_request(f"{settings.ML_API_URL}/predict_trends/")
+
+def chatbot_support(user_query):
+    return _make_ml_request(f"{settings.ML_API_URL}/support_chatbot/", method="POST", data={"query": user_query})
+
+def monitor_website_security():
+    return _make_ml_request(f"{settings.ML_API_URL}/monitor_security/")
+
+def analyze_user_behavior(user_id):
+    return _make_ml_request(f"{settings.ML_API_URL}/analyze_behavior/{user_id}/")
+
+def create_dynamic_landing_page(user_id):
+    return _make_ml_request(f"{settings.ML_API_URL}/create_dynamic_page/{user_id}/")
+
+def analyze_social_media_activity(user_id):
+    return _make_ml_request(f"{settings.ML_API_URL}/analyze_social_media/{user_id}/")
+
+def optimize_supply_chain():
+    return _make_ml_request(f"{settings.ML_API_URL}/optimize_supply_chain/")
+
+def fetch_analytics_dashboard():
+    return _make_ml_request(f"{settings.ML_API_URL}/analytics_dashboard/")
+
+def product_list(request):
+    products = Product.objects.all()
+    context = {
+        'products': products
+    }
+
+    if request.user.is_authenticated:
+        user_id = request.user.id
+        context.update({
+            'recommended_products': Product.objects.filter(id__in=get_recommendations(user_id)),
+            'bundled_recommendations': recommend_product_bundles(user_id),
+            'personalized_email': personalize_email_content(user_id),
+            'adaptive_ranking_results': adaptive_search_ranking(request.GET.get('query', ''), user_id),
+            'personalized_experience': personalize_user_experience(user_id),
+            'abandoned_cart_recovery': recover_abandoned_cart(user_id),
+            'user_behavior': analyze_user_behavior(user_id),
+            'dynamic_landing_page': create_dynamic_landing_page(user_id),
+            'social_media_analysis': analyze_social_media_activity(user_id),
+        })
+    
+    product_id = request.GET.get('product_id')
+    customer_id = request.GET.get('customer_id')
+    if product_id:
+        context['dynamic_pricing'] = get_dynamic_pricing(product_id)
+    if customer_id:
+        context['predicted_clv'] = predict_customer_lifetime_value(customer_id)
+    
+    post_data = request.POST
+    if post_data:
+        if 'review' in post_data:
+            context['sentiment_analysis'] = analyze_sentiment(post_data['review'])
+        if 'query' in post_data:
+            context['understood_query'] = understand_user_query(post_data['query'])
+        if 'image' in post_data:
+            context['image_search_results'] = image_based_search(post_data['image'])
+        if 'voice_input' in post_data:
+            context['voice_search_results'] = process_voice_search(post_data['voice_input'])
+        if 'user_query' in post_data:
+            context['chatbot_response'] = chatbot_support(post_data['user_query'])
+        if 'transaction' in post_data:
+            context['fraud_detection'] = detect_fraud(post_data['transaction'])
+    
+    context.update({
+        'customer_segments': get_customer_segments(),
+        'churn_predictions': get_churn_predictions(),
+        'demand_forecast': get_demand_forecast(),
+        'predicted_trends': predict_trends(),
+        'security_alerts': monitor_website_security(),
+        'supply_chain_optimization': optimize_supply_chain(),
+        'real_time_analytics': fetch_analytics_dashboard(),
+    })
+    
+    return render(request, 'store/product_list.html', context)
+
+
+from django.shortcuts import render
+from .models import Product
+
+def product_list(request):
+    products = Product.objects.all()
+    recommended_products = []
+    dynamic_pricing = {}
+    voice_search_results = ""
+    real_time_analytics = ""
+
+    # Assuming user authentication and ID retrieval
+    if request.user.is_authenticated:
+        user_id = request.user.id
+        # Fetch recommended products
+        recommended_products = Product.objects.filter(id__in=(get_recommendations(user_id) or []))
+    
+    # Fetch dynamic pricing for each product
+    for product in products:
+        dynamic_pricing[product.id] = get_dynamic_pricing(product.id) or product.price
+
+    # Handle POST request for voice search
+    if request.method == "POST":
+        query = request.POST.get('query', '')
+        voice_search_results = process_voice_search(query) if query else ""
+
+    # Fetch real-time analytics data
+    real_time_analytics = fetch_analytics_dashboard()
+
+    # Prepare context dictionary
+    context = {
+        'products': products,
+        'recommended_products': recommended_products,
+        'dynamic_pricing': dynamic_pricing,
+        'voice_search_results': voice_search_results,
+        'real_time_analytics': real_time_analytics,
+        'customer_segments': get_customer_segments(),
+        'churn_predictions': get_churn_predictions(),
+        'fraud_detection': detect_fraud({'transaction_id': 1, 'amount': 100.0, 'fraud': 0}),
+        'sentiment_analysis': analyze_sentiment("Great product, very satisfied."),
+        'demand_forecast': get_demand_forecast(),
+        'understood_query': understand_user_query("How can I help you today?"),
+        'image_search_results': image_based_search("image_file.jpg"),
+        'predicted_clv': predict_customer_lifetime_value(user_id),
+        'bundled_recommendations': recommend_product_bundles(user_id),
+        'personalized_email': personalize_email_content(user_id),
+        'adaptive_ranking_results': adaptive_search_ranking("product query", user_id),
+        'personalized_experience': personalize_user_experience(user_id),
+        'abandoned_cart_recovery': recover_abandoned_cart(user_id),
+        'predicted_trends': predict_trends(),
+        'chatbot_response': chatbot_support("How can I assist you?"),
+        'security_alerts': monitor_website_security(),
+        'user_behavior': analyze_user_behavior(user_id),
+        'dynamic_landing_page': create_dynamic_landing_page(user_id),
+        'social_media_analysis': analyze_social_media_activity(user_id),
+        'supply_chain_optimization': optimize_supply_chain(),
+    }
+    
+    return render(request, 'store/product_list.html', context)

@@ -1,3 +1,5 @@
+# ml/views.py
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -25,9 +27,9 @@ class ChurnPrediction(APIView):
 
 class FraudDetection(APIView):
     def post(self, request, format=None):
-        transaction = request.data.get("transaction")
+        transaction = request.data
         is_fraud = MLModels.fraud_detection(transaction)
-        return Response({"fraud": is_fraud}, status=status.HTTP_200_OK)
+        return Response({"is_fraud": is_fraud}, status=status.HTTP_200_OK)
 
 class SentimentAnalysis(APIView):
     def post(self, request, format=None):
@@ -49,7 +51,7 @@ class UnderstandQuery(APIView):
 class ImageSearch(APIView):
     def post(self, request, format=None):
         image = request.data.get("image")
-        results = MLModels.image_search(image)  # Assuming image_search is implemented
+        results = MLModels.image_search(image)
         return Response(results, status=status.HTTP_200_OK)
 
 class PredictCLV(APIView):
@@ -70,13 +72,14 @@ class PersonalizeEmail(APIView):
 class AdaptiveRanking(APIView):
     def post(self, request, format=None):
         query = request.data.get("query")
-        results = MLModels.adaptive_ranking(query, None)
-        return Response(results, status=status.HTTP_200_OK)
+        user_id = request.data.get("user_id")
+        ranked_results = MLModels.adaptive_ranking(query, user_id)
+        return Response(ranked_results, status=status.HTTP_200_OK)
 
 class PersonalizeExperience(APIView):
     def get(self, request, user_id, format=None):
-        personalized_ui = MLModels.personalize_experience(user_id)
-        return Response({"personalized_ui": personalized_ui}, status=status.HTTP_200_OK)
+        ui_content = MLModels.personalize_experience(user_id)
+        return Response({"ui_content": ui_content}, status=status.HTTP_200_OK)
 
 class RecoverAbandonedCart(APIView):
     def get(self, request, user_id, format=None):
@@ -86,7 +89,7 @@ class RecoverAbandonedCart(APIView):
 class VoiceSearch(APIView):
     def post(self, request, format=None):
         voice_input = request.data.get("voice_input")
-        results = MLModels.voice_search(voice_input)  # Assuming voice_search is implemented
+        results = MLModels.voice_search(voice_input)
         return Response(results, status=status.HTTP_200_OK)
 
 class PredictTrends(APIView):
@@ -107,13 +110,13 @@ class MonitorSecurity(APIView):
 
 class AnalyzeBehavior(APIView):
     def get(self, request, user_id, format=None):
-        behavior_pattern = MLModels.analyze_behavior(user_id)
-        return Response({"behavior_pattern": behavior_pattern}, status=status.HTTP_200_OK)
+        behavior_patterns = MLModels.analyze_behavior(user_id)
+        return Response(behavior_patterns, status=status.HTTP_200_OK)
 
 class CreateDynamicPage(APIView):
     def get(self, request, user_id, format=None):
-        dynamic_page = MLModels.create_dynamic_page(user_id)
-        return Response({"dynamic_page": dynamic_page}, status=status.HTTP_200_OK)
+        landing_page = MLModels.create_dynamic_page(user_id)
+        return Response({"landing_page": landing_page}, status=status.HTTP_200_OK)
 
 class AnalyzeSocialMedia(APIView):
     def get(self, request, user_id, format=None):
@@ -122,10 +125,10 @@ class AnalyzeSocialMedia(APIView):
 
 class OptimizeSupplyChain(APIView):
     def get(self, request, format=None):
-        supply_chain_forecast = MLModels.optimize_supply_chain()
-        return Response(supply_chain_forecast, status=status.HTTP_200_OK)
+        forecast = MLModels.optimize_supply_chain()
+        return Response(forecast, status=status.HTTP_200_OK)
 
 class AnalyticsDashboard(APIView):
     def get(self, request, format=None):
-        dashboard_metrics = MLModels.analytics_dashboard()
-        return Response(dashboard_metrics, status=status.HTTP_200_OK)
+        metrics = MLModels.analytics_dashboard()
+        return Response(metrics, status=status.HTTP_200_OK)

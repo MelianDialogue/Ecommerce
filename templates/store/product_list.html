@@ -2,7 +2,6 @@
 {% load static %}
 {% block content %}
 <!-- Shop Start -->
-
 <div class="container-fluid pt-5">
     <div class="row px-xl-5">
         <!-- Shop Product Start -->
@@ -10,7 +9,16 @@
             <div class="row pb-3">
                 <div class="col-12 pb-1">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                       <h2>All Products</h2>
+                        <form action="">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search by name">
+                                <div class="input-group-append">
+                                    <span class="input-group-text bg-transparent text-primary">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
                         <div class="dropdown ml-4">
                             <button class="btn border dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Sort by
@@ -46,10 +54,10 @@
                             </div>
                             <div class="d-flex justify-content-between">
                                 <a href="{% url 'product_detail' product.id %}" class="btn btn-sm btn-outline-primary">
-                                    <i class="fa fa-eye"></i> View Detail
+                                    <i class="fas fa-eye"></i> View Detail
                                 </a>
                                 <a href="" class="btn btn-sm btn-outline-success">
-                                    <i class="fa fa-shopping-cart"></i> Add To Cart
+                                    <i class="fas fa-shopping-cart"></i> Add To Cart
                                 </a>
                             </div>
                         </div>
@@ -57,33 +65,6 @@
                 </div>
                 {% endfor %}
                 <!-- Product Loop End -->
-
-
-
-              <div class="row">
-
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
-                    
-       <!-- Shop Product End -->
-            <h2>Recommended Products</h2>
-            <ul>
-                {% if recommended_products %}
-                    {% for product in recommended_products %}
-                    <li><img class="img2" src="{{ product.image.url }}" alt="{{ product.name }}"> {{ product.name }} - ${{ product.price }}</li>
-                    {% endfor %}
-                {% else %}
-                    <li>No recommendations available</li>
-                {% endif %}
-            </ul>
-
-                </div>
-                <div class="col-md-3"></div>
-
-              </div>
-
-
-
 
                 <div class="col-12 pb-1">
                     <nav aria-label="Page navigation">
@@ -119,89 +100,146 @@
     AOS.init();
 </script>
 
-
-               <!-- <div class="container">
-            <h1>Product List</h1>
-            <h2>All Products</h2>
-            <ul>
-                {% for product in products %}
-                <li><img class="img2" src="{{ product.image.url }}" alt="{{ product.name }}"> {{ product.name }} - ${{ product.price }}</li>
-                {% endfor %}
-            </ul>
-            <h2>Machine Learning Features</h2>
-            <div>
-                <h3>Dynamic Pricing</h3>
-                <p>{{ dynamic_pricing }}</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="recommended-products">
+                <h2>Recommended Products</h2>
+                <ul class="list-group">
+                    {% if recommended_products %}
+                        {% for product in products %}
+                            <li class="list-group-item">
+                                <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+                                <div class="product-details">
+                                    <span class="product-name">{{ product.name }}</span>
+                                    <span class="product-price">${{ product.price }}</span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <li class="list-group-item">No recommendations available</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
     
+    <div class="ml-features">
+        <div class="feature-list">
+            <div class="feature-item">
+                <h3>Dynamic Pricing</h3>
+                <ul class="list-group">
+                    {% for key, value in dynamic_pricing.items %}
+                        <li class="list-group-item">Product {{ key }} - Price: ${{ value.price }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="feature-item">
                 <h3>Customer Segments</h3>
                 <p>{{ customer_segments }}</p>
-    
+            </div>
+
+            <div class="feature-item">
                 <h3>Churn Predictions</h3>
-                <p>{{ churn_predictions }}</p>
-    
+                <ul class="list-group">
+                    {% for prediction in churn_predictions %}
+                        <li class="list-group-item">{{ prediction }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="feature-item">
                 <h3>Fraud Detection</h3>
-                <p>{{ fraud_detection }}</p>
-    
+                <p class="fraud-detection">{% if fraud_detection.is_fraud %}Fraud detected!{% else %}No fraud detected.{% endif %}</p>
+            </div>
+
+            <div class="feature-item">
                 <h3>Sentiment Analysis</h3>
-                <p>{{ sentiment_analysis }}</p>
-    
+                <p>{{ sentiment_analysis.sentiment }}</p>
+            </div>
+
+            <div class="feature-item">
                 <h3>Demand Forecast</h3>
-                <p>{{ demand_forecast }}</p>
-    
+                <ul class="list-group">
+                    {% for forecast in demand_forecast %}
+                        <li class="list-group-item">{{ forecast }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="feature-item">
                 <h3>Understood Query</h3>
                 <p>{{ understood_query }}</p>
-    
+            </div>
+
+            <div class="feature-item">
                 <h3>Image Search Results</h3>
-                <p>{{ image_search_results }}</p>
-    
+                <p>{{ image_search_results|default:"No results found" }}</p>
+            </div>
+
+            <div class="feature-item">
                 <h3>Predicted Customer Lifetime Value</h3>
-                <p>{{ predicted_clv }}</p>
-    
+                <p>{{ predicted_clv|default:"No prediction available" }}</p>
+            </div>
+
+            <div class="feature-item">
                 <h3>Bundled Recommendations</h3>
-                <p>{{ bundled_recommendations }}</p>
-    
+                <p>{{ bundled_recommendations|default:"No bundled recommendations" }}</p>
+            </div>
+
+            <div class="feature-item">
                 <h3>Personalized Email Content</h3>
-                <p>{{ personalized_email }}</p>
-    
-                <h3>Adaptive Search Ranking Results</h3>
-                <p>{{ adaptive_ranking_results }}</p>
-    
-                <h3>Personalized User Experience</h3>
-                <p>{{ personalized_experience }}</p>
-    
-                <h3>Abandoned Cart Recovery</h3>
-                <p>{{ abandoned_cart_recovery }}</p>
-    
-                <h3>Voice Search Results</h3>
-                <p>{{ voice_search_results }}</p>
-    
-                <h3>Predicted Trends</h3>
-                <p>{{ predicted_trends }}</p>
-    
-                <h3>Chatbot Response</h3>
-                <p>{{ chatbot_response }}</p>
-    
-                <h3>Security Alerts</h3>
-                <p>{{ security_alerts }}</p>
-    
-                <h3>User Behavior Analysis</h3>
-                <p>{{ user_behavior }}</p>
-    
-                <h3>Dynamic Landing Page</h3>
-                <p>{{ dynamic_landing_page }}</p>
-    
-                <h3>Social Media Analysis</h3>
-                <p>{{ social_media_analysis }}</p>
-    
-                <h3>Supply Chain Optimization</h3>
-                <p>{{ supply_chain_optimization }}</p>
-    
-                <h3>Real-Time Analytics</h3>
-                <p>{{ real_time_analytics }}</p>
-            </div> -->
-        <!-- </div> -->
-    
-  
+                <p>{{ personalized_email.email_content }}</p>
+            </div>
+
+            <!-- Additional features can be added here with similar structure -->
+        </div>
+    </div>
+</div>
 {% endblock %}
 
- 
+<style>
+    .recommended-products {
+        margin-bottom: 20px;
+    }
+
+    .product-image {
+        max-width: 100px;
+        height: auto;
+        margin-right: 10px;
+    }
+
+    .product-details {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .product-name {
+        font-weight: bold;
+    }
+
+    .product-price {
+        margin-left: 10px;
+    }
+
+    .ml-features {
+        margin-top: 30px;
+    }
+
+    .feature-item {
+        margin-bottom: 20px;
+    }
+
+    .list-group-item {
+        border: none;
+        padding: 10px 0;
+    }
+
+    .fraud-detection {
+        color: red;
+        font-weight: bold;
+    }
+</style>

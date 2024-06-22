@@ -1,3 +1,5 @@
+# ml/models.py
+
 import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
@@ -5,26 +7,29 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import IsolationForest
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestRegressor
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
-from rest_framework import settings
+from django.conf import settings
+import tensorflow as tf
+# from mlxtend.frequent_patterns import apriori, association_rules
 
 class MLModels:
     @staticmethod
     def recommend_products(user_id):
-        user_item_matrix = pd.DataFrame(settings.USER_ITEM_INTERACTIONS)
+        user_item_matrix = pd.DataFrame(settings.USER_ITEM_INTERACTIONS).T
         user_index = user_item_matrix.index.get_loc(user_id)
         similarity_matrix = cosine_similarity(user_item_matrix)
         similar_users = similarity_matrix[user_index]
-
+        
         similar_users_indices = similar_users.argsort()[-2:-11:-1]
         recommended_products = []
         for index in similar_users_indices:
             top_products = user_item_matrix.iloc[index].sort_values(ascending=False).index.tolist()
             recommended_products.extend(top_products)
-
+        
         return list(set(recommended_products))
 
     @staticmethod
@@ -113,7 +118,7 @@ class MLModels:
         model = tf.keras.applications.VGG16(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
         image_features = model.predict(image)
         
-        return ["product1", "product2"]  # Example response, adjust based on actual implementation
+        return ["product1", "product2"]
 
     @staticmethod
     def predict_clv(customer_id):
@@ -126,8 +131,6 @@ class MLModels:
     @staticmethod
     def recommend_bundles(user_id):
         purchase_history = pd.DataFrame(settings.PURCHASE_HISTORY)
-        from mlxtend.frequent_patterns import apriori, association_rules
-        
         frequent_itemsets = apriori(purchase_history, min_support=0.01, use_colnames=True)
         rules = association_rules(frequent_itemsets, metric="lift", min_threshold=1.0)
         user_history = purchase_history.loc[user_id]
@@ -247,6 +250,6 @@ class MLModels:
         analytics_data = pd.DataFrame(settings.ANALYTICS_DATA)
         dashboard_model = RandomForestRegressor()
         dashboard_model.fit(analytics_data.drop(columns=['metrics']), analytics_data['metrics'])
-        dashboard_metrics = dashboard_model.predict(analytics_data)
+        metrics = dashboard_model.predict(analytics_data)
         
-        return dashboard_metrics.tolist()
+        return metrics.tolist()

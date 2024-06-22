@@ -266,35 +266,61 @@ PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
 PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
 PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'live')
 
+
+ML_API_URL = 'http://localhost:8000/ml'
+
+# Logging Configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/django_error.log'),
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'ecommerce': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
+
+os.makedirs(os.path.join(BASE_DIR, 'logs'), exist_ok=True)
+
 # Machine Learning Data Settings
-
-# User-item interaction data
 USER_ITEM_INTERACTIONS = [
-    {"user_id": 1, "product_id": 101, "interaction": 5},
-    {"user_id": 2, "product_id": 102, "interaction": 3},
-    {"user_id": 1, "product_id": 103, "interaction": 2},
-    {"user_id": 3, "product_id": 101, "interaction": 4},
-    {"user_id": 2, "product_id": 104, "interaction": 1},
+    {"user_id": 1, "product_id": 1, "interaction": 5},
+    {"user_id": 2, "product_id": 2, "interaction": 3},
+    {"user_id": 1, "product_id": 3, "interaction": 2},
+    {"user_id": 3, "product_id": 1, "interaction": 4},
+    {"user_id": 2, "product_id": 4, "interaction": 1},
 ]
 
-# Historical prices of products
+
 HISTORICAL_PRICES = [
-    {"product_id": 101, "competitor_price": 20.5},
-    {"product_id": 102, "competitor_price": 22.0},
-    {"product_id": 103, "competitor_price": 18.0},
-    {"product_id": 104, "competitor_price": 21.5},
+    {"product_id": 1, "competitor_price": 70.5},
+    {"product_id": 2, "competitor_price": 80.0},
+    {"product_id": 3, "competitor_price": 60.0},
+    {"product_id": 4, "competitor_price": 50.0},
 ]
 
-# Demand data for products
 DEMAND_DATA = [
-    {"product_id": 101, "demand": 100, "date": "2024-01-01"},
-    {"product_id": 102, "demand": 150, "date": "2024-01-02"},
-    {"product_id": 103, "demand": 80, "date": "2024-01-03"},
-    {"product_id": 104, "demand": 60, "date": "2024-01-04"},
-    {"product_id": 101, "demand": 120, "date": "2024-01-05"},
+    {"product_id": 1, "demand": 100, "date": "2024-01-01"},
+    {"product_id": 2, "demand": 150, "date": "2024-01-02"},
+    {"product_id": 3, "demand": 80, "date": "2024-01-03"},
+    {"product_id": 4, "demand": 60, "date": "2024-01-04"},
+    {"product_id": 1, "demand": 120, "date": "2024-01-05"},
 ]
 
-# Customer demographic data
 CUSTOMER_DATA = [
     {"customer_id": 1, "age": 25, "income": 50000, "spending_score": 60},
     {"customer_id": 2, "age": 30, "income": 60000, "spending_score": 70},
@@ -303,7 +329,7 @@ CUSTOMER_DATA = [
     {"customer_id": 5, "age": 28, "income": 52000, "spending_score": 65},
 ]
 
-# Customer features
+
 CUSTOMER_FEATURES = [
     {"customer_id": 1, "feature_1": 0.1, "feature_2": 0.8},
     {"customer_id": 2, "feature_1": 0.2, "feature_2": 0.9},
@@ -312,10 +338,9 @@ CUSTOMER_FEATURES = [
     {"customer_id": 5, "feature_1": 0.5, "feature_2": 0.5},
 ]
 
-# Customer churn target (binary classification)
+
 CUSTOMER_CHURN_TARGET = [0, 1, 0, 1, 0]
 
-# Transaction data
 TRANSACTION_DATA = [
     {"transaction_id": 1, "amount": 100.0, "fraud": 0},
     {"transaction_id": 2, "amount": 150.0, "fraud": 1},
@@ -324,7 +349,7 @@ TRANSACTION_DATA = [
     {"transaction_id": 5, "amount": 300.0, "fraud": 0},
 ]
 
-# Reviews for products
+
 REVIEWS = [
     "Great product, very satisfied.",
     "Not what I expected, quite disappointed.",
@@ -333,7 +358,7 @@ REVIEWS = [
     "Terrible experience, will not buy again.",
 ]
 
-# Purchase history of users
+
 PURCHASE_HISTORY = [
     {"user_id": 1, "items": ["item_101", "item_102"]},
     {"user_id": 2, "items": ["item_103"]},
@@ -342,16 +367,15 @@ PURCHASE_HISTORY = [
     {"user_id": 5, "items": ["item_101", "item_104"]},
 ]
 
-# User preferences
 USER_PREFERENCES = {
-    1: "electronics",
-    2: "books",
-    3: "fashion",
-    4: "home appliances",
-    5: "toys",
+    1: "MountGuard Yard Box XL - 20 Spray Bottles (FREE SHIPPING)",
+    2: "MountGuard Yard Box - 6 Spray Bottles (FREE SHIPPING)",
+    3: "MountGuard Insect Repellent Spray - Twin Pack (FREE SHIPPING)",
+    4: "MountGuard Insect Repellent Spray & Cream Bundle (FREE SHIPPING)",
+    5: "MountGuard Insect Repellent Spray",
 }
 
-# User behavior on items
+
 USER_BEHAVIOR = [
     {"user_id": 1, "action": "click", "item_id": 101},
     {"user_id": 2, "action": "view", "item_id": 102},
@@ -360,7 +384,7 @@ USER_BEHAVIOR = [
     {"user_id": 5, "action": "view", "item_id": 101},
 ]
 
-# Search results for products
+
 SEARCH_RESULTS = [
     {"product_id": 101, "features": [0.1, 0.2, 0.3]},
     {"product_id": 102, "features": [0.2, 0.3, 0.4]},
@@ -368,3 +392,25 @@ SEARCH_RESULTS = [
     {"product_id": 104, "features": [0.4, 0.5, 0.6]},
     {"product_id": 105, "features": [0.5, 0.6, 0.7]},
 ]
+
+SOCIAL_MEDIA_DATA = {
+    'facebook': {
+        'api_key': 'your_facebook_api_key',
+        'api_secret': 'your_facebook_api_secret'
+    },
+    'twitter': {
+        'api_key': 'your_twitter_api_key',
+        'api_secret': 'your_twitter_api_secret'
+    },
+}
+
+SUPPLY_CHAIN_DATA = {
+    'supplier1': {
+        'name': 'Supplier 1',
+        'address': 'Supplier 1 Address',
+    },
+    'supplier2': {
+        'name': 'Supplier 2',
+        'address': 'Supplier 2 Address',
+    },
+}
