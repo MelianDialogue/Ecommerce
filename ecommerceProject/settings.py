@@ -65,7 +65,7 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 # Machine learning API
-ML_API_URL = os.getenv('ML_API_URL', 'http://localhost:8000/ml')
+ML_API_URL = os.getenv('ML_API_URL', 'ml')
 
 
 # Logging Configuration

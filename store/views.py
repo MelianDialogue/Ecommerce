@@ -465,7 +465,7 @@ import os
 
 
 # Machine learning API
-ML_API_URL = os.getenv('ML_API_URL', 'http://localhost:8000/ml')
+ML_API_URL = os.getenv('ML_API_URL', 'ml')
 
 logger = logging.getLogger(__name__)
 
