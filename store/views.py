@@ -465,7 +465,7 @@ import os
 
 
 # Machine learning API
-ML_API_URL = os.getenv('ML_API_URL', 'ml')
+ML_API_URL = os.getenv('ML_API_URL', 'https://ecommerce-z632.onrender.com/ml')
 
 logger = logging.getLogger(__name__)
 
