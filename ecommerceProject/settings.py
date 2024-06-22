@@ -63,10 +63,10 @@ CLOUDINARY_STORAGE = {
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
+import os
 
 # Machine learning API
-ML_API_URL = os.getenv('ML_API_URL', 'ecommerce-z632.onrender.com/ml')
-
+ML_API_URL = os.getenv('ML_API_URL', 'https://ecommerce-z632.onrender.com/ml')
 
 # Logging Configuration
 LOGGING = {
