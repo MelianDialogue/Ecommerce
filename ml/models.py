@@ -1,5 +1,4 @@
 # ml/models.py
-
 import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
@@ -12,14 +11,14 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestRegressor
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
-from django.conf import settings
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 import tensorflow as tf
-# from mlxtend.frequent_patterns import apriori, association_rules
+from django.conf import settings
 
 class MLModels:
     @staticmethod
     def recommend_products(user_id):
-        user_item_matrix = pd.DataFrame(settings.USER_ITEM_INTERACTIONS).T
+        user_item_matrix = pd.DataFrame(settings.USER_ITEM_INTERACTIONS)
         user_index = user_item_matrix.index.get_loc(user_id)
         similarity_matrix = cosine_similarity(user_item_matrix)
         similar_users = similarity_matrix[user_index]
@@ -131,6 +130,8 @@ class MLModels:
     @staticmethod
     def recommend_bundles(user_id):
         purchase_history = pd.DataFrame(settings.PURCHASE_HISTORY)
+        from mlxtend.frequent_patterns import apriori, association_rules
+        
         frequent_itemsets = apriori(purchase_history, min_support=0.01, use_colnames=True)
         rules = association_rules(frequent_itemsets, metric="lift", min_threshold=1.0)
         user_history = purchase_history.loc[user_id]

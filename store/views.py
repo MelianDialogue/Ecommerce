@@ -451,6 +451,43 @@ def order_success(request, order_id):
 
 
 
+from sklearn.metrics.pairwise import cosine_similarity
+from .models import Order, OrderItem, Product
+import numpy as np
+
+def recommend_products(user_id):
+    # Get user's order history
+    orders = Order.objects.filter(user_id=user_id, status='completed')
+    products_bought = []
+    
+    for order in orders:
+        order_items = OrderItem.objects.filter(order=order)
+        for item in order_items:
+            products_bought.append(item.product_id)
+    
+    # Find users similar to the current user based on purchased products
+    similar_users = OrderItem.objects.filter(product_id__in=products_bought) \
+                     .exclude(order__user_id=user_id) \
+                     .values('order__user_id').distinct()
+
+    # Aggregate recommendations based on similar users
+    recommendations = {}
+    for user in similar_users:
+        user_orders = OrderItem.objects.filter(order__user_id=user['order__user_id']) \
+                      .exclude(product_id__in=products_bought)
+        for order_item in user_orders:
+            if order_item.product_id not in recommendations:
+                recommendations[order_item.product_id] = 0
+            recommendations[order_item.product_id] += 1
+    
+    # Sort recommendations by count
+    recommendations = sorted(recommendations.items(), key=lambda x: x[1], reverse=True)[:5]
+    
+    # Get product objects for recommended products
+    recommended_products = [Product.objects.get(id=item[0]) for item in recommendations]
+    
+    return recommended_products
+
 
 
 
@@ -465,7 +502,7 @@ import os
 
 
 # Machine learning API
-ML_API_URL = os.getenv('ML_API_URL', 'https://ecommerce-z632.onrender.com/ml')
+ML_API_URL = 'http://127.0.0.1:8000//ml'
 
 logger = logging.getLogger(__name__)
 

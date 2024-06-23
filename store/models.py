@@ -1,6 +1,8 @@
+# models.py
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
+from django.utils import timezone
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
@@ -97,13 +99,6 @@ class PolicyPage(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
 
-# notification system
-# models.py
-
-from django.contrib.auth.models import User
-from django.db import models
-from django.utils import timezone
-
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(default=timezone.now)
@@ -111,3 +106,11 @@ class Notification(models.Model):
 
     def __str__(self):
         return self.message
+
+class UserInterest(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    interest = models.CharField(max_length=255)
+
+class SocialMediaData(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    data = models.TextField()
