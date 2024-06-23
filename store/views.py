@@ -16,6 +16,18 @@ def product_list(request):
     products = Product.objects.all()
     return render(request, 'store/product_list.html', {'products': products})
 
+
+# views.py
+def product_list(request):
+    products = Product.objects.all()
+    user_id = request.user.id if request.user.is_authenticated else None
+    return render(request, 'store/product_list.html', {
+        'products': products,
+        'recommend_url': reverse('recommend_products', args=[user_id]) if user_id else None
+    })
+
+
+
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     reviews = Review.objects.filter(product=product)
@@ -706,3 +718,156 @@ def product_list(request):
     }
     
     return render(request, 'store/product_list.html', context)
+
+
+# views.py
+import numpy as np
+from django.db.models import Avg
+from django.shortcuts import render, get_object_or_404
+from .models import Product, UserProductInteraction, User
+
+def find_similar_users(user_id, num_users=5):
+    interactions = UserProductInteraction.objects.filter(user_id=user_id)
+    user_ratings = {interaction.product_id: interaction.rating for interaction in interactions}
+    all_users = User.objects.exclude(id=user_id)
+
+    similarities = []
+    for other_user in all_users:
+        other_interactions = UserProductInteraction.objects.filter(user_id=other_user.id)
+        other_user_ratings = {interaction.product_id: interaction.rating for interaction in other_interactions}
+        similarity = calculate_similarity(user_ratings, other_user_ratings)
+        similarities.append((other_user.id, similarity))
+
+    similarities.sort(key=lambda x: x[1], reverse=True)
+    similar_users = [user_id for user_id, _ in similarities[:num_users]]
+    return similar_users
+
+def calculate_similarity(user_ratings, other_user_ratings):
+    common_products = set(user_ratings.keys()) & set(other_user_ratings.keys())
+    if not common_products:
+        return 0
+    user_ratings_vector = np.array([user_ratings[product_id] for product_id in common_products])
+    other_ratings_vector = np.array([other_user_ratings[product_id] for product_id in common_products])
+    return np.dot(user_ratings_vector, other_ratings_vector) / (np.linalg.norm(user_ratings_vector) * np.linalg.norm(other_ratings_vector))
+
+def aggregate_recommendations(similar_users, user_id, num_recommendations=5):
+    similar_users_interactions = UserProductInteraction.objects.filter(user_id__in=similar_users).exclude(user_id=user_id)
+    product_recommendations = similar_users_interactions.values('product_id').annotate(avg_rating=Avg('rating')).order_by('-avg_rating')
+    recommendations = [interaction['product_id'] for interaction in product_recommendations[:num_recommendations]]
+    return Product.objects.filter(id__in=recommendations)
+
+def recommend_products(request, user_id):
+    similar_users = find_similar_users(user_id)
+    recommendations = aggregate_recommendations(similar_users, user_id)
+    return render(request, 'store/recommendations.html', {'recommendations': recommendations})
+
+# utils.py
+def get_current_demand(product_id):
+    # Placeholder logic for current demand
+    # Implement the logic to fetch current demand for the product
+    product = Product.objects.get(id=product_id)
+    return product.demand
+
+def get_competition_price(product_id):
+    # Placeholder logic for competition price
+    # Implement the logic to fetch competition price for the product
+    product = Product.objects.get(id=product_id)
+    return product.competition_price
+
+from decimal import Decimal
+
+def calculate_dynamic_price(demand, competition):
+    # Placeholder logic for calculating dynamic price
+    # Implement the actual pricing algorithm here
+    base_price = 100.0  # Example base price as float
+    demand_factor = 1 + (float(demand) / 100)
+    competition_factor = 1 - (float(competition) / 100)
+    new_price = base_price * demand_factor * competition_factor
+    return round(new_price, 2)
+
+
+def adjust_price(product_id):
+    demand = get_current_demand(product_id)
+    competition = get_competition_price(product_id)
+    new_price = calculate_dynamic_price(demand, competition)
+    return new_price
+
+# views.py
+from django.shortcuts import get_object_or_404, redirect
+from .models import Product
+# from .utils import adjust_price
+
+def dynamic_price_update(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    new_price = adjust_price(product_id)
+    product.price = new_price
+    product.save()
+    return redirect('product_detail', product_id=product_id)
+
+
+# management/commands/update_prices.py
+from django.core.management.base import BaseCommand
+from store.models import Product
+# from store.utils import adjust_price
+
+class Command(BaseCommand):
+    help = 'Update prices of all products based on dynamic pricing algorithm'
+
+    def handle(self, *args, **kwargs):
+        products = Product.objects.all()
+        for product in products:
+            new_price = adjust_price(product.id)
+            product.price = new_price
+            product.save()
+            self.stdout.write(self.style.SUCCESS(f'Updated price for {product.name} to {new_price}'))
+
+
+# customer segmentation
+from django.db.models import Sum, Count
+from django.shortcuts import render
+from django.contrib.auth.models import User
+from user_app.models import Profile 
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+import pandas as pd
+
+# Fetch customer data
+def fetch_customer_data():
+    customers = User.objects.all().values('id', 'date_joined', 'profile__age')  # Assuming Profile model has age
+    customer_data = pd.DataFrame(customers)
+    
+    # Fetch purchase data
+    purchase_data = (
+        Order.objects.values('user_id')
+        .annotate(total_spent=Sum('total_price'), purchase_count=Count('id'))
+        .order_by('user_id')
+    )
+    purchase_df = pd.DataFrame(purchase_data)
+    
+    # Merge customer and purchase data
+    customer_data = customer_data.merge(purchase_df, left_on='id', right_on='user_id', how='left').fillna(0)
+    
+    return customer_data
+
+# Segment customers using KMeans
+def segment_customers():
+    customer_data = fetch_customer_data()
+    
+    # Features for clustering
+    features = ['profile__age', 'total_spent', 'purchase_count']
+    
+    # Standardizing the features
+    scaler = StandardScaler()
+    standardized_data = scaler.fit_transform(customer_data[features])
+    
+    # Apply k-means clustering
+    kmeans = KMeans(n_clusters=3, random_state=42)
+    customer_data['segment'] = kmeans.fit_predict(standardized_data)
+    
+    return customer_data
+
+# View for customer segmentation
+def customer_segmentation_view(request):
+    segments = segment_customers()
+    segments_dict = segments.to_dict(orient='records')
+    return render(request, 'store/customer_segmentation.html', {'segments': segments_dict})

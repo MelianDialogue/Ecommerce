@@ -23,7 +23,7 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="product__details__text">
                         <h3>{{ product.name }}</h3>
-                        <div class="product__details__price">${{ dynamic_price }}</div>
+                        <div class="product__details__price">${{  product.price }}</div>
                         <p>{{ product.description }}</p>
                         <div class="product__details__quantity">
                             <div class="quantity">
@@ -34,6 +34,8 @@
                         </div>
                         <a href="{% url 'add_to_cart' product.id %}" class="primary-btn">ADD TO CARD</a>
                         <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+
+                        <a href="{% url 'dynamic_price_update' product.id %}">Update Price</a>
                         <ul>
                             <li><b>Availability</b> <span>Stock: {{ product.stock }}</span></li>
                             <li><b>Share on</b>
@@ -86,9 +88,10 @@
                 <div class="product__item">
                     <div class="product__item__pic set-bg" data-setbg="{{ similar_product.image.url }}">
                         <ul class="product__item__pic__hover">
-                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                            <li><a href="{% url 'product_detail' product.id %}"><i class="fa fa-eye"></i></a></li>
+                            <li><a href="{% url 'add_to_wishlist' product.id %}"><i class="fa fa-heart"></i></a></li>
                             <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                            <li><a href="{% url 'add_to_cart' product.id %}"><i class="fa fa-shopping-cart"></i></a></li>
                         </ul>
                     </div>
                     <div class="product__item__text">

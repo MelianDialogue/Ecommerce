@@ -222,9 +222,12 @@
                     </div>
                     <ul>
                         <li><a href="{% url 'home-url' %}" class="nav-link text-dark">Home</a></li>
-                        <li><a href="{% url 'product_list' %}" class="nav-link text-dark">Products</a></li>
+                        <li><a href="{% url 'product_list' %}" class="nav-link text-dark">Products</a></li> 
                         <li><a href="{% url 'cart_detail' %}" class="nav-link text-dark">Shopping Cart</a></li>
                         <li><a href="{% url 'wishlist_detail' %}" class="nav-link text-dark">Wishlist</a></li>
+                        <li><a href="{% url 'recommend_products' user.id %}" class="nav-link text-dark">See Recommendations</a></li>
+                        <li><a href="{% url 'customer_segmentation'  %}" class="nav-link text-dark">Customer segmentation</a></li>
+
                     </ul>
                 </div>
             </div>

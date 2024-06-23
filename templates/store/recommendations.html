@@ -1,0 +1,15 @@
+<!-- templates/store/recommendations.html -->
+{% extends "store/base.html" %}
+
+{% block content %}
+  <h1>Recommended Products</h1>
+  <ul>
+    {% for product in recommendations %}
+      <li>
+        <a href="{% url 'product_detail' product.id %}">
+          {{ product.name }} - {{ product.final_price }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

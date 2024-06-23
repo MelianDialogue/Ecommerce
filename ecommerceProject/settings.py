@@ -587,6 +587,3 @@ SUPPLY_CHAIN_DATA = {
         'address': 'Supplier 2 Address',
     },
 }
-
-
-

@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (
-    paypal_cancel,paypal_return,order_success,blog_detail,blog_list,create_blog_post,index, search, order_detail, leave_review, wishlist_detail,
+  customer_segmentation_view, dynamic_price_update, recommend_products, paypal_cancel,paypal_return,order_success,blog_detail,blog_list,create_blog_post,index, search, order_detail, leave_review, wishlist_detail,
     add_to_wishlist, remove_from_wishlist, cart_detail, add_to_cart,
     update_cart_item,blog_post_detail,faq_list,policy_page_detail, product_list, product_detail, add_product, checkout, order_history, remove_cart_item  # Import the new view
 )
@@ -36,5 +36,10 @@ urlpatterns = [
     path('order-success/<int:order_id>/', order_success, name='order_success'),
     path('paypal-return/', paypal_return, name='paypal_return'),
     path('paypal-cancel/', paypal_cancel, name='paypal_cancel'),
+
+    path('recommendations/<int:user_id>/', recommend_products, name='recommend_products'),
+    path('dynamic_price_update/<int:product_id>/', dynamic_price_update, name='dynamic_price_update'),
+
+    path('customer_segmentation/', customer_segmentation_view, name='customer_segmentation'),
 ]
 urlpatterns += ml_urls
