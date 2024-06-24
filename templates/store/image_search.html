@@ -1,0 +1,10 @@
+{% extends store/base.html" %}
+
+{% block content %}
+  <h1>Image Search</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="image" accept="image/*">
+    <button type="submit">Search</button>
+  </form>
+{% endblock %}

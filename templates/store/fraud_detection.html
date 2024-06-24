@@ -1,0 +1,38 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .transaction {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .fraud {
+            background-color: #ffcccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fraudulent Transactions</h1>
+    
+    {% if fraud_transactions %}
+        {% for transaction in fraud_transactions %}
+            <div class="transaction {% if transaction.is_fraud %}fraud{% endif %}">
+                <p><strong>Amount:</strong> {{ transaction.amount }}</p>
+                <p><strong>Merchant:</strong> {{ transaction.merchant }}</p>
+                <p><strong>Category:</strong> {{ transaction.category }}</p>
+                <p><strong>Fraud Score:</strong> {{ transaction.fraud_score }}</p>
+                <p><strong>Is Fraud:</strong> {{ transaction.is_fraud }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No fraudulent transactions detected.</p>
+    {% endif %}
+    
+    {% endblock %}

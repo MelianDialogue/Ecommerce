@@ -1,0 +1,20 @@
+{% extends "store/base.html" %}
+{% block content %}
+    <h1>Demand Forecast</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Forecasted Sales Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for date, quantity in demand_forecast.items %}
+                <tr>
+                    <td>{{ date }}</td>
+                    <td>{{ quantity }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endblock %}

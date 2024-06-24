@@ -226,7 +226,21 @@
                         <li><a href="{% url 'cart_detail' %}" class="nav-link text-dark">Shopping Cart</a></li>
                         <li><a href="{% url 'wishlist_detail' %}" class="nav-link text-dark">Wishlist</a></li>
                         <li><a href="{% url 'recommend_products' user.id %}" class="nav-link text-dark">See Recommendations</a></li>
-                        <li><a href="{% url 'customer_segmentation'  %}" class="nav-link text-dark">Customer segmentation</a></li>
+                        <li><a href="{% url 'customer_segmentation'  %}"
+                            class="nav-link text-dark">Customer segmentation</a></li>
+                            <li><a href="{% url 'churn_prediction'  %}"
+                                class="nav-link text-dark">Churn prediction</a></li>  
+                         
+                                <li><a href="{% url 'detect_fraud'  %}"
+                                    class="nav-link text-dark">Detect Fraud</a></li>
+                                    <li><a href="{% url 'analyze_sentiment'  %}"
+                                        class="nav-link text-dark">Analyze Sentiment</a></li>
+                                       
+                                        <li><a href="{% url 'forecast_demand'  %}"
+                                            class="nav-link text-dark">Forecast Demand</a></li>
+                                            <li><a href="{% url 'recommend_bundles'  %}"
+                                                class="nav-link text-dark">Recommended bundles</a></li>
+    
 
                     </ul>
                 </div>
@@ -234,7 +248,7 @@
             <div class="col-lg-9">
                 <div class="hero__search">
                     <div class="hero__search__form">
-                        <form method="post" action="">
+                        <form method="post" action="{% url 'search' %}">
                             {% csrf_token %}
                             <input type="text" name="query" placeholder="Enter query for voice search">
                             <button class="site-btn" type="submit">Search</button>

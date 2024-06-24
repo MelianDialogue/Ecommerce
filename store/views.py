@@ -871,3 +871,525 @@ def customer_segmentation_view(request):
     segments = segment_customers()
     segments_dict = segments.to_dict(orient='records')
     return render(request, 'store/customer_segmentation.html', {'segments': segments_dict})
+
+
+# churn_predictions
+import pandas as pd
+from django.contrib.auth.models import User
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score
+import pandas as pd
+from django.contrib.auth.models import User
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score
+from django.utils import timezone
+from datetime import timedelta
+from django.db.models import Sum, Count
+
+
+def fetch_customer_data_with_churn():
+    customers = User.objects.all().values('id', 'date_joined', 'profile__age')
+    customer_data = pd.DataFrame(customers)
+    
+    purchase_data = (
+        Order.objects.values('user_id')
+        .annotate(total_spent=Sum('total_price'), purchase_count=Count('id'))
+        .order_by('user_id')
+    )
+    purchase_df = pd.DataFrame(purchase_data)
+    
+    # Assuming you have a way to determine if a customer has churned
+    # For example, customers who haven't made a purchase in the last 6 months
+    churn_data = determine_churn()  # This function needs to be implemented
+    
+    customer_data = customer_data.merge(purchase_df, left_on='id', right_on='user_id', how='left').fillna(0)
+    customer_data = customer_data.merge(churn_data, left_on='id', right_on='user_id', how='left').fillna(0)
+    
+    return customer_data
+
+
+
+from sklearn.metrics import classification_report
+from sklearn.utils import shuffle
+
+def determine_churn():
+    churn_data = []
+    six_months_ago = timezone.now() - timedelta(days=180)
+    for user in User.objects.all():
+        last_order = Order.objects.filter(user=user).order_by('-created_at').first()
+        if last_order and last_order.created_at < six_months_ago:
+            churn_data.append({'user_id': user.id, 'churn': 1})  # Churned
+        else:
+            churn_data.append({'user_id': user.id, 'churn': 0})  # Not churned
+    
+    return pd.DataFrame(churn_data)
+
+def train_churn_model():
+    customer_data = determine_churn()
+    
+    # Check the distribution of churn labels
+    print(customer_data['churn'].value_counts())
+    
+    # Shuffle the dataset to ensure randomness
+    customer_data = shuffle(customer_data)
+    
+    features = ['profile__age', 'total_spent', 'purchase_count']
+    X = customer_data[features]
+    y = customer_data['churn']
+    
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+    
+    X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42, stratify=y)
+    
+    model = LogisticRegression(random_state=42)
+    model.fit(X_train, y_train)
+    
+    y_pred = model.predict(X_test)
+    print(classification_report(y_test, y_pred))  # Use classification report for evaluation
+    
+    return model, scaler
+
+
+
+
+# Predict churn for all customers
+def predict_churn():
+    model, scaler = train_churn_model()
+    
+    customer_data = fetch_customer_data_with_churn()
+    
+    features = ['profile__age', 'total_spent', 'purchase_count']
+    X = customer_data[features]
+    X_scaled = scaler.transform(X)
+    
+    customer_data['churn_risk'] = model.predict_proba(X_scaled)[:, 1]
+    
+    return customer_data[['id', 'churn_risk']]
+
+
+from django.shortcuts import render
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count, Sum
+from django.utils import timezone
+
+from sklearn.impute import SimpleImputer
+from sklearn.pipeline import Pipeline
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+from .models import Order
+
+@login_required
+def churn_prediction_view(request):
+    profiles = Profile.objects.all()
+    
+    # Create a DataFrame for churn prediction
+    churn_data = {
+        'profile__age': [profile.age for profile in profiles],
+        'total_spent': [profile.total_spent for profile in profiles],
+        'purchase_count': [profile.purchase_count for profile in profiles],
+        'churn': [profile.churn for profile in profiles],
+    }
+    
+    import pandas as pd
+    churn_df = pd.DataFrame(churn_data)
+    
+    if churn_df.empty:
+        return render(request, 'store/error_page.html', {'message': 'No data available for churn prediction.'})
+    
+    # Replace NaN values in churn_df with the mean of each column
+    churn_df.fillna(churn_df.mean(), inplace=True)
+    
+    X = churn_df[['profile__age', 'total_spent', 'purchase_count']]  # Adjust columns as per your DataFrame structure
+    y = churn_df['churn']
+    
+    # Split data into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    # Create a pipeline with an imputer and logistic regression model
+    pipeline = Pipeline([
+        ('imputer', SimpleImputer(strategy='mean')),  # Replace NaN with mean of each column
+        ('logreg', LogisticRegression()),
+    ])
+    
+    # Fit the pipeline on training data
+    pipeline.fit(X_train, y_train)
+    
+    # Predict churn on test data
+    y_pred = pipeline.predict(X_test)
+    
+    # Evaluate accuracy
+    accuracy = accuracy_score(y_test, y_pred)
+    
+    return render(request, 'store/churn_prediction.html', {'accuracy': accuracy})
+
+
+# Assuming necessary imports and models are already defined
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from sklearn.ensemble import IsolationForest
+import pandas as pd
+from .models import Order, CartItem
+from .models import Transaction 
+
+# store/views.py
+
+def fetch_transactions():
+    # Replace with your logic to fetch transaction data from database or API
+    transactions = Transaction.objects.all()  # Example: Assuming Transaction is your model
+    return transactions
+
+
+@login_required
+def detect_fraud_view(request):
+    transactions = fetch_transactions()  # Assuming you implement this function to fetch transaction data
+    
+    if transactions is None or len(transactions) == 0:
+        return render(request, 'store/error_page.html', {'message': 'No transactions available.'})
+    
+    # Convert transactions into a DataFrame
+    transaction_data = {
+        'amount': [transaction.total_price for transaction in transactions],  # Adjust based on your transaction model
+        'product_name': [transaction.product.name for transaction in transactions],  # Example of additional data you might include
+    }
+    
+    transactions_df = pd.DataFrame(transaction_data)
+    
+    # Implement Isolation Forest for anomaly detection
+    isolation_forest = IsolationForest(contamination=0.1)  # Adjust contamination based on expected fraud rate
+    
+    # Fit the model
+    isolation_forest.fit(transactions_df[['amount']])
+    
+    # Predict anomalies (fraudulent transactions)
+    transactions_df['fraud_score'] = isolation_forest.decision_function(transactions_df[['amount']])
+    
+    # Determine fraud based on a threshold
+    threshold = -0.5  # Adjust threshold as needed
+    transactions_df['is_fraud'] = transactions_df['fraud_score'] < threshold
+    
+    # Prepare data to pass to template
+    fraud_transactions = transactions_df[transactions_df['is_fraud']]
+    
+    context = {
+        'fraud_transactions': fraud_transactions.to_dict(orient='records'),
+    }
+    
+    return render(request, 'store/fraud_detection.html', context)
+
+
+from django.shortcuts import render
+from .models import Review
+
+def analyze_sentiment_view(request):
+    reviews = Review.objects.all()
+    return render(request, 'store/analyze_sentiment.html', {'reviews': reviews})
+
+
+import pandas as pd
+from statsmodels.tsa.holtwinters import ExponentialSmoothing
+
+
+def forecast_demand(sales_data):
+    # Convert sales data to a DataFrame
+    df = pd.DataFrame(sales_data)
+    df['sales_date'] = pd.to_datetime(df['sales_date'])
+    df = df.set_index('sales_date')
+
+    # Perform time series analysis
+    model = ExponentialSmoothing(df['sales_quantity'], trend='add', seasonal='add', seasonal_periods=12)
+    fit = model.fit()
+
+    # Forecast for the next 12 periods
+    forecast = fit.forecast(12)
+    return forecast
+
+from django.shortcuts import render
+from django.http import HttpResponse
+from .models import SalesData
+import pandas as pd
+from statsmodels.tsa.holtwinters import ExponentialSmoothing
+
+def forecast_demand(sales_data):
+    # Convert sales data to a DataFrame
+    df = pd.DataFrame(sales_data)
+    
+    # Debugging: Print the first few rows of the DataFrame
+    print(df.head())
+    
+    df['sales_date'] = pd.to_datetime(df['sales_date'])
+    df = df.set_index('sales_date')
+
+    # Perform time series analysis
+    model = ExponentialSmoothing(df['sales_quantity'], trend='add', seasonal='add', seasonal_periods=12)
+    fit = model.fit()
+
+    # Forecast for the next 12 periods
+    forecast = fit.forecast(12)
+    return forecast
+
+def forecast_demand_view(request):
+    # Fetch sales data from the database
+    sales_data = SalesData.objects.all().values('sales_date', 'sales_quantity')
+
+    # Debugging: Print the first few rows of the sales_data
+    print(list(sales_data))
+    
+    # Forecast demand
+    try:
+        demand_forecast = forecast_demand(sales_data)
+    except KeyError as e:
+        return HttpResponse(f"KeyError: {e}", status=400)
+    
+    context = {
+        'demand_forecast': demand_forecast
+    }
+    return render(request, 'store/forecast_demand.html', context)
+
+
+
+import spacy
+
+# Load the spaCy model
+nlp = spacy.load("en_core_web_sm")
+
+def understand_query(query):
+    doc = nlp(query)
+    keywords = [token.text for token in doc if token.is_alpha and not token.is_stop]
+    return keywords
+
+from django.shortcuts import render
+from .models import Product
+
+def search_view(request):
+    query = request.GET.get('q', '')
+    keywords = understand_query(query)
+    
+    # Search for products containing any of the keywords in their name or description
+    products = Product.objects.filter(
+        name__icontains=keywords[0]  # Simplified for demonstration; refine as needed
+    )
+    for keyword in keywords[1:]:
+        products = products | Product.objects.filter(
+            name__icontains=keyword
+        )
+
+    context = {
+        'query': query,
+        'keywords': keywords,
+        'products': products
+    }
+    return render(request, 'store/search_results.html', context)
+
+
+import numpy as np
+import tensorflow as tf
+import cv2
+from sklearn.neighbors import NearestNeighbors
+from .models import Product
+
+# Load MobileNet model
+model = tf.keras.applications.MobileNetV2(weights='imagenet', include_top=False, pooling='avg')
+
+def preprocess_image(image):
+    # Convert image to RGB
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    # Resize image to 224x224
+    image = cv2.resize(image, (224, 224))
+    # Convert to array and expand dimensions
+    image = tf.keras.preprocessing.image.img_to_array(image)
+    image = np.expand_dims(image, axis=0)
+    # Preprocess the image
+    image = tf.keras.applications.mobilenet_v2.preprocess_input(image)
+    return image
+
+def extract_image_features(image):
+    preprocessed_image = preprocess_image(image)
+    features = model.predict(preprocessed_image)
+    return features
+
+def find_similar_products(features, n_neighbors=5):
+    # Load all product images and extract features
+    products = Product.objects.all()
+    product_features = []
+    product_ids = []
+
+    for product in products:
+        if product.image:
+            image_path = product.image.url
+            image = cv2.imread(image_path)
+            if image is not None:
+                product_features.append(extract_image_features(image))
+                product_ids.append(product.id)
+
+    # Stack features and fit NearestNeighbors model
+    product_features = np.vstack(product_features)
+    nn_model = NearestNeighbors(n_neighbors=n_neighbors, metric='cosine').fit(product_features)
+    distances, indices = nn_model.kneighbors(features)
+
+    # Get product IDs of similar products
+    similar_products = [products[idx] for idx in indices[0]]
+    return similar_products
+
+
+from django.shortcuts import render
+from django.core.files.uploadedfile import UploadedFile
+from .utils import extract_image_features, find_similar_products
+
+def image_search_view(request):
+    if request.method == 'POST' and request.FILES['image']:
+        uploaded_image = request.FILES['image']
+        image = cv2.imdecode(np.fromstring(uploaded_image.read(), np.uint8), cv2.IMREAD_UNCHANGED)
+
+        # Extract features and find similar products
+        features = extract_image_features(image)
+        similar_products = find_similar_products(features)
+
+        context = {
+            'similar_products': similar_products
+        }
+        return render(request, 'store/image_search_results.html', context)
+
+    return render(request, 'store/image_search.html')
+
+
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from .models import Customer, Transaction
+
+# Dummy model for example purposes
+# In practice, replace with your pre-trained model
+clv_model = LinearRegression()
+
+def load_and_prepare_data():
+    # Load your historical customer data and prepare it for training
+    # This is a dummy example with random data
+    data = {
+        'customer_id': [1, 2, 3],
+        'avg_transaction_value': [100, 150, 200],
+        'num_transactions': [10, 15, 20],
+        'clv': [1000, 2250, 4000]  # Example CLV values
+    }
+    df = pd.DataFrame(data)
+    return df
+
+def train_clv_model():
+    df = load_and_prepare_data()
+    X = df[['avg_transaction_value', 'num_transactions']]
+    y = df['clv']
+    clv_model.fit(X, y)
+
+def predict_clv(customer_id):
+    try:
+        customer = Customer.objects.get(id=customer_id)
+    except Customer.DoesNotExist:
+        return None
+
+    transactions = Transaction.objects.filter(customer=customer)
+    if not transactions.exists():
+        return None
+
+    avg_transaction_value = transactions.aggregate(avg_amount=models.Avg('amount'))['avg_amount']
+    num_transactions = transactions.count()
+
+    customer_data = pd.DataFrame({
+        'avg_transaction_value': [avg_transaction_value],
+        'num_transactions': [num_transactions]
+    })
+
+    clv = clv_model.predict(customer_data)[0]
+    return clv
+
+# Train the model (in practice, this would be done offline and the model would be loaded)
+train_clv_model()
+
+
+from django.shortcuts import render, get_object_or_404
+from .models import Customer
+from .utils import predict_clv
+
+def predict_clv_view(request, customer_id):
+    customer = get_object_or_404(Customer, id=customer_id)
+    clv = predict_clv(customer_id)
+
+    context = {
+        'customer': customer,
+        'clv': clv
+    }
+    return render(request, 'store/predict_clv.html', context)
+
+
+import pandas as pd
+from mlxtend.frequent_patterns import apriori, association_rules
+from .models import Customer, Transaction, Product
+
+def load_purchase_history():
+    transactions = Transaction.objects.all()
+    data = []
+    for transaction in transactions:
+        data.append({
+            'transaction_id': transaction.id,
+            'product_id': transaction.product.id,
+            'customer_id': transaction.customer.id
+        })
+    df = pd.DataFrame(data)
+    return df
+
+def association_rule_mining(purchase_history):
+    basket = (purchase_history.groupby(['transaction_id', 'product_id'])['product_id']
+              .count().unstack().reset_index().fillna(0).set_index('transaction_id'))
+    basket = basket.applymap(lambda x: 1 if x > 0 else 0)
+    
+    frequent_itemsets = apriori(basket, min_support=0.01, use_colnames=True)
+    rules = association_rules(frequent_itemsets, metric="lift", min_threshold=1)
+    
+    rules = rules.sort_values(['confidence', 'lift'], ascending=[False, False])
+    
+    return rules
+
+def recommend_bundles(user_id):
+    try:
+        customer = Customer.objects.get(id=user_id)
+    except Customer.DoesNotExist:
+        return None
+
+    purchase_history = load_purchase_history()
+    rules = association_rule_mining(purchase_history)
+    
+    user_transactions = purchase_history[purchase_history['customer_id'] == user_id]
+    user_products = user_transactions['product_id'].unique()
+    
+    recommendations = []
+    for product in user_products:
+        antecedents = rules[rules['antecedents'].apply(lambda x: product in x)]
+        for _, row in antecedents.iterrows():
+            recommendations.extend(list(row['consequents']))
+    
+    recommendations = list(set(recommendations) - set(user_products))
+    recommended_products = Product.objects.filter(id__in=recommendations)
+    
+    return recommended_products
+
+from django.shortcuts import render, get_object_or_404
+from .models import Customer
+from .utils import recommend_bundles
+
+def recommend_bundles_view(request, user_id):
+    customer = get_object_or_404(Customer, id=user_id)
+    bundles = recommend_bundles(user_id)
+
+    context = {
+        'customer': customer,
+        'bundles': bundles
+    }
+    return render(request, 'store/recommend_bundles.html', context)

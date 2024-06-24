@@ -69,6 +69,12 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return self.product.name
+    from django.contrib.auth.models import User
+
+try:
+    from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+except ModuleNotFoundError:
+    SentimentIntensityAnalyzer = None  # or handle this case as needed
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -76,6 +82,21 @@ class Review(models.Model):
     rating = models.IntegerField()
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    review_text = models.TextField()
+    sentiment = models.CharField(max_length=20, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if SentimentIntensityAnalyzer:
+            analyzer = SentimentIntensityAnalyzer()
+            sentiment_score = analyzer.polarity_scores(self.review_text)
+            compound = sentiment_score['compound']
+            self.sentiment = 'positive' if compound > 0.05 else 'negative' if compound < -0.05 else 'neutral'
+        else:
+            # Handle the case where SentimentIntensityAnalyzer could not be imported
+            self.sentiment = 'unknown'
+        
+        super().save(*args, **kwargs)
+
 
 class Wishlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -122,3 +143,35 @@ class UserProductInteraction(models.Model):
 
     class Meta:
         unique_together = ('user', 'product')
+
+
+from django.db import models
+
+from django.db import models
+from django.contrib.auth.models import User
+
+class Customer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class Transaction(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    description = models.TextField()
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='transactions')
+
+    def __str__(self):
+        return f"Transaction {self.id}: {self.description} - ${self.amount}"
+
+
+from django.db import models
+
+class SalesData(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    sales_date = models.DateField()
+    sales_quantity = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.product} - {self.sales_date}"

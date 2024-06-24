@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Product, Cart, CartItem, Order, OrderItem, Review, Wishlist, BlogPost, FAQ, PolicyPage, Notification
 
-from .models import Product, UserProductInteraction
+from .models import Product, UserProductInteraction, Transaction, SalesData, Customer
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -17,5 +17,8 @@ admin.site.register(BlogPost)
 admin.site.register(FAQ)
 admin.site.register(PolicyPage) 
 admin.site.register(Notification)
+admin.site.register(Transaction)
 admin.site.register(UserProductInteraction)
+admin.site.register(SalesData)
+admin.site.register(Customer)
 

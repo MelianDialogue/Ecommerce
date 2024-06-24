@@ -16,6 +16,9 @@ class Profile(models.Model):
     profile_photo = CloudinaryField('profile_photo', blank=True, null=True)
     about = models.TextField(blank=True)
     age = models.IntegerField(null=True, blank=True)
+    total_spent = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Example field
+    purchase_count = models.IntegerField(default=0)  # Example field
+    churn = models.BooleanField(default=False)  # New churn field
 
     def __str__(self):
         return self.user.username
