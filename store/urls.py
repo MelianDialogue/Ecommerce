@@ -1,9 +1,13 @@
 from django.urls import path
-from .views import ( analyze_sentiment_view, forecast_demand_view, search_view, image_search_view,recommend_bundles_view,
+from .views import ( analyze_sentiment_view, recommend_bundles_view,
 detect_fraud_view, churn_prediction_view, customer_segmentation_view, dynamic_price_update, recommend_products, paypal_cancel,paypal_return,order_success,blog_detail,blog_list,create_blog_post,index, search, order_detail, leave_review, wishlist_detail,
     add_to_wishlist, remove_from_wishlist, cart_detail, add_to_cart,
-    update_cart_item,blog_post_detail,faq_list,policy_page_detail, product_list, product_detail, add_product, checkout, order_history, remove_cart_item  # Import the new view
+    update_cart_item,blog_post_detail,faq_list,policy_page_detail, 
+    product_list, product_detail, add_product, 
+    checkout, order_history, remove_cart_item,
 )
+# adaptive_ranking_view,recover_abandoned_cart_view,forecast_demand_view, search_view, image_search_view,
+
 from ml.urls import urlpatterns as ml_urls
 
 urlpatterns = [
@@ -26,35 +30,28 @@ urlpatterns = [
     path('blog/<int:blog_post_id>/', blog_post_detail, name='blog_post_detail'),
     path('faq/', faq_list, name='faq_list'),
     path('policy/<int:policy_page_id>/', policy_page_detail, name='policy_page_detail'),
-
     path('create_blog_post/', create_blog_post, name='create_blog_post'),
     path('blog/', blog_list, name='blog_list'),
-
     path('create_blog_post/', create_blog_post, name='create_blog_post'),
     path('blog/<int:blog_post_id>/', blog_detail, name='blog_detail'),
-
     path('order-success/<int:order_id>/', order_success, name='order_success'),
     path('paypal-return/', paypal_return, name='paypal_return'),
     path('paypal-cancel/', paypal_cancel, name='paypal_cancel'),
-
     path('recommendations/<int:user_id>/', recommend_products, name='recommend_products'),
     path('dynamic_price_update/<int:product_id>/', dynamic_price_update, name='dynamic_price_update'),
-
     path('customer_segmentation/', customer_segmentation_view, name='customer_segmentation'),
-
     path('churn_prediction/', churn_prediction_view, name='churn_prediction'),
-
     path('detect_fraud/', detect_fraud_view, name='detect_fraud'),
 
     path('analyze_sentiment/', analyze_sentiment_view, name='analyze_sentiment'),
-
-    path('forecast_demand/', forecast_demand_view, name='forecast_demand'),
-
-    path('search/', search_view, name='search'),
-
-    path('image_search/', image_search_view, name='image_search'),
-
+    # path('forecast_demand/', forecast_demand_view, name='forecast_demand'),
+    # path('search/', search_view, name='search'),
+    # path('image_search/', image_search_view, name='image_search'),
 
     path('recommend_bundles/<int:user_id>/', recommend_bundles_view, name='recommend_bundles'),
+
+    # path('adaptive_ranking/<int:user_id>/<str:query>/', adaptive_ranking_view, name='adaptive_ranking'),
+    # path('recover_abandoned_cart/<int:user_id>/', recover_abandoned_cart_view, name='recover_abandoned_cart'),
+
 ]
 urlpatterns += ml_urls

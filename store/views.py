@@ -1096,171 +1096,171 @@ def analyze_sentiment_view(request):
     return render(request, 'store/analyze_sentiment.html', {'reviews': reviews})
 
 
-import pandas as pd
-from statsmodels.tsa.holtwinters import ExponentialSmoothing
+# import pandas as pd
+# from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
 
-def forecast_demand(sales_data):
-    # Convert sales data to a DataFrame
-    df = pd.DataFrame(sales_data)
-    df['sales_date'] = pd.to_datetime(df['sales_date'])
-    df = df.set_index('sales_date')
+# def forecast_demand(sales_data):
+#     # Convert sales data to a DataFrame
+#     df = pd.DataFrame(sales_data)
+#     df['sales_date'] = pd.to_datetime(df['sales_date'])
+#     df = df.set_index('sales_date')
 
-    # Perform time series analysis
-    model = ExponentialSmoothing(df['sales_quantity'], trend='add', seasonal='add', seasonal_periods=12)
-    fit = model.fit()
-
-    # Forecast for the next 12 periods
-    forecast = fit.forecast(12)
-    return forecast
-
-from django.shortcuts import render
-from django.http import HttpResponse
-from .models import SalesData
-import pandas as pd
-from statsmodels.tsa.holtwinters import ExponentialSmoothing
-
-def forecast_demand(sales_data):
-    # Convert sales data to a DataFrame
-    df = pd.DataFrame(sales_data)
-    
-    # Debugging: Print the first few rows of the DataFrame
-    print(df.head())
-    
-    df['sales_date'] = pd.to_datetime(df['sales_date'])
-    df = df.set_index('sales_date')
-
-    # Perform time series analysis
-    model = ExponentialSmoothing(df['sales_quantity'], trend='add', seasonal='add', seasonal_periods=12)
-    fit = model.fit()
+#     # Perform time series analysis
+#     model = ExponentialSmoothing(df['sales_quantity'], trend='add', seasonal='add', seasonal_periods=12)
+#     fit = model.fit()
 
     # Forecast for the next 12 periods
     forecast = fit.forecast(12)
     return forecast
 
-def forecast_demand_view(request):
-    # Fetch sales data from the database
-    sales_data = SalesData.objects.all().values('sales_date', 'sales_quantity')
+# from django.shortcuts import render
+# from django.http import HttpResponse
+# from .models import SalesData
+# import pandas as pd
+# from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
-    # Debugging: Print the first few rows of the sales_data
-    print(list(sales_data))
+# def forecast_demand(sales_data):
+#     # Convert sales data to a DataFrame
+#     df = pd.DataFrame(sales_data)
     
-    # Forecast demand
-    try:
-        demand_forecast = forecast_demand(sales_data)
-    except KeyError as e:
-        return HttpResponse(f"KeyError: {e}", status=400)
+#     # Debugging: Print the first few rows of the DataFrame
+#     print(df.head())
     
-    context = {
-        'demand_forecast': demand_forecast
-    }
-    return render(request, 'store/forecast_demand.html', context)
+#     df['sales_date'] = pd.to_datetime(df['sales_date'])
+#     df = df.set_index('sales_date')
 
+#     # Perform time series analysis
+#     model = ExponentialSmoothing(df['sales_quantity'], trend='add', seasonal='add', seasonal_periods=12)
+#     fit = model.fit()
 
+#     # Forecast for the next 12 periods
+#     forecast = fit.forecast(12)
+#     return forecast
 
-import spacy
+# def forecast_demand_view(request):
+#     # Fetch sales data from the database
+#     sales_data = SalesData.objects.all().values('sales_date', 'sales_quantity')
 
-# Load the spaCy model
-nlp = spacy.load("en_core_web_sm")
-
-def understand_query(query):
-    doc = nlp(query)
-    keywords = [token.text for token in doc if token.is_alpha and not token.is_stop]
-    return keywords
-
-from django.shortcuts import render
-from .models import Product
-
-def search_view(request):
-    query = request.GET.get('q', '')
-    keywords = understand_query(query)
+#     # Debugging: Print the first few rows of the sales_data
+#     print(list(sales_data))
     
-    # Search for products containing any of the keywords in their name or description
-    products = Product.objects.filter(
-        name__icontains=keywords[0]  # Simplified for demonstration; refine as needed
-    )
-    for keyword in keywords[1:]:
-        products = products | Product.objects.filter(
-            name__icontains=keyword
-        )
-
-    context = {
-        'query': query,
-        'keywords': keywords,
-        'products': products
-    }
-    return render(request, 'store/search_results.html', context)
+#     # Forecast demand
+#     try:
+#         demand_forecast = forecast_demand(sales_data)
+#     except KeyError as e:
+#         return HttpResponse(f"KeyError: {e}", status=400)
+    
+#     context = {
+#         'demand_forecast': demand_forecast
+#     }
+#     return render(request, 'store/forecast_demand.html', context)
 
 
-import numpy as np
-import tensorflow as tf
-import cv2
-from sklearn.neighbors import NearestNeighbors
-from .models import Product
 
-# Load MobileNet model
-model = tf.keras.applications.MobileNetV2(weights='imagenet', include_top=False, pooling='avg')
+# import spacy
 
-def preprocess_image(image):
-    # Convert image to RGB
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    # Resize image to 224x224
-    image = cv2.resize(image, (224, 224))
-    # Convert to array and expand dimensions
-    image = tf.keras.preprocessing.image.img_to_array(image)
-    image = np.expand_dims(image, axis=0)
-    # Preprocess the image
-    image = tf.keras.applications.mobilenet_v2.preprocess_input(image)
-    return image
+# # Load the spaCy model
+# nlp = spacy.load("en_core_web_sm")
 
-def extract_image_features(image):
-    preprocessed_image = preprocess_image(image)
-    features = model.predict(preprocessed_image)
-    return features
+# def understand_query(query):
+#     doc = nlp(query)
+#     keywords = [token.text for token in doc if token.is_alpha and not token.is_stop]
+#     return keywords
 
-def find_similar_products(features, n_neighbors=5):
-    # Load all product images and extract features
-    products = Product.objects.all()
-    product_features = []
-    product_ids = []
+# from django.shortcuts import render
+# from .models import Product
 
-    for product in products:
-        if product.image:
-            image_path = product.image.url
-            image = cv2.imread(image_path)
-            if image is not None:
-                product_features.append(extract_image_features(image))
-                product_ids.append(product.id)
+# def search_view(request):
+#     query = request.GET.get('q', '')
+#     keywords = understand_query(query)
+    
+#     # Search for products containing any of the keywords in their name or description
+#     products = Product.objects.filter(
+#         name__icontains=keywords[0]  # Simplified for demonstration; refine as needed
+#     )
+#     for keyword in keywords[1:]:
+#         products = products | Product.objects.filter(
+#             name__icontains=keyword
+#         )
 
-    # Stack features and fit NearestNeighbors model
-    product_features = np.vstack(product_features)
-    nn_model = NearestNeighbors(n_neighbors=n_neighbors, metric='cosine').fit(product_features)
-    distances, indices = nn_model.kneighbors(features)
-
-    # Get product IDs of similar products
-    similar_products = [products[idx] for idx in indices[0]]
-    return similar_products
+#     context = {
+#         'query': query,
+#         'keywords': keywords,
+#         'products': products
+#     }
+#     return render(request, 'store/search_results.html', context)
 
 
-from django.shortcuts import render
-from django.core.files.uploadedfile import UploadedFile
-from .utils import extract_image_features, find_similar_products
+# import numpy as np
+# import tensorflow as tf
+# import cv2
+# from sklearn.neighbors import NearestNeighbors
+# from .models import Product
 
-def image_search_view(request):
-    if request.method == 'POST' and request.FILES['image']:
-        uploaded_image = request.FILES['image']
-        image = cv2.imdecode(np.fromstring(uploaded_image.read(), np.uint8), cv2.IMREAD_UNCHANGED)
+# # Load MobileNet model
+# model = tf.keras.applications.MobileNetV2(weights='imagenet', include_top=False, pooling='avg')
 
-        # Extract features and find similar products
-        features = extract_image_features(image)
-        similar_products = find_similar_products(features)
+# def preprocess_image(image):
+#     # Convert image to RGB
+#     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+#     # Resize image to 224x224
+#     image = cv2.resize(image, (224, 224))
+#     # Convert to array and expand dimensions
+#     image = tf.keras.preprocessing.image.img_to_array(image)
+#     image = np.expand_dims(image, axis=0)
+#     # Preprocess the image
+#     image = tf.keras.applications.mobilenet_v2.preprocess_input(image)
+#     return image
 
-        context = {
-            'similar_products': similar_products
-        }
-        return render(request, 'store/image_search_results.html', context)
+# def extract_image_features(image):
+#     preprocessed_image = preprocess_image(image)
+#     features = model.predict(preprocessed_image)
+#     return features
 
-    return render(request, 'store/image_search.html')
+# def find_similar_products(features, n_neighbors=5):
+#     # Load all product images and extract features
+#     products = Product.objects.all()
+#     product_features = []
+#     product_ids = []
+
+#     for product in products:
+#         if product.image:
+#             image_path = product.image.url
+#             image = cv2.imread(image_path)
+#             if image is not None:
+#                 product_features.append(extract_image_features(image))
+#                 product_ids.append(product.id)
+
+#     # Stack features and fit NearestNeighbors model
+#     product_features = np.vstack(product_features)
+#     nn_model = NearestNeighbors(n_neighbors=n_neighbors, metric='cosine').fit(product_features)
+#     distances, indices = nn_model.kneighbors(features)
+
+#     # Get product IDs of similar products
+#     similar_products = [products[idx] for idx in indices[0]]
+#     return similar_products
+
+
+# from django.shortcuts import render
+# from django.core.files.uploadedfile import UploadedFile
+# from .utils import extract_image_features, find_similar_products
+
+# def image_search_view(request):
+#     if request.method == 'POST' and request.FILES['image']:
+#         uploaded_image = request.FILES['image']
+#         image = cv2.imdecode(np.fromstring(uploaded_image.read(), np.uint8), cv2.IMREAD_UNCHANGED)
+
+#         # Extract features and find similar products
+#         features = extract_image_features(image)
+#         similar_products = find_similar_products(features)
+
+#         context = {
+#             'similar_products': similar_products
+#         }
+#         return render(request, 'store/image_search_results.html', context)
+
+#     return render(request, 'store/image_search.html')
 
 
 import pandas as pd
@@ -1316,7 +1316,6 @@ train_clv_model()
 
 from django.shortcuts import render, get_object_or_404
 from .models import Customer
-from .utils import predict_clv
 
 def predict_clv_view(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
@@ -1329,60 +1328,60 @@ def predict_clv_view(request, customer_id):
     return render(request, 'store/predict_clv.html', context)
 
 
-import pandas as pd
-from mlxtend.frequent_patterns import apriori, association_rules
-from .models import Customer, Transaction, Product
+# import pandas as pd
+# from mlxtend.frequent_patterns import apriori, association_rules
+# from .models import Customer, Transaction, Product
 
-def load_purchase_history():
-    transactions = Transaction.objects.all()
-    data = []
-    for transaction in transactions:
-        data.append({
-            'transaction_id': transaction.id,
-            'product_id': transaction.product.id,
-            'customer_id': transaction.customer.id
-        })
-    df = pd.DataFrame(data)
-    return df
+# def load_purchase_history():
+#     transactions = Transaction.objects.all()
+#     data = []
+#     for transaction in transactions:
+#         data.append({
+#             'transaction_id': transaction.id,
+#             'product_id': transaction.product.id,
+#             'customer_id': transaction.customer.id
+#         })
+#     df = pd.DataFrame(data)
+#     return df
 
-def association_rule_mining(purchase_history):
-    basket = (purchase_history.groupby(['transaction_id', 'product_id'])['product_id']
-              .count().unstack().reset_index().fillna(0).set_index('transaction_id'))
-    basket = basket.applymap(lambda x: 1 if x > 0 else 0)
+# def association_rule_mining(purchase_history):
+#     basket = (purchase_history.groupby(['transaction_id', 'product_id'])['product_id']
+#               .count().unstack().reset_index().fillna(0).set_index('transaction_id'))
+#     basket = basket.applymap(lambda x: 1 if x > 0 else 0)
     
-    frequent_itemsets = apriori(basket, min_support=0.01, use_colnames=True)
-    rules = association_rules(frequent_itemsets, metric="lift", min_threshold=1)
+#     frequent_itemsets = apriori(basket, min_support=0.01, use_colnames=True)
+#     rules = association_rules(frequent_itemsets, metric="lift", min_threshold=1)
     
-    rules = rules.sort_values(['confidence', 'lift'], ascending=[False, False])
+#     rules = rules.sort_values(['confidence', 'lift'], ascending=[False, False])
     
-    return rules
+#     return rules
 
-def recommend_bundles(user_id):
-    try:
-        customer = Customer.objects.get(id=user_id)
-    except Customer.DoesNotExist:
-        return None
+# def recommend_bundles(user_id):
+#     try:
+#         customer = Customer.objects.get(id=user_id)
+#     except Customer.DoesNotExist:
+#         return None
 
-    purchase_history = load_purchase_history()
-    rules = association_rule_mining(purchase_history)
+#     purchase_history = load_purchase_history()
+#     rules = association_rule_mining(purchase_history)
     
-    user_transactions = purchase_history[purchase_history['customer_id'] == user_id]
-    user_products = user_transactions['product_id'].unique()
+#     user_transactions = purchase_history[purchase_history['customer_id'] == user_id]
+#     user_products = user_transactions['product_id'].unique()
     
-    recommendations = []
-    for product in user_products:
-        antecedents = rules[rules['antecedents'].apply(lambda x: product in x)]
-        for _, row in antecedents.iterrows():
-            recommendations.extend(list(row['consequents']))
+#     recommendations = []
+#     for product in user_products:
+#         antecedents = rules[rules['antecedents'].apply(lambda x: product in x)]
+#         for _, row in antecedents.iterrows():
+#             recommendations.extend(list(row['consequents']))
     
-    recommendations = list(set(recommendations) - set(user_products))
-    recommended_products = Product.objects.filter(id__in=recommendations)
+#     recommendations = list(set(recommendations) - set(user_products))
+#     recommended_products = Product.objects.filter(id__in=recommendations)
     
-    return recommended_products
+#     return recommended_products
 
 from django.shortcuts import render, get_object_or_404
 from .models import Customer
-from .utils import recommend_bundles
+
 
 def recommend_bundles_view(request, user_id):
     customer = get_object_or_404(Customer, id=user_id)
@@ -1393,3 +1392,5 @@ def recommend_bundles_view(request, user_id):
         'bundles': bundles
     }
     return render(request, 'store/recommend_bundles.html', context)
+
+

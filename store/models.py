@@ -175,3 +175,17 @@ class SalesData(models.Model):
 
     def __str__(self):
         return f"{self.product} - {self.sales_date}"
+
+
+# Example model for UserBehavior (adjust as per your actual implementation)
+from django.db import models
+from django.contrib.auth.models import User
+
+class UserBehavior(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    query = models.CharField(max_length=255)
+    clicks = models.IntegerField(default=0)
+    time_spent = models.FloatField(default=0)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.query}"
