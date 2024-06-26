@@ -19,7 +19,7 @@ def create_stripe_payment_intent(order):
         print(f"Creating Stripe Payment Intent for amount: {amount} cents")
         intent = stripe.PaymentIntent.create(
             amount=amount,
-            currency='usd',
+            currency='gbp',
             metadata={'order_id': order.id}
         )
         return intent
@@ -40,7 +40,7 @@ def create_paypal_payment(order, return_url, cancel_url):
         "transactions": [{
             "amount": {
                 "total": str(order.total_price),
-                "currency": "USD"
+                "currency": "GBP"
             },
             "description": "Order #" + str(order.id)
         }]
@@ -98,13 +98,13 @@ def create_paypal_payment(order, return_url, cancel_url):
                     "name": item.product.name,
                     "sku": item.product.sku,
                     "price": str(item.product.final_price),
-                    "currency": "USD",
+                    "currency": "GBP",
                     "quantity": item.quantity
                 } for item in order.orderitem_set.all()]
             },
             "amount": {
                 "total": str(order.total_price),
-                "currency": "USD"
+                "currency": "GBP"
             },
             "description": f"Order {order.id}"
         }]

@@ -13,21 +13,20 @@
                         <h5 class="mb-3">Order Summary</h5>
                         <div class="row mb-2">
                             <div class="col-sm-6">Subtotal:</div>
-                            <div class="col-sm-6 text-sm-end">${{ subtotal|floatformat:2 }}</div>
+                            <div class="col-sm-6 text-sm-end">£{{ subtotal|floatformat:2 }}</div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-sm-6">Shipping:</div>
-                            <div class="col-sm-6 text-sm-end">${{ shipping|floatformat:2 }}</div>
+                            <div class="col-sm-6 text-sm-end">£{{ shipping|floatformat:2 }}</div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6"><strong>Total Price:</strong></div>
-                            <div class="col-sm-6 text-sm-end"><strong>${{ total_price|floatformat:2 }}</strong></div>
+                            <div class="col-sm-6 text-sm-end"><strong>£{{ total_price|floatformat:2 }}</strong></div>
                         </div>
                     </div>
 
                     <form id="payment-form" class="animated fadeInUp">
                         {% csrf_token %}
-
                         <div class="mb-3">
                             <label for="card-element" class="form-label">Credit or debit card</label>
                             <div id="card-element" class="form-control">
@@ -38,7 +37,7 @@
                         <!-- Used to display form errors. -->
                         <div id="card-errors" role="alert" class="mb-3 text-danger"></div>
 
-                        <button id="submit" class="btn btn-success btn-lg btn-block">Pay ${{ total_price|floatformat:2 }}</button>
+                        <button id="submit" class="btn btn-success btn-lg btn-block">Pay £{{ total_price|floatformat:2 }}</button>
                     </form>
                 </div>
             </div>

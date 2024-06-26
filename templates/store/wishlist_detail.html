@@ -32,7 +32,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ product.name }}</h5>
                             <p class="card-text">{{ product.description }}</p>
-                            <p class="card-text text-primary font-weight-bold">$ {{ product.price }}</p>
+                            <p class="card-text text-primary font-weight-bold">£ {{ product.price }}</p>
                             <a href="{% url 'remove_from_wishlist' product.id %}" class="btn btn-outline-danger">
                                 Remove from Wishlist
                             </a>
