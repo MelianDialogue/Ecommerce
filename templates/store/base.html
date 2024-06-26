@@ -21,6 +21,7 @@
         <link rel="stylesheet" href="{% static 'assets/css/slicknav.min.css' %}" type="text/css">
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" type="text/css">
         <style>
+           
             /* Basic Styling */
             .logo-container {
                 width: 60px;
@@ -201,7 +202,6 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">GBP</a></li>
-                                <li><a class="dropdown-item" href="#">USD</a></li>
                             </ul>
                         </div>
                     </div>
@@ -216,14 +216,14 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-md-6">
-                        <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                           
-                                <div class="logo-container me-md-3">
-                                    <a href="">
+                        <!-- Hide on mobile (sm and xs screens), show on md and larger screens -->
+                        <div class="d-none d-md-flex align-items-center justify-content-center justify-content-md-start">
+                            <div class="logo-container me-md-3">
+                                <a href="{% url 'home-url' %}">
                                     <img src="{% static 'img/icon.png' %}" alt="Branchy Logo" class="logo">
-                                     </a>
-                                </div>
-                                <a href="" style="text-decoration: none;">
+                                </a>
+                            </div>
+                            <a href="" style="text-decoration: none;">
                                 <h1 class="mb-0" style="font-weight: 900;">BRANCHY</h1>
                             </a>
                         </div>
@@ -249,7 +249,7 @@
                             {% endif %}
                         </a>
                         {% endif %}
-
+        
                         <a href="{% url 'profile-url' %}">
                             {% if user.profile.profile_photo %}
                                 <img class="rounded-circle animate__animated animate__fadeIn" src="{{ user.profile.profile_photo.url }}" alt="Profile Photo" style="height: 40px;">
@@ -261,59 +261,156 @@
                 </div>
             </div>
         </header>
-    
+        
 
-        <nav class="navbar navbar-expand-lg navbar-light ">
+        <style>
+            /* Navbar Item Styles */
+.navbar-nav .nav-link {
+    color: #ffffff;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffc107; /* Change to your desired hover color */
+}
+
+/* Search Form Styles */
+.custom-search-form {
+    width: 100%; /* Ensure it takes full width in lg and above */
+    max-width: 400px; /* Adjust maximum width as needed */
+}
+
+.custom-search-input {
+    border-color: #ffffff; /* Adjust input border color */
+}
+
+.custom-search-input::placeholder {
+    color: #dee2e6; /* Adjust placeholder text color */
+}
+
+/* Dropdown Menu Styles */
+.dropdown-menu {
+    background-color: #2c3641; /* Adjust dropdown background color */
+}
+
+.dropdown-menu .dropdown-item {
+    color: #ffffff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #343a40; /* Adjust hover background color */
+    color: #ffc107; /* Adjust hover text color */
+}
+
+        </style>
+
+
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #2c3641;">
             <div class="container">
-                <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse"
-                 data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                  aria-label="Toggle navigation">
+                <!-- Mobile Logo and Title -->
+                <div class="d-lg-none d-flex align-items-center">
+                    <a href="{% url 'home-url' %}">
+                        <img src="{% static 'img/icon.png' %}" alt="Branchy Logo" class="logo" style="font-size: 1.2rem;">
+                    </a>
+                    <a href="" style="text-decoration: none;">
+                        <h1 class="mb-0 text-white ms-2" style="font-weight: 900; font-size: 1.5rem;">BRANCHY</h1>
+                    </a>
+                </div>
+        
+                <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="background-color: #ffffff;">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'home-url' %}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'product_list' %}">Products</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'shipping' %}">Shipping & Returns</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'contact' %}">Contact Us</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'about' %}">About Us</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">More</a>
+                
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item"><a class="nav-link text-white text-center" href="{% url 'home-url' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-white text-center" href="{% url 'product_list' %}">Products</a></li>
+                        <li class="nav-item"><a class="nav-link text-white text-center" href="{% url 'shipping' %}">Shipping & Returns</a></li>
+                        <li class="nav-item"><a class="nav-link text-white text-center" href="{% url 'contact' %}">Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link text-white text-center" href="{% url 'about' %}">About Us</a></li>
+                        <!-- <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white text-center" href="#" role="button" data-bs-toggle="dropdown">More</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item text-white" href="{% url 'blog_list' %}">Blog</a></li>
+                                <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
                             </ul>
-                        </li>
+                        </li> -->
                     </ul>
-                    <style>
-                        /* Increase the width of the search form */
-.custom-search-form {
-    width: 40%; /* Adjust as needed */
-}
-
-/* Increase the width of the input field */
-.custom-search-input {
-    flex-grow: 1; /* Allows the input to take up available space */
-    width: 40%; /* Adjust as needed */
-}
-
-/* Ensure the button is aligned properly */
-.custom-search-form .btn {
-    margin-left: 5px; /* Space between the input and button */
-    white-space: nowrap; /* Prevents text wrapping */
-}
-
-                    </style>
-                    <form method="post" action="{% url 'search'  %}" class="d-flex custom-search-form">
-                        <input class="form-control rounded-0 custom-search-input" type="search" placeholder="Search the product" aria-label="Search">
+                    <form method="post" action="{% url 'search' %}" class="d-flex custom-search-form ml-auto align-items-center">
+                        <input class="form-control rounded-0 custom-search-input mr-2" type="search" placeholder="Search the product" aria-label="Search">
                         <button class="btn btn-success" type="submit">Search</button>
                     </form>
-                    <a class="btn btn-primary text-white" href="{% url 'search_results' %}">Search Results</a>
+                    
                 </div>
             </div>
         </nav>
-<br>
-     
+        
+        <style>
+            @keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 40px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
 
+.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+.fadeInUp {
+    animation-name: fadeInUp;
+}
+
+        </style>
+        <style>
+
+            /* Added CSS */
+            .cart-link {
+                position: relative;
+                display: inline-block;
+                color: inherit;
+                text-decoration: none;
+            }
+    
+            .cart-icon-bg {
+                position: relative;
+                display: inline-block;
+                background-color: red;
+                border-radius: 50%;
+                padding: 5px;
+            }
+    
+            .cart-count {
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                font-size: 0.8rem;
+            }
+    
+            /* Custom Mobile Styles */
+            @media (max-width: 767px) {
+                .call-us-section {
+                    margin-bottom: 20px;
+                    text-align: center;
+                }
+                .call-us-section .toll-free-text {
+                    margin-top: 5px;
+                }
+                .middle-header .col-md-6 {
+                    text-align: center;
+                }
+                .middle-header h1 {
+                    margin-top: 10px;
+                }
+            }
+        </style>
+
+        <br>
  <!-- Hero Section Begin -->
  <section class="hero hero-normal">
     <div class="container">
@@ -370,6 +467,15 @@
     {% block content %}
 
     {% endblock %}
+
+
+     <!-- base.html or appropriate template -->
+ <!-- <a class="text-white" href="{% url 'send_personalized_email' %}">Send Personalized Email</a>
+ <a href="{% url 'recommend_bundles' %}">Recommend Bundles</a>
+ <a href="{% url 'predict_clv' %}">Predict CLV</a>
+   <a class="nav-link" href="{% url 'image_search' %}">Image Search</a>
+ -->
+
 
 
 <!-- Footer Section Begin -->
@@ -534,25 +640,20 @@
                 <div class="footer__widget">
                     <h6 class="text-white">Join Our Newsletter Now</h6>
                     <p class="text-white">Get E-mail updates about our latest shop and special offers.</p>
-                    <form method="post" action="{% url 'subscribe' %}">
-                        {% csrf_token %}
-                        <input type="email" name="email" class="form-control border-0 py-4" placeholder="Enter your email" required="required" />
-                        <button type="submit" class="site-btn">Subscribe</button>
-                    </form>
+                   <form method="post" action="{% url 'subscribe' %}" class="d-sm-flex justify-content-center align-items-center">
+    {% csrf_token %}
+    <div class="form-group mb-0 mr-sm-2">
+        <input type="email" name="email" class="form-control border-0 py-4" placeholder="Enter your email" required="required">
+    </div>
+    <button type="submit" class="btn btn-success mt-3 mt-sm-0">Subscribe</button>
+</form>
+
                     <div class="footer__widget__social">
                         <a href="#"><i class="fa fa-facebook"></i></a>
                         <a href="#"><i class="fa fa-instagram"></i></a>
                         <a href="#"><i class="fa fa-twitter"></i></a>
                         <a href="#"><i class="fa fa-pinterest"></i></a>
                     </div>
-
-                    <!-- base.html or appropriate template -->
-                    <a class="text-white" href="{% url 'send_personalized_email' %}">Send Personalized Email</a>
-                    <a href="{% url 'recommend_bundles' %}">Recommend Bundles</a>
-
-                    <a href="{% url 'predict_clv' %}">Predict CLV</a>
-
-                      <a class="nav-link" href="{% url 'image_search' %}">Image Search</a>
                 </div>
             </div>
         </div>

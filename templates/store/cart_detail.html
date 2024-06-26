@@ -26,7 +26,7 @@
                                     <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="height: 15vh;">
                                     <h5>{{ item.product.name }}</h5>
                                 </td>
-                                <td class="shoping__cart__price">${{ item.product.price }}</td>
+                                <td class="shoping__cart__price">£{{ item.product.price }}</td>
                                 <td class="shoping__cart__quantity">
                                     <div class="quantity">
                                         <div class="pro-qty">
@@ -34,7 +34,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="shoping__cart__total">${{ item.total_price }}</td>
+                                <td class="shoping__cart__total">£{{ item.total_price }}</td>
                                 <td class="shoping__cart__item__close">
                                     <button class="icon_close remove-item"></button>
                                 </td>
@@ -48,7 +48,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="shoping__cart__btns">
-                    <a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                    <a href="{% url 'product_list' %}" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
                     <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span> Update Cart</a>
                 </div>
             </div>
@@ -67,8 +67,8 @@
                 <div class="shoping__checkout">
                     <h5>Cart Total</h5>
                     <ul>
-                        <li>Subtotal <span>${{ subtotal }}</span></li>
-                        <li>Total <span>${{ total_price|floatformat:2 }}</span></li>
+                        <li>Subtotal <span>£{{ subtotal }}</span></li>
+                        <li>Total <span>£{{ total_price|floatformat:2 }}</span></li>
                     </ul>
                     <a href="{% url 'checkout' order.id %}?subtotal={{ subtotal|floatformat:2 }}&total={{ total_price|floatformat:2 }}" class="primary-btn">PROCEED TO CHECKOUT</a>
                 </div>
@@ -77,7 +77,7 @@
     </div>
 
     <hr>
-    <a href="{% url 'recover_abandoned_cart' user_id=user.id %}">Recover Abandoned Cart</a>
+    <a class="text-dark" href="{% url 'recover_abandoned_cart' user_id=user.id %}">Recover Abandoned Cart</a>
 
 </section>
 <!-- Shoping Cart Section End -->

@@ -21,6 +21,7 @@
         <link rel="stylesheet" href="{% static 'assets/css/slicknav.min.css' %}" type="text/css">
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" type="text/css">
         <style>
+           
             /* Basic Styling */
             .logo-container {
                 width: 60px;
@@ -201,7 +202,6 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">GBP</a></li>
-                                <li><a class="dropdown-item" href="#">USD</a></li>
                             </ul>
                         </div>
                     </div>
@@ -216,14 +216,14 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-md-6">
-                        <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                           
-                                <div class="logo-container me-md-3">
-                                    <a href="{% url 'home-url' %}">
+                        <!-- Hide on mobile (sm and xs screens), show on md and larger screens -->
+                        <div class="d-none d-md-flex align-items-center justify-content-center justify-content-md-start">
+                            <div class="logo-container me-md-3">
+                                <a href="{% url 'home-url' %}">
                                     <img src="{% static 'img/icon.png' %}" alt="Branchy Logo" class="logo">
-                                     </a>
-                                </div>
-                                <a href="" style="text-decoration: none;">
+                                </a>
+                            </div>
+                            <a href="" style="text-decoration: none;">
                                 <h1 class="mb-0" style="font-weight: 900;">BRANCHY</h1>
                             </a>
                         </div>
@@ -249,7 +249,7 @@
                             {% endif %}
                         </a>
                         {% endif %}
-
+        
                         <a href="{% url 'profile-url' %}">
                             {% if user.profile.profile_photo %}
                                 <img class="rounded-circle animate__animated animate__fadeIn" src="{{ user.profile.profile_photo.url }}" alt="Profile Photo" style="height: 40px;">
@@ -261,58 +261,90 @@
                 </div>
             </div>
         </header>
-    
+        
 
-        <nav class="navbar navbar-expand-lg navbar-light ">
+        <style>
+            /* Navbar Item Styles */
+.navbar-nav .nav-link {
+    color: #ffffff;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffc107; /* Change to your desired hover color */
+}
+
+/* Search Form Styles */
+.custom-search-form {
+    width: 100%; /* Ensure it takes full width in lg and above */
+    max-width: 400px; /* Adjust maximum width as needed */
+}
+
+.custom-search-input {
+    border-color: #ffffff; /* Adjust input border color */
+}
+
+.custom-search-input::placeholder {
+    color: #dee2e6; /* Adjust placeholder text color */
+}
+
+/* Dropdown Menu Styles */
+.dropdown-menu {
+    background-color: #2c3641; /* Adjust dropdown background color */
+}
+
+.dropdown-menu .dropdown-item {
+    color: #ffffff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #343a40; /* Adjust hover background color */
+    color: #ffc107; /* Adjust hover text color */
+}
+
+        </style>
+
+
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #2c3641;">
             <div class="container">
-                <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse"
-                 data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                  aria-label="Toggle navigation">
+                <!-- Mobile Logo and Title -->
+                <div class="d-lg-none d-flex align-items-center">
+                    <a href="{% url 'home-url' %}">
+                        <img src="{% static 'img/icon.png' %}" alt="Branchy Logo" class="logo" style="font-size: 1.2rem;">
+                    </a>
+                    <a href="" style="text-decoration: none;">
+                        <h1 class="mb-0 text-white ms-2" style="font-weight: 900; font-size: 1.5rem;">BRANCHY</h1>
+                    </a>
+                </div>
+        
+                <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="background-color: #ffffff;">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'home-url' %}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'product_list' %}">Products</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'shipping' %}">Shipping & Returns</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'contact' %}">Contact Us</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'about' %}">About Us</a></li>
+                
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item"><a class="nav-link text-white text-center" href="{% url 'home-url' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-white text-center" href="{% url 'product_list' %}">Products</a></li>
+                        <li class="nav-item"><a class="nav-link text-white text-center" href="{% url 'shipping' %}">Shipping & Returns</a></li>
+                        <li class="nav-item"><a class="nav-link text-white text-center" href="{% url 'contact' %}">Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link text-white text-center" href="{% url 'about' %}">About Us</a></li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">More</a>
+                            <a class="nav-link dropdown-toggle text-white text-center" href="#" role="button" data-bs-toggle="dropdown">More</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item text-white" href="{% url 'blog_list' %}">Blog</a></li>
+                                <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
                             </ul>
                         </li>
                     </ul>
-                    <style>
-                        /* Increase the width of the search form */
-.custom-search-form {
-    width: 40%; /* Adjust as needed */
-}
-
-/* Increase the width of the input field */
-.custom-search-input {
-    flex-grow: 1; /* Allows the input to take up available space */
-    width: 40%; /* Adjust as needed */
-}
-
-/* Ensure the button is aligned properly */
-.custom-search-form .btn {
-    margin-left: 5px; /* Space between the input and button */
-    white-space: nowrap; /* Prevents text wrapping */
-}
-
-                    </style>
-                    <form method="post" action="{% url 'search'  %}" class="d-flex custom-search-form">
-                        <input class="form-control rounded-0 custom-search-input" type="search" placeholder="Search the product" aria-label="Search">
+                    <form method="post" action="{% url 'search' %}" class="d-flex custom-search-form ml-auto align-items-center">
+                        <input class="form-control rounded-0 custom-search-input mr-2" type="search" placeholder="Search the product" aria-label="Search">
                         <button class="btn btn-success" type="submit">Search</button>
                     </form>
                     
                 </div>
             </div>
         </nav>
-
-
+        
         <style>
             @keyframes fadeInUp {
     from {
@@ -405,15 +437,14 @@
         padding: 5px 10px; /* Adjust button padding */
     }
 }
-
   </style>
 
-<!-- Hero Section Begin -->
+
 <section class="hero" style="background-color: white;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4 animated fadeInLeft">
-                <div class="hero__categories">
+            <div class="col-lg-4 animated fadeInLeft" >
+                <div class="hero__categories" style="background-color: #f0f0f0;">
                     <div class="hero__categories__all">
                         <span>Dashboard</span>
                     </div>
@@ -444,16 +475,19 @@
                         {% for product in products %}
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                 <div class="row">
-                                    <div class="col-md-6 animated fadeInLeft">
+                                    <!-- Image Column -->
+                                    <div class="col-md-6 animated fadeInRight order-md-1">
+                                        <img class="d-block w-100" src="{{ product.image.url }}" alt="{{ product.title }}" style="height: 300px;">
+                                    </div>
+                                    
+                                    <!-- Text Content Column -->
+                                    <div class="col-md-6 animated fadeInLeft order-md-2">
                                         <div class="carousel-caption text-left">
                                             <h5 class="text-dark">{{ product.name }}</h5>
                                             <h3 class="text-danger">{{ product.discount }}% off</h3>
                                             <p class="text-dark">£{{ product.final_price|floatformat:2 }}</p>
                                             <a href="{% url 'product_detail' product.id %}" class="btn btn-success">SHOP NOW</a>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6 animated fadeInRight">
-                                        <img class="d-block w-100" src="{{ product.image.url }}" alt="{{ product.title }}" style="height: 300px;">
                                     </div>
                                 </div>
                             </div>
@@ -477,6 +511,7 @@
     </div>
 </section>
 <!-- Hero Section End -->
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
@@ -572,6 +607,10 @@
                     <div class="overlay d-flex align-items-center justify-content-center">
                         <div class="text-white">
                             <p><a href="#" class="text-white font-weight-bold">{{ product.name }}</a></p>
+                            <a href="{% url 'add_to_cart' product.id %}" class="icon"><i class="fas fa-shopping-cart text-danger"  style="font-size: 40px;"></i></a>
+                            <a href="{% url 'product_detail' product.id %}" class="icon"><i class="fas fa-eye  text-danger" style="font-size: 40px;"></i></a>
+                            <a href="{% url 'add_to_wishlist' product.id %}" class="icon"><i class="fas fa-heart text-danger"  style="font-size: 40px;"></i></a>
+                        
                         </div>
                     </div>
                 </div>
@@ -585,7 +624,7 @@
 <style>
     /* Categories Section Styles */
 .categories {
-    background-color: #f8f9fa;
+    background-color: #f0f0f0;
 }
 
 .categories h2 {
@@ -666,92 +705,105 @@
 
 
 <br>
+
 <!-- Categories Section Begin -->
-<section class="categories">
+<section class="categories px-5" style="background-color: white;">
     <style>
         /* General Styles */
-.section-title {
-    text-align: center;
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333;
-}
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
 
-.row {
-    display: flex;
-    justify-content: space-between;
-}
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
 
-/* Categories Styles */
-.categories {
-    padding: 40px 0;
-}
+        /* Categories Styles */
+        .categories {
+            padding: 40px 0;
+        }
 
-.categories__item {
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    padding-bottom: 10px;
-}
+        .categories__item {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
 
-.set-bg {
-    border-radius: 10px 10px 0 0;
-}
+        .set-bg {
+            border-radius: 10px 10px 0 0;
+            position: relative;
+        }
 
-.categories__item img {
-    width: 100%;
-    border-radius: 10px 10px 0 0;
+        .categories__item img {
+            width: 100%;
+            border-radius: 10px 10px 0 0;
+        }
 
-}
+        .categories__info {
+            padding: 10px;
+            text-align: center;
+        }
 
-.categories__info {
-    padding: 10px;
-    text-align: center;
-}
+        .product-name a {
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+        }
 
-.product-name a {
-    color: #333;
-    font-size: 18px;
-    font-weight: bold;
-    text-decoration: none;
-}
+        .product-price {
+            color: #777;
+            font-size: 16px;
+            margin: 5px 0;
+        }
 
-.product-price {
-    color: #777;
-    font-size: 16px;
-    margin: 5px 0;
-}
+        .categories__icons {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
 
-.categories__icons {
-    margin-top: 10px;
-}
+        .categories__item:hover .categories__icons {
+            opacity: 1;
+        }
 
-.categories__icons .icon {
-    margin: 0 5px;
-    color: #333;
-    font-size: 16px;
-    transition: color 0.3s;
-}
+        .categories__icons .icon {
+            margin: 0 5px;
+            color: #fff;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
 
-.categories__icons .icon:hover {
-    color: #ffd700; /* Gold color on hover */
-}
+        .categories__icons .icon:hover {
+            color: #ffd700; /* Gold color on hover */
+        }
 
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .row {
-        flex-direction: column;
-    }
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .row {
+                flex-direction: column;
+            }
 
-    .col-md-4 {
-        width: 100%;
-    }
-}
+            .col-md-4 {
+                width: 100%;
+            }
 
+            .categories__icons {
+                top: 70%;
+            }
+        }
     </style>
     <div class="container">
         <h2 class="section-title">New Products</h2>
@@ -761,17 +813,17 @@
                 {% for product in products|slice:":2" %}
                 <div class="categories__item">
                     <div class="set-bg" data-setbg="{{ product.image.url }}">
-                        <img src="{{ product.image.url }}"
-                         alt="{{ product.name }}" style="height: 100px;">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" style="height: 200px;">
+                        <div class="categories__icons">
+                            <a href="{% url 'add_to_cart' product.id %}" class="icon"><i class="fas fa-shopping-cart text-danger"  style="font-size: 40px;"></i></a>
+                            <a href="{% url 'product_detail' product.id %}" class="icon"><i class="fas fa-eye  text-danger" style="font-size: 40px;"></i></a>
+                            <a href="{% url 'add_to_wishlist' product.id %}" class="icon"><i class="fas fa-heart text-danger"  style="font-size: 40px;"></i></a>
+                        
+                        </div>
                     </div>
                     <div class="categories__info">
-                        <p class="product-name"><a href="#">{{ product.name }}</a></p>
+                        <p class="product-name">{{ product.name }}</p>
                         <p class="product-price">£{{ product.final_price|floatformat:2 }}</p>
-                        <div class="categories__icons">
-                            <a href="{% url 'add_to_cart' product.id %}" class="icon"><i class="fas fa-shopping-cart"></i></a>
-                            <a href="#" class="icon"><i class="fas fa-eye"></i></a>
-                            <a href="#" class="icon"><i class="fas fa-heart"></i></a>
-                        </div>
                     </div>
                 </div>
                 {% endfor %}
@@ -782,17 +834,16 @@
                 {% for product in products|slice:"2:3" %}
                 <div class="categories__item">
                     <div class="set-bg" data-setbg="{{ product.image.url }}">
-                        <img src="{{ product.image.url }}" 
-                        alt="{{ product.name }}">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" style="height: 200px;">
+                        <div class="categories__icons">
+                            <a href="{% url 'add_to_cart' product.id %}" class="icon"><i class="fas fa-shopping-cart text-danger"  style="font-size: 40px;"></i></a>
+                            <a href="{% url 'product_detail' product.id %}" class="icon"><i class="fas fa-eye  text-danger"  style="font-size: 40px;"></i></a>
+                            <a href="{% url 'add_to_wishlist' product.id %}" class="icon"><i class="fas fa-heart  text-danger"  style="font-size: 40px;"></i></a>
+                        </div>
                     </div>
                     <div class="categories__info">
-                        <p class="product-name"><a href="#">{{ product.name }}</a></p>
+                        <p class="product-name">{{ product.name }}</p>
                         <p class="product-price">£{{ product.final_price|floatformat:2 }}</p>
-                        <div class="categories__icons">
-                            <a href="{% url 'add_to_cart' product.id %}" class="icon"><i class="fas fa-shopping-cart"></i></a>
-                            <a href="#" class="icon"><i class="fas fa-eye"></i></a>
-                            <a href="#" class="icon"><i class="fas fa-heart"></i></a>
-                        </div>
                     </div>
                 </div>
                 {% endfor %}
@@ -803,17 +854,16 @@
                 {% for product in products|slice:"3:5" %}
                 <div class="categories__item">
                     <div class="set-bg" data-setbg="{{ product.image.url }}">
-                        <img src="{{ product.image.url }}"
-                         alt="{{ product.name }}"  style="height: 100px;">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" style="height: 200px;">
+                        <div class="categories__icons">
+                            <a href="{% url 'add_to_cart' product.id %}" class="icon"><i class="fas fa-shopping-cart  text-danger"  style="font-size: 40px;"></i></a>
+                            <a href="{% url 'product_detail' product.id %}" class="icon"><i class="fas fa-eye text-danger"  style="font-size: 40px;"></i></a>
+                            <a href="{% url 'add_to_wishlist' product.id %}" class="icon"><i class="fas fa-heart  text-danger"  style="font-size: 40px;"></i></a>
+                        </div>
                     </div>
                     <div class="categories__info">
-                        <p class="product-name"><a href="#">{{ product.name }}</a></p>
+                        <p class="product-name">{{ product.name }}</p>
                         <p class="product-price">£{{ product.final_price|floatformat:2 }}</p>
-                        <div class="categories__icons">
-                            <a href="{% url 'add_to_cart' product.id %}" class="icon"><i class="fas fa-shopping-cart"></i></a>
-                            <a href="#" class="icon"><i class="fas fa-eye"></i></a>
-                            <a href="#" class="icon"><i class="fas fa-heart"></i></a>
-                        </div>
                     </div>
                 </div>
                 {% endfor %}
@@ -822,8 +872,6 @@
     </div>
 </section>
 <!-- Categories Section End -->
-
-
 
 
 <!-- Footer Section Begin -->
@@ -988,11 +1036,14 @@
                 <div class="footer__widget">
                     <h6 class="text-white">Join Our Newsletter Now</h6>
                     <p class="text-white">Get E-mail updates about our latest shop and special offers.</p>
-                    <form method="post" action="{% url 'subscribe' %}">
-                        {% csrf_token %}
-                        <input type="email" name="email" class="form-control border-0 py-4" placeholder="Enter your email" required="required" />
-                        <button type="submit" class="site-btn">Subscribe</button>
-                    </form>
+                   <form method="post" action="{% url 'subscribe' %}" class="d-sm-flex justify-content-center align-items-center">
+    {% csrf_token %}
+    <div class="form-group mb-0 mr-sm-2">
+        <input type="email" name="email" class="form-control border-0 py-4" placeholder="Enter your email" required="required">
+    </div>
+    <button type="submit" class="btn btn-success mt-3 mt-sm-0">Subscribe</button>
+</form>
+
                     <div class="footer__widget__social">
                         <a href="#"><i class="fa fa-facebook"></i></a>
                         <a href="#"><i class="fa fa-instagram"></i></a>
