@@ -1,20 +1,30 @@
 {% extends "store/base.html" %}
 {% block content %}
+<style>
+  .img-fluid {
+  max-height: 100px;
+  object-fit: cover;
+}
+
+</style>
   <div class="container">
-    <h1 class="text-center mb-4">Recommended Products</h1>
+    <h3 class="text-center mb-4">Recommended Products</h3>
     <ul class="list-group">
       {% for product in recommendations %}
         <li class="list-group-item">
           <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-2">
+              <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
+            </div>
+            <div class="col-md-7">
               <h5>
-                <a href="{% url 'product_detail' product.id %}">
+                <a class="text-dark" href="{% url 'product_detail' product.id %}">
                   {{ product.name }}
                 </a>
               </h5>
-              <p class="mb-0">Price: {{ product.final_price }}</p>
+              <p class="mb-0">Price: £{{ product.final_price }}</p>
             </div>
-            <div class="col-md-3 text-right">
+            <div class="col-md-3 text-right align-self-center">
               <a class="btn btn-sm btn-primary" href="{% url 'product_detail' product.id %}">View Details</a>
             </div>
           </div>
@@ -22,5 +32,5 @@
       {% endfor %}
     </ul>
   </div>
+  <br><br>
 {% endblock %}
-

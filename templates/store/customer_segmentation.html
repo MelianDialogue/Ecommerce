@@ -1,11 +1,16 @@
 {% extends "store/base.html" %}
 {% block content %}
 
-<h1>Customer Segmentation</h1>
+<h3>Customer Segmentation</h3>
 
 <style>
+    .table-container {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
     table {
-        width: 100%;
+        width: 80%;
         border-collapse: collapse;
         margin: 20px 0;
         font-size: 18px;
@@ -29,7 +34,7 @@
     table tbody tr:last-of-type {
         border-bottom: 2px solid #009879;
     }
-    h1 {
+    h3 {
         font-family: 'Arial', sans-serif;
         color: #333333;
         text-align: center;
@@ -37,27 +42,29 @@
     }
 </style>
 
-<table>
-    <thead>
-        <tr>
-            <th>Customer ID</th>
-            <th>Age</th>
-            <th>Total Spent</th>
-            <th>Purchase Count</th>
-            <th>Segment</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for customer in segments %}
+<div class="table-container">
+    <table>
+        <thead>
             <tr>
-                <td>{{ customer.id }}</td>
-                <td>{{ customer.userprofile__age }}</td>
-                <td>{{ customer.total_spent }}</td>
-                <td>{{ customer.purchase_count }}</td>
-                <td>{{ customer.segment }}</td>
+                <th>Customer ID</th>
+                <th>Age</th>
+                <th>Total Spent</th>
+                <th>Purchase Count</th>
+                <th>Segment</th>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {% for customer in segments %}
+                <tr>
+                    <td>{{ customer.id }}</td>
+                    <td>{{ customer.userprofile__age }}</td>
+                    <td>{{ customer.total_spent }}</td>
+                    <td>{{ customer.purchase_count }}</td>
+                    <td>{{ customer.segment }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}
