@@ -1,0 +1,16 @@
+<!-- clv_prediction.html -->
+
+{% extends 'store/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Predicted Customer Lifetime Value</h1>
+    {% if clv %}
+        <p>Customer ID: {{ request.user.id }}</p>
+        <p>Predicted CLV: ${{ clv }}</p>
+        <!-- Display other CLV details as needed -->
+    {% else %}
+        <p>No CLV prediction available at the moment.</p>
+    {% endif %}
+</div>
+{% endblock %}

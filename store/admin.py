@@ -22,3 +22,9 @@ admin.site.register(UserProductInteraction)
 admin.site.register(SalesData)
 admin.site.register(Customer)
 
+from .models import DemandForecast, Product, SalesData
+
+# class DemandForecastAdmin(admin.ModelAdmin):
+#     list_display = ('product', 'forecast_date', 'forecast_quantity')
+
+admin.site.register(DemandForecast)

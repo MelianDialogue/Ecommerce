@@ -153,6 +153,16 @@ def subscribe(request):
         })
 
 
+
+def about(request):
+    return render(request, 'user_app/about.html')
+
+def shipping(request):
+    return render(request, 'user_app/shipping.html')
+
+
+
+
 @login_required
 def terms(request):
     return render(request, 'store/terms.html')

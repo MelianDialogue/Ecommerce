@@ -1,29 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentiment Analysis</title>
-</head>
-<body>
-    <h1>Customer Reviews and Sentiment Analysis</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Review</th>
-                <th>Sentiment</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for review in reviews %}
-            <tr>
-                <td>{{ review.user.username }}</td>
-                <td>{{ review.review_text }}</td>
-                <td>{{ review.sentiment }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
-</html>
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Customer Reviews and Sentiment Analysis</h1>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Review</th>
+                        <th scope="col">Sentiment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for review in reviews %}
+                    <tr>
+                        <td>{{ review.user.username }}</td>
+                        <td>{{ review.review_text }}</td>
+                        <td>
+                            {% if review.sentiment == 'positive' %}
+                                <span class="badge badge-success">Positive</span>
+                            {% elif review.sentiment == 'negative' %}
+                                <span class="badge badge-danger">Negative</span>
+                            {% else %}
+                                <span class="badge badge-secondary">Neutral</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

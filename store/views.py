@@ -1,3 +1,9 @@
+import numpy as np
+import tensorflow as tf
+
+from sklearn.neighbors import NearestNeighbors
+from .models import Product
+
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
@@ -501,226 +507,6 @@ def recommend_products(user_id):
     return recommended_products
 
 
-
-
-# machine learning implementation
-# ecommerce/views.py
-import requests
-import logging
-from django.conf import settings
-from django.shortcuts import render
-from .models import Product
-import os
-
-
-# Machine learning API
-ML_API_URL = 'http://127.0.0.1:8000//ml'
-
-logger = logging.getLogger(__name__)
-
-def _make_ml_request(url, method="GET", data=None):
-    try:
-        if method == "POST":
-            response = requests.post(url, json=data)
-        else:
-            response = requests.get(url)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Error with ML API request: {e}")
-        return {}
-    except ValueError as e:
-        logger.error(f"Error decoding JSON response: {e}")
-        return {}
-
-def get_recommendations(user_id):
-    return _make_ml_request(f"{settings.ML_API_URL}/recommend_products/{user_id}/") or []
-
-def get_dynamic_pricing(product_id):
-    return _make_ml_request(f"{settings.ML_API_URL}/dynamic_pricing/{product_id}/")
-
-def get_customer_segments():
-    return _make_ml_request(f"{settings.ML_API_URL}/customer_segmentation/")
-
-def get_churn_predictions():
-    return _make_ml_request(f"{settings.ML_API_URL}/churn_prediction/")
-
-def detect_fraud(transaction):
-    return _make_ml_request(f"{settings.ML_API_URL}/fraud_detection/", method="POST", data=transaction)
-
-def analyze_sentiment(review):
-    return _make_ml_request(f"{settings.ML_API_URL}/sentiment_analysis/", method="POST", data={"review": review})
-
-def get_demand_forecast():
-    return _make_ml_request(f"{settings.ML_API_URL}/forecast_demand/")
-
-def understand_user_query(query):
-    return _make_ml_request(f"{settings.ML_API_URL}/understand_query/", method="POST", data={"query": query})
-
-def image_based_search(image):
-    return _make_ml_request(f"{settings.ML_API_URL}/image_search/", method="POST", data={"image": image})
-
-def predict_customer_lifetime_value(user_id):
-    return _make_ml_request(f"{settings.ML_API_URL}/predict_clv/{user_id}/")
-
-def recommend_product_bundles(user_id):
-    return _make_ml_request(f"{settings.ML_API_URL}/recommend_bundles/{user_id}/")
-
-def personalize_email_content(user_id):
-    return _make_ml_request(f"{settings.ML_API_URL}/personalize_email/{user_id}/")
-
-def adaptive_search_ranking(query, user_id):
-    return _make_ml_request(f"{settings.ML_API_URL}/adaptive_ranking/", method="POST", data={"query": query, "user_id": user_id})
-
-def personalize_user_experience(user_id):
-    return _make_ml_request(f"{settings.ML_API_URL}/personalize_experience/{user_id}/")
-
-def recover_abandoned_cart(user_id):
-    return _make_ml_request(f"{settings.ML_API_URL}/recover_abandoned_cart/{user_id}/")
-
-def process_voice_search(voice_input):
-    return _make_ml_request(f"{settings.ML_API_URL}/voice_search/", method="POST", data={"voice_input": voice_input})
-
-def predict_trends():
-    return _make_ml_request(f"{settings.ML_API_URL}/predict_trends/")
-
-def chatbot_support(user_query):
-    return _make_ml_request(f"{settings.ML_API_URL}/support_chatbot/", method="POST", data={"query": user_query})
-
-def monitor_website_security():
-    return _make_ml_request(f"{settings.ML_API_URL}/monitor_security/")
-
-def analyze_user_behavior(user_id):
-    return _make_ml_request(f"{settings.ML_API_URL}/analyze_behavior/{user_id}/")
-
-def create_dynamic_landing_page(user_id):
-    return _make_ml_request(f"{settings.ML_API_URL}/create_dynamic_page/{user_id}/")
-
-def analyze_social_media_activity(user_id):
-    return _make_ml_request(f"{settings.ML_API_URL}/analyze_social_media/{user_id}/")
-
-def optimize_supply_chain():
-    return _make_ml_request(f"{settings.ML_API_URL}/optimize_supply_chain/")
-
-def fetch_analytics_dashboard():
-    return _make_ml_request(f"{settings.ML_API_URL}/analytics_dashboard/")
-
-def product_list(request):
-    products = Product.objects.all()
-    context = {
-        'products': products
-    }
-
-    if request.user.is_authenticated:
-        user_id = request.user.id
-        context.update({
-            'recommended_products': Product.objects.filter(id__in=get_recommendations(user_id)),
-            'bundled_recommendations': recommend_product_bundles(user_id),
-            'personalized_email': personalize_email_content(user_id),
-            'adaptive_ranking_results': adaptive_search_ranking(request.GET.get('query', ''), user_id),
-            'personalized_experience': personalize_user_experience(user_id),
-            'abandoned_cart_recovery': recover_abandoned_cart(user_id),
-            'user_behavior': analyze_user_behavior(user_id),
-            'dynamic_landing_page': create_dynamic_landing_page(user_id),
-            'social_media_analysis': analyze_social_media_activity(user_id),
-        })
-    
-    product_id = request.GET.get('product_id')
-    customer_id = request.GET.get('customer_id')
-    if product_id:
-        context['dynamic_pricing'] = get_dynamic_pricing(product_id)
-    if customer_id:
-        context['predicted_clv'] = predict_customer_lifetime_value(customer_id)
-    
-    post_data = request.POST
-    if post_data:
-        if 'review' in post_data:
-            context['sentiment_analysis'] = analyze_sentiment(post_data['review'])
-        if 'query' in post_data:
-            context['understood_query'] = understand_user_query(post_data['query'])
-        if 'image' in post_data:
-            context['image_search_results'] = image_based_search(post_data['image'])
-        if 'voice_input' in post_data:
-            context['voice_search_results'] = process_voice_search(post_data['voice_input'])
-        if 'user_query' in post_data:
-            context['chatbot_response'] = chatbot_support(post_data['user_query'])
-        if 'transaction' in post_data:
-            context['fraud_detection'] = detect_fraud(post_data['transaction'])
-    
-    context.update({
-        'customer_segments': get_customer_segments(),
-        'churn_predictions': get_churn_predictions(),
-        'demand_forecast': get_demand_forecast(),
-        'predicted_trends': predict_trends(),
-        'security_alerts': monitor_website_security(),
-        'supply_chain_optimization': optimize_supply_chain(),
-        'real_time_analytics': fetch_analytics_dashboard(),
-    })
-    
-    return render(request, 'store/product_list.html', context)
-
-
-from django.shortcuts import render
-from .models import Product
-
-def product_list(request):
-    products = Product.objects.all()
-    recommended_products = []
-    dynamic_pricing = {}
-    voice_search_results = ""
-    real_time_analytics = ""
-
-    # Assuming user authentication and ID retrieval
-    if request.user.is_authenticated:
-        user_id = request.user.id
-        # Fetch recommended products
-        recommended_products = Product.objects.filter(id__in=(get_recommendations(user_id) or []))
-    
-    # Fetch dynamic pricing for each product
-    for product in products:
-        dynamic_pricing[product.id] = get_dynamic_pricing(product.id) or product.price
-
-    # Handle POST request for voice search
-    if request.method == "POST":
-        query = request.POST.get('query', '')
-        voice_search_results = process_voice_search(query) if query else ""
-
-    # Fetch real-time analytics data
-    real_time_analytics = fetch_analytics_dashboard()
-
-    # Prepare context dictionary
-    context = {
-        'products': products,
-        'recommended_products': recommended_products,
-        'dynamic_pricing': dynamic_pricing,
-        'voice_search_results': voice_search_results,
-        'real_time_analytics': real_time_analytics,
-        'customer_segments': get_customer_segments(),
-        'churn_predictions': get_churn_predictions(),
-        'fraud_detection': detect_fraud({'transaction_id': 1, 'amount': 100.0, 'fraud': 0}),
-        'sentiment_analysis': analyze_sentiment("Great product, very satisfied."),
-        'demand_forecast': get_demand_forecast(),
-        'understood_query': understand_user_query("How can I help you today?"),
-        'image_search_results': image_based_search("image_file.jpg"),
-        'predicted_clv': predict_customer_lifetime_value(user_id),
-        'bundled_recommendations': recommend_product_bundles(user_id),
-        'personalized_email': personalize_email_content(user_id),
-        'adaptive_ranking_results': adaptive_search_ranking("product query", user_id),
-        'personalized_experience': personalize_user_experience(user_id),
-        'abandoned_cart_recovery': recover_abandoned_cart(user_id),
-        'predicted_trends': predict_trends(),
-        'chatbot_response': chatbot_support("How can I assist you?"),
-        'security_alerts': monitor_website_security(),
-        'user_behavior': analyze_user_behavior(user_id),
-        'dynamic_landing_page': create_dynamic_landing_page(user_id),
-        'social_media_analysis': analyze_social_media_activity(user_id),
-        'supply_chain_optimization': optimize_supply_chain(),
-    }
-    
-    return render(request, 'store/product_list.html', context)
-
-
-# views.py
 import numpy as np
 from django.db.models import Avg
 from django.shortcuts import render, get_object_or_404
@@ -759,7 +545,8 @@ def aggregate_recommendations(similar_users, user_id, num_recommendations=5):
 def recommend_products(request, user_id):
     similar_users = find_similar_users(user_id)
     recommendations = aggregate_recommendations(similar_users, user_id)
-    return render(request, 'store/recommendations.html', {'recommendations': recommendations})
+    recommended_products = Product.objects.filter(id__in=recommendations)
+    return render(request, 'store/recommendations.html', {'recommendations': recommended_products})
 
 # utils.py
 def get_current_demand(product_id):
@@ -803,7 +590,6 @@ def dynamic_price_update(request, product_id):
     product.price = new_price
     product.save()
     return redirect('product_detail', product_id=product_id)
-
 
 # management/commands/update_prices.py
 from django.core.management.base import BaseCommand
@@ -883,13 +669,23 @@ from sklearn.metrics import accuracy_score
 import pandas as pd
 from django.contrib.auth.models import User
 
+# churn_predictions
+import pandas as pd
+from django.contrib.auth.models import User
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, classification_report
+from sklearn.utils import shuffle
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Sum, Count
+
+from .models import Order
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from sklearn.impute import SimpleImputer
+from sklearn.pipeline import Pipeline
 
 
 def fetch_customer_data_with_churn():
@@ -903,19 +699,13 @@ def fetch_customer_data_with_churn():
     )
     purchase_df = pd.DataFrame(purchase_data)
     
-    # Assuming you have a way to determine if a customer has churned
-    # For example, customers who haven't made a purchase in the last 6 months
-    churn_data = determine_churn()  # This function needs to be implemented
+    churn_data = determine_churn()
     
     customer_data = customer_data.merge(purchase_df, left_on='id', right_on='user_id', how='left').fillna(0)
     customer_data = customer_data.merge(churn_data, left_on='id', right_on='user_id', how='left').fillna(0)
     
     return customer_data
 
-
-
-from sklearn.metrics import classification_report
-from sklearn.utils import shuffle
 
 def determine_churn():
     churn_data = []
@@ -929,13 +719,17 @@ def determine_churn():
     
     return pd.DataFrame(churn_data)
 
+
 def train_churn_model():
-    customer_data = determine_churn()
+    customer_data = fetch_customer_data_with_churn()
     
     # Check the distribution of churn labels
-    print(customer_data['churn'].value_counts())
+    churn_counts = customer_data['churn'].value_counts()
+    print(churn_counts)
     
-    # Shuffle the dataset to ensure randomness
+    if len(churn_counts) < 2:
+        raise ValueError("Not enough classes to train the model.")
+    
     customer_data = shuffle(customer_data)
     
     features = ['profile__age', 'total_spent', 'purchase_count']
@@ -951,14 +745,11 @@ def train_churn_model():
     model.fit(X_train, y_train)
     
     y_pred = model.predict(X_test)
-    print(classification_report(y_test, y_pred))  # Use classification report for evaluation
+    print(classification_report(y_test, y_pred))
     
     return model, scaler
 
 
-
-
-# Predict churn for all customers
 def predict_churn():
     model, scaler = train_churn_model()
     
@@ -973,26 +764,10 @@ def predict_churn():
     return customer_data[['id', 'churn_risk']]
 
 
-from django.shortcuts import render
-
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Sum
-from django.utils import timezone
-
-from sklearn.impute import SimpleImputer
-from sklearn.pipeline import Pipeline
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-
-from .models import Order
-
 @login_required
 def churn_prediction_view(request):
     profiles = Profile.objects.all()
     
-    # Create a DataFrame for churn prediction
     churn_data = {
         'profile__age': [profile.age for profile in profiles],
         'total_spent': [profile.total_spent for profile in profiles],
@@ -1000,61 +775,56 @@ def churn_prediction_view(request):
         'churn': [profile.churn for profile in profiles],
     }
     
-    import pandas as pd
     churn_df = pd.DataFrame(churn_data)
     
     if churn_df.empty:
         return render(request, 'store/error_page.html', {'message': 'No data available for churn prediction.'})
     
-    # Replace NaN values in churn_df with the mean of each column
     churn_df.fillna(churn_df.mean(), inplace=True)
     
-    X = churn_df[['profile__age', 'total_spent', 'purchase_count']]  # Adjust columns as per your DataFrame structure
+    X = churn_df[['profile__age', 'total_spent', 'purchase_count']]
     y = churn_df['churn']
     
-    # Split data into training and testing sets
+    # Check if the target variable has at least two classes
+    if y.nunique() < 2:
+        return render(request, 'store/error_page.html', {'message': 'Not enough class diversity to perform churn prediction.'})
+    
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
-    # Create a pipeline with an imputer and logistic regression model
     pipeline = Pipeline([
-        ('imputer', SimpleImputer(strategy='mean')),  # Replace NaN with mean of each column
+        ('imputer', SimpleImputer(strategy='mean')),
         ('logreg', LogisticRegression()),
     ])
     
-    # Fit the pipeline on training data
     pipeline.fit(X_train, y_train)
     
-    # Predict churn on test data
     y_pred = pipeline.predict(X_test)
     
-    # Evaluate accuracy
     accuracy = accuracy_score(y_test, y_pred)
     
     return render(request, 'store/churn_prediction.html', {'accuracy': accuracy})
 
 
-# Assuming necessary imports and models are already defined
 
+
+
+# store/views.py
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from sklearn.ensemble import IsolationForest
 import pandas as pd
-from .models import Order, CartItem
-from .models import Transaction 
-
-# store/views.py
+from .models import Transaction
 
 def fetch_transactions():
-    # Replace with your logic to fetch transaction data from database or API
-    transactions = Transaction.objects.all()  # Example: Assuming Transaction is your model
+    # Fetch transaction data from the database
+    transactions = Transaction.objects.all()  # Assuming Transaction is your model
     return transactions
-
 
 @login_required
 def detect_fraud_view(request):
-    transactions = fetch_transactions()  # Assuming you implement this function to fetch transaction data
+    transactions = fetch_transactions()
     
-    if transactions is None or len(transactions) == 0:
+    if not transactions.exists():
         return render(request, 'store/error_page.html', {'message': 'No transactions available.'})
     
     # Convert transactions into a DataFrame
@@ -1088,179 +858,13 @@ def detect_fraud_view(request):
     return render(request, 'store/fraud_detection.html', context)
 
 
+
 from django.shortcuts import render
 from .models import Review
 
 def analyze_sentiment_view(request):
     reviews = Review.objects.all()
     return render(request, 'store/analyze_sentiment.html', {'reviews': reviews})
-
-
-# import pandas as pd
-# from statsmodels.tsa.holtwinters import ExponentialSmoothing
-
-
-# def forecast_demand(sales_data):
-#     # Convert sales data to a DataFrame
-#     df = pd.DataFrame(sales_data)
-#     df['sales_date'] = pd.to_datetime(df['sales_date'])
-#     df = df.set_index('sales_date')
-
-#     # Perform time series analysis
-#     model = ExponentialSmoothing(df['sales_quantity'], trend='add', seasonal='add', seasonal_periods=12)
-#     fit = model.fit()
-
-    # Forecast for the next 12 periods
-    forecast = fit.forecast(12)
-    return forecast
-
-# from django.shortcuts import render
-# from django.http import HttpResponse
-# from .models import SalesData
-# import pandas as pd
-# from statsmodels.tsa.holtwinters import ExponentialSmoothing
-
-# def forecast_demand(sales_data):
-#     # Convert sales data to a DataFrame
-#     df = pd.DataFrame(sales_data)
-    
-#     # Debugging: Print the first few rows of the DataFrame
-#     print(df.head())
-    
-#     df['sales_date'] = pd.to_datetime(df['sales_date'])
-#     df = df.set_index('sales_date')
-
-#     # Perform time series analysis
-#     model = ExponentialSmoothing(df['sales_quantity'], trend='add', seasonal='add', seasonal_periods=12)
-#     fit = model.fit()
-
-#     # Forecast for the next 12 periods
-#     forecast = fit.forecast(12)
-#     return forecast
-
-# def forecast_demand_view(request):
-#     # Fetch sales data from the database
-#     sales_data = SalesData.objects.all().values('sales_date', 'sales_quantity')
-
-#     # Debugging: Print the first few rows of the sales_data
-#     print(list(sales_data))
-    
-#     # Forecast demand
-#     try:
-#         demand_forecast = forecast_demand(sales_data)
-#     except KeyError as e:
-#         return HttpResponse(f"KeyError: {e}", status=400)
-    
-#     context = {
-#         'demand_forecast': demand_forecast
-#     }
-#     return render(request, 'store/forecast_demand.html', context)
-
-
-
-# import spacy
-
-# # Load the spaCy model
-# nlp = spacy.load("en_core_web_sm")
-
-# def understand_query(query):
-#     doc = nlp(query)
-#     keywords = [token.text for token in doc if token.is_alpha and not token.is_stop]
-#     return keywords
-
-# from django.shortcuts import render
-# from .models import Product
-
-# def search_view(request):
-#     query = request.GET.get('q', '')
-#     keywords = understand_query(query)
-    
-#     # Search for products containing any of the keywords in their name or description
-#     products = Product.objects.filter(
-#         name__icontains=keywords[0]  # Simplified for demonstration; refine as needed
-#     )
-#     for keyword in keywords[1:]:
-#         products = products | Product.objects.filter(
-#             name__icontains=keyword
-#         )
-
-#     context = {
-#         'query': query,
-#         'keywords': keywords,
-#         'products': products
-#     }
-#     return render(request, 'store/search_results.html', context)
-
-
-# import numpy as np
-# import tensorflow as tf
-# import cv2
-# from sklearn.neighbors import NearestNeighbors
-# from .models import Product
-
-# # Load MobileNet model
-# model = tf.keras.applications.MobileNetV2(weights='imagenet', include_top=False, pooling='avg')
-
-# def preprocess_image(image):
-#     # Convert image to RGB
-#     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-#     # Resize image to 224x224
-#     image = cv2.resize(image, (224, 224))
-#     # Convert to array and expand dimensions
-#     image = tf.keras.preprocessing.image.img_to_array(image)
-#     image = np.expand_dims(image, axis=0)
-#     # Preprocess the image
-#     image = tf.keras.applications.mobilenet_v2.preprocess_input(image)
-#     return image
-
-# def extract_image_features(image):
-#     preprocessed_image = preprocess_image(image)
-#     features = model.predict(preprocessed_image)
-#     return features
-
-# def find_similar_products(features, n_neighbors=5):
-#     # Load all product images and extract features
-#     products = Product.objects.all()
-#     product_features = []
-#     product_ids = []
-
-#     for product in products:
-#         if product.image:
-#             image_path = product.image.url
-#             image = cv2.imread(image_path)
-#             if image is not None:
-#                 product_features.append(extract_image_features(image))
-#                 product_ids.append(product.id)
-
-#     # Stack features and fit NearestNeighbors model
-#     product_features = np.vstack(product_features)
-#     nn_model = NearestNeighbors(n_neighbors=n_neighbors, metric='cosine').fit(product_features)
-#     distances, indices = nn_model.kneighbors(features)
-
-#     # Get product IDs of similar products
-#     similar_products = [products[idx] for idx in indices[0]]
-#     return similar_products
-
-
-# from django.shortcuts import render
-# from django.core.files.uploadedfile import UploadedFile
-# from .utils import extract_image_features, find_similar_products
-
-# def image_search_view(request):
-#     if request.method == 'POST' and request.FILES['image']:
-#         uploaded_image = request.FILES['image']
-#         image = cv2.imdecode(np.fromstring(uploaded_image.read(), np.uint8), cv2.IMREAD_UNCHANGED)
-
-#         # Extract features and find similar products
-#         features = extract_image_features(image)
-#         similar_products = find_similar_products(features)
-
-#         context = {
-#             'similar_products': similar_products
-#         }
-#         return render(request, 'store/image_search_results.html', context)
-
-#     return render(request, 'store/image_search.html')
 
 
 import pandas as pd
@@ -1328,69 +932,388 @@ def predict_clv_view(request, customer_id):
     return render(request, 'store/predict_clv.html', context)
 
 
-# import pandas as pd
-# from mlxtend.frequent_patterns import apriori, association_rules
-# from .models import Customer, Transaction, Product
+# views.py
 
-# def load_purchase_history():
-#     transactions = Transaction.objects.all()
-#     data = []
-#     for transaction in transactions:
-#         data.append({
-#             'transaction_id': transaction.id,
-#             'product_id': transaction.product.id,
-#             'customer_id': transaction.customer.id
-#         })
-#     df = pd.DataFrame(data)
-#     return df
+from django.shortcuts import render
+from .models import DemandForecast
 
-# def association_rule_mining(purchase_history):
-#     basket = (purchase_history.groupby(['transaction_id', 'product_id'])['product_id']
-#               .count().unstack().reset_index().fillna(0).set_index('transaction_id'))
-#     basket = basket.applymap(lambda x: 1 if x > 0 else 0)
-    
-#     frequent_itemsets = apriori(basket, min_support=0.01, use_colnames=True)
-#     rules = association_rules(frequent_itemsets, metric="lift", min_threshold=1)
-    
-#     rules = rules.sort_values(['confidence', 'lift'], ascending=[False, False])
-    
-#     return rules
-
-# def recommend_bundles(user_id):
-#     try:
-#         customer = Customer.objects.get(id=user_id)
-#     except Customer.DoesNotExist:
-#         return None
-
-#     purchase_history = load_purchase_history()
-#     rules = association_rule_mining(purchase_history)
-    
-#     user_transactions = purchase_history[purchase_history['customer_id'] == user_id]
-#     user_products = user_transactions['product_id'].unique()
-    
-#     recommendations = []
-#     for product in user_products:
-#         antecedents = rules[rules['antecedents'].apply(lambda x: product in x)]
-#         for _, row in antecedents.iterrows():
-#             recommendations.extend(list(row['consequents']))
-    
-#     recommendations = list(set(recommendations) - set(user_products))
-#     recommended_products = Product.objects.filter(id__in=recommendations)
-    
-#     return recommended_products
-
-from django.shortcuts import render, get_object_or_404
-from .models import Customer
+def forecast_list(request):
+    forecasts = DemandForecast.objects.all()
+    return render(request, 'store/forecast_list.html', {'forecasts': forecasts})
 
 
-def recommend_bundles_view(request, user_id):
-    customer = get_object_or_404(Customer, id=user_id)
+
+# views.py
+
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from prophet import Prophet
+from django.shortcuts import render
+from .models import SalesData, UserBehavior
+
+def gather_sales_data():
+    sales_data = SalesData.objects.all().values()
+    return pd.DataFrame(sales_data)
+
+def gather_social_media_data():
+    social_data = UserBehavior.objects.all().values()
+    return pd.DataFrame(social_data)
+
+def predictive_model(sales_data, social_media_data):
+    # Preprocessing
+    sales_data['sales_date'] = pd.to_datetime(sales_data['sales_date'])
+    sales_data.set_index('sales_date', inplace=True)
+    sales_data_resampled = sales_data.resample('M').sum()
+    
+    # Merge datasets
+    social_media_data['query_date'] = pd.to_datetime(social_media_data['created_at'])
+    social_media_data.set_index('query_date', inplace=True)
+    social_media_resampled = social_media_data.resample('M').sum()
+
+    merged_data = pd.concat([sales_data_resampled, social_media_resampled], axis=1).fillna(0)
+
+    # Scale data
+    scaler = StandardScaler()
+    scaled_data = scaler.fit_transform(merged_data)
+
+    # Principal Component Analysis
+    pca = PCA(n_components=2)
+    principal_components = pca.fit_transform(scaled_data)
+
+    # Prepare data for Prophet
+    df = pd.DataFrame({
+        'ds': merged_data.index,
+        'y': principal_components[:, 0]
+    })
+
+    # Fit and forecast with Prophet
+    model = Prophet()
+    model.fit(df)
+    future = model.make_future_dataframe(periods=12, freq='M')
+    forecast = model.predict(future)
+
+    return forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']]
+
+def predict_trends():
+    sales_data = gather_sales_data()
+    social_media_data = gather_social_media_data()
+    trends = predictive_model(sales_data, social_media_data)
+    return trends
+
+def trends_view(request):
+    trends = predict_trends()
+    return render(request, 'store/product_list.html', {'trends': trends.to_dict(orient='records')})
+
+
+from django.shortcuts import get_object_or_404, redirect, render
+from .models import Cart, AbandonedCart
+# from .utils import send_recovery_email
+
+def recover_abandoned_cart(request, user_id):
+    cart = get_object_or_404(Cart, user_id=user_id)
+    abandoned_cart, created = AbandonedCart.objects.get_or_create(cart=cart)
+
+    if created:
+        send_recovery_email(abandoned_cart)  # Send recovery email logic goes here
+
+    return render(request, 'store/recovery_success.html', {'cart': cart})
+
+from django.core.mail import send_mail
+from django.conf import settings
+
+def send_recovery_email(abandoned_cart):
+    user_email = abandoned_cart.user.email
+    cart_items = abandoned_cart.cart.cartitem_set.all()
+
+    # Construct the email content
+    subject = 'Recover Your Abandoned Cart'
+    message = f'Hello {abandoned_cart.user.username},\n\n'
+    message += 'You have abandoned the following items in your cart:\n'
+    for item in cart_items:
+        message += f'- {item.product.name}, Quantity: {item.quantity}\n'
+    message += '\nPlease visit our website to complete your purchase.\n\n'
+    message += 'Thank you!\n'
+    message += 'Your Store Team'
+
+    # Send the email
+    send_mail(subject, message, settings.EMAIL_HOST_USER, [user_email])
+
+
+def get_real_time_profile(user):
+    try:
+        user_profile = Profile.objects.get(user=user)
+    except Profile.DoesNotExist:
+        user_profile = None
+    
+    return user_profile
+
+
+def personalize_ui(user_profile):
+    personalized_content = {}
+
+    if user_profile:
+        if user_profile.interests:
+            personalized_content['interests'] = user_profile.interests
+        if user_profile.bio:
+            personalized_content['bio'] = user_profile.bio
+    
+    return personalized_content
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+# from .utils import get_real_time_profile, personalize_ui
+
+@login_required
+def personalized_view(request):
+    user_profile = get_real_time_profile(request.user)
+    personalized_content = personalize_ui(user_profile)
+
+    return render(request, 'store/personalized_view.html', {'personalized_content': personalized_content})
+
+
+from .models import UserBehavior, Product
+
+def adaptive_ranking(query, user_id):
+    try:
+        user_behavior = UserBehavior.objects.filter(user_id=user_id, query=query).latest('id')
+    except UserBehavior.DoesNotExist:
+        user_behavior = None
+
+    # Example logic to rank search results based on user behavior
+    if user_behavior:
+        ranked_results = rank_search_results(query, user_behavior)
+    else:
+        ranked_results = rank_search_results(query)
+
+    return ranked_results
+
+def rank_search_results(query, user_behavior=None):
+    # Example ranking logic, adjust as per your application's requirements
+    if user_behavior:
+        # Example: Rank products based on user clicks or interactions
+        ranked_products = Product.objects.filter(name__icontains=query).order_by('-demand')
+    else:
+        # Default ranking without user behavior influence
+        ranked_products = Product.objects.filter(name__icontains=query).order_by('-created_at')
+
+    return ranked_products
+
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+# from .utils import adaptive_ranking
+from .models import Product
+
+@login_required
+def search_view(request):
+    query = request.GET.get('q', '')
+    user_id = request.user.id
+
+    ranked_results = adaptive_ranking(query, user_id)
+
+    return render(request, 'store/search_results.html', {'query': query, 'ranked_results': ranked_results})
+
+
+# utils.py
+
+from .models import Preference
+
+def get_user_preferences(user_id):
+    try:
+        preferences = Preference.objects.get(user_id=user_id)
+    except Preference.DoesNotExist:
+        preferences = None
+    
+    return preferences
+
+def generate_email_content(preferences):
+    if preferences:
+        # Example logic to generate email content based on preferences
+        email_content = f"Dear {preferences.user.username}, here is your personalized email content."
+    else:
+        email_content = "Generic email content when preferences are not available."
+    
+    return email_content
+
+# views.py
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+# from .utils import get_user_preferences, generate_email_content
+
+@login_required
+def send_personalized_email(request):
+    user_id = request.user.id
+    preferences = get_user_preferences(user_id)
+    email_content = generate_email_content(preferences)
+    
+    # Example: Send email using Django's send_mail function
+    send_mail(
+        'Subject here',
+        email_content,
+        'from@example.com',
+        [request.user.email],
+        fail_silently=False,
+    )
+    
+    return render(request, 'store/email_sent.html', {'email_content': email_content})
+
+
+# views.py
+
+from django.shortcuts import render
+from .models import OrderItem, Product
+
+def recommend_bundles(user_id):
+    # Placeholder for association rule mining or other recommendation logic
+    # For simplicity, let's assume we're recommending based on frequently co-purchased items
+    purchase_history = OrderItem.objects.filter(order__user_id=user_id)
+    bundle_recommendations = {}
+
+    # Iterate over each order item and find frequently co-purchased products
+    for order_item in purchase_history:
+        related_items = OrderItem.objects.filter(order__orderitem__product=order_item.product).exclude(product=order_item.product)
+        
+        for related_item in related_items:
+            if related_item.product not in bundle_recommendations:
+                bundle_recommendations[related_item.product] = 0
+            bundle_recommendations[related_item.product] += 1
+    
+    # Sort bundle recommendations by frequency
+    sorted_bundles = sorted(bundle_recommendations.items(), key=lambda x: x[1], reverse=True)[:5]  # Top 5 bundles
+    
+    return sorted_bundles
+
+def display_bundle_recommendations(request):
+    user_id = request.user.id
     bundles = recommend_bundles(user_id)
-
-    context = {
-        'customer': customer,
-        'bundles': bundles
-    }
-    return render(request, 'store/recommend_bundles.html', context)
+    return render(request, 'store/bundle_recommendations.html', {'bundles': bundles})
 
 
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+# Example CLV model (using Linear Regression for demonstration)
+clv_model = LinearRegression()
+
+# Example function to predict CLV
+def predict_clv(customer_id):
+    try:
+        # Fetch the user and related profile data
+        customer = User.objects.get(pk=customer_id)
+        profile = Profile.objects.get(user=customer)  # Retrieve profile related to the user
+
+        # Example: Accessing attributes from Profile model
+        customer_data = np.array([[profile.purchase_count, profile.age, profile.total_spent]])
+
+        # Example of using the model to predict CLV (replace with your actual prediction logic)
+        clv_prediction = clv_model.predict(customer_data)
+
+        return clv_prediction
+
+    except User.DoesNotExist:
+        return None  # Handle the case where user with given customer_id does not exist
+    except Profile.DoesNotExist:
+        return None  # Handle the case where profile for the user does not exist
+
+@login_required
+def display_clv_prediction(request):
+    # Assuming customer_id is passed through request or retrieved from logged-in user
+    customer_id = request.user.id  # Adjust how you fetch customer_id based on your authentication logic
+    clv = predict_clv(customer_id)
+
+    return render(request, 'store/clv_prediction.html', {'clv': clv})
+
+
+import numpy as np
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from .models import Product
+
+import cloudinary.uploader
+import requests
+from io import BytesIO
+from PIL import Image
+
+@csrf_exempt
+def image_search(request):
+    results = None
+    if request.method == 'POST' and 'image' in request.FILES:
+        image = request.FILES['image']
+
+        # Save the uploaded image to Cloudinary
+        upload_result = cloudinary.uploader.upload(image)
+        image_url = upload_result.get('url')
+
+        if image_url:
+            # Fetch the image from the URL
+            response = requests.get(image_url)
+            if response.status_code == 200:
+                image_data = np.array(Image.open(BytesIO(response.content)))
+
+                if image_data.size > 0:
+                    # Extract features from the image data
+                    features = extract_image_features(image_data)
+
+                    # Find similar products
+                    results = find_similar_products(features)
+                else:
+                    print("Empty image data received from Cloudinary.")
+            else:
+                print("Failed to retrieve image from Cloudinary.")
+        else:
+            print("Failed to upload image to Cloudinary.")
+
+    return render(request, 'store/image_search.html', {'results': results})
+
+
+
+
+import numpy as np
+import cv2
+from sklearn.metrics.pairwise import cosine_similarity
+from .models import Product
+
+def extract_image_features(image_path):
+    # Example: Using OpenCV to process the image and extract features
+    image = cv2.imread(image_path)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = cv2.resize(image, (100, 100)).flatten()  # Resize and flatten for simplicity
+    return image
+
+def find_similar_products(features, top_n=5):
+    products = Product.objects.all()
+    similarities = []
+
+    for product in products:
+        product_image_path = product.image.path  # Ensure your Product model has an image field
+        product_features = extract_image_features(product_image_path)
+        similarity = cosine_similarity([features], [product_features])
+        similarities.append((product, similarity[0][0]))
+
+    # Sort products based on similarity score and return the top N results
+    similarities.sort(key=lambda x: x[1], reverse=True)
+    return [product for product, _ in similarities[:top_n]]
+
+
+from django.shortcuts import render
+from .models import Product
+
+
+def search_products(request):
+    query = request.GET.get('q', '')
+    products = None
+    if query:
+        # Understand the query using NLP
+        keywords = understand_query(query)
+        
+        # Search products based on keywords
+        products = Product.objects.filter(
+            name__icontains=keywords[0] if keywords else ''
+        )  # Example for simplicity, enhance as needed
+
+    return render(request, 'store/search_results.html', {'products': products, 'query': query})

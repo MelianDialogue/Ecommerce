@@ -97,7 +97,7 @@
                     <div class="product__item__text">
                         <h6><a href="{% url 'product_detail' similar_product.id %}">{{ similar_product.name }}</a></h6>
                         <div class="d-flex justify-content-center">
-                            <h6 class="mr-2">Price: <span class="price">${{ similar_product.price }}</span></h6>
+                            <h6 class="mr-2">Price: <span class="price">£{{ similar_product.price }}</span></h6>
                             <h6 class="mr-2">Discount: <span class="discount">{{ similar_product.discount }}%</span></h6>
                             <h6>Final Price: <span class="final-price">${{ similar_product.final_price }}</span></h6>
                         </div>

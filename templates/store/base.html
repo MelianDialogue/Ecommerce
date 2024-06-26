@@ -1,216 +1,319 @@
 <!DOCTYPE html>
-{% load static %}
-<html lang="zxx">
-
-<head>
-    <meta charset="utf-8">
-    <title>MountGuard</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta  name="keywords">
-    <meta  name="description">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{% static 'img/icon.png' %}"/>
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
-
-    <!-- Animate.css Stylesheet -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-</head>
-
-
-
-    <meta charset="UTF-8">
-    <meta name="description" content="Ogani Template">
-    <meta name="keywords" content="Ogani, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MountGuard</title>
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'assets/css/elegant-icons.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'assets/css/nice-select.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'assets/css/jquery-ui.min.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'assets/css/slicknav.min.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" type="text/css">
-</head>
-
-<body>
-  <!-- Page Preloder -->
-  <div id="preloder">
+    {% load static %}
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Branchy</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="{% static 'img/icon.png' %}"/>
+        <!-- Google Font -->
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+        <!-- Css Styles -->
+        <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'assets/css/elegant-icons.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'assets/css/nice-select.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'assets/css/jquery-ui.min.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'assets/css/slicknav.min.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" type="text/css">
+        <style>
+            /* Basic Styling */
+            .logo-container {
+                width: 60px;
+                height: 60px;
+            }
+            .logo {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+            .call-us-section {
+                font-size: 18px;
+            }
+            .navbar-nav .nav-link {
+                font-weight: 500;
+                color: #fff;
+                transition: color 0.3s ease;
+            }
+    
+            /* Additional Styling for Professional Look */
+            header .container {
+                max-width: 1200px;
+            }
+    
+            header h1 {
+                font-size: 1.5rem;
+                color: #333;
+            }
+    
+            .call-us-section .call-us-text {
+                font-weight: bold;
+                color: #007bff;
+            }
+    
+            .call-us-section .toll-free-text {
+                font-size: 1rem;
+                color: #6c757d;
+            }
+    
+            header .btn-group .btn,
+            header .btn-outline-secondary {
+                border-radius: 20px;
+                font-size: 0.875rem;
+                padding: 0.375rem 1rem;
+            }
+    
+    
+            .navbar .navbar-nav .dropdown-menu {
+                border-radius: 0.5rem;
+                z-index: 1000;
+            }
+    
+            .navbar .fa-shopping-bag {
+                font-size: 1.5rem;
+            }
+    
+            .navbar .form-control {
+                border-radius: 20px;
+                font-size: 0.875rem;
+            }
+    
+            .navbar .btn-outline-success {
+                border-radius: 20px;
+                font-size: 0.875rem;
+            }
+    
+            /* Specific styling for increased height */
+            .navbar-expand-lg .navbar-nav .nav-link {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+            }
+    
+            /* Color and Spacing Adjustments */
+            .top-header {
+                background-color: #f8f9fa;
+                padding: 10px 0;
+            }
+            .middle-header {
+                background-color: #ffffff;
+                padding: 20px 0;
+            }
+            .navbar {
+                background-color: #2c3742;
+                padding: 20px 0;
+            }
+    
+            /* Notification styling */
+            .notification-btn .badge {
+                font-size: 0.75rem;
+            }
+    
+            .notifications {
+                display: none;
+                max-width: 300px;
+                right: 0;
+                top: 40px;
+                z-index: 1000;
+                border: 1px solid #ccc;
+                background-color: #fff;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+    
+            .notification-btn:hover .notifications {
+                display: block;
+            }
+    
+            .banner {
+                background: #f1f1f1;
+                padding: 20px 0;
+                text-align: center;
+            }
+    
+            .banner h2 {
+                font-size: 1.2rem;
+                color: #007bff;
+            }
+    
+            .banner i {
+                font-size: 2rem;
+                color: #007bff;
+                margin-bottom: 10px;
+            }
+    
+            /* Added CSS */
+            .cart-link {
+                position: relative;
+                display: inline-block;
+                color: inherit;
+                text-decoration: none;
+            }
+    
+            .cart-icon-bg {
+                position: relative;
+                display: inline-block;
+                background-color: red;
+                border-radius: 50%;
+                padding: 5px;
+            }
+    
+            .cart-count {
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                font-size: 0.8rem;
+            }
+    
+            /* Custom Mobile Styles */
+            @media (max-width: 767px) {
+                .call-us-section {
+                    margin-bottom: 20px;
+                    text-align: center;
+                }
+                .call-us-section .toll-free-text {
+                    margin-top: 5px;
+                }
+                .middle-header .col-md-6 {
+                    text-align: center;
+                }
+                .middle-header h1 {
+                    margin-top: 10px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+ <!-- Page Preloder -->
+ <div id="preloder">
     <div class="loader"></div>
 </div>
-
-<!-- Humberger Begin -->
-<div class="humberger__menu__overlay"></div>
-<div class="humberger__menu__wrapper">
-    <div class="humberger__menu__logo">
-        <a href="#"><h4 class="text-dark">MountGuard</h4></a>
-    </div>
-    <div class="humberger__menu__cart">
-        <ul>
-            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
-        </ul>
-    </div>
-    <div class="humberger__menu__widget">
-        <div class="header__top__right__language">
-            <img src="img/language.png" alt="">
-            <div>English</div>
-            <span class="arrow_carrot-down"></span>
-            <ul>
-                <li><a href="#">Spanis</a></li>
-                <li><a href="#">English</a></li>
-            </ul>
-        </div>
-        <div class="header__top__right__auth">
-            <a href="{% url 'login-url' %}"><i class="fa fa-user"></i> Login</a>
-        </div>
-    </div>
-    <nav class="humberger__menu__nav mobile-menu">
-            <li class="active"><a href="{% url 'home-url' %}">Home</a></li>
-            <li><a href="{% url 'product_list' %}">Products</a></li>
-            <li><a href="#">Pages</a>
-                <ul class="header__menu__dropdown">
-                    <li><a href="{% url 'cart_detail' %}">Shoping Cart</a></li>
-                </ul>
-            </li>
-            <li><a href="{% url 'blog_list' %}">Blog</a></li>
-            <li><a href="{% url 'contact' %}">Contact</a></li>
-        </ul>
-    </nav>
-    <div id="mobile-menu-wrap"></div>
-    <div class="header__top__right__social">
-        <a href="#"><i class="fa fa-facebook"></i></a>
-        <a href="#"><i class="fa fa-twitter"></i></a>
-        <a href="#"><i class="fa fa-linkedin"></i></a>
-        <a href="#"><i class="fa fa-pinterest-p"></i></a>
-    </div>
-    <div class="humberger__menu__contact">
-        <ul>
-            <li><i class="fa fa-envelope"></i> hello@meliandialogue.com</li>
-            <li>Free Shipping for all Order of $100</li>
-        </ul>
-    </div>
-</div>
-<!-- Humberger End -->
-
-
- <!-- Header Section Begin -->
- <header class="header">
-    <div class="header__top">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-6">
-                    <div class="header__top__left">
-                        <ul>
-                            <li><i class="fa fa-envelope"></i> hello@meliandialogue.com</li>
-                            <li>Free Shipping for all Order of $100</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="header__top__right">
-                        <div class="header__top__right__social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-linkedin"></i></a>
-                            <a href="#"><i class="fa fa-pinterest-p"></i></a>
-                        </div>
-                        <div class="header__top__right__language">
-                            <img src="img/language.png" alt="">
-                            <div>English</div>
-                            <span class="arrow_carrot-down"></span>
-                            <ul>
-                                <li><a href="#">Spanis</a></li>
-                                <li><a href="#">English</a></li>
+        <header class="container-fluid top-header border-bottom">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-start">
+                        <div class="btn-group me-2">
+                            <button class="btn btn-light dropdown-toggle" type="button"
+                             data-bs-toggle="dropdown">
+                                Select Currency: GBP
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">GBP</a></li>
+                                <li><a class="dropdown-item" href="#">USD</a></li>
                             </ul>
                         </div>
-                        <div class="header__top__right__auth">
-                            <a href="{% url 'login-url' %}"><i class="fa fa-user"></i> Login</a>
-                        </div>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <a href="{% url 'login-url' %}"><button class="btn btn-outline-secondary">Login or Sign Up</button></a>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3">
-                <div class="header__logo">
-                    <a href="{% url 'home-url' %}"><h2 class="text-dark">MountGuard</h2></a>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <nav class="header__menu">
-                    <ul>
-                        <li class="active"><a href="{% url 'home-url' %}">Home</a></li>
-                        <li><a href="{% url 'product_list' %}">Products</a></li>
-                        <li><a href="#">Pages</a>
-                            <ul class="header__menu__dropdown">
-                                <li><a href="{% url 'product_list' %}">Shop Details</a></li>
-                                <li><a href="{% url 'cart_detail' %}">Shoping Cart</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="{% url 'blog_list' %}">Blog</a></li>
-                        <li><a href="{% url 'contact' %}">Contact</a></li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="col-lg-3">
-                <div class="header__cart">
-                    <ul>
-                        <li>
-                            {% if request.user.is_authenticated %}
-                            <a href="#" class="btn animate__animated animate__bounceIn position-relative notification-btn">
-                                <i class="fa fa-bell text-primary"></i>
-                                {% if request.user.notification_set.all %}
-                                    <span class="badge badge-pill badge-danger position-absolute top-0 start-100 translate-middle">{{ request.user.notification_set.count }}</span>
-                                {% endif %}
+        </header>
+    
+        <header class="container-fluid middle-header border-bottom">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center justify-content-center justify-content-md-start">
+                           
+                                <div class="logo-container me-md-3">
+                                    <a href="">
+                                    <img src="{% static 'img/icon.png' %}" alt="Branchy Logo" class="logo">
+                                     </a>
+                                </div>
+                                <a href="" style="text-decoration: none;">
+                                <h1 class="mb-0" style="font-weight: 900;">BRANCHY</h1>
                             </a>
-                            <ul class="notifications list-group position-absolute">
-                                {% for notification in request.user.notification_set.all %}
-                                    <li class="list-group-item">{{ notification.message }}</li>
-                                {% endfor %}
-                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center call-us-section">
+                        <div class="call-us-text fw-bold text-muted">CALL US NOW</div>
+                        <div class="toll-free-text text-muted">
+                            <i class="fas fa-phone-alt"></i> Toll Free: +447508516836
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center call-us-section">
+                        <a href="#" class="cart-link">
+                            <span class="cart-icon-bg">
+                                <i class="fa fa-shopping-bag text-white" style="font-size: 1.5rem;"></i>
+                            </span>
+                            <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
+                        </a>
+                        {% if request.user.is_authenticated %}
+                        <a href="#" class="btn animate__animated animate__bounceIn position-relative notification-btn">
+                            <i class="fa fa-bell text-success" style="font-size: 1.5rem;"></i>
+                            {% if request.user.notification_set.all %}
+                                <span class="badge badge-pill badge-danger position-absolute top-0 start-100 translate-middle">{{ request.user.notification_set.count }}</span>
+                            {% endif %}
+                        </a>
                         {% endif %}
-                        </li>
-                        <li><a href="#"><i class="fa fa-heart"></i> <span> {{ products.count }}</span></a></li>
-                        <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>{{ cart_items_count }}</span></a></li>
-                    </ul>
-                    <a href="{% url 'profile-url' %}">
-                        {% if user.profile.profile_photo %}
-                            <img class="rounded-circle animate__animated animate__fadeIn" src="{{ user.profile.profile_photo.url }}" alt="Profile Photo" style="height: 40px;">
-                        {% else %}
-                            <img class="rounded-circle animate__animated animate__fadeIn" src="{% static 'img/images (1).jpeg' %}" alt="Photo" style="height: 30px;">
-                        {% endif %}
-                    </a>
+
+                        <a href="{% url 'profile-url' %}">
+                            {% if user.profile.profile_photo %}
+                                <img class="rounded-circle animate__animated animate__fadeIn" src="{{ user.profile.profile_photo.url }}" alt="Profile Photo" style="height: 40px;">
+                            {% else %}
+                                <img class="rounded-circle animate__animated animate__fadeIn" src="{% static 'img/images (1).jpeg' %}" alt="Photo" style="height: 30px;">
+                            {% endif %}
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="humberger__open">
-            <i class="fa fa-bars"></i>
-        </div>
-    </div>
-</header>
-<!-- Header Section End -->
+        </header>
+    
+
+        <nav class="navbar navbar-expand-lg navbar-light ">
+            <div class="container">
+                <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse"
+                 data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                  aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'home-url' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'product_list' %}">Products</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'shipping' %}">Shipping & Returns</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'contact' %}">Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'about' %}">About Us</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">More</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item text-white" href="{% url 'blog_list' %}">Blog</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <style>
+                        /* Increase the width of the search form */
+.custom-search-form {
+    width: 40%; /* Adjust as needed */
+}
+
+/* Increase the width of the input field */
+.custom-search-input {
+    flex-grow: 1; /* Allows the input to take up available space */
+    width: 40%; /* Adjust as needed */
+}
+
+/* Ensure the button is aligned properly */
+.custom-search-form .btn {
+    margin-left: 5px; /* Space between the input and button */
+    white-space: nowrap; /* Prevents text wrapping */
+}
+
+                    </style>
+                    <form method="post" action="{% url 'search'  %}" class="d-flex custom-search-form">
+                        <input class="form-control rounded-0 custom-search-input" type="search" placeholder="Search the product" aria-label="Search">
+                        <button class="btn btn-success" type="submit">Search</button>
+                    </form>
+                    <a class="btn btn-primary text-white" href="{% url 'search_results' %}">Search Results</a>
+                </div>
+            </div>
+        </nav>
+<br>
+     
+
  <!-- Hero Section Begin -->
  <section class="hero hero-normal">
     <div class="container">
@@ -226,6 +329,7 @@
                         <li><a href="{% url 'cart_detail' %}" class="nav-link text-dark">Shopping Cart</a></li>
                         <li><a href="{% url 'wishlist_detail' %}" class="nav-link text-dark">Wishlist</a></li>
                         <li><a href="{% url 'recommend_products' user.id %}" class="nav-link text-dark">See Recommendations</a></li>
+                        
                         <li><a href="{% url 'customer_segmentation'  %}"
                             class="nav-link text-dark">Customer segmentation</a></li>
                             <li><a href="{% url 'churn_prediction'  %}"
@@ -236,31 +340,28 @@
                                     <li><a href="{% url 'analyze_sentiment'  %}"
                                         class="nav-link text-dark">Analyze Sentiment</a></li>
                                        
-                                        <li><a href="{% url 'forecast_demand'  %}"
+                                       <li><a href="{% url 'forecast_list' %}"
                                             class="nav-link text-dark">Forecast Demand</a></li>
 
                     </ul>
                 </div>
             </div>
             <div class="col-lg-9">
-                <div class="hero__search">
-                    <div class="hero__search__form">
-                        <form method="post" action="{% url 'search' %}">
-                            {% csrf_token %}
-                            <input type="text" name="query" placeholder="Enter query for voice search">
-                            <button class="site-btn" type="submit">Search</button>
-                        </form>
-                    </div>
-                    <div class="hero__search__phone">
-                        <div class="hero__search__phone__icon">
-                            <i class="fa fa-phone"></i>
-                        </div>
-                        <div class="hero__search__phone__text">
-                            <h5>+447508516836</h5>
-                            <span>support 24/7 time</span>
+                <section class="banner" style="background-color: white;">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h2 class="text-muted"><i class="fas fa-gift text-muted"></i>  UP TO 5% REWARD</h2>
+                            </div>
+                            <div class="col-md-4">
+                                <h2 class="text-muted"><i class="fas fa-calendar-alt text-muted"></i>  DELIVERY SCHEDULE</h2>
+                            </div>
+                            <div class="col-md-4">
+                                <h2 class="text-muted"><i class="fas fa-shipping-fast text-muted"></i>  SAME DAY SHIPPING</h2>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
             </div>
         </div>
     </div>
@@ -270,50 +371,172 @@
 
     {% endblock %}
 
+
 <!-- Footer Section Begin -->
 <footer class="footer spad">
+    <style>
+        /* General Footer Styles */
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 60px 0;
+}
+
+.footer__about,
+.footer__widget {
+    margin-bottom: 30px;
+}
+
+.footer__about__logo h4 {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.footer__about ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer__about ul li {
+    margin-bottom: 10px;
+}
+
+.footer__widget h6 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links li a {
+    color: #bbb;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links li a:hover {
+    color: #ffd700; /* Gold color on hover */
+}
+
+.footer__widget__social a {
+    margin-right: 10px;
+    color: #fff;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.footer__widget__social a:hover {
+    color: #ffd700; /* Gold color on hover */
+}
+
+.form-control {
+    width: calc(100% - 120px);
+    display: inline-block;
+}
+
+.site-btn {
+    background-color: #ffd700;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.site-btn:hover {
+    background-color: #ffac00;
+}
+
+/* Copyright Section */
+.footer__copyright {
+    border-top: 1px solid #444;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer__copyright__text p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.footer__copyright__payment img {
+    height: 24px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .footer__copyright {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer__copyright__payment {
+        margin-top: 10px;
+    }
+
+    .form-control {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .site-btn {
+        width: 100%;
+    }
+}
+
+    </style>
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="footer__about">
                     <div class="footer__about__logo">
                         <a href="{% url 'home-url' %}">
-                            <h4>MountGuard</h4>
+                            <h4 class="text-white">Branchy</h4>
+                        </a>
                     </div>
                     <ul>
-                        <li>Address: 4 Durham Workspace, PityMe, Durham DH1 5JZ, UK</li>
-                        <li>Phone: +447508516836</li>
-                        <li>Email: hello@meliandialogue.com</li>
+                        <li class="text-white">Address: 4 Durham Workspace, PityMe, Durham DH1 5JZ, UK</li>
+                        <li class="text-white">Phone: +447508516836</li>
+                        <li class="text-white">Email: hello@meliandialogue.com</li>
                     </ul>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
                 <div class="footer__widget">
-                    <h6>Useful Links</h6>
-                    <ul>
-                        <li><a href="{% url 'home-url' %}">Home</a></li>
-                        <li><a href="{% url 'product_list' %}">Our Shop</a></li>
-                        <li><a href="{% url 'cart_detail' %}">Shopping Cart</a></li>
-                        <li><a href="{% url 'faq_list' %}">FAQs</a></li>
-                        <li><a href="{% url 'blog_list' %}">Blog</a></li>
-                        <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    <h6 class="text-white">Useful Links</h6>
+                    <ul class="footer-links">
+                        <li><a class="text-white" href="{% url 'home-url' %}">Home</a></li>
+                        <li><a class="text-white" href="{% url 'product_list' %}">Our Shop</a></li>
+                        <li><a class="text-white" href="{% url 'cart_detail' %}">Shopping Cart</a></li>
+                        <li><a class="text-white" href="{% url 'faq_list' %}">FAQs</a></li>
+                        <li><a class="text-white" href="{% url 'blog_list' %}">Blog</a></li>
+                        <li><a class="text-white" href="{% url 'contact' %}">Contact Us</a></li>
                     </ul>
-                    <h6>Legal</h6>
-                    <ul>
-                        <li><a href="{% url 'terms' %}">Terms and Conditions</a></li>
-                        <li><a href="{% url 'privacy' %}">Privacy Policy</a></li>
-                        <li><a href="{% url 'cookies' %}">Cookies</a></li>
-                        <li><a href="{% url 'accessibility' %}">Accessibility</a></li>
+                    <h6 class="text-white">Legal</h6>
+                    <ul class="footer-links">
+                        <li><a class="text-white" href="{% url 'terms' %}">Terms and Conditions</a></li>
+                        <li><a class="text-white" href="{% url 'privacy' %}">Privacy Policy</a></li>
+                        <li><a class="text-white" href="{% url 'cookies' %}">Cookies</a></li>
+                        <li><a class="text-white" href="{% url 'accessibility' %}">Accessibility</a></li>
                     </ul>
                 </div>
             </div>
             <div class="col-lg-4 col-md-12">
                 <div class="footer__widget">
-                    <h6>Join Our Newsletter Now</h6>
-                    <p>Get E-mail updates about our latest shop and special offers.</p>
+                    <h6 class="text-white">Join Our Newsletter Now</h6>
+                    <p class="text-white">Get E-mail updates about our latest shop and special offers.</p>
                     <form method="post" action="{% url 'subscribe' %}">
                         {% csrf_token %}
-                        <input type="email" name="email" class="form-control border-0 py-4" placeholder="Enter your mail" required="required" />
+                        <input type="email" name="email" class="form-control border-0 py-4" placeholder="Enter your email" required="required" />
                         <button type="submit" class="site-btn">Subscribe</button>
                     </form>
                     <div class="footer__widget__social">
@@ -322,6 +545,14 @@
                         <a href="#"><i class="fa fa-twitter"></i></a>
                         <a href="#"><i class="fa fa-pinterest"></i></a>
                     </div>
+
+                    <!-- base.html or appropriate template -->
+                    <a class="text-white" href="{% url 'send_personalized_email' %}">Send Personalized Email</a>
+                    <a href="{% url 'recommend_bundles' %}">Recommend Bundles</a>
+
+                    <a href="{% url 'predict_clv' %}">Predict CLV</a>
+
+                      <a class="nav-link" href="{% url 'image_search' %}">Image Search</a>
                 </div>
             </div>
         </div>
@@ -329,7 +560,7 @@
             <div class="col-lg-12">
                 <div class="footer__copyright">
                     <div class="footer__copyright__text">
-                        <p>&copy;<script>document.write(new Date().getFullYear());</script> All rights reserved <i class="fa fa-heart" aria-hidden="true"></i> by <a href="{% url 'home-url' %}" target="_blank">MountGuard</a></p>
+                        <p class="text-white">&copy;<script>document.write(new Date().getFullYear());</script> All rights reserved <i class="fa fa-heart" aria-hidden="true"></i> by <a href="{% url 'home-url' %}" target="_blank">Branchy</a></p>
                     </div>
                     <div class="footer__copyright__payment">
                         <img src="{% static 'assets/img/payment-item.png' %}" alt="Payment Methods">
@@ -341,8 +572,7 @@
 </footer>
 <!-- Footer Section End -->
 
-
-
+<!-- Footer Section End -->
     <!-- Js Plugins -->
     <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
@@ -352,49 +582,6 @@
     <script src="{% static 'assets/js/mixitup.min.js' %}"></script>
     <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'assets/js/main.js' %}"></script>
-
-
-    
-
-<!-- Back to Top -->
-<a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
-
-<!-- JavaScript Libraries -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-<script src="{% static 'lib/easing/easing.min.js' %}"></script>
-<script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
-
-<!-- Contact Javascript File -->
-<script src="{% static 'mail/jqBootstrapValidation.min.js' %}"></script>
-<script src="{% static 'mail/contact.js' %}"></script>
-
-<!-- Template Javascript -->
-<script src="{% static 'js/main.js' %}"></script>
-
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/665492ba9a809f19fb359301/1hut5qb1c';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
-
-<!-- Include AOS JS -->
-<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-<script>
-AOS.init();
-</script>
-
-
-
 </body>
 
 </html>

@@ -42,3 +42,11 @@ class BlogPostForm(forms.ModelForm):
     class Meta:
         model = BlogPost
         fields = ['title', 'content']
+
+
+# forms.py
+
+from django import forms
+
+class ImageUploadForm(forms.Form):
+    image = forms.ImageField()

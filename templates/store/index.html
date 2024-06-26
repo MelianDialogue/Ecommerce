@@ -1,176 +1,255 @@
 <!DOCTYPE html>
-{% load static %}
-<html lang="zxx">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Ogani Template">
-    <meta name="keywords" content="Ogani, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MountGuard</title>
-
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{% static 'img/icon.png' %}"/>
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'assets/css/elegant-icons.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'assets/css/nice-select.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'assets/css/jquery-ui.min.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'assets/css/slicknav.min.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" type="text/css">
-</head>
-
-<body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
+    {% load static %}
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Branchy</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="{% static 'img/icon.png' %}"/>
+        <!-- Google Font -->
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+        <!-- Css Styles -->
+        <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'assets/css/elegant-icons.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'assets/css/nice-select.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'assets/css/jquery-ui.min.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'assets/css/slicknav.min.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" type="text/css">
+        <style>
+            /* Basic Styling */
+            .logo-container {
+                width: 60px;
+                height: 60px;
+            }
+            .logo {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+            .call-us-section {
+                font-size: 18px;
+            }
+            .navbar-nav .nav-link {
+                font-weight: 500;
+                color: #fff;
+                transition: color 0.3s ease;
+            }
     
-
-    <!-- Humberger Begin -->
-    <div class="humberger__menu__overlay"></div>
-    <div class="humberger__menu__wrapper">
-        <div class="humberger__menu__logo">
-            <a href="#"><h4 class="text-dark">MountGuard</h4></a>
-        </div>
-        <div class="humberger__menu__cart">
-            <ul>
-                <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
-            </ul>
-        </div>
-        <div class="humberger__menu__widget">
-            <div class="header__top__right__language">
-                <img src="img/language.png" alt="">
-                <div>English</div>
-                <span class="arrow_carrot-down"></span>
-                <ul>
-                    <li><a href="#">Spanis</a></li>
-                    <li><a href="#">English</a></li>
-                </ul>
-            </div>
-            <div class="header__top__right__auth">
-                <a href="{% url 'login-url' %}"><i class="fa fa-user"></i> Login</a>
-            </div>
-        </div>
-        <nav class="humberger__menu__nav mobile-menu">
-                <li class="active"><a href="{% url 'home-url' %}">Home</a></li>
-                <li><a href="{% url 'product_list' %}">Products</a></li>
-                <li><a href="#">Pages</a>
-                    <ul class="header__menu__dropdown">
-                        <li><a href="{% url 'cart_detail' %}">Shoping Cart</a></li>
-                    </ul>
-                </li>
-                <li><a href="{% url 'blog_list' %}">Blog</a></li>
-                <li><a href="{% url 'contact' %}">Contact</a></li>
-            </ul>
-        </nav>
-        <div id="mobile-menu-wrap"></div>
-        <div class="header__top__right__social">
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <a href="#"><i class="fa fa-twitter"></i></a>
-            <a href="#"><i class="fa fa-linkedin"></i></a>
-            <a href="#"><i class="fa fa-pinterest-p"></i></a>
-        </div>
-        <div class="humberger__menu__contact">
-            <ul>
-                <li><i class="fa fa-envelope"></i> hello@meliandialogue.com</li>
-                <li>Free Shipping for all Order of $100</li>
-            </ul>
-        </div>
-    </div>
-    <!-- Humberger End -->
-
-    <!-- Header Section Begin -->
-    <header class="header">
-        <div class="header__top">
+            /* Additional Styling for Professional Look */
+            header .container {
+                max-width: 1200px;
+            }
+    
+            header h1 {
+                font-size: 1.5rem;
+                color: #333;
+            }
+    
+            .call-us-section .call-us-text {
+                font-weight: bold;
+                color: #007bff;
+            }
+    
+            .call-us-section .toll-free-text {
+                font-size: 1rem;
+                color: #6c757d;
+            }
+    
+            header .btn-group .btn,
+            header .btn-outline-secondary {
+                border-radius: 20px;
+                font-size: 0.875rem;
+                padding: 0.375rem 1rem;
+            }
+    
+    
+            .navbar .navbar-nav .dropdown-menu {
+                border-radius: 0.5rem;
+                z-index: 1000;
+            }
+    
+            .navbar .fa-shopping-bag {
+                font-size: 1.5rem;
+            }
+    
+            .navbar .form-control {
+                border-radius: 20px;
+                font-size: 0.875rem;
+            }
+    
+            .navbar .btn-outline-success {
+                border-radius: 20px;
+                font-size: 0.875rem;
+            }
+    
+            /* Specific styling for increased height */
+            .navbar-expand-lg .navbar-nav .nav-link {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+            }
+    
+            /* Color and Spacing Adjustments */
+            .top-header {
+                background-color: #f8f9fa;
+                padding: 10px 0;
+            }
+            .middle-header {
+                background-color: #ffffff;
+                padding: 20px 0;
+            }
+            .navbar {
+                background-color: #2c3742;
+                padding: 20px 0;
+            }
+    
+            /* Notification styling */
+            .notification-btn .badge {
+                font-size: 0.75rem;
+            }
+    
+            .notifications {
+                display: none;
+                max-width: 300px;
+                right: 0;
+                top: 40px;
+                z-index: 1000;
+                border: 1px solid #ccc;
+                background-color: #fff;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+    
+            .notification-btn:hover .notifications {
+                display: block;
+            }
+    
+            .banner {
+                background: #f1f1f1;
+                padding: 20px 0;
+                text-align: center;
+            }
+    
+            .banner h2 {
+                font-size: 1.2rem;
+                color: #007bff;
+            }
+    
+            .banner i {
+                font-size: 2rem;
+                color: #007bff;
+                margin-bottom: 10px;
+            }
+    
+            /* Added CSS */
+            .cart-link {
+                position: relative;
+                display: inline-block;
+                color: inherit;
+                text-decoration: none;
+            }
+    
+            .cart-icon-bg {
+                position: relative;
+                display: inline-block;
+                background-color: red;
+                border-radius: 50%;
+                padding: 5px;
+            }
+    
+            .cart-count {
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                font-size: 0.8rem;
+            }
+    
+            /* Custom Mobile Styles */
+            @media (max-width: 767px) {
+                .call-us-section {
+                    margin-bottom: 20px;
+                    text-align: center;
+                }
+                .call-us-section .toll-free-text {
+                    margin-top: 5px;
+                }
+                .middle-header .col-md-6 {
+                    text-align: center;
+                }
+                .middle-header h1 {
+                    margin-top: 10px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+ <!-- Page Preloder -->
+ <div id="preloder">
+    <div class="loader"></div>
+</div>
+        <header class="container-fluid top-header border-bottom">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                        <div class="header__top__left">
-                            <ul>
-                                <li><i class="fa fa-envelope"></i> hello@meliandialogue.com</li>
-                                <li>Free Shipping for all Order of $100</li>
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-start">
+                        <div class="btn-group me-2">
+                            <button class="btn btn-light dropdown-toggle" type="button"
+                             data-bs-toggle="dropdown">
+                                Select Currency: GBP
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">GBP</a></li>
+                                <li><a class="dropdown-item" href="#">USD</a></li>
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="header__top__right">
-                            <div class="header__top__right__social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
-                                <a href="#"><i class="fa fa-pinterest-p"></i></a>
-                            </div>
-                            <div class="header__top__right__language">
-                                <img src="img/language.png" alt="">
-                                <div>English</div>
-                                <span class="arrow_carrot-down"></span>
-                                <ul>
-                                    <li><a href="#">Spanis</a></li>
-                                    <li><a href="#">English</a></li>
-                                </ul>
-                            </div>
-                            <div class="header__top__right__auth">
-                                <a href="{% url 'login-url' %}"><i class="fa fa-user"></i> Login</a>
-                            </div>
-                        </div>
+                    <div class="col-md-6 text-end">
+                        <a href="{% url 'login-url' %}"><button class="btn btn-outline-secondary">Login or Sign Up</button></a>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="header__logo">
-                        <a href="{% url 'home-url' %}"><h2 class="text-dark">MountGuard</h2></a>
+        </header>
+    
+        <header class="container-fluid middle-header border-bottom">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center justify-content-center justify-content-md-start">
+                           
+                                <div class="logo-container me-md-3">
+                                    <a href="{% url 'home-url' %}">
+                                    <img src="{% static 'img/icon.png' %}" alt="Branchy Logo" class="logo">
+                                     </a>
+                                </div>
+                                <a href="" style="text-decoration: none;">
+                                <h1 class="mb-0" style="font-weight: 900;">BRANCHY</h1>
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-6">
-                    <nav class="header__menu">
-                        <ul>
-                            <li class="active"><a href="{% url 'home-url' %}">Home</a></li>
-                            <li><a href="{% url 'product_list' %}">Products</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="header__menu__dropdown">
-                                    <li><a href="{% url 'product_list' %}">Shop Details</a></li>
-                                    <li><a href="{% url 'cart_detail' %}">Shoping Cart</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="{% url 'blog_list' %}">Blog</a></li>
-                            <li><a href="{% url 'contact' %}">Contact</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-lg-3">
-                    <div class="header__cart">
-                        <ul>
-                            <li>
-                                {% if request.user.is_authenticated %}
-                                <a href="#" class="btn animate__animated animate__bounceIn position-relative notification-btn">
-                                    <i class="fa fa-bell"></i>
-                                    {% if request.user.notification_set.all %}
-                                        <span class="badge badge-pill badge-danger position-absolute top-0 start-100 translate-middle">{{ request.user.notification_set.count }}</span>
-                                    {% endif %}
-                                </a>
-                                <ul class="notifications list-group position-absolute">
-                                    {% for notification in request.user.notification_set.all %}
-                                        <li class="list-group-item">{{ notification.message }}</li>
-                                    {% endfor %}
-                                </ul>
+                    <div class="col-md-3 text-center call-us-section">
+                        <div class="call-us-text fw-bold text-muted">CALL US NOW</div>
+                        <div class="toll-free-text text-muted">
+                            <i class="fas fa-phone-alt"></i> Toll Free: +447508516836
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center call-us-section">
+                        <a href="#" class="cart-link">
+                            <span class="cart-icon-bg">
+                                <i class="fa fa-shopping-bag text-white" style="font-size: 1.5rem;"></i>
+                            </span>
+                            <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
+                        </a>
+                        {% if request.user.is_authenticated %}
+                        <a href="#" class="btn animate__animated animate__bounceIn position-relative notification-btn">
+                            <i class="fa fa-bell text-success" style="font-size: 1.5rem;"></i>
+                            {% if request.user.notification_set.all %}
+                                <span class="badge badge-pill badge-danger position-absolute top-0 start-100 translate-middle">{{ request.user.notification_set.count }}</span>
                             {% endif %}
-                            </li>
-                            <li><a href="#"><i class="fa fa-heart"></i> <span> {{ products.count }}</span></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>{{ cart_items_count }}</span></a></li>
-                        </ul>
+                        </a>
+                        {% endif %}
+
                         <a href="{% url 'profile-url' %}">
                             {% if user.profile.profile_photo %}
                                 <img class="rounded-circle animate__animated animate__fadeIn" src="{{ user.profile.profile_photo.url }}" alt="Profile Photo" style="height: 40px;">
@@ -181,109 +260,560 @@
                     </div>
                 </div>
             </div>
-            <div class="humberger__open">
-                <i class="fa fa-bars"></i>
-            </div>
-        </div>
-    </header>
-    <!-- Header Section End -->
+        </header>
+    
 
-    <!-- Hero Section Begin -->
-    <section class="hero">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="hero__categories">
-                        <div class="hero__categories__all">
-                            <span>Dashboard</span>
-                        </div>
-                        <ul>
-                            <li><a href="{% url 'home-url' %}" class="nav-link text-dark">Home</a></li>
-                            <li><a href="{% url 'product_list' %}" class="nav-link text-dark">Products</a></li>
-                            <li><a href="{% url 'cart_detail' %}" class="nav-link text-dark">Shopping Cart</a></li>
-                            <li><a href="{% url 'wishlist_detail' %}" class="nav-link text-dark">Wishlist</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-9">
-                    <div class="hero__search">
-                        <div class="hero__search__form">
-                            <form action="{% url 'search' %}" method="POST" id="search-form">
-                                {% csrf_token %}
-                                <input type="text" placeholder="What do yo u need?">
-                                <button type="submit" class="site-btn">SEARCH</button>
-                            </form>
-                        </div>
-                        <div class="hero__search__phone">
-                            <div class="hero__search__phone__icon">
-                                <i class="fa fa-phone"></i>
-                            </div>
-                            <div class="hero__search__phone__text">
-                                <h5>+447508516836</h5>
-                                <span>support 24/7 time</span>
-                            </div>
-                        </div>
-                    </div>
+        <nav class="navbar navbar-expand-lg navbar-light ">
+            <div class="container">
+                <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse"
+                 data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                  aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'home-url' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'product_list' %}">Products</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'shipping' %}">Shipping & Returns</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'contact' %}">Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'about' %}">About Us</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">More</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item text-white" href="{% url 'blog_list' %}">Blog</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                     <style>
-                        .carousel-item img {
-                            max-width: 100%;
-                            height: auto;
-                            margin: 0 auto; /* Centers the image horizontally */
-                        }
+                        /* Increase the width of the search form */
+.custom-search-form {
+    width: 40%; /* Adjust as needed */
+}
+
+/* Increase the width of the input field */
+.custom-search-input {
+    flex-grow: 1; /* Allows the input to take up available space */
+    width: 40%; /* Adjust as needed */
+}
+
+/* Ensure the button is aligned properly */
+.custom-search-form .btn {
+    margin-left: 5px; /* Space between the input and button */
+    white-space: nowrap; /* Prevents text wrapping */
+}
+
                     </style>
-                    
-                    <div id="productCarousel" class="carousel slide" data-ride="carousel">
-                        <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                            {% for product in products %}
-                                <li data-target="#productCarousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
-                            {% endfor %}
-                        </ol>
-                    
-                        <!-- Wrapper for slides -->
-                        <div class="carousel-inner">
-                            {% for product in products %}
-                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                    <img class="d-block w-100" src="{{ product.image.url }}" 
-                                    alt="{{ product.title }}" style="height: 400px;">
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <h5 class="text-success" style="z-index: 900;">{{ product.name }}</h5>
-                                        <h5 class="text-white" style="z-index: 900;">Price: ${{ product.price }}</h5>
-                                        <h3 class="text-danger" style="z-index: 900;">Discount: {{ product.discount }}% off</h3>
-                                        <p class="text-white" style="z-index: 900;">Final Price: ${{ product.final_price|floatformat:2 }}</p>
-                                        <a href="{% url 'product_detail' product.id %}" class="btn btn-success">SHOP NOW</a>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    
-                        <!-- Controls -->
-                        <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
+                    <form method="post" action="{% url 'search'  %}" class="d-flex custom-search-form">
+                        <input class="form-control rounded-0 custom-search-input" type="search" placeholder="Search the product" aria-label="Search">
+                        <button class="btn btn-success" type="submit">Search</button>
+                    </form>
                     
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- Hero Section End -->
+        </nav>
 
- <!-- Categories Section Begin -->
- <section class="categories">
+
+        <style>
+            @keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 40px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+.fadeInUp {
+    animation-name: fadeInUp;
+}
+
+        </style>
+        <section class="banner" style="background-color: white;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 animated fadeInUp">
+                        <h2 class="text-muted"><i class="fas fa-gift text-muted"></i>  UP TO 5% REWARD</h2>
+                    </div>
+                    <div class="col-md-4 animated fadeInUp" style="animation-delay: 0.5s;">
+                        <h2 class="text-muted"><i class="fas fa-calendar-alt text-muted"></i>  DELIVERY SCHEDULE</h2>
+                    </div>
+                    <div class="col-md-4 animated fadeInUp" style="animation-delay: 1s;">
+                        <h2 class="text-muted"><i class="fas fa-shipping-fast text-muted"></i>  SAME DAY SHIPPING</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+<br>
+  <style>
+    @keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translate3d(-100%, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translate3d(100%, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.animated {
+    opacity: 0;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-delay: 0.5s;
+}
+
+.fadeInLeft {
+    animation-name: fadeInLeft;
+}
+
+.fadeInRight {
+    animation-name: fadeInRight;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 767.98px) {
+    .carousel-caption {
+        font-size: 14px; /* Adjust font size for smaller screens */
+        padding: 10px; /* Add padding for readability */
+        text-align: center; /* Center align text for better visibility */
+    }
+    .carousel-caption h5, .carousel-caption h3, .carousel-caption p {
+        margin-bottom: 5px; /* Reduce margin for compact view */
+    }
+    .carousel-caption .btn {
+        font-size: 12px; /* Adjust button size */
+        padding: 5px 10px; /* Adjust button padding */
+    }
+}
+
+  </style>
+
+<!-- Hero Section Begin -->
+<section class="hero" style="background-color: white;">
     <div class="container">
         <div class="row">
-            
+            <div class="col-lg-4 animated fadeInLeft">
+                <div class="hero__categories">
+                    <div class="hero__categories__all">
+                        <span>Dashboard</span>
+                    </div>
+                    <ul>
+                        <li><a href="{% url 'home-url' %}" class="nav-link text-dark">Home</a></li>
+                        <li><a href="{% url 'product_list' %}" class="nav-link text-dark">Products</a></li>
+                        <li><a href="{% url 'cart_detail' %}" class="nav-link text-dark">Shopping Cart</a></li>
+                        <li><a href="{% url 'wishlist_detail' %}" class="nav-link text-dark">Wishlist</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-8 animated fadeInRight" style="background-color: #f0f0f0;">
+                <div class="hero__search"></div>
+                
+                <!-- Carousel -->
+                <div id="productCarousel" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        {% for product in products %}
+                            <li data-target="#productCarousel" 
+                                data-slide-to="{{ forloop.counter0 }}" 
+                                {% if forloop.first %}class="active"{% endif %}></li>
+                        {% endfor %}
+                    </ol>
+                    
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        {% for product in products %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <div class="row">
+                                    <div class="col-md-6 animated fadeInLeft">
+                                        <div class="carousel-caption text-left">
+                                            <h5 class="text-dark">{{ product.name }}</h5>
+                                            <h3 class="text-danger">{{ product.discount }}% off</h3>
+                                            <p class="text-dark">£{{ product.final_price|floatformat:2 }}</p>
+                                            <a href="{% url 'product_detail' product.id %}" class="btn btn-success">SHOP NOW</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 animated fadeInRight">
+                                        <img class="d-block w-100" src="{{ product.image.url }}" alt="{{ product.title }}" style="height: 300px;">
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Controls -->
+                    <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <!-- End Carousel -->
+                
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Hero Section End -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Cookie Consent Banner -->
+    <div class="cookie-banner" id="cookieBanner">
+        This website uses cookies to ensure you get the best experience on our website. 
+        <a href="{% url 'cookies' %}" style="color: #ffc107;">Learn more</a>.
+        <button id="acceptCookies">Accept</button>
+    </div>
+
+    <style>
+        /* Cookie Consent Banner Styles */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #343a40;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            display: none; /* Hidden by default */
+            z-index: 1000;
+        }
+        .cookie-banner button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+        .cookie-banner button:hover {
+            background-color: #218838;
+        }
+    </style>
+
+
+    <script>
+        // Function to set a cookie
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        // Function to get a cookie
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        // Function to check cookie consent
+        function checkCookieConsent() {
+            var cookieConsent = getCookie("cookieConsent");
+            if (!cookieConsent) {
+                document.getElementById("cookieBanner").style.display = "block";
+            }
+        }
+
+        // Event listener for Accept button
+        document.getElementById("acceptCookies").addEventListener("click", function () {
+            setCookie("cookieConsent", "accepted", 365);
+            document.getElementById("cookieBanner").style.display = "none";
+        });
+
+        // Check cookie consent on page load
+        checkCookieConsent();
+    </script>
+
+
+<!-- Categories Section Begin -->
+<section class="categories py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Featured Products</h2>
+        <div class="row">
             <div class="categories__slider owl-carousel">
                 {% for product in products %}
-                <div class="col-lg-3">
-                    <div class="categories__item set-bg" data-setbg="{{ product.image.url }}">
-                        <p><a href="#"></a></p>
+                <div class="categories__item text-center p-3" style="background-image: url('{{ product.image.url }}'); background-size: cover; background-position: center; border-radius: 8px;">
+                    <div class="overlay d-flex align-items-center justify-content-center">
+                        <div class="text-white">
+                            <p><a href="#" class="text-white font-weight-bold">{{ product.name }}</a></p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Categories Section End -->
+
+<style>
+    /* Categories Section Styles */
+.categories {
+    background-color: #f8f9fa;
+}
+
+.categories h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.categories__item {
+    height: 300px;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.categories__item:hover {
+    transform: scale(1.05);
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.categories__item:hover .overlay {
+    opacity: 1;
+}
+
+.categories__item p a {
+    font-size: 1.25rem;
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.categories__item p a:hover {
+    color: #ffdd57;
+}
+
+</style>
+
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include Owl Carousel JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $('.categories__slider').owlCarousel({
+            loop: true,
+            margin: 10,
+            nav: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 3
+                }
+            }
+        });
+    });
+</script>
+
+
+<br>
+<!-- Categories Section Begin -->
+<section class="categories">
+    <style>
+        /* General Styles */
+.section-title {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Categories Styles */
+.categories {
+    padding: 40px 0;
+}
+
+.categories__item {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding-bottom: 10px;
+}
+
+.set-bg {
+    border-radius: 10px 10px 0 0;
+}
+
+.categories__item img {
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+
+}
+
+.categories__info {
+    padding: 10px;
+    text-align: center;
+}
+
+.product-name a {
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.product-price {
+    color: #777;
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.categories__icons {
+    margin-top: 10px;
+}
+
+.categories__icons .icon {
+    margin: 0 5px;
+    color: #333;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.categories__icons .icon:hover {
+    color: #ffd700; /* Gold color on hover */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
+
+    .col-md-4 {
+        width: 100%;
+    }
+}
+
+    </style>
+    <div class="container">
+        <h2 class="section-title">New Products</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <!-- First Column with 2 Images -->
+                {% for product in products|slice:":2" %}
+                <div class="categories__item">
+                    <div class="set-bg" data-setbg="{{ product.image.url }}">
+                        <img src="{{ product.image.url }}"
+                         alt="{{ product.name }}" style="height: 100px;">
+                    </div>
+                    <div class="categories__info">
+                        <p class="product-name"><a href="#">{{ product.name }}</a></p>
+                        <p class="product-price">£{{ product.final_price|floatformat:2 }}</p>
+                        <div class="categories__icons">
+                            <a href="{% url 'add_to_cart' product.id %}" class="icon"><i class="fas fa-shopping-cart"></i></a>
+                            <a href="#" class="icon"><i class="fas fa-eye"></i></a>
+                            <a href="#" class="icon"><i class="fas fa-heart"></i></a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-4">
+                <!-- Second Column with 1 Image -->
+                {% for product in products|slice:"2:3" %}
+                <div class="categories__item">
+                    <div class="set-bg" data-setbg="{{ product.image.url }}">
+                        <img src="{{ product.image.url }}" 
+                        alt="{{ product.name }}">
+                    </div>
+                    <div class="categories__info">
+                        <p class="product-name"><a href="#">{{ product.name }}</a></p>
+                        <p class="product-price">£{{ product.final_price|floatformat:2 }}</p>
+                        <div class="categories__icons">
+                            <a href="{% url 'add_to_cart' product.id %}" class="icon"><i class="fas fa-shopping-cart"></i></a>
+                            <a href="#" class="icon"><i class="fas fa-eye"></i></a>
+                            <a href="#" class="icon"><i class="fas fa-heart"></i></a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-4">
+                <!-- Third Column with 2 Images -->
+                {% for product in products|slice:"3:5" %}
+                <div class="categories__item">
+                    <div class="set-bg" data-setbg="{{ product.image.url }}">
+                        <img src="{{ product.image.url }}"
+                         alt="{{ product.name }}"  style="height: 100px;">
+                    </div>
+                    <div class="categories__info">
+                        <p class="product-name"><a href="#">{{ product.name }}</a></p>
+                        <p class="product-price">£{{ product.final_price|floatformat:2 }}</p>
+                        <div class="categories__icons">
+                            <a href="{% url 'add_to_cart' product.id %}" class="icon"><i class="fas fa-shopping-cart"></i></a>
+                            <a href="#" class="icon"><i class="fas fa-eye"></i></a>
+                            <a href="#" class="icon"><i class="fas fa-heart"></i></a>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
@@ -296,124 +826,171 @@
 
 
 
-
-  <!-- Featured Section Begin -->
-  <section class="featured spad">
-    <div class="container">
-        <div class="row">
-          
-            <div class="col-lg-12">
-                <div class="section-title">
-                    <h2>Featured Product</h2>
-                </div>
-            </div>
-        </div>
-        <div class="row featured__filter">
-            {% for product in products %}
-            <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat {% if forloop.first %}active{% endif %}">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="{{ product.image.url }}">
-                        <ul class="featured__item__pic__hover">
-                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                            <li><a href="{% url 'add_to_cart' product.id %}"><i class="fa fa-shopping-cart"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="featured__item__text">
-                        <h6><a href="#">{{ product.name }}</a></h6>
-                        <h5> ${{ product.final_price|floatformat:2 }}</h5>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-<!-- Featured Section End -->
-
-
-
-
-
-    <!-- Featured Section Begin -->
-    <section class="featured spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title">
-                        <h2>Equine Protection</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row featured__filter">
-                {% for product in products %}
-                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" 
-                        data-setbg="{{ product.image.url }}">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">{{ product.name }}</a></h6>
-                            <h5>${{ product.final_price }}</h5>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-    <!-- Featured Section End -->
-
-
 <!-- Footer Section Begin -->
 <footer class="footer spad">
+    <style>
+        /* General Footer Styles */
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 60px 0;
+}
+
+.footer__about,
+.footer__widget {
+    margin-bottom: 30px;
+}
+
+.footer__about__logo h4 {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.footer__about ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer__about ul li {
+    margin-bottom: 10px;
+}
+
+.footer__widget h6 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links li a {
+    color: #bbb;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links li a:hover {
+    color: #ffd700; /* Gold color on hover */
+}
+
+.footer__widget__social a {
+    margin-right: 10px;
+    color: #fff;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.footer__widget__social a:hover {
+    color: #ffd700; /* Gold color on hover */
+}
+
+.form-control {
+    width: calc(100% - 120px);
+    display: inline-block;
+}
+
+.site-btn {
+    background-color: #ffd700;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.site-btn:hover {
+    background-color: #ffac00;
+}
+
+/* Copyright Section */
+.footer__copyright {
+    border-top: 1px solid #444;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer__copyright__text p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.footer__copyright__payment img {
+    height: 24px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .footer__copyright {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer__copyright__payment {
+        margin-top: 10px;
+    }
+
+    .form-control {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .site-btn {
+        width: 100%;
+    }
+}
+
+    </style>
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="footer__about">
                     <div class="footer__about__logo">
                         <a href="{% url 'home-url' %}">
-                            <h4>MountGuard</h4>
+                            <h4 class="text-white">Branchy</h4>
+                        </a>
                     </div>
                     <ul>
-                        <li>Address: 4 Durham Workspace, PityMe, Durham DH1 5JZ, UK</li>
-                        <li>Phone: +447508516836</li>
-                        <li>Email: hello@meliandialogue.com</li>
+                        <li class="text-white">Address: 4 Durham Workspace, PityMe, Durham DH1 5JZ, UK</li>
+                        <li class="text-white">Phone: +447508516836</li>
+                        <li class="text-white">Email: hello@meliandialogue.com</li>
                     </ul>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
                 <div class="footer__widget">
-                    <h6>Useful Links</h6>
-                    <ul>
-                        <li><a href="{% url 'home-url' %}">Home</a></li>
-                        <li><a href="{% url 'product_list' %}">Our Shop</a></li>
-                        <li><a href="{% url 'cart_detail' %}">Shopping Cart</a></li>
-                        <li><a href="{% url 'faq_list' %}">FAQs</a></li>
-                        <li><a href="{% url 'blog_list' %}">Blog</a></li>
-                        <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    <h6 class="text-white">Useful Links</h6>
+                    <ul class="footer-links">
+                        <li><a class="text-white" href="{% url 'home-url' %}">Home</a></li>
+                        <li><a class="text-white" href="{% url 'product_list' %}">Our Shop</a></li>
+                        <li><a class="text-white" href="{% url 'cart_detail' %}">Shopping Cart</a></li>
+                        <li><a class="text-white" href="{% url 'faq_list' %}">FAQs</a></li>
+                        <li><a class="text-white" href="{% url 'blog_list' %}">Blog</a></li>
+                        <li><a class="text-white" href="{% url 'contact' %}">Contact Us</a></li>
                     </ul>
-                    <h6>Legal</h6>
-                    <ul>
-                        <li><a href="{% url 'terms' %}">Terms and Conditions</a></li>
-                        <li><a href="{% url 'privacy' %}">Privacy Policy</a></li>
-                        <li><a href="{% url 'cookies' %}">Cookies</a></li>
-                        <li><a href="{% url 'accessibility' %}">Accessibility</a></li>
+                    <h6 class="text-white">Legal</h6>
+                    <ul class="footer-links">
+                        <li><a class="text-white" href="{% url 'terms' %}">Terms and Conditions</a></li>
+                        <li><a class="text-white" href="{% url 'privacy' %}">Privacy Policy</a></li>
+                        <li><a class="text-white" href="{% url 'cookies' %}">Cookies</a></li>
+                        <li><a class="text-white" href="{% url 'accessibility' %}">Accessibility</a></li>
                     </ul>
                 </div>
             </div>
             <div class="col-lg-4 col-md-12">
                 <div class="footer__widget">
-                    <h6>Join Our Newsletter Now</h6>
-                    <p>Get E-mail updates about our latest shop and special offers.</p>
+                    <h6 class="text-white">Join Our Newsletter Now</h6>
+                    <p class="text-white">Get E-mail updates about our latest shop and special offers.</p>
                     <form method="post" action="{% url 'subscribe' %}">
                         {% csrf_token %}
-                        <input type="email" name="email" class="form-control border-0 py-4" placeholder="Enter your mail" required="required" />
+                        <input type="email" name="email" class="form-control border-0 py-4" placeholder="Enter your email" required="required" />
                         <button type="submit" class="site-btn">Subscribe</button>
                     </form>
                     <div class="footer__widget__social">
@@ -429,7 +1006,7 @@
             <div class="col-lg-12">
                 <div class="footer__copyright">
                     <div class="footer__copyright__text">
-                        <p>&copy;<script>document.write(new Date().getFullYear());</script> All rights reserved <i class="fa fa-heart" aria-hidden="true"></i> by <a href="{% url 'home-url' %}" target="_blank">MountGuard</a></p>
+                        <p class="text-white">&copy;<script>document.write(new Date().getFullYear());</script> All rights reserved <i class="fa fa-heart" aria-hidden="true"></i> by <a href="{% url 'home-url' %}" target="_blank">Branchy</a></p>
                     </div>
                     <div class="footer__copyright__payment">
                         <img src="{% static 'assets/img/payment-item.png' %}" alt="Payment Methods">
@@ -439,6 +1016,8 @@
         </div>
     </div>
 </footer>
+<!-- Footer Section End -->
+
 <!-- Footer Section End -->
     <!-- Js Plugins -->
     <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>

@@ -16,6 +16,8 @@ urlpatterns = [
     path('change_password/', views.change_password, name='change_password'),
     path('chatbot_view/', views.chatbot_view, name='chatbot_view'),
     path('subscribe/', views.subscribe, name='subscribe'),
+    path('about/', views.about, name='about'),
+    path('shipping/', views.shipping, name='shipping'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

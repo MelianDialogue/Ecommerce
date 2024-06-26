@@ -1,0 +1,23 @@
+{% extends "store/base.html" %}
+{% block content %}
+
+    <h1>Demand Forecasts</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Forecast Date</th>
+                <th>Forecast Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for forecast in forecasts %}
+            <tr>
+                <td>{{ forecast.product.name }}</td>
+                <td>{{ forecast.forecast_date }}</td>
+                <td>{{ forecast.forecast_quantity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endblock %}

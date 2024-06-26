@@ -19,6 +19,8 @@ class Profile(models.Model):
     total_spent = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Example field
     purchase_count = models.IntegerField(default=0)  # Example field
     churn = models.BooleanField(default=False)  # New churn field
+    bio = models.TextField(blank=True)
+    interests = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return self.user.username

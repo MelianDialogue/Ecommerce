@@ -1,14 +1,15 @@
 from django.urls import path
-from .views import ( analyze_sentiment_view, recommend_bundles_view,
+from .views import ( analyze_sentiment_view,
 detect_fraud_view, churn_prediction_view, customer_segmentation_view, dynamic_price_update, recommend_products, paypal_cancel,paypal_return,order_success,blog_detail,blog_list,create_blog_post,index, search, order_detail, leave_review, wishlist_detail,
     add_to_wishlist, remove_from_wishlist, cart_detail, add_to_cart,
     update_cart_item,blog_post_detail,faq_list,policy_page_detail, 
     product_list, product_detail, add_product, 
-    checkout, order_history, remove_cart_item,
-)
-# adaptive_ranking_view,recover_abandoned_cart_view,forecast_demand_view, search_view, image_search_view,
+    checkout, order_history, remove_cart_item
 
-from ml.urls import urlpatterns as ml_urls
+)
+from . import views
+
+
 
 urlpatterns = [
     path('', index, name='home-url'),
@@ -42,16 +43,24 @@ urlpatterns = [
     path('customer_segmentation/', customer_segmentation_view, name='customer_segmentation'),
     path('churn_prediction/', churn_prediction_view, name='churn_prediction'),
     path('detect_fraud/', detect_fraud_view, name='detect_fraud'),
-
     path('analyze_sentiment/', analyze_sentiment_view, name='analyze_sentiment'),
-    # path('forecast_demand/', forecast_demand_view, name='forecast_demand'),
-    # path('search/', search_view, name='search'),
-    # path('image_search/', image_search_view, name='image_search'),
+    path('forecasts/', views.forecast_list, name='forecast_list'),
+    path('trends/', views.trends_view, name='trends'),
 
-    path('recommend_bundles/<int:user_id>/', recommend_bundles_view, name='recommend_bundles'),
+    path('recover/<int:user_id>/', views.recover_abandoned_cart, name='recover_abandoned_cart'),
 
-    # path('adaptive_ranking/<int:user_id>/<str:query>/', adaptive_ranking_view, name='adaptive_ranking'),
-    # path('recover_abandoned_cart/<int:user_id>/', recover_abandoned_cart_view, name='recover_abandoned_cart'),
+    path('personalized/', views.personalized_view, name='personalized_view'),
 
+    path('search/', views.search_view, name='search_results'),
+
+    path('send-email/', views.send_personalized_email, name='send_personalized_email'),
+
+    path('recommend-bundles/', views.display_bundle_recommendations, name='recommend_bundles'),
+    
+    path('predict-clv/', views.display_clv_prediction, name='predict_clv'),
+
+    path('image-search/', views.image_search, name='image_search'),
+
+    path('search/', views.search_products, name='search_products'),
+    
 ]
-urlpatterns += ml_urls

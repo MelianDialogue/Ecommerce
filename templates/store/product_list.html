@@ -25,7 +25,7 @@
                                             </ul>
                                         </div>
                                         <div class="product__discount__item__text">
-                                            <span>${{ product.final_price }}</span>
+                                            <span>£{{ product.final_price }}</span>
                                             <h5><a href="#">{{ product.name }}</a></h5>
                                             <div class="product__item__price">{{ product.discount }}% OFF <span>${{ product.price }} </span></div>
                                         </div>
@@ -40,6 +40,37 @@
         </div>
     </section>
     <!-- Product Section End -->
+
+
+<br>
+
+<div class="container">
+    <h1 class="mt-4 mb-4">Emerging Trends</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Date</th>
+                    <th>Predicted Trend</th>
+                    <th>Lower Bound</th>
+                    <th>Upper Bound</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trend in trends %}
+                    <tr>
+                        <td>{{ trend.ds }}</td>
+                        <td>{{ trend.yhat }}</td>
+                        <td>{{ trend.yhat_lower }}</td>
+                        <td>{{ trend.yhat_upper }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
 
 <!-- AOS Animation Script -->
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>

@@ -8,7 +8,7 @@
     <meta name="keywords">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MountGuard</title>
+    <title>Branchy</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{% static 'img/icon.png' %}"/>
@@ -78,14 +78,17 @@
             <div class="col-lg-6 col-md-8 col-sm-10">
                 <div class="card shadow-sm mt-5">
                     <div class="card-body">
-                        <div class="d-flex justify-content-center my-4">
-                            <a href="{% url 'home-url' %}" class="navbar-brand">
-                                    <h1 class="m-0 display-5 font-weight-semi-bold">
-                                        <span class="text-primary 
-                                        font-weight-bold px-3 mr-1"></span>MountGuard</h1>
-                              
-                            </a>
-                        </div>
+                        <div class="d-flex align-items-center justify-content-center justify-content-md-start">
+                           
+                            <div class="logo-container me-md-3">
+                                <a href="">
+                                <img src="{% static 'img/icon.png' %}" alt="Branchy Logo" class="logo">
+                                 </a>
+                            </div>
+                            <a href="" style="text-decoration: none;">
+                            <h3 class="mb-0" style="font-weight: 300;">BRANCHY</h3>
+                        </a>
+                    </div>
                         <p>
                             {% for message in messages %}
                                 {{ message }}
