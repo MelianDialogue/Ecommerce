@@ -22,17 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+)&b2vnt+c6dl!%betlt*on$k^p5sjx#%cqt6jlbgxv(r&1=q8'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -56,24 +51,6 @@ INSTALLED_APPS = [
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
-
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dnqsiqqu9',
-    'API_KEY': '671314852468814',
-    'API_SECRET': 'q9aexJMZf9PCnq0ziEBMQMnMuYk'
-}
-
-cloudinary.config(
-  cloud_name = CLOUDINARY_STORAGE['CLOUD_NAME'], 
-  api_key = CLOUDINARY_STORAGE['API_KEY'], 
-  api_secret = CLOUDINARY_STORAGE['API_SECRET']
-)
-
-
-
 
 import os
 
@@ -86,7 +63,38 @@ CLOUDINARY_STORAGE = {
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
+import os
 
+# Machine learning API
+ML_API_URL = os.getenv('ML_API_URL', 'https://ecommerce-z632.onrender.com/ml')
+
+# Logging Configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/django_error.log'),
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'ecommerce': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
+
+# Ensure the logs directory exists
+os.makedirs(os.path.join(BASE_DIR, 'logs'), exist_ok=True)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -138,7 +146,7 @@ DATABASES = {
 
 
 database_url = os.environ.get('DATABASE_URL')
-DATABASES["default"] = dj_database_url.parse('postgres://guard_rknn_user:lIcAktl2dFL5v4QhIJWMO8cp0iMAxFdk@dpg-cpp4pi88fa8c73994n3g-a.oregon-postgres.render.com/guard_rknn')
+DATABASES["default"] = dj_database_url.parse(database_url)
 
 
 # Password validation
@@ -259,10 +267,6 @@ PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
 PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'live')
 
 
-# # Machine Learning Data Settings
-
-# ML_API_URL = os.getenv('ML_API_URL', 'http://localhost:8000/ml')
-
 ML_API_URL = 'http://localhost:8000/ml'
 
 # Logging Configuration
@@ -290,147 +294,4 @@ LOGGING = {
     },
 }
 
-# Ensure the logs directory exists
 os.makedirs(os.path.join(BASE_DIR, 'logs'), exist_ok=True)
-
-# Machine Learning Data Settings
-
-USER_ITEM_INTERACTIONS = [
-    {"user_id": 1, "product_id": 1, "interaction": 5},
-    {"user_id": 2, "product_id": 2, "interaction": 3},
-    {"user_id": 1, "product_id": 3, "interaction": 2},
-    {"user_id": 3, "product_id": 1, "interaction": 4},
-    {"user_id": 2, "product_id": 4, "interaction": 1},
-]
-
-HISTORICAL_PRICES = [
-    {"product_id": 1, "competitor_price": 70.5},
-    {"product_id": 2, "competitor_price": 80.0},
-    {"product_id": 3, "competitor_price": 60.0},
-    {"product_id": 4, "competitor_price": 50.0},
-]
-# In settings.py
-
-DEMAND_DATA = [
-    {"product_id": 1, "demand": 100, "date": "2024-01-01"},
-    {"product_id": 2, "demand": 150, "date": "2024-01-02"},
-    {"product_id": 3, "demand": 80, "date": "2024-01-03"},
-    {"product_id": 4, "demand": 60, "date": "2024-01-04"},
-    {"product_id": 1, "demand": 120, "date": "2024-01-05"},
-]
-
-USER_BEHAVIOR = [
-    {"user_id": 1, "action": "click", "item_id": 101},
-    {"user_id": 2, "action": "view", "item_id": 102},
-    {"user_id": 3, "action": "purchase", "item_id": 103},
-    {"user_id": 4, "action": "click", "item_id": 104},
-    {"user_id": 5, "action": "view", "item_id": 101},
-]
-
-
-
-
-DEMAND_DATA = [
-    {"product_id": 1, "demand": 100, "date": "2024-01-01"},
-    {"product_id": 2, "demand": 150, "date": "2024-01-02"},
-    {"product_id": 3, "demand": 80, "date": "2024-01-03"},
-    {"product_id": 4, "demand": 60, "date": "2024-01-04"},
-    {"product_id": 1, "demand": 120, "date": "2024-01-05"},
-]
-
-CUSTOMER_DATA = [
-    {"customer_id": 1, "age": 25, "income": 50000, "spending_score": 60},
-    {"customer_id": 2, "age": 30, "income": 60000, "spending_score": 70},
-    {"customer_id": 3, "age": 22, "income": 45000, "spending_score": 50},
-    {"customer_id": 4, "age": 35, "income": 70000, "spending_score": 80},
-    {"customer_id": 5, "age": 28, "income": 52000, "spending_score": 65},
-]
-
-
-CUSTOMER_FEATURES = [
-    {"customer_id": 1, "feature_1": 0.1, "feature_2": 0.8},
-    {"customer_id": 2, "feature_1": 0.2, "feature_2": 0.9},
-    {"customer_id": 3, "feature_1": 0.3, "feature_2": 0.7},
-    {"customer_id": 4, "feature_1": 0.4, "feature_2": 0.6},
-    {"customer_id": 5, "feature_1": 0.5, "feature_2": 0.5},
-]
-
-
-CUSTOMER_CHURN_TARGET = [0, 1, 0, 1, 0]
-
-TRANSACTION_DATA = [
-    {"transaction_id": 1, "amount": 100.0, "fraud": 0},
-    {"transaction_id": 2, "amount": 150.0, "fraud": 1},
-    {"transaction_id": 3, "amount": 200.0, "fraud": 0},
-    {"transaction_id": 4, "amount": 250.0, "fraud": 1},
-    {"transaction_id": 5, "amount": 300.0, "fraud": 0},
-]
-
-
-REVIEWS = [
-    "Great product, very satisfied.",
-    "Not what I expected, quite disappointed.",
-    "Average quality, could be better.",
-    "Excellent value for money.",
-    "Terrible experience, will not buy again.",
-]
-
-
-PURCHASE_HISTORY = [
-    {"user_id": 1, "items": ["item_101", "item_102"]},
-    {"user_id": 2, "items": ["item_103"]},
-    {"user_id": 3, "items": ["item_104", "item_101"]},
-    {"user_id": 4, "items": ["item_102", "item_103"]},
-    {"user_id": 5, "items": ["item_101", "item_104"]},
-]
-
-USER_PREFERENCES = {
-    1: "MountGuard Yard Box XL - 20 Spray Bottles (FREE SHIPPING)",
-    2: "MountGuard Yard Box - 6 Spray Bottles (FREE SHIPPING)",
-    3: "MountGuard Insect Repellent Spray - Twin Pack (FREE SHIPPING)",
-    4: "MountGuard Insect Repellent Spray & Cream Bundle (FREE SHIPPING)",
-    5: "MountGuard Insect Repellent Spray",
-}
-
-
-USER_BEHAVIOR = [
-    {"user_id": 1, "action": "click", "item_id": 101},
-    {"user_id": 2, "action": "view", "item_id": 102},
-    {"user_id": 3, "action": "purchase", "item_id": 103},
-    {"user_id": 4, "action": "click", "item_id": 104},
-    {"user_id": 5, "action": "view", "item_id": 101},
-]
-
-
-SEARCH_RESULTS = [
-    {"product_id": 101, "features": [0.1, 0.2, 0.3]},
-    {"product_id": 102, "features": [0.2, 0.3, 0.4]},
-    {"product_id": 103, "features": [0.3, 0.4, 0.5]},
-    {"product_id": 104, "features": [0.4, 0.5, 0.6]},
-    {"product_id": 105, "features": [0.5, 0.6, 0.7]},
-]
-
-SOCIAL_MEDIA_DATA = {
-    'facebook': {
-        'api_key': 'your_facebook_api_key',
-        'api_secret': 'your_facebook_api_secret'
-    },
-    'twitter': {
-        'api_key': 'your_twitter_api_key',
-        'api_secret': 'your_twitter_api_secret'
-    },
-}
-
-SUPPLY_CHAIN_DATA = {
-    'supplier1': {
-        'name': 'Supplier 1',
-        'address': 'Supplier 1 Address',
-    },
-    'supplier2': {
-        'name': 'Supplier 2',
-        'address': 'Supplier 2 Address',
-    },
-}
-
-
-
