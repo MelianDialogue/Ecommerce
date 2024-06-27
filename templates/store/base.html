@@ -337,6 +337,7 @@
                         </li> -->
                     </ul>
                     <form method="post" action="{% url 'search' %}" class="d-flex custom-search-form ml-auto align-items-center">
+                        {% csrf_token %}
                         <input class="form-control rounded-0 custom-search-input mr-2" type="search" placeholder="Search the product" aria-label="Search">
                         <button class="btn btn-success" type="submit">Search</button>
                     </form>
