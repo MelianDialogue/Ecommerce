@@ -17,6 +17,9 @@
                                         <div class="product__discount__item__pic set-bg"
                                             data-setbg="{{ product.image.url }}">
                                             <div class="product__discount__percent">-20%</div>
+                                            <div class="product_discount_percent"><p class="rating" data-rating="{{ rating }}" style="font-size: 20px;">
+                                                <!-- Stars will be populated by JavaScript -->
+                                            </p></div>
                                             <ul class="product__item__pic__hover">
                                                 <li><a href="{% url 'product_detail' product.id %}"><i class="fa fa-eye"></i></a></li>
                                                 <li><a href="{% url 'add_to_wishlist' product.id %}"><i class="fa fa-heart"></i></a></li>
@@ -24,9 +27,9 @@
                                             </ul>
                                         </div>
                                         <div class="product__discount__item__text">
-                                            <span>£{{ product.final_price }}</span>
+                                            <div class="product__item__price"><span> £{{ product.price }}</span></div>
                                             <h5><a href="#">{{ product.name }}</a></h5>
-                                            <div class="product__item__price">{{ product.discount }}% OFF <span>${{ product.price }} </span></div>
+                                            <span> £{{ product.final_price }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -44,10 +47,10 @@
 <br>
 
 <div class="container">
-    <h1 class="mt-4 mb-4">Emerging Trends</h1>
+    <h3 class="mt-4 mb-4">Emerging Trends</h3>
     <div class="table-responsive">
         <table class="table table-bordered">
-            <thead class="thead-dark">
+            <thead class="thead-secondary">
                 <tr>
                     <th>Date</th>
                     <th>Predicted Trend</th>

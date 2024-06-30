@@ -1,0 +1,22 @@
+{% extends "store/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3 class="mb-4">Security Alerts</h3>
+    {% if alerts %}
+        <div class="alert alert-warning">
+            <ul class="list-group">
+                {% for alert in alerts %}
+                    <li class="list-group-item">
+                        <strong>{{ alert.event_type }}</strong> - {{ alert.event_description }} <small class="text-muted">({{ alert.timestamp }})</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <div class="alert alert-success">
+            <p>No anomalies detected.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

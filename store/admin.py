@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Product, Cart, CartItem, Order, OrderItem, Review, Wishlist, BlogPost, FAQ, PolicyPage, Notification
 
-from .models import Product, UserProductInteraction, Transaction, SalesData, Customer
+from .models import Product, UserProductInteraction, Transaction, SalesData, Customer, UserBehavior, UserInterest, SocialMediaInteraction
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -28,3 +28,9 @@ from .models import DemandForecast, Product, SalesData
 #     list_display = ('product', 'forecast_date', 'forecast_quantity')
 
 admin.site.register(DemandForecast)
+
+admin.site.register(UserBehavior)
+
+admin.site.register(UserInterest)
+
+admin.site.register(SocialMediaInteraction)  

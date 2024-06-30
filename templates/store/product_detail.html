@@ -48,6 +48,58 @@
                             </li>
                         </ul>
                     </div>
+
+                    
+                    <div class="reviews mt-5" data-aos="fade-up">
+                        <h2 class="mb-3">Reviews</h2>
+                        <ul class="list-unstyled">
+                            {% for review in reviews %}
+                            <li class="review-item" data-rating="{{ review.rating }}">
+                                <strong>{{ review.user.username }}</strong>
+                                <div class="rating">
+                                    <!-- Stars will be populated by JavaScript -->
+                                </div>
+                                <p>{{ review.comment }}</p>
+                                <small>{{ review.created_at }}</small>
+                            </li>
+                            {% empty %}
+                            <li class="no-reviews">No reviews yet.</li>
+                            {% endfor %}
+                        </ul>
+                        <a href="{% url 'leave_review' product.id %}" class="btn btn-outline-primary rounded-pill btn-block mt-3">Leave a review</a>
+                    </div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+    const reviews = document.querySelectorAll('.review-item');
+
+    reviews.forEach(review => {
+        const rating = parseInt(review.dataset.rating);
+        const starsContainer = review.querySelector('.rating');
+
+        for (let i = 1; i <= 5; i++) {
+            const star = document.createElement('i');
+            star.classList.add('fa');
+            if (i <= rating) {
+                star.classList.add('fa-star');
+            } else {
+                star.classList.add('fa-star-o');
+            }
+            starsContainer.appendChild(star);
+        }
+    });
+});
+
+                    </script>
+                    
+<style>
+    .rating i {
+    color: #f5c518; /* Customize the color of the stars */
+    margin-right: 2px;
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
                 </div>
                 <div class="col-lg-12">
                     <div class="product__details__tab">

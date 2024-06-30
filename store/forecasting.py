@@ -1,10 +1,7 @@
-# forecasting.py
 import pandas as pd
 from .models import SalesData, DemandForecast, Product
 
 def time_series_analysis(sales_data):
-    # Mock function to simulate time series forecasting
-    # In real application, use actual time series analysis here
     return sales_data['sales_quantity'].mean()
 
 def forecast_demand():

@@ -44,8 +44,6 @@ class BlogPostForm(forms.ModelForm):
         fields = ['title', 'content']
 
 
-# forms.py
-
 from django import forms
 
 class ImageUploadForm(forms.Form):

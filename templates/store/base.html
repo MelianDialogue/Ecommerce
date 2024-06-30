@@ -21,7 +21,11 @@
         <link rel="stylesheet" href="{% static 'assets/css/slicknav.min.css' %}" type="text/css">
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" type="text/css">
         <style>
-           
+           .rating i {
+    color: #f5c518; /* Customize the color of the stars */
+    margin-right: 2px;
+}
+
             /* Basic Styling */
             .logo-container {
                 width: 60px;
@@ -329,18 +333,37 @@
                         <li class="nav-item"><a class="nav-link text-white text-center" href="{% url 'shipping' %}">Shipping & Returns</a></li>
                         <li class="nav-item"><a class="nav-link text-white text-center" href="{% url 'contact' %}">Contact Us</a></li>
                         <li class="nav-item"><a class="nav-link text-white text-center" href="{% url 'about' %}">About Us</a></li>
-                        <!-- <li class="nav-item dropdown">
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-white text-center" href="#" role="button" data-bs-toggle="dropdown">More</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
                             </ul>
-                        </li> -->
+                        </li>
                     </ul>
-                    <form method="post" action="{% url 'search' %}" class="d-flex custom-search-form ml-auto align-items-center">
+                    <form method="post" action="{% url 'search_results' %}" class="d-flex custom-search-form ml-auto align-items-center">
                         {% csrf_token %}
-                        <input class="form-control rounded-0 custom-search-input mr-2" type="search" placeholder="Search the product" aria-label="Search">
+                        <input class="form-control rounded-0 custom-search-input mr-2" type="search" name="search_query" id="search_query" placeholder="Search the product" aria-label="Search">
                         <button class="btn btn-success" type="submit">Search</button>
+                        <button class="btn btn-primary ml-2" type="button" id="voice_search_btn">
+                            <i class="fa fa-microphone-alt"></i> <!-- Replace with your preferred icon class -->
+                        </button>
                     </form>
+                    <script>
+                        const searchInput = document.getElementById('search_query');
+                        const voiceSearchBtn = document.getElementById('voice_search_btn');
+                    
+                        voiceSearchBtn.addEventListener('click', () => {
+                            const recognition = new webkitSpeechRecognition();
+                            recognition.lang = 'en-US';
+                    
+                            recognition.onresult = (event) => {
+                                const voiceInput = event.results[0][0].transcript;
+                                searchInput.value = voiceInput;
+                            };
+                    
+                            recognition.start();
+                        });
+                    </script>
                     
                 </div>
             </div>
@@ -412,6 +435,7 @@
         </style>
 
         <br>
+
  <!-- Hero Section Begin -->
  <section class="hero hero-normal">
     <div class="container">
@@ -427,7 +451,9 @@
                         <li><a href="{% url 'cart_detail' %}" class="nav-link text-dark">Shopping Cart</a></li>
                         <li><a href="{% url 'wishlist_detail' %}" class="nav-link text-dark">Wishlist</a></li>
                         <li><a href="{% url 'recommend_products' user.id %}" class="nav-link text-dark">See Recommendations</a></li>
-                        
+                       
+                        <li><a href="{% url 'real_time_analytics'  %}"
+                            class="nav-link text-dark">Realtime analytics</a></li>
                         <li><a href="{% url 'customer_segmentation'  %}"
                             class="nav-link text-dark">Customer segmentation</a></li>
                             <li><a href="{% url 'churn_prediction'  %}"
@@ -437,9 +463,15 @@
                                     class="nav-link text-dark">Detect Fraud</a></li>
                                     <li><a href="{% url 'analyze_sentiment'  %}"
                                         class="nav-link text-dark">Analyze Sentiment</a></li>
-                                       
+                                        
                                        <li><a href="{% url 'forecast_list' %}"
                                             class="nav-link text-dark">Forecast Demand</a></li>
+
+                                            <li><a href="{% url 'security_monitor' %}"
+                                                class="nav-link text-dark">Security monitor</a></li>
+                                       <li> <a href="{% url 'user_behavior_analysis' user.id %}" class="nav-link text-dark">View Behavior Analysis</a></li>
+                        
+                                       <li><a href="{% url 'dynamic_landing_page' user.id %}" class="nav-link text-dark">View Dynamic Landing Page</a></li>
 
                     </ul>
                 </div>
@@ -465,18 +497,10 @@
     </div>
 </section>
 <!-- Hero Section End -->
+
     {% block content %}
 
     {% endblock %}
-
-
-     <!-- base.html or appropriate template -->
- <!-- <a class="text-white" href="{% url 'send_personalized_email' %}">Send Personalized Email</a>
- <a href="{% url 'recommend_bundles' %}">Recommend Bundles</a>
- <a href="{% url 'predict_clv' %}">Predict CLV</a>
-   <a class="nav-link" href="{% url 'image_search' %}">Image Search</a>
- -->
-
 
 
 <!-- Footer Section Begin -->
@@ -627,6 +651,11 @@
                         <li><a class="text-white" href="{% url 'faq_list' %}">FAQs</a></li>
                         <li><a class="text-white" href="{% url 'blog_list' %}">Blog</a></li>
                         <li><a class="text-white" href="{% url 'contact' %}">Contact Us</a></li>
+                         <!-- base.html or appropriate template -->
+
+                     <li> <a class="text-white" href="{% url 'predict_clv' %}">Predict CLV</a></li>
+                   
+                    </li>
                     </ul>
                     <h6 class="text-white">Legal</h6>
                     <ul class="footer-links">
@@ -634,6 +663,9 @@
                         <li><a class="text-white" href="{% url 'privacy' %}">Privacy Policy</a></li>
                         <li><a class="text-white" href="{% url 'cookies' %}">Cookies</a></li>
                         <li><a class="text-white" href="{% url 'accessibility' %}">Accessibility</a></li>
+                        <li><a class="text-white" href="{% url 'recommend_bundles' %}">Recommend Bundles</a></li>
+                        <li> <a class="text-white" href="{% url 'send_personalized_email' %}">Send Personalized Email</a>
+     
                     </ul>
                 </div>
             </div>
@@ -674,6 +706,11 @@
 </footer>
 <!-- Footer Section End -->
 
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+
 <!-- Footer Section End -->
     <!-- Js Plugins -->
     <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
@@ -698,6 +735,29 @@
     })();
     </script>
     <!--End of Tawk.to Script-->
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+        const ratings = document.querySelectorAll('.rating');
+    
+        ratings.forEach(rating => {
+            const ratingValue = parseInt(rating.dataset.rating);
+            for (let i = 1; i <= 5; i++) {
+                const star = document.createElement('i');
+                star.classList.add('fa');
+                if (i <= ratingValue) {
+                    star.classList.add('fa-star');
+                } else {
+                    star.classList.add('fa-star-o');
+                }
+                rating.appendChild(star);
+            }
+        });
+    });
+    
+    </script>
+
 
 </body>
 

@@ -12,6 +12,42 @@ from django.http import JsonResponse
 from .models import Product, Cart, CartItem, Order, OrderItem, Review, Wishlist
 from .forms import ReviewForm
 from .payments import create_stripe_payment_intent, create_paypal_payment, execute_paypal_payment
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .models import Cart, Order
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
+from .models import Order, OrderItem
+from .payments import create_stripe_payment_intent, create_paypal_payment
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
+from .models import Order, OrderItem
+from .payments import create_stripe_payment_intent, create_paypal_payment
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
+from .models import Order, OrderItem
+from .payments import create_stripe_payment_intent, create_paypal_payment
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
+from django.http import JsonResponse
+from .models import Product, Cart, CartItem, Order, OrderItem, Review, Wishlist
+from .forms import ReviewForm
+from .payments import create_stripe_payment_intent, create_paypal_payment, execute_paypal_payment
+from sklearn.metrics.pairwise import cosine_similarity
+from .models import Order, OrderItem, Product
+import numpy as np
+
+
+
+
 
 # Views for product display and cart management
 def index(request):
@@ -23,7 +59,6 @@ def product_list(request):
     return render(request, 'store/product_list.html', {'products': products})
 
 
-# views.py
 def product_list(request):
     products = Product.objects.all()
     user_id = request.user.id if request.user.is_authenticated else None
@@ -31,7 +66,6 @@ def product_list(request):
         'products': products,
         'recommend_url': reverse('recommend_products', args=[user_id]) if user_id else None
     })
-
 
 
 def product_detail(request, product_id):
@@ -66,10 +100,6 @@ def remove_from_wishlist(request, product_id):
     wishlist, created = Wishlist.objects.get_or_create(user=request.user)
     wishlist.product.remove(product)
     return redirect('wishlist_detail')
-
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from .models import Cart, Order
 
 
 @login_required
@@ -124,27 +154,6 @@ def remove_cart_item(request, cart_item_id):
     cart_item.delete()
     return JsonResponse({'success': True})
 
-# Views for handling checkout and payments
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
-from .models import Order, OrderItem
-from .payments import create_stripe_payment_intent, create_paypal_payment
-
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
-from .models import Order, OrderItem
-from .payments import create_stripe_payment_intent, create_paypal_payment
-
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
-from .models import Order, OrderItem
-from .payments import create_stripe_payment_intent, create_paypal_payment
 
 @login_required
 def checkout(request, order_id):
@@ -190,15 +199,6 @@ def checkout(request, order_id):
         'total_price': total_price,
     })
 
-
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
-from django.http import JsonResponse
-from .models import Product, Cart, CartItem, Order, OrderItem, Review, Wishlist
-from .forms import ReviewForm
-from .payments import create_stripe_payment_intent, create_paypal_payment, execute_paypal_payment
 
 
 
@@ -276,7 +276,6 @@ def order_success(request, order_id):
     return render(request, 'store/order_success.html', {'order': order})
 
 
-
 from .models import Notification
 @login_required
 def order_success(request, order_id):
@@ -285,8 +284,6 @@ def order_success(request, order_id):
     message = f"Order #{order_id} has been successfully placed."
     Notification.objects.create(user=request.user, message=message)
     return render(request, 'store/order_success.html', {'order': order})
-
-
 
 
 @login_required
@@ -363,8 +360,6 @@ def add_product(request):
     return render(request, 'store/add_product.html', {'form': form})
 
 
-
-
 # Add product (admin)
 from django.contrib.auth.decorators import user_passes_test
 from .forms import ProductForm
@@ -380,9 +375,8 @@ def add_product(request):
         form = ProductForm()
     return render(request, 'store/add_product.html', {'form': form})
 
-
 # add to wishlist
-# views.py
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Product, Wishlist
@@ -429,7 +423,6 @@ def policy_page_detail(request, policy_page_id):
  
  
 #  blog_post_detail
-# views.py
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import BlogPost
@@ -467,11 +460,6 @@ def order_success(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     return render(request, 'store/order_success.html', {'order': order})
 
-
-
-from sklearn.metrics.pairwise import cosine_similarity
-from .models import Order, OrderItem, Product
-import numpy as np
 
 def recommend_products(user_id):
     # Get user's order history
@@ -548,25 +536,19 @@ def recommend_products(request, user_id):
     recommended_products = Product.objects.filter(id__in=recommendations)
     return render(request, 'store/recommendations.html', {'recommendations': recommended_products})
 
-# utils.py
+
 def get_current_demand(product_id):
-    # Placeholder logic for current demand
-    # Implement the logic to fetch current demand for the product
     product = Product.objects.get(id=product_id)
     return product.demand
 
 def get_competition_price(product_id):
-    # Placeholder logic for competition price
-    # Implement the logic to fetch competition price for the product
     product = Product.objects.get(id=product_id)
     return product.competition_price
 
 from decimal import Decimal
 
 def calculate_dynamic_price(demand, competition):
-    # Placeholder logic for calculating dynamic price
-    # Implement the actual pricing algorithm here
-    base_price = 100.0  # Example base price as float
+    base_price = 100.0
     demand_factor = 1 + (float(demand) / 100)
     competition_factor = 1 - (float(competition) / 100)
     new_price = base_price * demand_factor * competition_factor
@@ -723,7 +705,6 @@ def determine_churn():
 def train_churn_model():
     customer_data = fetch_customer_data_with_churn()
     
-    # Check the distribution of churn labels
     churn_counts = customer_data['churn'].value_counts()
     print(churn_counts)
     
@@ -805,10 +786,6 @@ def churn_prediction_view(request):
     return render(request, 'store/churn_prediction.html', {'accuracy': accuracy})
 
 
-
-
-
-# store/views.py
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from sklearn.ensemble import IsolationForest
@@ -829,23 +806,23 @@ def detect_fraud_view(request):
     
     # Convert transactions into a DataFrame
     transaction_data = {
-        'amount': [transaction.total_price for transaction in transactions],  # Adjust based on your transaction model
-        'product_name': [transaction.product.name for transaction in transactions],  # Example of additional data you might include
+        'amount': [transaction.total_price for transaction in transactions],
+        'product_name': [transaction.product.name for transaction in transactions], 
     }
     
     transactions_df = pd.DataFrame(transaction_data)
     
-    # Implement Isolation Forest for anomaly detection
-    isolation_forest = IsolationForest(contamination=0.1)  # Adjust contamination based on expected fraud rate
+   
+    isolation_forest = IsolationForest(contamination=0.1)
     
-    # Fit the model
+  
     isolation_forest.fit(transactions_df[['amount']])
     
     # Predict anomalies (fraudulent transactions)
     transactions_df['fraud_score'] = isolation_forest.decision_function(transactions_df[['amount']])
     
     # Determine fraud based on a threshold
-    threshold = -0.5  # Adjust threshold as needed
+    threshold = -0.5
     transactions_df['is_fraud'] = transactions_df['fraud_score'] < threshold
     
     # Prepare data to pass to template
@@ -871,13 +848,10 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 from .models import Customer, Transaction
 
-# Dummy model for example purposes
-# In practice, replace with your pre-trained model
+
 clv_model = LinearRegression()
 
 def load_and_prepare_data():
-    # Load your historical customer data and prepare it for training
-    # This is a dummy example with random data
     data = {
         'customer_id': [1, 2, 3],
         'avg_transaction_value': [100, 150, 200],
@@ -914,7 +888,7 @@ def predict_clv(customer_id):
     clv = clv_model.predict(customer_data)[0]
     return clv
 
-# Train the model (in practice, this would be done offline and the model would be loaded)
+# Train the model
 train_clv_model()
 
 
@@ -1089,12 +1063,9 @@ def adaptive_ranking(query, user_id):
     return ranked_results
 
 def rank_search_results(query, user_behavior=None):
-    # Example ranking logic, adjust as per your application's requirements
     if user_behavior:
-        # Example: Rank products based on user clicks or interactions
         ranked_products = Product.objects.filter(name__icontains=query).order_by('-demand')
     else:
-        # Default ranking without user behavior influence
         ranked_products = Product.objects.filter(name__icontains=query).order_by('-created_at')
 
     return ranked_products
@@ -1129,7 +1100,6 @@ def get_user_preferences(user_id):
 
 def generate_email_content(preferences):
     if preferences:
-        # Example logic to generate email content based on preferences
         email_content = f"Dear {preferences.user.username}, here is your personalized email content."
     else:
         email_content = "Generic email content when preferences are not available."
@@ -1149,7 +1119,6 @@ def send_personalized_email(request):
     preferences = get_user_preferences(user_id)
     email_content = generate_email_content(preferences)
     
-    # Example: Send email using Django's send_mail function
     send_mail(
         'Subject here',
         email_content,
@@ -1167,12 +1136,9 @@ from django.shortcuts import render
 from .models import OrderItem, Product
 
 def recommend_bundles(user_id):
-    # Placeholder for association rule mining or other recommendation logic
-    # For simplicity, let's assume we're recommending based on frequently co-purchased items
     purchase_history = OrderItem.objects.filter(order__user_id=user_id)
     bundle_recommendations = {}
 
-    # Iterate over each order item and find frequently co-purchased products
     for order_item in purchase_history:
         related_items = OrderItem.objects.filter(order__orderitem__product=order_item.product).exclude(product=order_item.product)
         
@@ -1197,33 +1163,27 @@ from django.contrib.auth.decorators import login_required
 from sklearn.linear_model import LinearRegression
 import numpy as np
 
-# Example CLV model (using Linear Regression for demonstration)
 clv_model = LinearRegression()
 
-# Example function to predict CLV
 def predict_clv(customer_id):
     try:
-        # Fetch the user and related profile data
         customer = User.objects.get(pk=customer_id)
-        profile = Profile.objects.get(user=customer)  # Retrieve profile related to the user
+        profile = Profile.objects.get(user=customer)
 
-        # Example: Accessing attributes from Profile model
         customer_data = np.array([[profile.purchase_count, profile.age, profile.total_spent]])
 
-        # Example of using the model to predict CLV (replace with your actual prediction logic)
         clv_prediction = clv_model.predict(customer_data)
 
         return clv_prediction
 
     except User.DoesNotExist:
-        return None  # Handle the case where user with given customer_id does not exist
+        return None
     except Profile.DoesNotExist:
-        return None  # Handle the case where profile for the user does not exist
+        return None
 
 @login_required
 def display_clv_prediction(request):
-    # Assuming customer_id is passed through request or retrieved from logged-in user
-    customer_id = request.user.id  # Adjust how you fetch customer_id based on your authentication logic
+    customer_id = request.user.id
     clv = predict_clv(customer_id)
 
     return render(request, 'store/clv_prediction.html', {'clv': clv})
@@ -1271,18 +1231,15 @@ def image_search(request):
     return render(request, 'store/image_search.html', {'results': results})
 
 
-
-
 import numpy as np
 import cv2
 from sklearn.metrics.pairwise import cosine_similarity
 from .models import Product
 
 def extract_image_features(image_path):
-    # Example: Using OpenCV to process the image and extract features
     image = cv2.imread(image_path)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    image = cv2.resize(image, (100, 100)).flatten()  # Resize and flatten for simplicity
+    image = cv2.resize(image, (100, 100)).flatten()
     return image
 
 def find_similar_products(features, top_n=5):
@@ -1308,12 +1265,114 @@ def search_products(request):
     query = request.GET.get('q', '')
     products = None
     if query:
-        # Understand the query using NLP
         keywords = understand_query(query)
         
-        # Search products based on keywords
         products = Product.objects.filter(
             name__icontains=keywords[0] if keywords else ''
-        )  # Example for simplicity, enhance as needed
+        )
 
     return render(request, 'store/search_results.html', {'products': products, 'query': query})
+
+# enhnaced security monitoring
+from sklearn.ensemble import IsolationForest
+import numpy as np
+
+def anomaly_detection(logs):
+    if len(logs) < 2:
+        return []
+
+    # Convert logs to a feature matrix
+    features = np.array([[log.timestamp.timestamp(), len(log.event_description)] for log in logs])
+
+    # Train IsolationForest
+    clf = IsolationForest(contamination=0.1)  # Adjust contamination according to your dataset
+    clf.fit(features)
+    predictions = clf.predict(features)
+
+    # Identify anomalies
+    anomalies = [logs[i] for i, pred in enumerate(predictions) if pred == -1]
+    return anomalies
+
+def monitor_security():
+    logs = list(SecurityLog.objects.all())
+    security_alerts = anomaly_detection(logs)
+    return security_alerts
+
+
+from django.shortcuts import render
+from .models import SecurityLog
+
+def security_monitor_view(request):
+    alerts = monitor_security()
+    return render(request, 'store/security_monitor.html', {'alerts': alerts})
+
+
+
+# views.py
+
+from django.shortcuts import render
+from django.contrib.auth.models import User
+from .utils import analyze_behavior
+
+def user_behavior_analysis_view(request, user_id):
+    user = User.objects.get(pk=user_id)
+    behavior_patterns = analyze_behavior(user_id)
+    return render(request, 'store/user_behavior_analysis.html', {'user': user, 'behavior_patterns': behavior_patterns})
+
+# views.py
+
+from django.shortcuts import render
+from django.contrib.auth.models import User
+from .utils import create_dynamic_page
+
+def dynamic_landing_page_view(request, user_id):
+    user = User.objects.get(pk=user_id)
+    landing_page = create_dynamic_page(user_id)
+    return render(request, 'store/dynamic_landing_page.html', {'user': user, 'landing_page': landing_page})
+
+
+from django.shortcuts import render
+from .models import SalesData, UserBehavior, SocialMediaInteraction, Product
+
+def real_time_analytics(request):
+    # Fetch real-time data (example using sales data and user behavior)
+    sales_data = SalesData.objects.all()
+    user_behavior_data = UserBehavior.objects.all()
+    social_media_data = SocialMediaInteraction.objects.all()
+    
+    # Example analytics processing
+    total_sales = sum(data.sales_quantity for data in sales_data)
+    top_searches = UserBehavior.objects.order_by('-clicks')[:5]
+    top_interactions = SocialMediaInteraction.objects.order_by('-interaction_strength')[:5]
+    
+    context = {
+        'total_sales': total_sales,
+        'top_searches': top_searches,
+        'top_interactions': top_interactions,
+    }
+    
+    return render(request, 'store/dashboard.html', context)
+
+
+# views.py
+from django.shortcuts import render
+from .models import Product, SearchQuery
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
+
+@login_required
+@require_POST
+def voice_search(request):
+    voice_input = request.POST.get('voice_input')
+    query = convert_voice_to_text(voice_input)  # Implement this function
+    results = Product.search_by_name(query)
+    SearchQuery.objects.create(query=query, user=request.user)
+    return render(request, 'store/search_results.html', {'results': results})
+
+
+def convert_voice_to_text(voice_input):
+    # Placeholder function; implement voice-to-text conversion here (using APIs like Google Cloud Speech-to-Text, etc.)
+    return voice_input

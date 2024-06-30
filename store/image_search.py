@@ -1,5 +1,3 @@
-# image_search.py
-
 import numpy as np
 from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2, preprocess_input
 from tensorflow.keras.preprocessing import image as keras_image
@@ -7,7 +5,7 @@ from tensorflow.keras.models import Model
 from sklearn.neighbors import NearestNeighbors
 from .models import Product
 
-# Load the pre-trained MobileNetV2 model + higher level layers
+
 base_model = MobileNetV2(weights='imagenet', include_top=False, pooling='avg')
 model = Model(inputs=base_model.input, outputs=base_model.output)
 
@@ -20,20 +18,15 @@ def extract_image_features(img):
     return features.flatten()
 
 
-
-# image_search.py
-
 def find_similar_products(features, n_neighbors=5):
     product_features = []
     product_ids = []
 
-    # Extract features for all products in the database
     for product in Product.objects.exclude(image=''):
         img_path = product.image.url
         product_features.append(extract_image_features(img_path))
         product_ids.append(product.id)
     
-    # Use NearestNeighbors to find the nearest products
     neighbors = NearestNeighbors(n_neighbors=n_neighbors, algorithm='ball_tree').fit(product_features)
     distances, indices = neighbors.kneighbors([features])
     

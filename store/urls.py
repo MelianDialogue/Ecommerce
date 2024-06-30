@@ -4,7 +4,7 @@ detect_fraud_view, churn_prediction_view, customer_segmentation_view, dynamic_pr
     add_to_wishlist, remove_from_wishlist, cart_detail, add_to_cart,
     update_cart_item,blog_post_detail,faq_list,policy_page_detail, 
     product_list, product_detail, add_product, 
-    checkout, order_history, remove_cart_item
+    checkout, order_history, remove_cart_item, security_monitor_view, user_behavior_analysis_view
 
 )
 from . import views
@@ -62,5 +62,15 @@ urlpatterns = [
     path('image-search/', views.image_search, name='image_search'),
 
     path('search/', views.search_products, name='search_products'),
+
+    path('security-monitor/', security_monitor_view, name='security_monitor'),
+
+    path('user-behavior/<int:user_id>/', user_behavior_analysis_view, name='user_behavior_analysis'),
+
+    path('dynamic-landing-page/<int:user_id>/', views.dynamic_landing_page_view, name='dynamic_landing_page'),
     
+
+    path('analytics/', views.real_time_analytics, name='real_time_analytics'),
+
+    path('voice_search/', views.voice_search, name='voice_search'),
 ]

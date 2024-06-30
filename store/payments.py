@@ -1,8 +1,13 @@
-# payments.py
 import stripe
 import paypalrestsdk
 from django.conf import settings
 from django.urls import reverse
+import paypalrestsdk
+from django.conf import settings
+import paypalrestsdk
+from django.conf import settings
+
+
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -53,10 +58,6 @@ def create_paypal_payment(order, return_url, cancel_url):
     return None
 
 
-# payments.py
-
-import paypalrestsdk
-from django.conf import settings
 
 paypalrestsdk.configure({
     "mode": "sandbox",  # "live" for production
@@ -72,9 +73,6 @@ def execute_paypal_payment(payment_id, payer_id):
         return False
 
 
-# paypal function to handle paymant
-import paypalrestsdk
-from django.conf import settings
 
 paypalrestsdk.configure({
     "mode": "sandbox",  # Set to "live" in production

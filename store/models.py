@@ -13,6 +13,10 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     demand = models.IntegerField(default=0)
     competition_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    social_media_score = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # New field
+    supply_chain_forecast = models.TextField(blank=True, null=True)
+
+
 
     @property
     def final_price(self):
@@ -182,7 +186,6 @@ class SalesData(models.Model):
         return f"{self.product} - {self.sales_date}"
 
 
-# Example model for UserBehavior (adjust as per your actual implementation)
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -193,7 +196,7 @@ class UserBehavior(models.Model):
     time_spent = models.FloatField(default=0)
 
     def __str__(self):
-        return f"{self.user.username} - {self.query}"
+        return f"{self.user.username} - {self.query} ({self.clicks} clicks, {self.time_spent} sec)"
 
 
 
@@ -230,7 +233,6 @@ class Preference(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     email_subscription = models.BooleanField(default=True)
     preferred_category = models.CharField(max_length=50, blank=True, null=True)
-    # Add fields for personalized email marketing and product bundle recommendations
     
     def __str__(self):
         return f"Preferences for {self.user.username}"
@@ -239,7 +241,6 @@ class Preference(models.Model):
 
 import spacy
 
-# Load the spaCy NLP model
 nlp = spacy.load('en_core_web_sm')
 
 def understand_query(query):
@@ -248,20 +249,78 @@ def understand_query(query):
     return keywords
 
 
-from django.shortcuts import render
+from django.db import models
+from django.contrib.auth.models import User
+
+class SecurityLog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    event_type = models.CharField(max_length=255)
+    event_description = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.event_type} - {self.timestamp}"
+
+
+class UserInterest(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    interest = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.interest}"
+    
+
+
+# models.py
+
+from django.db import models
+from django.contrib.auth.models import User
 from .models import Product
-# from .utils import understand_query
 
-def search_products(request):
-    query = request.GET.get('q', '')
-    products = None
-    if query:
-        # Understand the query using NLP
-        keywords = understand_query(query)
-        
-        # Search products based on keywords
-        products = Product.objects.filter(
-            name__icontains=keywords[0] if keywords else ''
-        )  # Example for simplicity, enhance as needed
+class SocialMediaInteraction(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    platform = models.CharField(max_length=50)
+    interaction_type = models.CharField(max_length=50)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    interaction_strength = models.IntegerField(default=0)
 
-    return render(request, 'store/search_results.html', {'products': products, 'query': query})
+    def __str__(self):
+        return f"{self.user.username} - {self.interaction_type} - {self.product.name}"
+
+
+def analyze_social_media(user_id):
+    from collections import defaultdict
+    
+    social_data = SocialMediaInteraction.objects.filter(user_id=user_id)
+    
+    product_scores = defaultdict(float)
+    
+    for interaction in social_data:
+        product_scores[interaction.product_id] += interaction.interaction_strength
+    
+    for product_id, score in product_scores.items():
+        product = Product.objects.get(id=product_id)
+        product.social_media_score = score
+        product.save()
+    
+    recommendations = Product.objects.filter(social_media_score__gt=0).order_by('-social_media_score')[:5]
+    
+    return recommendations
+
+
+def optimize_supply_chain():
+    
+    def predictive_model(supply_chain_data):
+
+        return f"Forecasted supply chain data based on analytics"
+
+    supply_chain_data = SalesData.objects.all()
+
+    supply_chain_forecast = predictive_model(supply_chain_data)
+
+    products = Product.objects.all()
+    for product in products:
+        product.supply_chain_forecast = supply_chain_forecast
+        product.save()
+
+    return supply_chain_forecast
