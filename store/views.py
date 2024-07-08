@@ -1,5 +1,4 @@
 import numpy as np
-import tensorflow as tf
 
 from sklearn.neighbors import NearestNeighbors
 from .models import Product
