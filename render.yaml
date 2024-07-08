@@ -3,9 +3,7 @@ services:
     name: ecommerceProject
     env: python
     plan: starter
-    pythonVersion: 3.10  # Specify Python 3.10 or another compatible version
     buildCommand: |
-      pip install --upgrade pip
       pip install -r requirements.txt
       python manage.py collectstatic --noinput
       python manage.py makemigrations
