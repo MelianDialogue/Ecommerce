@@ -33,4 +33,5 @@ admin.site.register(UserBehavior)
 
 admin.site.register(UserInterest)
 
-admin.site.register(SocialMediaInteraction)  
+admin.site.register(SocialMediaInteraction)
+

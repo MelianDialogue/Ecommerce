@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Branchy</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{% static 'img/icon.png' %}"/>
+    <link rel="icon" type="image/png" href="{% static 'img/logo1.jpg' %}"/>
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" type="text/css">
+    <!-- Custom CSS Styles -->
+
+     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/elegant-icons.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/nice-select.css' %}" type="text/css">
@@ -20,174 +20,179 @@
     <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/slicknav.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" type="text/css">
+
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" type="text/css">
     <style>
-        .rating i {
- color: #f5c518; /* Customize the color of the stars */
- margin-right: 2px;
+        /* Additional Custom Styles */
+        .card {
+            border-radius: 15px;
+            border: 1px solid #ddd;
+            transition: transform 0.2s;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .card-img-top {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .card-title {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card-text {
+            color: #666;
+        }
+
+        .btn-outline-secondary {
+            border-color: #007bff;
+            color: #007bff;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .navbar-light {
+            background-color: #343a40;
+        }
+
+        .gray-navbar {
+            background-color: #343a40;
+        }
+
+        .navbar-nav .nav-link {
+            color: white !important;
+        }
+
+        .navbar-toggler {
+            border: none;
+        }
+
+        .navbar-toggler-icon {
+            color: #ffffff;
+        }
+
+        .top-header, .middle-header {
+            background-color: #f8f9fa;
+            padding: 10px 0;
+        }
+
+        .top-header a, .middle-header a {
+            color: #333;
+        }
+
+        .call-us-section .fa-mobile-alt {
+            color: #007bff;
+        }
+
+        .logo {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .cart-icon-bg {
+            background-color: #007bff;
+            padding: 10px;
+            border-radius: 50%;
+        }
+
+        .cart-count {
+            background-color: #28a745;
+            color: white;
+            border-radius: 50%;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+
+        .custom-search-form .custom-search-input {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .custom-search-button {
+            border: none;
+            background-color: #fff;
+        }
+
+        .custom-search-icon {
+            color: #000;
+        }
+
+        @media (max-width: 767.98px) {
+            .top-header, .middle-header {
+                text-align: center;
+            }
+
+            .top-header .row > div, .middle-header .row > div {
+                flex: 100%;
+                max-width: 100%;
+            }
+
+            .top-header .row > div:not(:last-child) {
+                margin-bottom: 10px;
+            }
+
+            .navbar-collapse {
+                background-color: #343a40;
+                padding: 10px;
+            }
+
+            .navbar-nav {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .custom-search-form {
+                margin-top: 10px;
+            }
+
+            .custom-search-input, .custom-search-button, .btn-primary {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* Ensuring consistent alignment */
+        .top-header, .middle-header, .navbar {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+        }
+
+        .container-fluid {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .branchy-logo1 {
+    display: flex;
+    margin-top:10px;
 }
 
-         /* Basic Styling */
-         .logo-container {
-             width: 60px;
-             height: 60px;
-         }
-         .logo {
-             width: 100%;
-             height: 100%;
-             object-fit: contain;
-         }
-         .call-us-section {
-             font-size: 18px;
-         }
-         .navbar-nav .nav-link {
-             font-weight: 500;
-             color: #fff;
-             transition: color 0.3s ease;
-         }
+.logo-image {
+    height: 2.0rem;
+    width: auto; /* Adjust the width of the logo */
+    margin-right: 0.5rem; /* Adjust the spacing between the logo and the text as needed */
+}
 
-         /* Additional Styling for Professional Look */
-         header .container {
-             max-width: 1200px;
-         }
+.branchy-text {
+    font-size: 2.0rem; /* Adjust the font size of the text */
+    font-weight: 800; /* Adjust the font weight of the text if needed */
+}
 
-         header h1 {
-             font-size: 1.5rem;
-             color: #333;
-         }
-
-         .call-us-section .call-us-text {
-             font-weight: bold;
-             color: #007bff;
-         }
-
-         .call-us-section .toll-free-text {
-             font-size: 1rem;
-             color: #6c757d;
-         }
-
-         header .btn-group .btn,
-         header .btn-outline-secondary {
-             border-radius: 20px;
-             font-size: 0.875rem;
-             padding: 0.375rem 1rem;
-         }
-
-
-         .navbar .navbar-nav .dropdown-menu {
-             border-radius: 0.5rem;
-             z-index: 1000;
-         }
-
-         .navbar .fa-shopping-bag {
-             font-size: 1.5rem;
-         }
-
-         .navbar .form-control {
-             border-radius: 20px;
-             font-size: 0.875rem;
-         }
-
-         .navbar .btn-outline-success {
-             border-radius: 20px;
-             font-size: 0.875rem;
-         }
-
-         /* Specific styling for increased height */
-         .navbar-expand-lg .navbar-nav .nav-link {
-             padding-top: 1rem;
-             padding-bottom: 1rem;
-         }
-
-         /* Color and Spacing Adjustments */
-         .top-header {
-             background-color: white;
-             padding: 10px 0;
-         }
-         .middle-header {
-             background-color: #f0f0f0;
-             padding: 20px 0;
-         }
-         .navbar {
-             background-color: gray;
-             padding: 20px 0;
-         }
-
-         /* Notification styling */
-         .notification-btn .badge {
-             font-size: 0.75rem;
-         }
-
-         .notifications {
-             display: none;
-             max-width: 300px;
-             right: 0;
-             top: 40px;
-             z-index: 1000;
-             border: 1px solid #ccc;
-             background-color: #fff;
-             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-         }
-
-         .notification-btn:hover .notifications {
-             display: block;
-         }
-
-         .banner {
-             background: #f1f1f1;
-             padding: 20px 0;
-             text-align: center;
-         }
-
-         .banner h2 {
-             font-size: 1.2rem;
-             color: #007bff;
-         }
-
-         .banner i {
-             font-size: 2rem;
-             color: #007bff;
-             margin-bottom: 10px;
-         }
-
-         /* Added CSS */
-         .cart-link {
-             position: relative;
-             display: inline-block;
-             color: inherit;
-             text-decoration: none;
-         }
-
-         .cart-icon-bg {
-             position: relative;
-             display: inline-block;
-             background-color: red;
-             border-radius: 50%;
-             padding: 5px;
-         }
-
-         .cart-count {
-             position: absolute;
-             top: -10px;
-             right: -10px;
-             font-size: 0.8rem;
-         }
-
-         /* Custom Mobile Styles */
-         @media (max-width: 767px) {
-             .call-us-section {
-                 margin-bottom: 20px;
-                 text-align: center;
-             }
-             .call-us-section .toll-free-text {
-                 margin-top: 5px;
-             }
-             .middle-header .col-md-6 {
-                 text-align: center;
-             }
-             .middle-header h1 {
-                 margin-top: 10px;
-             }
-         }
     </style>
 </head>
 <body>
@@ -196,19 +201,17 @@
     <div class="loader"></div>
 </div>
 
-
-
-<header class="container-fluid top-header" style="border-bottom: none;">
-    <div class="container">
+<!-- Top Header -->
+<header class="container-fluid top-header mt-2" style="padding-left:60px;padding-right:60px">
         <div class="row align-items-center">
             <div class="col-md-6 text-start">
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center justify-content-center justify-content-md-start">
                     <div class="me-2">
-                        <a href="#" class="text-decoration-none text-dark">Gift Certificates</a>
-                    </div>  <span style="height:30px">|</span>
-                    <hr class="my-2 mx-2 text-dark" style="height: 4px; width: auto; border-top: 1px solid #000;">
-                    <div class="dropdown">
-                        <a class="dropdown-toggle text-dark" href="#" role="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white; padding: 0.375rem 0.75rem; border-radius: 0.25rem;">
+                        <a href="#" class="text-decoration-none">Gift Certificates</a>
+                    </div>
+                    <span style="height:30px">|</span>
+                    <div class="dropdown ms-2">
+                        <a class="dropdown-toggle" href="#" role="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white; padding: 0.375rem 0.75rem; border-radius: 0.25rem;">
                             Select Currency: GBP
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
@@ -218,50 +221,35 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-md-6 text-end">
-                <ul class="list-unstyled d-flex mb-0 justify-content-end">
+                <ul class="list-unstyled d-flex mb-0 justify-content-center justify-content-md-end">
                     <li class="me-2">
-                        <a  href="{% url 'login-url' %}" class="text-decoration-none text-dark">Login</a>
+                        <a href="{% url 'login-url' %}" class="text-decoration-none">Login</a>
                     </li>
-                    <li>
-                        or
-                    </li>
+                    <li>or</li>
                     <li class="ms-2">
-                        <a href="{% url 'register-url' %}" class="text-decoration-none text-dark">Sign Up</a>
+                        <a href="{% url 'register-url' %}" class="text-decoration-none">Sign Up</a>
                     </li>
                 </ul>
             </div>
-
-
         </div>
-    </div>
+
 </header>
 
+<!-- Middle Header -->
+<header class="container-fluid middle-header border-bottom"  style="padding-left:60px;padding-right:60px">
 
-<header class="container-fluid middle-header border-bottom">
-    <div class="container">
         <div class="row align-items-center">
             <div class="col-md-3">
                 <div class="d-none d-md-flex align-items-center justify-content-center justify-content-md-start">
                     <div class="logo-container me-md-3">
-                        <style>
-                            .branchy-logo1 {
-   display: flex;
-   align-items: center;
-}
-
-.branchy-logo img {
-   height: 1.2rem; /* Match the height of the text */
-   margin-right: 0.9rem; /* Space between the image and the text */
-   vertical-align: middle;
-}
-                        </style>
                         <a href="{% url 'home-url' %}" style="text-decoration:none">
-                            <h4 class="branchy-logo1" style="font-weight: 900;
-                                     font-size: 2.4rem; letter-spacing: -0.3rem;">
-                                <img class="rounded" src="{% static 'img/logo1.jpg' %}" alt="">BRANCHY
+                            <h4 class="branchy-logo1">
+                                <img class="rounded logo-image" src="{% static 'img/logo1.jpg' %}"
+                                     alt="Branchy Logo">
+                                <span class="branchy-text">BRANCHY</span>
                             </h4>
+
                         </a>
                     </div>
                 </div>
@@ -270,101 +258,47 @@
             <div class="col-md-3 text-center call-us-section">
                 <ul class="list-unstyled d-flex justify-content-center mb-0">
                     <li class="me-4">
-                        <a href="{% url 'contact' %}" class="text-decoration-none text-dark d-flex align-items-center">
-                            <i class="fas fa-mobile-alt me-2" style="font-size: 2rem;"></i>
+                        <a href="{% url 'contact' %}" class="text-decoration-none d-flex align-items-center">
+                            <i class="fas fa-mobile-alt me-2" style="font-size: 1.5rem;"></i>
                             <div class="text-start">
                                 <p class="text-muted mb-0">CALL US NOW</p>
                                 <p class="text-muted mb-0">Toll Free: +447508516836</p>
                             </div>
                         </a>
                     </li>
-
-
                     <li>
-                        <hr class="my-2 mx-3 d-md-none" style="border-top: 3px solid #000; height: 20px;">
-                        <hr class="my-2 d-none d-md-block" style="border-left: 3px solid #000; height: 30px;">
-                    </li>
-                    <li>
-                        <a href="#" class="cart-link text-decoration-none text-dark">
-                                    <span class="cart-icon-bg">
-                                        <i class="fa fa-shopping-bag text-white" style="font-size: 1.5rem;"></i>
-                                    </span>
+                        <a href="#" class="cart-link text-decoration-none">
+                            <span class="cart-icon-bg">
+                                <i class="fa fa-shopping-bag text-white" style="font-size: 1.5rem;"></i>
+                            </span>
                             <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
                         </a>
                     </li>
                 </ul>
             </div>
-
-
         </div>
-    </div>
+
 </header>
 
-
-<style>
-    /* Navbar Item Styles */
-    .navbar-nav .nav-link {
-color: #ffffff;
-transition: color 0.3s ease, background-color 0.3s ease;
-padding: 0.5rem 1rem; /* Adjust padding as needed to create a square effect */
-border-radius: 0.25rem; /* This gives a slight rounding to the corners; set to 0 for sharp corners */
-}
-
-.navbar-nav .nav-link:hover {
-color: #ffc107; /* Change to your desired hover color */
-background-color: #343a40; /* Change to your desired background color on hover */
-}
-
-/* Search Form Styles */
-.custom-search-form {
-width: 100%; /* Ensure it takes full width in lg and above */
-max-width: 400px; /* Adjust maximum width as needed */
-}
-
-.custom-search-input {
-border-color: #ffffff; /* Adjust input border color */
-}
-
-.custom-search-input::placeholder {
-color: #dee2e6; /* Adjust placeholder text color */
-}
-
-/* Dropdown Menu Styles */
-.dropdown-menu {
-background-color: #828486; /* Adjust dropdown background color */
-}
-
-.dropdown-menu .dropdown-item {
-color: #ffffff;
-transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.dropdown-menu .dropdown-item:hover {
-color: #ffc107; /* Adjust hover text color */
-}
-
-</style>
-
-
-<nav class="container-fluid navbar navbar-expand-lg navbar-light" style="padding-top: 0; padding-bottom: 0;">
-    <div class="container">
+<!-- Navbar -->
+<nav class="container-fluid navbar navbar-expand-lg navbar-light gray-navbar"
+     style="padding-left:60px;padding-right:60px;padding-top:0;padding-bottom:0;">
         <!-- Mobile Logo and Title -->
         <div class="d-lg-none d-flex align-items-center">
             <a href="{% url 'home-url' %}">
-                <img src="{% static 'img/icon.png' %}"
+                <img src="{% static 'img/logo1.jpg' %}"
                      alt="Branchy Logo" class="logo">
             </a>
             <a href="#" style="text-decoration: none;">
-                <h1 class="mb-0" style="font-weight: 900; font-size: 2.4rem; letter-spacing: -0.3rem;"><strong>BRANCHY</strong></h1>
+                <h1 class="mb-0" style="font-weight: 900; color: white; text-transform: uppercase;">BRANCHY</h1>
             </a>
         </div>
-
-        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="background-color: #ffffff;">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
-        <div class="collapse navbar-collapse justify-content-start" id="navbarNav" style="background-color: #04080c; padding-left: 20px;">
-            <ul class="navbar-nav mr-auto" style="font-size: 1.0rem;">
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNav" style="background-color: #345;">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-start" style="font-size: 1.0rem;">
                 <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'home-url' %}">Home</a></li>
                 <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'product_list' %}">Products</a></li>
                 <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'shipping' %}">Shipping & Returns</a></li>
@@ -374,6 +308,7 @@ color: #ffc107; /* Adjust hover text color */
                     <a class="nav-link dropdown-toggle text-white text-center text-uppercase" href="#" role="button" data-bs-toggle="dropdown">More</a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
+                        <li><a class="dropdown-item" href="{% url 'profile-url' %}">Profile</a></li>
                     </ul>
                 </li>
             </ul>
@@ -382,33 +317,44 @@ color: #ffc107; /* Adjust hover text color */
                 <div class="input-group">
                     <input type="search" class="form-control rounded-0 custom-search-input" id="search_query" name="search_query" placeholder="Search the product" aria-label="Search" style="height: 40px; font-size: 0.9rem;">
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-success btn-block" style="height: 40px; font-size: 0.9rem;">Search</button>
+                        <button type="submit" class="btn btn-block"
+                                style="height: 40px; font-size: 0.9rem;background-color:#20c997">Search</button>
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary ml-2 align-middle" id="voice_search_btn" style="height: 40px;">
-                    <i class="fa fa-microphone-alt"></i> <!-- Replace with your preferred icon class -->
+                <button type="button" class="btn ml-2 align-middle"
+                        id="voice_search_btn" style="height: 40px;background-color:#20c997">
+                    <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
                 </button>
             </form>
-
-            <script>
-                const searchInput = document.getElementById('search_query');
-                const voiceSearchBtn = document.getElementById('voice_search_btn');
-
-                voiceSearchBtn.addEventListener('click', () => {
-                    const recognition = new webkitSpeechRecognition();
-                    recognition.lang = 'en-US';
-
-                    recognition.onresult = (event) => {
-                        const voiceInput = event.results[0][0].transcript;
-                        searchInput.value = voiceInput;
-                    };
-
-                    recognition.start();
-                });
-            </script>
         </div>
-    </div>
 </nav>
+
+<!-- JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+<script>
+    const searchInput = document.getElementById('search_query');
+    const voiceSearchBtn = document.getElementById('voice_search_btn');
+
+    voiceSearchBtn.addEventListener('click', () => {
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = 'en-US';
+
+        recognition.onresult = (event) => {
+            const voiceInput = event.results[0][0].transcript;
+            searchInput.value = voiceInput;
+        };
+
+        recognition.start();
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
 
 <style>
     @keyframes fadeInUp {
@@ -767,9 +713,11 @@ margin-right: 2px;
      }
 
      .banner {
-         background: #f1f1f1;
          padding: 20px 0;
          text-align: center;
+         padding-left:-20px;
+          padding-right:-20px;
+
      }
 
      .banner h2 {
@@ -825,30 +773,90 @@ margin-right: 2px;
 </style>
 
 
-<section class="banner container-fluid">
-    <div class="container">
+<section class="banner container-fluid"  style="padding-left:60px;padding-right:60px">
         <div class="row">
             <div class="col-md-4 d-flex justify-content-start animated fadeInUp">
                 <h2 class="text-muted"><i class="fas fa-gift text-muted"></i> UP TO 5% REWARD</h2>
             </div>
-            <div class="col-md-4 d-flex justify-content-center animated fadeInUp" style="animation-delay: 0.5s;">
+            <div class="col-md-4 d-flex justify-content-start animated fadeInUp" style="animation-delay: 0.5s;">
                 <h2 class="text-muted"><i class="fas fa-calendar-alt text-muted"></i> DELIVERY SCHEDULE</h2>
             </div>
-            <div class="col-md-4 d-flex justify-content-end animated fadeInUp" style="animation-delay: 1s;">
+            <div class="col-md-4 d-flex justify-content-start animated fadeInUp" style="animation-delay: 1s;">
                 <h2 class="text-muted"><i class="fas fa-shipping-fast text-muted"></i> SAME DAY SHIPPING</h2>
             </div>
         </div>
-    </div>
+
 </section>
 
+<style>
+    <style>
+    /* Ensure the entire section height is covered */
+    .hero {
+        height: 100%;
+    }
 
-<section class="hero">
-    <div class="container">
+    /* Adjust the container padding */
+    .custom-container {
+        padding-left: 60px;
+        padding-right: 60px;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-top: -20px; /* Adjust negative margin to move the section up */
+    }
+
+    /* Styling for the navigation links */
+    .hero__categories {
+        height: 100%;
+        background-color: #f8f9fa; /* Background color for the navigation section */
+        border: 1px solid #dee2e6; /* Border color */
+        border-radius: 8px; /* Rounded corners */
+        overflow: hidden; /* Hide overflow to contain the border properly */
+    }
+
+    .hero__categories__all {
+        background-color: #20c997; /* Background color for the "Dashboard" label */
+        padding: 10px 15px; /* Padding for the "Dashboard" label */
+        border-bottom: 1px solid #17a2b8; /* Bottom border for the label */
+        color: #fff; /* Text color for the label */
+        font-weight: bold; /* Bold font weight for the label */
+        border-top-left-radius: 8px; /* Rounded top-left corner */
+        border-top-right-radius: 8px; /* Rounded top-right corner */
+    }
+
+    .hero__categories ul {
+        list-style-type: none; /* Remove default list styles */
+        padding: 0;
+        margin: 0;
+    }
+
+    .hero__categories ul li {
+        border-bottom: 1px solid #dee2e6; /* Bottom border between list items */
+    }
+
+    .hero__categories ul li:last-child {
+        border-bottom: none; /* Remove bottom border from the last list item */
+    }
+
+    .hero__categories ul li a {
+        display: block;
+        padding: 10px 15px; /* Padding for each link */
+        color: #343a40; /* Text color for the links */
+        text-decoration: none; /* Remove underline from links */
+    }
+
+    .hero__categories ul li a:hover {
+        background-color: #e9ecef; /* Background color on hover */
+    }
+</style>
+</style>
+
+
+<section class="container-fluid"  style="padding-left:60px;padding-right:60px">
         <div class="row">
-            <div class="col-lg-4 animated fadeInLeft" >
-                <div class="hero__categories">
-                    <div class="hero__categories__all">
-                        <span>Dashboard</span>
+            <div class="col-lg-4 animated fadeInLeft" style="height: 100%;">
+                <div class="hero__categories" style="height: 100%;">
+                    <div class="hero__categories__all" style="background-color:#20c997">
+                        <span>Dashboards</span>
                     </div>
                     <ul>
                         <li><a href="{% url 'home-url' %}" class="nav-link text-dark">Home</a></li>
@@ -858,14 +866,14 @@ margin-right: 2px;
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-8 animated fadeInRight">
+            <div class="col-lg-8 animated fadeInRight" style="height: 100%;">
                 <div class="hero__search"></div>
 
-                <div id="productCarousel" class="carousel slide" data-ride="carousel">
+                <div id="productCarousel" class="carousel slide" data-ride="carousel" style="height: 100%;">
                     <!-- Wrapper for slides -->
-                    <div class="carousel-inner">
+                    <div class="carousel-inner" style="height: 100%;">
                         {% for product in category_4_products %}
-                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}" style="height: 100%;">
                             <a href="{% url 'product_detail' product.id %}">
                                 <img class="d-block w-100" src="{{ product.image.url }}" alt="{{ product.title }}">
                             </a>
@@ -884,26 +892,71 @@ margin-right: 2px;
                     </a>
                 </div>
                 <!-- End Carousel -->
-
-                <style>
-                    /* Adjust the carousel item height to ensure full coverage */
-                    .carousel-item {
-                        height: 100%;
-                    }
-
-                    /* Ensure images fill their parent carousel-item */
-                    .carousel-item img {
-                        height: 100%;
-                        width: 100%;
-                        object-fit: cover; /* Ensure the image covers the entire container */
-                    }
-                </style>
-
             </div>
         </div>
-    </div>
 </section>
-<!-- Hero Section End -->
+
+
+<br><br>
+
+<style>
+    /* Adjust the container padding */
+    .custom-container {
+        padding-left: 60px;
+        padding-right: 60px;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-top: -20px; /* Adjust negative margin to move the section up */
+    }
+
+    /* Card styles */
+    .card {
+        position: relative;
+        overflow: hidden;
+        height: 100%; /* Ensure cards take full height */
+        border: none; /* Remove border for cleaner look */
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+        transition: box-shadow 0.3s ease-out; /* Smooth transition for shadow */
+    }
+
+    .card:hover {
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+    }
+
+    .card-img-top {
+        width: 100%; /* Ensure image fills the width of the card */
+        height: auto; /* Maintain aspect ratio */
+        object-fit: cover; /* Ensure the image covers the entire container */
+        transition: transform 0.3s ease-out; /* Smooth scaling transition */
+    }
+
+    .card:hover .card-img-top {
+        transform: scale(1.1); /* Scale up image on hover */
+    }
+
+    .card-link {
+        display: block;
+        height: 100%; /* Ensure link takes full height of card */
+    }
+</style>
+
+<div class="container-fluid custom-container" style="padding-left:60px;padding-right:60px">
+    <!-- Row for Category 5 products -->
+    <div class="row">
+        {% for product in category_5_products %}
+        <div class="col-md-4">
+            <div class="card">
+                <a href="{% url 'product_detail' product.id %}" class="card-link">
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- End row for Category 5 products -->
+</div>
+
+
 
 <!-- Cookie Consent Banner -->
 <div class="cookie-banner" id="cookieBanner">
@@ -916,107 +969,131 @@ margin-right: 2px;
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <style>
-        h1, h3 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .product-section {
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 40px;
-        }
-        .product-row {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow: hidden;
-            width: 1200px; /* 300px * 4 (to show 4 products) */
-        }
-        .product {
-            flex: 0 0 auto;
-            width: 300px;
-            margin-right: 20px;
-            text-align: center;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 15px;
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .product:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        .product img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-        .price {
-            font-weight: bold;
-            color: #28a745;
-        }
-        .old-price {
-            text-decoration: line-through;
-            margin-left: 5px;
-            color: #dc3545;
-        }
-        .stars {
-            color: gold;
-        }
-        .sale-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: #dc3545;
-            color: #fff;
-            padding: 5px 10px;
-            font-size: 12px;
-            font-weight: bold;
-            border-radius: 5px;
-        }
-        .icons {
-            margin: 10px 0;
-        }
-        .icons i {
-            color: #333;
-            margin: 0 5px;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-        .icons i:hover {
-            color: #007bff;
-        }
-        .scroll-column {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            padding: 10px;
-            cursor: pointer;
-            z-index: 1;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .scroll-column.left {
-            left: 10px;
-        }
-        .scroll-column.right {
-            right: 10px;
-        }
-    </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<style>
+    h1, h3 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .product-section {
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 40px;
+    }
+    .product-row {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow: hidden;
+        width: 1200px; /* 300px * 4 (to show 4 products) */
+    }
+    .product {
+        flex: 0 0 auto;
+        width: 300px;
+        margin-right: 20px;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .product:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .product img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+    .price {
+        font-weight: bold;
+        color: #28a745;
+    }
+    .old-price {
+        text-decoration: line-through;
+        margin-left: 5px;
+        color: #dc3545;
+    }
+    .stars {
+        color: gold;
+    }
+    .sale-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: #dc3545;
+        color: #fff;
+        padding: 5px 10px;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 5px;
+    }
+    .icons {
+        margin: 10px 0;
+    }
+    .icons i {
+        color: #333;
+        margin: 0 5px;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    .icons i:hover {
+        color: #007bff;
+    }
+    .scroll-column {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 1;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .scroll-column.left {
+        left: 10px;
+    }
+    .scroll-column.right {
+        right: 10px;
+    }
 
-  <section class="categories">
-<div class="container">
+</style>
+<style>
+    h3.featured-product {
+        margin-top: 20px; /* Adjust top margin for spacing */
+        margin-bottom: 20px; /* Adjust bottom margin for spacing */
+        color: #343a40; /* Text color for the heading */
+        font-weight: bold; /* Bold font weight */
+        text-transform: uppercase; /* Uppercase text */
+        text-align: center; /* Center align the text */
+        position: relative; /* Position relative for the pseudo-element */
+    }
+
+    h3.featured-product::after {
+        content: ""; /* Empty content for the pseudo-element */
+        display: block; /* Display as block to take full width */
+        width: 40px; /* Width of the underline */
+        height: 2px; /* Height of the underline */
+        background-color: #20c997; /* Color of the underline */
+        position: absolute; /* Position absolute to overlay on top */
+        bottom: -5px; /* Position the underline slightly below */
+        left: 50%; /* Center the underline horizontally */
+        transform: translateX(-50%); /* Adjust for centering */
+    }
+</style>
+
+<section class="categories" style="padding-left:60px;padding-right:60px;">
     <!-- Category 1 Products -->
+    <br><br>
     <div class="product-section">
-        <h3>Featured Product</h3>
+        <h3 class="featured-product">Featured Product</h3>
         <div class="scroll-column left" onclick="scrollLeft('category-1')"><i class="fas fa-chevron-left"></i></div>
         <div class="product-row" id="category-1">
             {% for product in category_1_products %}
@@ -1052,9 +1129,8 @@ margin-right: 2px;
     </div>
 
     <!-- Repeat for other categories -->
+</section>
 
-</div>
-  </section>
 <script>
     const productsPerPage = 5;
     let currentProductIndex = 0;
@@ -1098,7 +1174,7 @@ margin-right: 2px;
 
 
 <!-- Category 2 Products -->
-<div class="container product-section">
+<div class="container-fluid product-section" style="padding-left:60px;padding-right:60px;">
     <div class="row">
         <!-- First Column -->
         <div class="col-md-4">
@@ -1143,8 +1219,8 @@ margin-right: 2px;
 </div>
 
 <!-- Category 3 Products -->
-<div class="container product-section">
-    <h3>New Products</h3>
+<div class="container-fluid product-section" style="padding-left:60px;padding-right:60px;">
+    <h3 class="featured-product">New Products</h3>
     <div class="position-relative">
         <button class="scroll-button scroll-left" onclick="scrollLeft()">&#10094;</button>
         <button class="scroll-button scroll-right" onclick="scrollRight()">&#10095;</button>
@@ -1251,9 +1327,9 @@ margin-right: 2px;
     }
 </style>
 
-<div class="footer spad">
-    <div class="container">
-        <div class="row mt-5">
+<div class="footer spad" style="padding-left:60px;padding-right:60px;">
+    <div class="container-fluid">
+        <div class="row">
             <div class="col-md-3 footer-column">
                 <h6 class="branchy-logo" style="font-size: 1.5rem; letter-spacing: -0.2rem">
                     <img class="rounded" src="{% static 'img/logo1.jpg' %}" alt=""> BRANCHY
@@ -1435,6 +1511,15 @@ margin-right: 2px;
         });
     }
 </script>
+
+<!-- Bootstrap CSS link (place this in the <head> section of your HTML) -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Optional: Bootstrap JavaScript bundle (place this at the end of your <body> section, before </body>) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+
+
 <!-- Js Plugins -->
 <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
 <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
@@ -1478,10 +1563,6 @@ margin-right: 2px;
 });
 
 </script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 </body>

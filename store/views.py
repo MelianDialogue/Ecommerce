@@ -59,6 +59,7 @@ def index(request):
     category_2_products = Product.objects.filter(category='2')[:4]
     category_3_products = Product.objects.filter(category='3')[:6]
     category_4_products = Product.objects.filter(category='4')[:4]
+    category_5_products = Product.objects.filter(category='5')[:3]
     # Repeat for other categories as needed
 
     context = {
@@ -66,6 +67,7 @@ def index(request):
         'category_2_products': category_2_products,
         'category_3_products': category_3_products,
         'category_4_products': category_4_products,
+        'category_5_products': category_5_products,
         # Include other categories similarly
     }
     return render(request, 'store/index.html', context)
