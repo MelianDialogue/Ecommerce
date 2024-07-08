@@ -1,0 +1,70 @@
+{% extends "store/base.html" %}
+{% block content %}
+
+<h3>Customer Segmentation</h3>
+
+<style>
+    .table-container {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+    table {
+        width: 80%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 18px;
+        text-align: left;
+    }
+    table thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+        font-weight: bold;
+    }
+    table th, table td {
+        padding: 12px 15px;
+    }
+    table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+    table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+    table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+    h3 {
+        font-family: 'Arial', sans-serif;
+        color: #333333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>Age</th>
+                <th>Total Spent</th>
+                <th>Purchase Count</th>
+                <th>Segment</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in segments %}
+                <tr>
+                    <td>{{ customer.id }}</td>
+                    <td>{{ customer.userprofile__age }}</td>
+                    <td>{{ customer.total_spent }}</td>
+                    <td>{{ customer.purchase_count }}</td>
+                    <td>{{ customer.segment }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

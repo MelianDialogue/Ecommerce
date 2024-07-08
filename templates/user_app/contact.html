@@ -1,0 +1,89 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact bg-white py-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5 text-success">
+                <span class="px-2">Contact Us</span>
+            </h2>
+        </div>
+        
+        <div class="container" data-aos="fade-up">
+            <div class="row gy-4">
+                <div class="col-lg-4">
+                    <!-- Info Items -->
+                    <div class="info-item d-flex">
+                        <i class="bi bi-geo-alt flex-shrink-0"></i>
+                        <div class="ms-3">
+                            <h4>Location:</h4>
+                            <p>4 Durham Workspace<br>
+                                PityMe, Durham DH1 5GG, UK</p>
+                        </div>
+                    </div>
+                    <div class="info-item d-flex mt-4">
+                        <i class="bi bi-envelope flex-shrink-0"></i>
+                        <div class="ms-3">
+                            <h4>Email:</h4>
+                            <p><a href="mailto:josh@meliandialogue.com" class="text-dark">josh@meliandialogue.com</a><br>
+                                <a href="mailto:jim.coke@meliandialogue.com" class="text-dark">jim.coke@meliandialogue.com</a></p>
+                        </div>
+                    </div>
+                    <div class="info-item d-flex mt-4">
+                        <i class="bi bi-phone flex-shrink-0"></i>
+                        <div class="ms-3">
+                            <h4>Call:</h4>
+                            <p>+44 7508 516836</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <!-- Contact Form -->
+                    <h2 class="text-center mb-4">Drop Your Message Here</h2>
+                    <form action="{% url 'contact' %}" method="post" role="form" class="php-email-form">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                        </div>
+                        <div class="form-group mt-3">
+                            <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success">Send Message</button>
+                        </div>
+                    </form>
+                    <!-- Success Message (Hidden by default) -->
+                    <div class="alert alert-success mt-3 d-none" id="success-message" role="alert">
+                        Your message has been sent. Thank you!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Contact Section -->
+
+    <!-- Script for form submission handling -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.php-email-form');
+            const successMessage = document.getElementById('success-message');
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                // Display success message and hide form
+                successMessage.classList.remove('d-none');
+                form.reset(); // Optional: Reset form fields after submission
+            });
+        });
+    </script>
+{% endblock %}

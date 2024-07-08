@@ -1,0 +1,64 @@
+{% extends "store/base.html" %}
+{% block content %}
+
+<h1>Churn Prediction</h1>
+
+<style>
+    .table-container {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+    table {
+        width: 60%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 18px;
+        text-align: left;
+    }
+    table thead tr {
+        background-color: #ff6f61;
+        color: #ffffff;
+        text-align: left;
+        font-weight: bold;
+    }
+    table th, table td {
+        padding: 12px 15px;
+    }
+    table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+    table tbody tr:nth-of-type(even) {
+        background-color: #f9f9f9;
+    }
+    table tbody tr:last-of-type {
+        border-bottom: 2px solid #ff6f61;
+    }
+    h1 {
+        font-family: 'Arial', sans-serif;
+        color: #333333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>Churn Risk</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in churn_data %}
+                <tr>
+                    <td>{{ customer.id }}</td>
+                    <td>{{ customer.churn_risk }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

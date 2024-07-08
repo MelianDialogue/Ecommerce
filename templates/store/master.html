@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branchy</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'img/icon.png' %}">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+    <!-- Your Custom CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+
+    <style>
+        /* Custom Styles */
+        .rating i {
+            color: #f5c518; /* Customize the color of the stars */
+            margin-right: 2px;
+        }
+        /* Basic Styling */
+        .logo-container {
+            width: 60px;
+            height: 60px;
+        }
+        .logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .call-us-section {
+            font-size: 18px;
+        }
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+        /* Additional Styling for Professional Look */
+        header .container {
+            max-width: 1200px;
+        }
+        header h1 {
+            font-size: 1.5rem;
+            color: #333;
+        }
+        .call-us-section .call-us-text {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .call-us-section .toll-free-text {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+        header .btn-group .btn,
+        header .btn-outline-secondary {
+            border-radius: 20px;
+            font-size: 0.875rem;
+            padding: 0.375rem 1rem;
+        }
+        .navbar .navbar-nav .dropdown-menu {
+            border-radius: 0.5rem;
+            z-index: 1000;
+        }
+        .navbar .fa-shopping-bag {
+            font-size: 1.5rem;
+        }
+        .navbar .form-control {
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+        .navbar .btn-outline-success {
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+        /* Specific styling for increased height */
+        .navbar-expand-lg .navbar-nav .nav-link {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        /* Color and Spacing Adjustments */
+        .top-header {
+            background-color: white;
+            padding: 10px 0;
+        }
+        .middle-header {
+            background-color: #f0f0f0;
+            padding: 20px 0;
+        }
+        .navbar {
+            background-color: gray;
+            padding: 20px 0;
+        }
+        /* Notification styling */
+        .notification-btn .badge {
+            font-size: 0.75rem;
+        }
+        .notifications {
+            display: none;
+            max-width: 300px;
+            right: 0;
+            top: 40px;
+            z-index: 1000;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .notification-btn:hover .notifications {
+            display: block;
+        }
+        .banner {
+            background: #f1f1f1;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .banner h2 {
+            font-size: 1.2rem;
+            color: #007bff;
+        }
+        .banner i {
+            font-size: 2rem;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        /* Added CSS */
+        .cart-link {
+            position: relative;
+            display: inline-block;
+            color: inherit;
+            text-decoration: none;
+        }
+        .cart-icon-bg {
+            position: relative;
+            display: inline-block;
+            background-color: red;
+            border-radius: 50%;
+            padding: 5px;
+        }
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 0.8rem;
+        }
+        /* Custom Mobile Styles */
+        @media (max-width: 767px) {
+            .call-us-section {
+                margin-bottom: 20px;
+                text-align: center;
+            }
+            .call-us-section .toll-free-text {
+                margin-top: 5px;
+            }
+            .middle-header .col-md-6 {
+                text-align: center;
+            }
+            .middle-header h1 {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
+<!-- Top Header -->
+<header class="container-fluid top-header" style="border-bottom: none;">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Gift Certificates and Currency Dropdown -->
+            <div class="col-md-6 text-start">
+                <div class="d-flex align-items-center">
+                    <div class="me-2">
+                        <a href="#" class="text-decoration-none text-dark">Gift Certificates</a>
+                    </div>
+                    <div>
+                        <hr class="my-2 mx-3 d-md-none" style="border-top: 1px solid #000; height: 20px;">
+                        <hr class="my-2 d-none d-md-block" style="border-left: 1px solid #000; height: 30px;">
+                    </div>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle text-dark" href="#" role="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white; padding: 0.375rem 0.75rem; border-radius: 0.25rem;">
+                            Select Currency: GBP
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
+                            <li><a class="dropdown-item" href="#">Default Currency</a></li>
+                            <li><a class="dropdown-item" href="#">Pound</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Login and Sign Up Links -->
+            <div class="col-md-6 text-end">
+                <ul class="list-unstyled d-flex mb-0 justify-content-end">
+                    <li class="me-2">
+                        <a href="{% url 'login-url' %}" class="text-decoration-none text-dark">Login</a>
+                    </li>
+                    <li>
+                        or
+                    </li>
+                    <li class="ms-2">
+                        <a href="{% url 'register-url' %}" class="text-decoration-none text-dark">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Middle Header -->
+<header class="container-fluid middle-header border-bottom">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Logo and Title -->
+            <div class="col-md-3">
+                <!-- Hide on mobile (sm and xs screens), show on md and larger screens -->
+                <div class="d-none d-md-flex align-items-center justify-content-center justify-content-md-start">
+                    <div class="logo-container me-md-3">
+                        <a href="{% url 'home-url' %}">
+                            <img src="{% static 'img/logo1.jpg' %}" alt="Branchy Logo" class="logo rounded">
+                        </a>
+                    </div>
+                    <a href="#" style="text-decoration: none;">
+                        <h1 class="mb-0" style="font-weight: 500; font-size: 2.8rem; letter-spacing: -0.3rem;"><strong>BRANCHY</strong></h1>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+            <!-- Contact and Cart Links -->
+            <div class="col-md-4 text-center call-us-section">
+                <ul class="list-unstyled d-flex justify-content-center mb-0">
+                    <li class="me-4">
+                        <a href="{% url 'contact' %}" class="text-decoration-none text-dark d-flex align-items-center">
+                            <i class="fas fa-mobile-alt me-2" style="font-size: 2rem;"></i>
+                            <div class="text-start">
+                                <p class="text-muted mb-0">CALL US NOW</p>
+                                <p class="text-muted mb-0">Toll Free: +447508516836</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'cart' %}" class="text-decoration-none text-dark cart-link">
+                            <div class="cart-icon-bg">
+                                <i class="fas fa-shopping-bag text-white"></i>
+                            </div>
+                            <span class="cart-count bg-light text-dark rounded-circle">2</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'home-url' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'services' %}">Services</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Products
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'products' %}">All Products</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'electronics' %}">Electronics</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'clothing' %}">Clothing</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'books' %}">Books</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+
+<!-- Banner -->
+<section class="banner">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-6">
+                <h2>Find Your Favorite Products Here</h2>
+                <p>We offer a wide range of products to suit your needs. Explore now!</p>
+            </div>
+            <div class="col-md-6">
+                <i class="fas fa-gift"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="container-fluid">
+    <div class="row py-3">
+        <div class="col-md-6">
+            <p class="text-center text-md-start mb-0">© 2024 Branchy. All rights reserved.</p>
+        </div>
+        <div class="col-md-6">
+            <ul class="list-unstyled d-flex justify-content-center justify-content-md-end mb-0">
+                <li class="me-3">
+                    <a href="#" class="text-decoration-none text-dark">Privacy Policy</a>
+                </li>
+                <li class="me-3">
+                    <a href="#" class="text-decoration-none text-dark">Terms of Service</a>
+                </li>
+                <li>
+                    <a href="#" class="text-decoration-none text-dark">Cookie Policy</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

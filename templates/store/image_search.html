@@ -1,0 +1,30 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Image-Based Product Search</h1>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'image_search' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="image">Upload Image</label>
+            <input type="file" class="form-control" id="image" name="image" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Search</button>
+    </form>
+
+    {% if results %}
+        <h2>Search Results</h2>
+        <ul class="list-group mt-3">
+            {% for product in results %}
+                <li class="list-group-item">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-thumbnail" style="width: 100px;">
+                    <h5>{{ product.name }}</h5>
+                    <p>Price: ${{ product.price }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% elif results is not none %}
+        <p>No matching products found.</p>
+    {% endif %}
+</div>
+{% endblock %}

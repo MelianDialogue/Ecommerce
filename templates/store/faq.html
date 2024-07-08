@@ -1,0 +1,144 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-0BrtGk+s9kP0f2Vo7PQ8CmG0X5Y6V/Utm1QfO1sYP7czFzT8i4McZg0/+/gHZ4ZzO/fBvdDQuulzAYvU1E+s4A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+    .container1 {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 2px;
+    }
+    .faq-container {
+        flex: 1;
+        padding-right: 20px;
+        box-sizing: border-box;
+    }
+    .image-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-left: 20px;
+        box-sizing: border-box;
+    }
+    .faq-header {
+        font-size: 28px;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #333;
+    }
+    .faq-item {
+        border-bottom: 1px solid #e0e0e0;
+        padding: 15px 0;
+    }
+    .faq-question {
+        font-size: 20px;
+        font-weight: 500;
+        color: #007bff;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: color 0.3s;
+    }
+    .faq-question:hover {
+        color: #0056b3;
+    }
+    .faq-answer {
+        font-size: 18px;
+        color: #555;
+        display: none;
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+        opacity: 0;
+    }
+    .faq-item.active .faq-answer {
+        display: block;
+        max-height: 300px; /* Adjust as needed */
+        opacity: 1;
+        transition: max-height 0.5s ease-in, opacity 0.5s ease-in;
+    }
+    .faq-item .icon {
+        transition: transform 0.3s ease;
+    }
+    .faq-item.active .icon {
+        transform: rotate(180deg);
+    }
+    .faq-image {
+        max-width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    @media (max-width: 768px) {
+        .faq-container, .image-container {
+            flex: 1 1 100%;
+            padding-right: 0;
+            padding-left: 0;
+            margin-bottom: 20px;
+        }
+        .faq-container {
+            padding-right: 0;
+        }
+        .image-container {
+            padding-left: 0;
+        }
+    }
+</style>
+<script>
+    function toggleAnswer(element) {
+        const faqItem = element.parentElement;
+        const allFaqItems = document.querySelectorAll('.faq-item');
+
+        allFaqItems.forEach(item => {
+            if (item !== faqItem) {
+                item.classList.remove('active');
+            }
+        });
+
+        faqItem.classList.toggle('active');
+    }
+</script>
+<div id="faq" class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5 text-success">
+                <span class="px-2">Frequently Asked Questions</span>
+            </h2>
+        </div>
+        
+        <div class="container1">
+            <div class="row">
+            <div class="col-lg-6">
+                <div class="faq-container">
+                    {% for faq in faqs %}
+                    <div class="faq-item">
+                        <div class="faq-question text-success" onclick="toggleAnswer(this)">
+                            {{ forloop.counter }}. {{ faq.question }}
+                            <i class="fas fa-chevron-down icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            {{ faq.answer }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="image-container">
+                    <img src="{% static 'img/faq.jpg' %}" alt="FAQ Image" class="faq-image">
+                </div>
+            </div>
+        </div>
+            
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}

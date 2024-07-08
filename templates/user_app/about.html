@@ -1,0 +1,35 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .container1 {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h3 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #555;
+            margin-top: 20px;
+        }
+        p {
+            color: #666;
+            text-align: justify;
+        }
+    </style>
+
+    <div class="container1">
+        <h3>ABOUT US</h3>
+        <h4>What is an about us page?</h4>
+        <p>The about us page is commonly used by all types of businesses to give customers more insight into who is involved with a given business and exactly what it does. The history of a business is often provided, and the histories of the people in charge are usually expressed through short articles, usually accompanied by photographs.</p>
+        <h4>What is the purpose of an about us page?</h4>
+        <p>The primary purpose of an about us page is to inform the reader about the company and its operations. This is a straightforward goal that nearly all businesses have to fulfill in some fashion or another. However, there are other reasons why about us pages are common fixtures on business websites. The text on these pages is a marketing tool for a business, enticing potential customers with both the history and the aspirations of a business, as well as adding a human element. Additionally, about us pages are incorporated into search-engine marketing efforts as a way to find potential customers through Web searches.</p>
+    </div>
+    {% endblock %}

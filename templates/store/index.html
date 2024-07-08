@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branchy</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'img/icon.png' %}"/>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/css/elegant-icons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/css/nice-select.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/css/jquery-ui.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" type="text/css">
+    <style>
+        .rating i {
+ color: #f5c518; /* Customize the color of the stars */
+ margin-right: 2px;
+}
+
+         /* Basic Styling */
+         .logo-container {
+             width: 60px;
+             height: 60px;
+         }
+         .logo {
+             width: 100%;
+             height: 100%;
+             object-fit: contain;
+         }
+         .call-us-section {
+             font-size: 18px;
+         }
+         .navbar-nav .nav-link {
+             font-weight: 500;
+             color: #fff;
+             transition: color 0.3s ease;
+         }
+
+         /* Additional Styling for Professional Look */
+         header .container {
+             max-width: 1200px;
+         }
+
+         header h1 {
+             font-size: 1.5rem;
+             color: #333;
+         }
+
+         .call-us-section .call-us-text {
+             font-weight: bold;
+             color: #007bff;
+         }
+
+         .call-us-section .toll-free-text {
+             font-size: 1rem;
+             color: #6c757d;
+         }
+
+         header .btn-group .btn,
+         header .btn-outline-secondary {
+             border-radius: 20px;
+             font-size: 0.875rem;
+             padding: 0.375rem 1rem;
+         }
+
+
+         .navbar .navbar-nav .dropdown-menu {
+             border-radius: 0.5rem;
+             z-index: 1000;
+         }
+
+         .navbar .fa-shopping-bag {
+             font-size: 1.5rem;
+         }
+
+         .navbar .form-control {
+             border-radius: 20px;
+             font-size: 0.875rem;
+         }
+
+         .navbar .btn-outline-success {
+             border-radius: 20px;
+             font-size: 0.875rem;
+         }
+
+         /* Specific styling for increased height */
+         .navbar-expand-lg .navbar-nav .nav-link {
+             padding-top: 1rem;
+             padding-bottom: 1rem;
+         }
+
+         /* Color and Spacing Adjustments */
+         .top-header {
+             background-color: white;
+             padding: 10px 0;
+         }
+         .middle-header {
+             background-color: #f0f0f0;
+             padding: 20px 0;
+         }
+         .navbar {
+             background-color: gray;
+             padding: 20px 0;
+         }
+
+         /* Notification styling */
+         .notification-btn .badge {
+             font-size: 0.75rem;
+         }
+
+         .notifications {
+             display: none;
+             max-width: 300px;
+             right: 0;
+             top: 40px;
+             z-index: 1000;
+             border: 1px solid #ccc;
+             background-color: #fff;
+             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+         }
+
+         .notification-btn:hover .notifications {
+             display: block;
+         }
+
+         .banner {
+             background: #f1f1f1;
+             padding: 20px 0;
+             text-align: center;
+         }
+
+         .banner h2 {
+             font-size: 1.2rem;
+             color: #007bff;
+         }
+
+         .banner i {
+             font-size: 2rem;
+             color: #007bff;
+             margin-bottom: 10px;
+         }
+
+         /* Added CSS */
+         .cart-link {
+             position: relative;
+             display: inline-block;
+             color: inherit;
+             text-decoration: none;
+         }
+
+         .cart-icon-bg {
+             position: relative;
+             display: inline-block;
+             background-color: red;
+             border-radius: 50%;
+             padding: 5px;
+         }
+
+         .cart-count {
+             position: absolute;
+             top: -10px;
+             right: -10px;
+             font-size: 0.8rem;
+         }
+
+         /* Custom Mobile Styles */
+         @media (max-width: 767px) {
+             .call-us-section {
+                 margin-bottom: 20px;
+                 text-align: center;
+             }
+             .call-us-section .toll-free-text {
+                 margin-top: 5px;
+             }
+             .middle-header .col-md-6 {
+                 text-align: center;
+             }
+             .middle-header h1 {
+                 margin-top: 10px;
+             }
+         }
+    </style>
+</head>
+<body>
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
+
+
+<header class="container-fluid top-header" style="border-bottom: none;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-start">
+                <div class="d-flex align-items-center">
+                    <div class="me-2">
+                        <a href="#" class="text-decoration-none text-dark">Gift Certificates</a>
+                    </div>  <span style="height:30px">|</span>
+                    <hr class="my-2 mx-2 text-dark" style="height: 4px; width: auto; border-top: 1px solid #000;">
+                    <div class="dropdown">
+                        <a class="dropdown-toggle text-dark" href="#" role="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white; padding: 0.375rem 0.75rem; border-radius: 0.25rem;">
+                            Select Currency: GBP
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
+                            <li><a class="dropdown-item" href="#">Default Currency</a></li>
+                            <li><a class="dropdown-item" href="#">Pound</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 text-end">
+                <ul class="list-unstyled d-flex mb-0 justify-content-end">
+                    <li class="me-2">
+                        <a  href="{% url 'login-url' %}" class="text-decoration-none text-dark">Login</a>
+                    </li>
+                    <li>
+                        or
+                    </li>
+                    <li class="ms-2">
+                        <a href="{% url 'register-url' %}" class="text-decoration-none text-dark">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+
+
+        </div>
+    </div>
+</header>
+
+
+<header class="container-fluid middle-header border-bottom">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-3">
+                <div class="d-none d-md-flex align-items-center justify-content-center justify-content-md-start">
+                    <div class="logo-container me-md-3">
+                        <style>
+                            .branchy-logo1 {
+   display: flex;
+   align-items: center;
+}
+
+.branchy-logo img {
+   height: 1.2rem; /* Match the height of the text */
+   margin-right: 0.9rem; /* Space between the image and the text */
+   vertical-align: middle;
+}
+                        </style>
+                        <a href="{% url 'home-url' %}" style="text-decoration:none">
+                            <h4 class="branchy-logo1" style="font-weight: 900;
+                                     font-size: 2.4rem; letter-spacing: -0.3rem;">
+                                <img class="rounded" src="{% static 'img/logo1.jpg' %}" alt="">BRANCHY
+                            </h4>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-3 text-center call-us-section">
+                <ul class="list-unstyled d-flex justify-content-center mb-0">
+                    <li class="me-4">
+                        <a href="{% url 'contact' %}" class="text-decoration-none text-dark d-flex align-items-center">
+                            <i class="fas fa-mobile-alt me-2" style="font-size: 2rem;"></i>
+                            <div class="text-start">
+                                <p class="text-muted mb-0">CALL US NOW</p>
+                                <p class="text-muted mb-0">Toll Free: +447508516836</p>
+                            </div>
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <hr class="my-2 mx-3 d-md-none" style="border-top: 3px solid #000; height: 20px;">
+                        <hr class="my-2 d-none d-md-block" style="border-left: 3px solid #000; height: 30px;">
+                    </li>
+                    <li>
+                        <a href="#" class="cart-link text-decoration-none text-dark">
+                                    <span class="cart-icon-bg">
+                                        <i class="fa fa-shopping-bag text-white" style="font-size: 1.5rem;"></i>
+                                    </span>
+                            <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+        </div>
+    </div>
+</header>
+
+
+<style>
+    /* Navbar Item Styles */
+    .navbar-nav .nav-link {
+color: #ffffff;
+transition: color 0.3s ease, background-color 0.3s ease;
+padding: 0.5rem 1rem; /* Adjust padding as needed to create a square effect */
+border-radius: 0.25rem; /* This gives a slight rounding to the corners; set to 0 for sharp corners */
+}
+
+.navbar-nav .nav-link:hover {
+color: #ffc107; /* Change to your desired hover color */
+background-color: #343a40; /* Change to your desired background color on hover */
+}
+
+/* Search Form Styles */
+.custom-search-form {
+width: 100%; /* Ensure it takes full width in lg and above */
+max-width: 400px; /* Adjust maximum width as needed */
+}
+
+.custom-search-input {
+border-color: #ffffff; /* Adjust input border color */
+}
+
+.custom-search-input::placeholder {
+color: #dee2e6; /* Adjust placeholder text color */
+}
+
+/* Dropdown Menu Styles */
+.dropdown-menu {
+background-color: #828486; /* Adjust dropdown background color */
+}
+
+.dropdown-menu .dropdown-item {
+color: #ffffff;
+transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-menu .dropdown-item:hover {
+color: #ffc107; /* Adjust hover text color */
+}
+
+</style>
+
+
+<nav class="container-fluid navbar navbar-expand-lg navbar-light" style="padding-top: 0; padding-bottom: 0;">
+    <div class="container">
+        <!-- Mobile Logo and Title -->
+        <div class="d-lg-none d-flex align-items-center">
+            <a href="{% url 'home-url' %}">
+                <img src="{% static 'img/icon.png' %}"
+                     alt="Branchy Logo" class="logo">
+            </a>
+            <a href="#" style="text-decoration: none;">
+                <h1 class="mb-0" style="font-weight: 900; font-size: 2.4rem; letter-spacing: -0.3rem;"><strong>BRANCHY</strong></h1>
+            </a>
+        </div>
+
+        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="background-color: #ffffff;">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-start" id="navbarNav" style="background-color: #04080c; padding-left: 20px;">
+            <ul class="navbar-nav mr-auto" style="font-size: 1.0rem;">
+                <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'home-url' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'product_list' %}">Products</a></li>
+                <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'shipping' %}">Shipping & Returns</a></li>
+                <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'contact' %}">Contact Us</a></li>
+                <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white text-center text-uppercase" href="#" role="button" data-bs-toggle="dropdown">More</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form method="post" action="{% url 'search_results' %}" class="d-flex align-items-center ml-auto custom-search-form" style="padding-right: 20px;">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input type="search" class="form-control rounded-0 custom-search-input" id="search_query" name="search_query" placeholder="Search the product" aria-label="Search" style="height: 40px; font-size: 0.9rem;">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-success btn-block" style="height: 40px; font-size: 0.9rem;">Search</button>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary ml-2 align-middle" id="voice_search_btn" style="height: 40px;">
+                    <i class="fa fa-microphone-alt"></i> <!-- Replace with your preferred icon class -->
+                </button>
+            </form>
+
+            <script>
+                const searchInput = document.getElementById('search_query');
+                const voiceSearchBtn = document.getElementById('voice_search_btn');
+
+                voiceSearchBtn.addEventListener('click', () => {
+                    const recognition = new webkitSpeechRecognition();
+                    recognition.lang = 'en-US';
+
+                    recognition.onresult = (event) => {
+                        const voiceInput = event.results[0][0].transcript;
+                        searchInput.value = voiceInput;
+                    };
+
+                    recognition.start();
+                });
+            </script>
+        </div>
+    </div>
+</nav>
+
+<style>
+    @keyframes fadeInUp {
+from {
+opacity: 0;
+transform: translate3d(0, 40px, 0);
+}
+to {
+opacity: 1;
+transform: none;
+}
+}
+
+.animated {
+animation-duration: 1s;
+animation-fill-mode: both;
+}
+
+.fadeInUp {
+animation-name: fadeInUp;
+}
+
+</style>
+
+<style>
+    /* Global Styles */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    /* Section Styles */
+    .product-section {
+        margin-bottom: 40px;
+    }
+    .product-section h3 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+    }
+    .product-row {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        padding-bottom: 10px; /* To accommodate scroll buttons */
+    }
+    .product-row::-webkit-scrollbar {
+        display: none;
+    }
+    .product {
+        flex: 0 0 auto;
+        width: 200px;
+        margin-right: 20px;
+        text-align: center;
+        border: 1px solid #e1e4e8;
+        border-radius: 10px;
+        padding: 15px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .product:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .product img {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    .price {
+        font-weight: bold;
+        color: #28a745;
+        margin-top: 10px;
+    }
+    .old-price {
+        text-decoration: line-through;
+        margin-left: 5px;
+        color: #dc3545;
+    }
+    .icons {
+        margin-top: 10px;
+    }
+    .icons i {
+        color: #333;
+        margin: 0 8px;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    .icons i:hover {
+        color: #007bff;
+    }
+    /* Scroll Buttons */
+    .scroll-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 1000;
+    }
+    .scroll-left {
+        left: 10px;
+    }
+    .scroll-right {
+        right: 10px;
+    }
+</style>
+
+
+<style>
+    /* Cookie Consent Banner Styles */
+    .cookie-banner {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #343a40;
+        color: white;
+        padding: 15px 20px;
+        text-align: center;
+        display: none; /* Hidden by default */
+        z-index: 1000;
+    }
+    .cookie-banner button {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-left: 10px;
+    }
+    .cookie-banner button:hover {
+        background-color: #218838;
+    }
+</style>
+
+<style>
+    .footer {
+        background-color: #f8f8f8;
+        color: #333;
+
+    }
+
+    .footer .sign-up {
+        background-color: #20c997;
+        color: #333;
+        padding: 30px 0;
+        text-align: center;
+        border-radius: 5px;
+    }
+
+    .footer .sign-up input[type="email"] {
+        width: 60%;
+        margin-right: 10px;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .footer .sign-up button {
+        background-color: #ffffff;
+        color: #343a40;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    .footer h6 {
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .footer ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer ul li {
+        margin-bottom: 10px;
+    }
+
+    .footer ul li a {
+        color: #333;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .footer ul li a:hover {
+        color: #20c997;
+    }
+
+    .footer .contact-info p {
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    .footer-bottom {
+        border-top: 1px solid #495057;
+        padding: 20px 0;
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .footer-bottom p {
+        margin: 10px 0;
+    }
+
+    .footer-bottom img {
+        width: 40px;
+        margin: 0 5px;
+    }
+
+    .footer-bottom a {
+        color: #333;
+        text-decoration: none;
+        margin: 0 10px;
+        transition: color 0.2s;
+    }
+
+    .footer-bottom a:hover {
+        color: #20c997;
+    }
+</style>
+<style>
+    .footer-column {
+        border-right: 1px solid #ddd;
+        padding-right: 20px;
+        margin-right: -1px; /* to avoid double border between columns */
+    }
+
+    .footer-column:last-child {
+        border-right: none; /* Remove the border from the last column */
+    }
+</style>
+<style>
+
+    .rating i {
+color: #f5c518; /* Customize the color of the stars */
+margin-right: 2px;
+}
+
+     /* Basic Styling */
+     .logo-container {
+         width: 60px;
+         height: 60px;
+     }
+     .logo {
+         width: 100%;
+         height: 100%;
+         object-fit: contain;
+     }
+     .call-us-section {
+         font-size: 18px;
+     }
+     .navbar-nav .nav-link {
+         font-weight: 500;
+         color: #fff;
+         transition: color 0.3s ease;
+     }
+
+     /* Additional Styling for Professional Look */
+     header .container {
+         max-width: 1200px;
+     }
+
+     header h1 {
+         font-size: 1.5rem;
+         color: #333;
+     }
+
+     .call-us-section .call-us-text {
+         font-weight: bold;
+         color: #007bff;
+     }
+
+     .call-us-section .toll-free-text {
+         font-size: 1rem;
+         color: #6c757d;
+     }
+
+     header .btn-group .btn,
+     header .btn-outline-secondary {
+         border-radius: 20px;
+         font-size: 0.875rem;
+         padding: 0.375rem 1rem;
+     }
+
+
+     .navbar .navbar-nav .dropdown-menu {
+         border-radius: 0.5rem;
+         z-index: 1000;
+     }
+
+     .navbar .fa-shopping-bag {
+         font-size: 1.5rem;
+     }
+
+     .navbar .form-control {
+         border-radius: 20px;
+         font-size: 0.875rem;
+     }
+
+     .navbar .btn-outline-success {
+         border-radius: 20px;
+         font-size: 0.875rem;
+     }
+
+     /* Specific styling for increased height */
+     .navbar-expand-lg .navbar-nav .nav-link {
+         padding-top: 1rem;
+         padding-bottom: 1rem;
+     }
+
+     /* Color and Spacing Adjustments */
+     .top-header {
+         background-color: white;
+         padding: 20px 0;
+     }
+     .middle-header {
+         background-color: #f0f0f0;
+         padding: 20px 0;
+     }
+     .navbar {
+         background-color: gray;
+         padding: 20px 0;
+     }
+
+     /* Notification styling */
+     .notification-btn .badge {
+         font-size: 0.75rem;
+     }
+
+     .notifications {
+         display: none;
+         max-width: 300px;
+         right: 0;
+         top: 40px;
+         z-index: 1000;
+         border: 1px solid #ccc;
+         background-color: #fff;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+     }
+
+     .notification-btn:hover .notifications {
+         display: block;
+     }
+
+     .banner {
+         background: #f1f1f1;
+         padding: 20px 0;
+         text-align: center;
+     }
+
+     .banner h2 {
+         font-size: 1.2rem;
+         color: #007bff;
+     }
+
+     .banner i {
+         font-size: 2rem;
+         color: #007bff;
+         margin-bottom: 10px;
+     }
+
+     /* Added CSS */
+     .cart-link {
+         position: relative;
+         display: inline-block;
+         color: inherit;
+         text-decoration: none;
+     }
+
+     .cart-icon-bg {
+         position: relative;
+         display: inline-block;
+         background-color: red;
+         border-radius: 50%;
+         padding: 5px;
+     }
+
+     .cart-count {
+         position: absolute;
+         top: -10px;
+         right: -10px;
+         font-size: 0.8rem;
+     }
+
+     /* Custom Mobile Styles */
+     @media (max-width: 767px) {
+         .call-us-section {
+             margin-bottom: 20px;
+             text-align: center;
+         }
+         .call-us-section .toll-free-text {
+             margin-top: 5px;
+         }
+         .middle-header .col-md-6 {
+             text-align: center;
+         }
+         .middle-header h1 {
+             margin-top: 10px;
+         }
+     }
+</style>
+
+
+<section class="banner container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 d-flex justify-content-start animated fadeInUp">
+                <h2 class="text-muted"><i class="fas fa-gift text-muted"></i> UP TO 5% REWARD</h2>
+            </div>
+            <div class="col-md-4 d-flex justify-content-center animated fadeInUp" style="animation-delay: 0.5s;">
+                <h2 class="text-muted"><i class="fas fa-calendar-alt text-muted"></i> DELIVERY SCHEDULE</h2>
+            </div>
+            <div class="col-md-4 d-flex justify-content-end animated fadeInUp" style="animation-delay: 1s;">
+                <h2 class="text-muted"><i class="fas fa-shipping-fast text-muted"></i> SAME DAY SHIPPING</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 animated fadeInLeft" >
+                <div class="hero__categories">
+                    <div class="hero__categories__all">
+                        <span>Dashboard</span>
+                    </div>
+                    <ul>
+                        <li><a href="{% url 'home-url' %}" class="nav-link text-dark">Home</a></li>
+                        <li><a href="{% url 'product_list' %}" class="nav-link text-dark">Products</a></li>
+                        <li><a href="{% url 'cart_detail' %}" class="nav-link text-dark">Shopping Cart</a></li>
+                        <li><a href="{% url 'wishlist_detail' %}" class="nav-link text-dark">Wishlist</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-8 animated fadeInRight">
+                <div class="hero__search"></div>
+
+                <div id="productCarousel" class="carousel slide" data-ride="carousel">
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        {% for product in category_4_products %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <a href="{% url 'product_detail' product.id %}">
+                                <img class="d-block w-100" src="{{ product.image.url }}" alt="{{ product.title }}">
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Controls -->
+                    <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <!-- End Carousel -->
+
+                <style>
+                    /* Adjust the carousel item height to ensure full coverage */
+                    .carousel-item {
+                        height: 100%;
+                    }
+
+                    /* Ensure images fill their parent carousel-item */
+                    .carousel-item img {
+                        height: 100%;
+                        width: 100%;
+                        object-fit: cover; /* Ensure the image covers the entire container */
+                    }
+                </style>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Hero Section End -->
+
+<!-- Cookie Consent Banner -->
+<div class="cookie-banner" id="cookieBanner">
+    This website uses cookies to ensure you get the best experience on our website.
+    <a href="{% url 'cookies' %}" style="color: #ffc107;">Learn more</a>.
+    <button id="acceptCookies">Accept</button>
+</div>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        h1, h3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .product-section {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        .product-row {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow: hidden;
+            width: 1200px; /* 300px * 4 (to show 4 products) */
+        }
+        .product {
+            flex: 0 0 auto;
+            width: 300px;
+            margin-right: 20px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .product:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .product img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .price {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .old-price {
+            text-decoration: line-through;
+            margin-left: 5px;
+            color: #dc3545;
+        }
+        .stars {
+            color: gold;
+        }
+        .sale-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #dc3545;
+            color: #fff;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .icons {
+            margin: 10px 0;
+        }
+        .icons i {
+            color: #333;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .icons i:hover {
+            color: #007bff;
+        }
+        .scroll-column {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 1;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .scroll-column.left {
+            left: 10px;
+        }
+        .scroll-column.right {
+            right: 10px;
+        }
+    </style>
+
+  <section class="categories">
+<div class="container">
+    <!-- Category 1 Products -->
+    <div class="product-section">
+        <h3>Featured Product</h3>
+        <div class="scroll-column left" onclick="scrollLeft('category-1')"><i class="fas fa-chevron-left"></i></div>
+        <div class="product-row" id="category-1">
+            {% for product in category_1_products %}
+            <div class="product" id="product-{{ forloop.counter }}">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% if product.discount > 0 %}
+                <div class="sale-badge">SALE</div>
+                {% endif %}
+                <div class="icons">
+                    <i class="fas fa-eye"></i>
+                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h5>{{ product.name }}</h5>
+                <div class="price">
+                    <span>£{{ product.price }}</span>
+                    {% if product.discount > 0 %}
+                    <span class="old-price">£{{ product.discount }}</span>
+                    {% endif %}
+                </div>
+                <div class="stars">
+                    {% for _ in product.stars %}
+                    <i class="fas fa-star"></i>
+                    {% endfor %}
+                    {% if product.stars_half %}
+                    <i class="fas fa-star-half-alt"></i>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="scroll-column right" onclick="scrollRight('category-1')"><i class="fas fa-chevron-right"></i></div>
+    </div>
+
+    <!-- Repeat for other categories -->
+
+</div>
+  </section>
+<script>
+    const productsPerPage = 5;
+    let currentProductIndex = 0;
+
+    function updateProductVisibility(categoryId) {
+        const products = document.querySelectorAll(`#${categoryId} .product`);
+        products.forEach((product, index) => {
+            if (index >= currentProductIndex && index < currentProductIndex + productsPerPage) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+    }
+
+    function scrollLeft(categoryId) {
+        const products = document.querySelectorAll(`#${categoryId} .product`);
+        if (currentProductIndex > 0) {
+            currentProductIndex -= productsPerPage;
+            if (currentProductIndex < 0) {
+                currentProductIndex = 0;
+            }
+            updateProductVisibility(categoryId);
+        }
+    }
+
+    function scrollRight(categoryId) {
+        const products = document.querySelectorAll(`#${categoryId} .product`);
+        if (currentProductIndex + productsPerPage < products.length) {
+            currentProductIndex += productsPerPage;
+            updateProductVisibility(categoryId);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        updateProductVisibility('category-1');
+    });
+</script>
+</body>
+</html>
+
+
+<!-- Category 2 Products -->
+<div class="container product-section">
+    <div class="row">
+        <!-- First Column -->
+        <div class="col-md-4">
+            {% for product in category_2_products %}
+            {% if forloop.counter <= 2 %}
+            <div class="product1">
+                <a href="{{ product.get_absolute_url }}"> <!-- Make the image a link -->
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                </a>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Second Column -->
+        <div class="col-md-4">
+            {% for product in category_2_products %}
+            {% if forloop.counter == 3 %}
+            <div class="product1">
+                <a href="{{ product.get_absolute_url }}"> <!-- Make the image a link -->
+                    <img src="{{ product.image.url }}"
+                         alt="{{ product.name }}">
+                </a>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Third Column -->
+        <div class="col-md-4">
+            {% for product in category_2_products %}
+            {% if forloop.counter == 4 %}
+            <div class="product1">
+                <a href="{{ product.get_absolute_url }}"> <!-- Make the image a link -->
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                </a>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Category 3 Products -->
+<div class="container product-section">
+    <h3>New Products</h3>
+    <div class="position-relative">
+        <button class="scroll-button scroll-left" onclick="scrollLeft()">&#10094;</button>
+        <button class="scroll-button scroll-right" onclick="scrollRight()">&#10095;</button>
+        <div class="product-row" id="category-3-row">
+            {% for product in category_3_products %}
+            <div class="product">
+                <a href="{{ product.get_absolute_url }}">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                </a>
+                <h5>{{ product.name }}</h5>
+                <div class="price">
+                    <span>£{{ product.price }}</span>
+                    {% if product.discount > 0 %}
+                    <span class="old-price">£{{ product.discount }}</span>
+                    {% endif %}
+                </div>
+                <div class="icons">
+                    <i class="fas fa-eye"></i>
+                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<style>
+    /* Styles for product display */
+    .product-section {
+        margin-bottom: 40px;
+    }
+    .product-row {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        padding-bottom: 10px; /* To accommodate scroll buttons */
+    }
+    .product-row::-webkit-scrollbar {
+        display: none;
+    }
+    .product {
+        flex: 0 0 auto;
+        width: 200px;
+        margin-right: 20px;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .product:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .product img {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    .price {
+        font-weight: bold;
+        color: #28a745;
+        margin-top: 10px;
+    }
+    .old-price {
+        text-decoration: line-through;
+        margin-left: 5px;
+        color: #dc3545;
+    }
+    .icons {
+        margin-top: 10px;
+    }
+    .icons i {
+        color: #333;
+        margin: 0 8px;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    .icons i:hover {
+        color: #007bff;
+    }
+    /* Scroll Buttons */
+    .scroll-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 1000;
+    }
+    .scroll-left {
+        left: 10px;
+    }
+    .scroll-right {
+        right: 10px;
+    }
+</style>
+
+<div class="footer spad">
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-3 footer-column">
+                <h6 class="branchy-logo" style="font-size: 1.5rem; letter-spacing: -0.2rem">
+                    <img class="rounded" src="{% static 'img/logo1.jpg' %}" alt=""> BRANCHY
+                </h6>
+                <div class="contact-info">
+                    <p><i class="fas fa-map-marker-alt"></i> Address: 4 Durham Workspace, PityMe, Durham DH1 5JZ, UK</p>
+                    <p><i class="fas fa-phone-alt"></i> Phone: +447508516836</p>
+                    <p><i class="fas fa-envelope"></i>Email: hello@meliandialogue.com</p>
+                </div>
+            </div>
+            <div class="col-md-3 footer-column">
+                <h6>NAVIGATE</h6>
+                <ul>
+                    <li><a class="text-uppercase" href="{% url 'home-url' %}">Home</a></li>
+                    <li><a class="text-uppercase" href="{% url 'product_list' %}">Our Shop</a></li>
+                    <li><a class="text-uppercase" href="{% url 'cart_detail' %}">Shopping Cart</a></li>
+                    <li><a class="text-uppercase" href="{% url 'faq_list' %}">FAQs</a></li>
+                    <li><a class="text-uppercase" href="{% url 'blog_list' %}">Blog</a></li>
+                    <li><a class="text-uppercase" href="{% url 'contact' %}">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-column">
+                <h6>LEGAL</h6>
+                <ul>
+                    <li><a class="text-uppercase" href="{% url 'terms' %}">Terms and Conditions</a></li>
+                    <li><a class="text-uppercase" href="{% url 'privacy' %}">Privacy Policy</a></li>
+                    <li><a class="text-uppercase" href="{% url 'cookies' %}">Cookies</a></li>
+                    <li><a class="text-uppercase" href="{% url 'accessibility' %}">Accessibility</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-column">
+                <h6 class="text-uppercase">Join Our Newsletter Now</h6>
+                <p class="text-dark">Get E-mail updates about our latest shop and special offers.</p>
+                <form method="post" action="{% url 'subscribe' %}" class="newsletter-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="email" name="email" class="form-control" placeholder="Enter your email" required="required">
+                    </div>
+                    <button type="submit" class="btn btn-success form-control">Subscribe</button>
+                </form>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+                <style>
+                    .social-icons {
+    display: flex;
+    justify-content: center; /* Center the icons */
+    gap: 15px; /* Space between icons */
+    margin-top: 20px; /* Space above the icons */
+}
+
+.social-icons a {
+    color: #333; /* Default icon color */
+    font-size: 24px; /* Icon size */
+    transition: color 0.3s; /* Smooth color transition */
+}
+
+.social-icons a:hover {
+    color: #007bff; /* Color on hover */
+}
+
+                </style>
+                <div class="footer__widget__social">
+                    <a href="https://www.facebook.com" target="_blank"><i class="fas fa-facebook"></i></a>
+                    <a href="https://www.instagram.com" target="_blank"><i class="fas fa-instagram"></i></a>
+                    <a href="https://www.twitter.com" target="_blank"><i class="fas fa-twitter"></i></a>
+                    <a href="https://www.pinterest.com" target="_blank"><i class="fas fa-pinterest"></i></a>
+                </div>
+
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>
+                        <a class="text-uppercase" href="#">Shipping & Returns</a> |
+                        <a class="text-uppercase" href="#">Contact Us</a> |
+                        <a class="text-uppercase" href="#">About Us</a> |
+                        <a class="text-uppercase" href="#">Blog</a> |
+                    </p>
+                    <p class="text-uppercase">Powered by Ecommerce © 2024</p>
+                </div>
+                <div class="col-md-6">
+                    <img class="w-50" src="{% static 'assets/img/payment-item.png' %}"
+                         alt="Payment Methods">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to set a cookie
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    // Function to get a cookie
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    // Function to check cookie consent
+    function checkCookieConsent() {
+        var cookieConsent = getCookie("cookieConsent");
+        if (!cookieConsent) {
+            document.getElementById("cookieBanner").style.display = "block";
+        }
+    }
+
+    // Event listener for Accept button
+    document.getElementById("acceptCookies").addEventListener("click", function () {
+        setCookie("cookieConsent", "accepted", 365);
+        document.getElementById("cookieBanner").style.display = "none";
+    });
+
+    // Check cookie consent on page load
+    checkCookieConsent();
+</script>
+<script>
+    $(document).ready(function(){
+        $('.categories__slider').owlCarousel({
+            loop: true,
+            margin: 10,
+            nav: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 3
+                }
+            }
+        });
+    });
+</script>
+<script>
+    function scrollLeft(categoryId) {
+        document.getElementById(categoryId).scrollBy({
+            left: -300,
+            behavior: 'smooth'
+        });
+    }
+
+    function scrollRight(categoryId) {
+        document.getElementById(categoryId).scrollBy({
+            left: 300,
+            behavior: 'smooth'
+        });
+    }
+</script>
+<script>
+    function scrollLeft() {
+        document.getElementById('category-3-row').scrollBy({
+            top: 0,
+            left: -200,
+            behavior: 'smooth'
+        });
+    }
+    function scrollRight() {
+        document.getElementById('category-3-row').scrollBy({
+            top: 0,
+            left: 200,
+            behavior: 'smooth'
+        });
+    }
+</script>
+<!-- Js Plugins -->
+<script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery-ui.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.slicknav.js' %}"></script>
+<script src="{% static 'assets/js/mixitup.min.js' %}"></script>
+<script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/665492ba9a809f19fb359301/1hut5qb1c';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+<!--End of Tawk.to Script-->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const ratings = document.querySelectorAll('.rating');
+
+    ratings.forEach(rating => {
+        const ratingValue = parseInt(rating.dataset.rating);
+        for (let i = 1; i <= 5; i++) {
+            const star = document.createElement('i');
+            star.classList.add('fa');
+            if (i <= ratingValue) {
+                star.classList.add('fa-star');
+            } else {
+                star.classList.add('fa-star-o');
+            }
+            rating.appendChild(star);
+        }
+    });
+});
+
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container mt-5">
+        <h3 class="mb-4 text-center">Customer Reviews and Sentiment Analysis</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Review</th>
+                        <th scope="col">Sentiment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for review in reviews %}
+                    <tr>
+                        <td>{{ review.user.username }}</td>
+                        <td>{{ review.review_text }}</td>
+                        <td>
+                            {% if review.sentiment == 'positive' %}
+                                <span class="badge badge-success">Positive</span>
+                            {% elif review.sentiment == 'negative' %}
+                                <span class="badge badge-danger">Negative</span>
+                            {% else %}
+                                <span class="badge badge-secondary">Neutral</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

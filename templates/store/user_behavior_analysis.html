@@ -1,0 +1,19 @@
+{% extends "store/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3 class="mb-4">User Behavior Analysis for {{ user.username }}</h3>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Behavior Patterns</h5>
+            {% if behavior_patterns %}
+                <p class="card-text">Average Clicks: {{ behavior_patterns.average_clicks }}</p>
+                <p class="card-text">Average Time Spent: {{ behavior_patterns.average_time_spent }} seconds</p>
+            {% else %}
+                <p class="card-text">No behavior data available.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<br><br><br>
+{% endblock %}

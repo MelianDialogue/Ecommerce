@@ -1,0 +1,53 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .container {
+            margin-top: 20px;
+        }
+        .transaction {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s ease;
+        }
+        .fraud {
+            background-color: #ffcccc;
+        }
+        .transaction p {
+            margin: 0;
+        }
+        h3 {
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+        .no-fraud {
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            color: #666666;
+        }
+    </style>
+
+    <div class="container">
+        <h3>Fraudulent Transactions</h3>
+        
+        {% if fraud_transactions %}
+            {% for transaction in fraud_transactions %}
+                <div class="transaction {% if transaction.is_fraud %}fraud{% endif %}">
+                    <p><strong>Amount:</strong> {{ transaction.amount }}</p>
+                    <p><strong>Merchant:</strong> {{ transaction.merchant }}</p>
+                    <p><strong>Category:</strong> {{ transaction.category }}</p>
+                    <p><strong>Fraud Score:</strong> {{ transaction.fraud_score }}</p>
+                    <p><strong>Is Fraud:</strong> {{ transaction.is_fraud }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-fraud">No fraudulent transactions detected.</p>
+        {% endif %}
+    </div>
+
+{% endblock %}

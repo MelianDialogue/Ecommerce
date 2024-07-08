@@ -1,0 +1,27 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h1 class="card-title">Recovery Email Sent</h1>
+                    <p class="card-text">An email has been sent to recover your abandoned cart.</p>
+                    <h2 class="card-subtitle mb-2 text-muted">Cart Details:</h2>
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>User:</strong> {{ cart.user.username }}</li>
+                        <li class="list-group-item"><strong>Items:</strong></li>
+                        <ul class="list-group list-group-flush">
+                            {% for item in cart.cartitem_set.all %}
+                                <li class="list-group-item">{{ item.product.name }} - Quantity: {{ item.quantity }}</li>
+                            {% endfor %}
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
