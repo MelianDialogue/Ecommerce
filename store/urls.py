@@ -72,5 +72,8 @@ urlpatterns = [
 
     path('analytics/', views.real_time_analytics, name='real_time_analytics'),
 
+
     path('voice_search/', views.voice_search, name='voice_search'),
+
+   path('search/', views.search, name='search'),
 ]

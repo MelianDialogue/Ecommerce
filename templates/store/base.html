@@ -209,14 +209,13 @@
                     <div class="me-2">
                         <a href="#" class="text-decoration-none">Gift Certificates</a>
                     </div>
-                    <span style="height:30px">|</span>
+                   <span style="height:30px;padding-right:5px;padding-left:5px">|</span>
                     <div class="dropdown ms-2">
                         <a class="dropdown-toggle" href="#" role="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white; padding: 0.375rem 0.75rem; border-radius: 0.25rem;">
                             Select Currency: GBP
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
                             <li><a class="dropdown-item" href="#">Default Currency</a></li>
-                            <li><a class="dropdown-item" href="#">Pound</a></li>
                         </ul>
                     </div>
                 </div>
@@ -226,9 +225,13 @@
                     <li class="me-2">
                         <a href="{% url 'login-url' %}" class="text-decoration-none">Login</a>
                     </li>
-                    <li>or</li>
+                    <li style="padding-right:10px;padding-left:10px">or</li>
                     <li class="ms-2">
                         <a href="{% url 'register-url' %}" class="text-decoration-none">Sign Up</a>
+                    </li>
+                      <li style="padding-right:10px;padding-left:10px">or</li>
+                    <li class="ms-2">
+                        <a href="{% url 'logout-url' %}" class="text-decoration-none">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -249,7 +252,6 @@
                                      alt="Branchy Logo">
                                 <span class="branchy-text">BRANCHY</span>
                             </h4>
-
                         </a>
                     </div>
                 </div>
@@ -266,6 +268,7 @@
                             </div>
                         </a>
                     </li>
+                     <li><span style="height:40px;padding-right:5px;padding-left:5px">|</span></li>
                     <li>
                         <a href="#" class="cart-link text-decoration-none">
                             <span class="cart-icon-bg">
@@ -312,20 +315,18 @@
                     </ul>
                 </li>
             </ul>
-            <form method="post" action="{% url 'search_results' %}" class="d-flex align-items-center ml-auto custom-search-form" style="padding-right: 20px;">
-                {% csrf_token %}
-                <div class="input-group">
-                    <input type="search" class="form-control rounded-0 custom-search-input" id="search_query" name="search_query" placeholder="Search the product" aria-label="Search" style="height: 40px; font-size: 0.9rem;">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-block"
-                                style="height: 40px; font-size: 0.9rem;background-color:#20c997">Search</button>
-                    </div>
-                </div>
-                <button type="button" class="btn ml-2 align-middle"
-                        id="voice_search_btn" style="height: 40px;background-color:#20c997">
-                    <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
-                </button>
-            </form>
+          <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50 ml-auto custom-search-form" style="padding-right: 20px;">
+    <div class="input-group">
+        <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by first letter" aria-label="Search" style="height: 40px; font-size: 0.9rem;">
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem;background-color:#20c997">Search</button>
+        </div>
+    </div>
+    <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px;background-color:#20c997">
+        <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
+    </button>
+</form>
+
         </div>
 </nav>
 
@@ -810,9 +811,8 @@ margin-right: 2px;
         </div>
         <ul class="nav flex-column">
 
-            {% if user_id %}
+            {% if request.user.is_authenticated %}
             <li><a href="{% url 'recommend_products' user.id %}" class="nav-link text-dark">See Recommendations</a></li>
-            {% else %}
             {% endif %}
             <hr class="dropdown-divider">
             <li><a href="{% url 'real_time_analytics'  %}" class="nav-link text-dark">Realtime analytics</a></li>
@@ -829,14 +829,14 @@ margin-right: 2px;
             <hr class="dropdown-divider">
             <li><a href="{% url 'security_monitor' %}" class="nav-link text-dark">Security monitor</a></li>
             <hr class="dropdown-divider">
-            {% if user_id %}
+           {% if request.user.is_authenticated %}
             <li><a href="{% url 'user_behavior_analysis' user.id %}" class="nav-link text-dark">View Behavior Analysis</a></li>
-             {% else %}
+
             {% endif %}
             <hr class="dropdown-divider">
-            {% if user_id %}
+            {% if request.user.is_authenticated %}
             <li><a href="{% url 'dynamic_landing_page' user.id %}" class="nav-link text-dark">View Dynamic Landing Page</a></li>
-             {% else %}
+
             {% endif %}
         </ul>
     </div>
@@ -850,7 +850,8 @@ margin-right: 2px;
       <div class="col-lg-9 d-flex justify-content-end">
     <!-- Sort By Dropdown -->
     <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-secondary dropdown-toggle" type="button" style="background-color:#20c997"
+                id="sortDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Sort By Category
         </button>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="sortDropdown">
@@ -859,7 +860,6 @@ margin-right: 2px;
             <a class="dropdown-item" href="#">Category 3</a>
         </div>
     </div>
-
     <!-- Your existing content can go here -->
 </div>
 
@@ -868,7 +868,38 @@ margin-right: 2px;
 {% block content %}
 
 {% endblock %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
 
+    searchInput.addEventListener('input', function() {
+        const query = searchInput.value;
+
+        if (query.length > 0) {
+            fetch(`/search?q=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    searchResults.innerHTML = '';
+                    data.results.forEach(product => {
+                        const productDiv = document.createElement('div');
+                        productDiv.classList.add('product');
+                        productDiv.innerHTML = `
+                            <a href="${product.url}">
+                                <img src="${product.image}" alt="${product.name}">
+                            </a>
+                            <h5>${product.name}</h5>
+                        `;
+                        searchResults.appendChild(productDiv);
+                    });
+                });
+        } else {
+            searchResults.innerHTML = '';
+        }
+    });
+});
+
+</script>
 <!-- Hero Section End -->
 
 <div class="container-fluid"  style="padding-left:60px;padding-right:60px">

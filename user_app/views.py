@@ -182,3 +182,10 @@ def cookies(request):
 def accessibility(request):
     return render(request, 'store/accessibility.html')
 
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import logout
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'user_app/logout.html')

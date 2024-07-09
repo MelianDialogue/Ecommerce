@@ -18,6 +18,7 @@ urlpatterns = [
     path('subscribe/', views.subscribe, name='subscribe'),
     path('about/', views.about, name='about'),
     path('shipping/', views.shipping, name='shipping'),
+    path('logout/', views.logout_view, name='logout-url'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

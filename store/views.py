@@ -396,10 +396,20 @@ def leave_review(request, product_id):
         form = ReviewForm()
     return render(request, 'store/leave_review.html', {'form': form, 'product': product})
 
+from django.shortcuts import render
+from .models import Product
+
+from django.shortcuts import render
+from .models import Product
+
 def search(request):
-    query = request.GET.get('q')
-    results = Product.objects.filter(name__icontains(query) if query else [])
+    query = request.GET.get('q', '')
+    if query:
+        results = Product.objects.filter(name__istartswith=query)
+    else:
+        results = Product.objects.none()  # or results = []
     return render(request, 'store/product_list.html', {'query': query, 'results': results})
+
 
 from django.contrib.auth.decorators import user_passes_test
 from .forms import ProductForm
@@ -1432,3 +1442,4 @@ def voice_search(request):
 def convert_voice_to_text(voice_input):
     # Placeholder function; implement voice-to-text conversion here (using APIs like Google Cloud Speech-to-Text, etc.)
     return voice_input
+
