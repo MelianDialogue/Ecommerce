@@ -809,7 +809,11 @@ margin-right: 2px;
             <span>Dashboard</span>
         </div>
         <ul class="nav flex-column">
+
+            {% if user_id %}
             <li><a href="{% url 'recommend_products' user.id %}" class="nav-link text-dark">See Recommendations</a></li>
+            {% else %}
+            {% endif %}
             <hr class="dropdown-divider">
             <li><a href="{% url 'real_time_analytics'  %}" class="nav-link text-dark">Realtime analytics</a></li>
             <hr class="dropdown-divider">
@@ -825,9 +829,15 @@ margin-right: 2px;
             <hr class="dropdown-divider">
             <li><a href="{% url 'security_monitor' %}" class="nav-link text-dark">Security monitor</a></li>
             <hr class="dropdown-divider">
+            {% if user_id %}
             <li><a href="{% url 'user_behavior_analysis' user.id %}" class="nav-link text-dark">View Behavior Analysis</a></li>
+             {% else %}
+            {% endif %}
             <hr class="dropdown-divider">
+            {% if user_id %}
             <li><a href="{% url 'dynamic_landing_page' user.id %}" class="nav-link text-dark">View Dynamic Landing Page</a></li>
+             {% else %}
+            {% endif %}
         </ul>
     </div>
 </div>
@@ -898,9 +908,9 @@ margin-right: 2px;
                     <img class="rounded" src="{% static 'img/logo1.jpg' %}" alt=""> BRANCHY
                 </h6>
                 <div class="contact-info">
-                    <p><i class="fas fa-map-marker-alt"></i> Address: 4 Durham Workspace, PityMe, Durham DH1 5JZ, UK</p>
-                    <p><i class="fas fa-phone-alt"></i> Phone: +447508516836</p>
-                    <p><i class="fas fa-envelope"></i>Email: hello@meliandialogue.com</p>
+                    <p class="text-uppercase"><i class="fas fa-map-marker-alt"></i> Address: 4 Durham Workspace, PityMe, Durham DH1 5JZ, UK</p>
+                    <p class="text-uppercase"><i class="fas fa-phone-alt"></i> Phone: +447508516836</p>
+                    <p class="text-uppercase"><i class="fas fa-envelope"></i>Email: hello@meliandialogue.com</p>
                 </div>
             </div>
             <div class="col-md-3 footer-column">
@@ -925,7 +935,7 @@ margin-right: 2px;
             </div>
             <div class="col-md-3 footer-column">
                 <h6 class="text-uppercase">Join Our Newsletter Now</h6>
-                <p class="text-dark">Get E-mail updates about our latest shop and special offers.</p>
+                <p class="text-dark text-uppercase">Get E-mail updates about our latest shop and special offers.</p>
                 <form method="post" action="{% url 'subscribe' %}" class="newsletter-form">
                     {% csrf_token %}
                     <div class="form-group">
@@ -966,10 +976,10 @@ margin-right: 2px;
             <div class="row">
                 <div class="col-md-6">
                     <p>
-                        <a class="text-uppercase" href="#">Shipping & Returns</a> |
-                        <a class="text-uppercase" href="#">Contact Us</a> |
-                        <a class="text-uppercase" href="#">About Us</a> |
-                        <a class="text-uppercase" href="#">Blog</a> |
+                        <a class="text-uppercase" href="{% url 'shipping' %}">Shipping & Returns</a> |
+                        <a class="text-uppercase" href="{% url 'contact' %}">Contact Us</a> |
+                        <a class="text-uppercase" href="{% url 'about' %}">About Us</a> |
+                        <a class="text-uppercase" href="{% url 'blog_list' %}">Blog</a> |
                     </p>
                     <p class="text-uppercase">Powered by Ecommerce © 2024</p>
                 </div>
@@ -1130,3 +1140,4 @@ margin-right: 2px;
 
 </body>
 </html>
+

@@ -329,9 +329,6 @@
         </div>
 </nav>
 
-<!-- JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 <script>
     const searchInput = document.getElementById('search_query');
     const voiceSearchBtn = document.getElementById('voice_search_btn');
@@ -348,13 +345,6 @@
         recognition.start();
     });
 </script>
-</body>
-</html>
-
-
-
-
-
 
 <style>
     @keyframes fadeInUp {
@@ -681,11 +671,11 @@ margin-right: 2px;
      /* Color and Spacing Adjustments */
      .top-header {
          background-color: white;
-         padding: 20px 0;
+         padding: 10px 0;
      }
      .middle-header {
          background-color: #f0f0f0;
-         padding: 20px 0;
+         padding: 15px 0;
      }
      .navbar {
          background-color: gray;
@@ -853,7 +843,8 @@ margin-right: 2px;
 
 <section class="container-fluid"  style="padding-left:60px;padding-right:60px">
         <div class="row">
-            <div class="col-lg-4 animated fadeInLeft" style="height: 100%;">
+
+            <div class="col-lg-3 animated fadeInLeft" style="height: 100%;;margin-top:-25px">
                 <div class="hero__categories" style="height: 100%;">
                     <div class="hero__categories__all" style="background-color:#20c997">
                         <span>Dashboards</span>
@@ -866,7 +857,7 @@ margin-right: 2px;
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-8 animated fadeInRight" style="height: 100%;">
+            <div class="col-lg-9 animated fadeInRight" style="height: 100%;margin-top:-50px">
                 <div class="hero__search"></div>
 
                 <div id="productCarousel" class="carousel slide" data-ride="carousel" style="height: 100%;">
@@ -971,6 +962,7 @@ margin-right: 2px;
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
 <style>
     h1, h3 {
         text-align: center;
@@ -1128,61 +1120,168 @@ margin-right: 2px;
         <div class="scroll-column right" onclick="scrollRight('category-1')"><i class="fas fa-chevron-right"></i></div>
     </div>
 
-    <!-- Repeat for other categories -->
+    <!-- Repeat for other categories as needed -->
 </section>
 
-<script>
-    const productsPerPage = 5;
-    let currentProductIndex = 0;
 
-    function updateProductVisibility(categoryId) {
-        const products = document.querySelectorAll(`#${categoryId} .product`);
-        products.forEach((product, index) => {
-            if (index >= currentProductIndex && index < currentProductIndex + productsPerPage) {
-                product.style.display = 'block';
-            } else {
-                product.style.display = 'none';
-            }
+<style>
+    /* Styles for product display */
+.product-section {
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.product-row {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+}
+
+.product {
+    flex: 0 0 25%; /* 100% / 4 = 25% for displaying 4 products */
+    max-width: 25%;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product img {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.product:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.price {
+    font-weight: bold;
+    color: #28a745;
+    margin-top: 10px;
+}
+
+.old-price {
+    text-decoration: line-through;
+    margin-left: 5px;
+    color: #dc3545;
+}
+
+.icons {
+    margin-top: 10px;
+}
+
+.icons i {
+    color: #333;
+    margin: 0 8px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.icons i:hover {
+    color: #007bff;
+}
+
+.stars i {
+    color: #ffd700;
+}
+
+.sale-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #dc3545;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+/* Scroll Buttons */
+.scroll-column {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.left {
+    left: 10px;
+}
+
+.right {
+    right: 10px;
+}
+
+</style>
+
+
+<script>
+    const scrollAmount = 200;
+
+function scrollLeft(categoryId) {
+    const category = document.getElementById(categoryId);
+    category.scrollBy({
+        left: -scrollAmount,
+        behavior: 'smooth'
+    });
+}
+
+function scrollRight(categoryId) {
+    const category = document.getElementById(categoryId);
+    category.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+    });
+}
+
+function autoScroll(categoryId) {
+    const category = document.getElementById(categoryId);
+    const scrollWidth = category.scrollWidth;
+    const clientWidth = category.clientWidth;
+    const maxScrollLeft = scrollWidth - clientWidth;
+
+    category.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+    });
+
+    if (category.scrollLeft >= maxScrollLeft) {
+        category.scrollTo({
+            left: 0,
+            behavior: 'smooth'
         });
     }
+}
 
-    function scrollLeft(categoryId) {
-        const products = document.querySelectorAll(`#${categoryId} .product`);
-        if (currentProductIndex > 0) {
-            currentProductIndex -= productsPerPage;
-            if (currentProductIndex < 0) {
-                currentProductIndex = 0;
-            }
-            updateProductVisibility(categoryId);
-        }
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    setInterval(() => autoScroll('category-1'), 3000); // Automatically scroll every 3 seconds
+});
 
-    function scrollRight(categoryId) {
-        const products = document.querySelectorAll(`#${categoryId} .product`);
-        if (currentProductIndex + productsPerPage < products.length) {
-            currentProductIndex += productsPerPage;
-            updateProductVisibility(categoryId);
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        updateProductVisibility('category-1');
-    });
 </script>
-</body>
-</html>
-
 
 <!-- Category 2 Products -->
-<div class="container-fluid product-section" style="padding-left:60px;padding-right:60px;">
+<div class="container-fluid product-section" style="padding-left:60px; padding-right:60px;">
     <div class="row">
         <!-- First Column -->
         <div class="col-md-4">
             {% for product in category_2_products %}
             {% if forloop.counter <= 2 %}
-            <div class="product1">
+            <div class="product1 mb-3"> <!-- Added mb-3 for spacing between images -->
                 <a href="{{ product.get_absolute_url }}"> <!-- Make the image a link -->
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid hover-zoom">
                 </a>
             </div>
             {% endif %}
@@ -1193,10 +1292,9 @@ margin-right: 2px;
         <div class="col-md-4">
             {% for product in category_2_products %}
             {% if forloop.counter == 3 %}
-            <div class="product1">
-                <a href="{{ product.get_absolute_url }}"> <!-- Make the image a link -->
-                    <img src="{{ product.image.url }}"
-                         alt="{{ product.name }}">
+            <div class="product1 mb-3" style="height: 100%;"> <!-- Ensure full height -->
+                <a href="{{ product.get_absolute_url }}" style="display: block; height: 100%;"> <!-- Make the image a link -->
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid w-100 h-100 hover-zoom" style="object-fit: cover;">
                 </a>
             </div>
             {% endif %}
@@ -1207,9 +1305,9 @@ margin-right: 2px;
         <div class="col-md-4">
             {% for product in category_2_products %}
             {% if forloop.counter == 4 %}
-            <div class="product1">
+            <div class="product1 mb-3"> <!-- Added mb-3 for spacing between images -->
                 <a href="{{ product.get_absolute_url }}"> <!-- Make the image a link -->
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid hover-zoom">
                 </a>
             </div>
             {% endif %}
@@ -1218,8 +1316,25 @@ margin-right: 2px;
     </div>
 </div>
 
+<style>
+    .product1 {
+        overflow: hidden;
+        position: relative;
+    }
+
+    .product1 img {
+        width: 100%;
+        height: 100%;
+        transition: transform 0.5s ease;
+    }
+
+    .product1 img.hover-zoom:hover {
+        transform: scale(1.1);
+    }
+</style>
+
 <!-- Category 3 Products -->
-<div class="container-fluid product-section" style="padding-left:60px;padding-right:60px;">
+<div class="container-fluid product-section" style="padding-left:60px; padding-right:60px;">
     <h3 class="featured-product">New Products</h3>
     <div class="position-relative">
         <button class="scroll-button scroll-left" onclick="scrollLeft()">&#10094;</button>
@@ -1249,83 +1364,128 @@ margin-right: 2px;
 </div>
 <style>
     /* Styles for product display */
-    .product-section {
-        margin-bottom: 40px;
-    }
-    .product-row {
-        display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        scroll-behavior: smooth;
-        padding-bottom: 10px; /* To accommodate scroll buttons */
-    }
-    .product-row::-webkit-scrollbar {
-        display: none;
-    }
-    .product {
-        flex: 0 0 auto;
-        width: 200px;
-        margin-right: 20px;
-        text-align: center;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        padding: 15px;
-        background-color: #fff;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .product:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-    .product img {
-        width: 100%;
-        height: auto;
-        max-height: 200px;
-        object-fit: cover;
-        border-radius: 10px;
-    }
-    .price {
-        font-weight: bold;
-        color: #28a745;
-        margin-top: 10px;
-    }
-    .old-price {
-        text-decoration: line-through;
-        margin-left: 5px;
-        color: #dc3545;
-    }
-    .icons {
-        margin-top: 10px;
-    }
-    .icons i {
-        color: #333;
-        margin: 0 8px;
-        cursor: pointer;
-        transition: color 0.3s;
-    }
-    .icons i:hover {
-        color: #007bff;
-    }
-    /* Scroll Buttons */
-    .scroll-button {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: rgba(0, 0, 0, 0.5);
-        color: #fff;
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-        z-index: 1000;
-    }
-    .scroll-left {
-        left: 10px;
-    }
-    .scroll-right {
-        right: 10px;
-    }
+.product-section {
+    margin-bottom: 40px;
+}
+
+.product-row {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 10px; /* To accommodate scroll buttons */
+}
+
+.product-row::-webkit-scrollbar {
+    display: none;
+}
+
+.product {
+    flex: 0 0 25%; /* Display 4 products at a time */
+    max-width: 25%; /* Ensure it takes up 25% of the row */
+    margin-right: 20px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.product img {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.price {
+    font-weight: bold;
+    color: #28a745;
+    margin-top: 10px;
+}
+
+.old-price {
+    text-decoration: line-through;
+    margin-left: 5px;
+    color: #dc3545;
+}
+
+.icons {
+    margin-top: 10px;
+}
+
+.icons i {
+    color: #333;
+    margin: 0 8px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.icons i:hover {
+    color: #007bff;
+}
+
+/* Scroll Buttons */
+.scroll-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.scroll-left {
+    left: 10px;
+}
+
+.scroll-right {
+    right: 10px;
+}
+
 </style>
+
+<script>
+    let scrollAmount = 0;
+const scrollStep = 250; // Adjust scroll step size as needed
+const scrollInterval = 3000; // Adjust scroll interval (3 seconds) as needed
+
+function scrollLeft() {
+    const row = document.getElementById('category-3-row');
+    row.scrollBy({ left: -scrollStep, behavior: 'smooth' });
+}
+
+function scrollRight() {
+    const row = document.getElementById('category-3-row');
+    row.scrollBy({ left: scrollStep, behavior: 'smooth' });
+}
+
+function autoScroll() {
+    const row = document.getElementById('category-3-row');
+    scrollAmount += scrollStep;
+    if (scrollAmount >= row.scrollWidth - row.clientWidth) {
+        scrollAmount = 0;
+        row.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+        row.scrollBy({ left: scrollStep, behavior: 'smooth' });
+    }
+}
+
+setInterval(autoScroll, scrollInterval);
+
+</script>
+
 
 <div class="footer spad" style="padding-left:60px;padding-right:60px;">
     <div class="container-fluid">
@@ -1335,9 +1495,9 @@ margin-right: 2px;
                     <img class="rounded" src="{% static 'img/logo1.jpg' %}" alt=""> BRANCHY
                 </h6>
                 <div class="contact-info">
-                    <p><i class="fas fa-map-marker-alt"></i> Address: 4 Durham Workspace, PityMe, Durham DH1 5JZ, UK</p>
-                    <p><i class="fas fa-phone-alt"></i> Phone: +447508516836</p>
-                    <p><i class="fas fa-envelope"></i>Email: hello@meliandialogue.com</p>
+                    <p class="text-uppercase"><i class="fas fa-map-marker-alt"></i> Address: 4 Durham Workspace, PityMe, Durham DH1 5JZ, UK</p>
+                    <p class="text-uppercase"><i class="fas fa-phone-alt"></i> Phone: +447508516836</p>
+                    <p class="text-uppercase"><i class="fas fa-envelope"></i>Email: hello@meliandialogue.com</p>
                 </div>
             </div>
             <div class="col-md-3 footer-column">
@@ -1362,7 +1522,7 @@ margin-right: 2px;
             </div>
             <div class="col-md-3 footer-column">
                 <h6 class="text-uppercase">Join Our Newsletter Now</h6>
-                <p class="text-dark">Get E-mail updates about our latest shop and special offers.</p>
+                <p class="text-dark text-uppercase">Get E-mail updates about our latest shop and special offers.</p>
                 <form method="post" action="{% url 'subscribe' %}" class="newsletter-form">
                     {% csrf_token %}
                     <div class="form-group">
@@ -1403,10 +1563,10 @@ margin-right: 2px;
             <div class="row">
                 <div class="col-md-6">
                     <p>
-                        <a class="text-uppercase" href="#">Shipping & Returns</a> |
-                        <a class="text-uppercase" href="#">Contact Us</a> |
-                        <a class="text-uppercase" href="#">About Us</a> |
-                        <a class="text-uppercase" href="#">Blog</a> |
+                        <a class="text-uppercase" href="{% url 'shipping' %}">Shipping & Returns</a> |
+                        <a class="text-uppercase" href="{% url 'contact' %}">Contact Us</a> |
+                        <a class="text-uppercase" href="{% url 'about' %}">About Us</a> |
+                        <a class="text-uppercase" href="{% url 'blog_list' %}">Blog</a> |
                     </p>
                     <p class="text-uppercase">Powered by Ecommerce © 2024</p>
                 </div>
@@ -1567,3 +1727,4 @@ margin-right: 2px;
 
 </body>
 </html>
+

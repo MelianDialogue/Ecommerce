@@ -1,23 +1,18 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="zxx">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="description">
-    <meta name="keywords">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Branchy</title>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{% static 'img/icon.png' %}"/>
-
+    <link rel="icon" type="image/png" href="{% static 'img/logo1.jpg' %}"/>
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+    <!-- Custom CSS Styles -->
 
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" type="text/css">
+     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/elegant-icons.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/nice-select.css' %}" type="text/css">
@@ -25,8 +20,8 @@
     <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/slicknav.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" type="text/css">
-</head>
 
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" type="text/css">
 <body>
 
     <style>
@@ -85,13 +80,15 @@
                         <div class="d-flex align-items-center justify-content-center justify-content-md-start">
                            
                             <div class="logo-container me-md-3">
-                                <a href="">
-                                <img src="{% static 'img/icon.png' %}" alt="Branchy Logo" class="logo">
-                                 </a>
-                            </div>
-                            <a href="" style="text-decoration: none;">
-                                <h3 class="mb-0" style="font-weight: 300;">BRANCHY</h3>
+                               <a href="{% url 'home-url' %}" style="text-decoration:none">
+                            <h4 class="branchy-logo1">
+                                <img class="rounded logo-image" src="{% static 'img/logo1.jpg' %}"
+                                     alt="Branchy Logo">
+                                <span class="branchy-text">BRANCHY</span>
+                            </h4>
+
                         </a>
+                            </div>
                     </div>
                         <h3 class="card-title text-center">Create Account</h3>
                         <form method="post" action="{% url 'register-url' %}">
