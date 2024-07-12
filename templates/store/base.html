@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
     <!-- Custom CSS Styles -->
 
-     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/elegant-icons.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/nice-select.css' %}" type="text/css">
@@ -27,14 +27,14 @@
 
 
     <!-- Bootstrap CSS link (place this in the <head> section of your HTML) -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Optional: Bootstrap JavaScript bundle (place this at the end of your <body> section, before </body>) -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Optional: Bootstrap JavaScript bundle (place this at the end of your <body> section, before </body>) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
-<!-- JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
 
 
@@ -219,133 +219,143 @@
 
 <!-- Top Header -->
 <header class="container-fluid top-header mt-2 px-lg-5 px-3">
-        <div class="row align-items-center">
-            <div class="col-md-6 text-start">
-                <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                    <div class="me-2">
-                        <a href="#" class="text-decoration-none">Gift Certificates</a>
-                    </div>
-                    <span style="height:30px;padding-right:5px;padding-left:5px">|</span>
-                    <div class="dropdown ms-2">
-                        <a class="dropdown-toggle" href="#" role="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white; padding: 0.375rem 0.75rem; border-radius: 0.25rem;">
-                            Select Currency: GBP
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
-                            <li><a class="dropdown-item" href="#">Default Currency Pounds</a></li>
-                        </ul>
-                    </div>
+    <div class="row align-items-center">
+        <div class="col-md-6 text-start">
+            <div class="d-flex align-items-center justify-content-center justify-content-md-start">
+                <div class="me-2">
+                    <a href="#" class="text-decoration-none">Gift Certificates</a>
+                </div>
+                <span style="height:30px;padding-right:5px;padding-left:5px">|</span>
+                <div class="dropdown ms-2">
+                    <a class="dropdown-toggle" href="#" role="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white; padding: 0.375rem 0.75rem; border-radius: 0.25rem;">
+                        Select Currency: GBP
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
+                        <li><a class="dropdown-item" href="#">Default Currency Pounds</a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="col-md-6 text-end">
-                <ul class="list-unstyled d-flex mb-0 justify-content-center justify-content-md-end">
-                    <li class="me-2">
-                        <a href="{% url 'login-url' %}" class="text-decoration-none">Login</a>
-                    </li>
-                    <li style="height:20px;padding-right:10px;padding-left:10px">or</li>
-                    <li class="ms-2">
-                        <a href="{% url 'register-url' %}" class="text-decoration-none">Sign Up</a>
-                    </li>
-                         <li style="padding-right:10px;padding-left:10px">or</li>
-                    <li class="ms-2">
-                        <a href="{% url 'logout-url' %}" class="text-decoration-none">Logout</a>
-                    </li>
-                </ul>
-            </div>
         </div>
+        <div class="col-md-6 text-end">
+            <ul class="list-unstyled d-flex mb-0 justify-content-center justify-content-md-end">
+                <li class="me-2">
+                    <a href="{% url 'login-url' %}" class="text-decoration-none">Login</a>
+                </li> |
+                <li class="ms-2">
+                    <a href="{% url 'register-url' %}" class="text-decoration-none">Sign Up</a>
+                </li> |
+                <li class="ms-2">
+                    <a href="{% url 'logout-url' %}" class="text-decoration-none">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
 </header>
 
 <!-- Middle Header -->
 <header class="container-fluid middle-header border-bottom  mt-2 px-lg-5 px-3" style="padding-left:60px;padding-right:60px">
 
-        <div class="row align-items-center">
-            <div class="col-md-3">
-                <div class="d-none d-md-flex align-items-center justify-content-center justify-content-md-start">
-                    <div class="logo-container me-md-3">
-                        <a href="{% url 'home-url' %}" style="text-decoration:none">
-                            <h4 class="branchy-logo1">
-                                <img class="rounded logo-image" src="{% static 'img/logo1.jpg' %}"
-                                     alt="Branchy Logo">
-                                <span class="branchy-text">BRANCHY</span>
-                            </h4>
+    <div class="row align-items-center">
+        <div class="col-md-3">
+            <div class="d-none d-md-flex align-items-center justify-content-center justify-content-md-start">
+                <div class="logo-container me-md-3">
+                    <a href="{% url 'home-url' %}" style="text-decoration:none">
+                        <h4 class="branchy-logo1">
+                            <img class="rounded logo-image" src="{% static 'img/logo1.jpg' %}"
+                                 alt="Branchy Logo">
+                            <span class="branchy-text">BRANCHY</span>
+                        </h4>
 
-                        </a>
-                    </div>
+                    </a>
                 </div>
             </div>
-            <div class="col-md-6"></div>
-            <div class="col-md-3 text-center call-us-section">
-                <ul class="list-unstyled d-flex justify-content-center mb-0">
-                    <li class="me-4">
-                        <a href="{% url 'contact' %}" class="text-decoration-none d-flex align-items-center">
-                            <i class="fas fa-mobile-alt me-2" style="font-size: 1.5rem;"></i>
-                            <div class="text-start">
-                                <p class="text-muted mb-0">CALL US NOW</p>
-                                <p class="text-muted mb-0">Toll Free: +447508516836</p>
-                            </div>
-                        </a>
-                    </li>
-                     <li><span style="height:40px;padding-right:5px;padding-left:5px">|</span></li>
-                    <li>
-                        <a href="#" class="cart-link text-decoration-none">
+        </div>
+        <div class="col-md-6"></div>
+        <div class="col-md-3 text-center call-us-section">
+            <ul class="list-unstyled d-flex justify-content-center mb-0">
+                <li class="me-4">
+                    <a href="{% url 'contact' %}" class="text-decoration-none d-flex align-items-center">
+                        <i class="fas fa-mobile-alt me-2" style="font-size: 2.5rem;"></i>
+                        <div class="text-start ms-2">
+                            <p class="text-muted mb-0 fw-bold">CALL US NOW</p>
+                            <p class="text-muted mb-0">Toll Free: +447508516836</p>
+                        </div>
+                    </a>
+                </li>
+                <li><span style="height:40px;padding-right:5px;padding-left:5px">|</span></li>
+                <li>
+                    <a href="{% url 'cart_detail'  %}" class="cart-link text-decoration-none">
                             <span class="cart-icon-bg">
                                 <i class="fa fa-shopping-bag text-white" style="font-size: 1.5rem;"></i>
                             </span>
-                            <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+                        <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
+                    </a>
+                </li>
+            </ul>
         </div>
+    </div>
 
 </header>
 
 <!-- Navbar -->
 <nav class="container-fluid navbar navbar-expand-lg navbar-light gray-navbar  px-lg-5 px-3"
      style="padding-left:60px;padding-right:60px;padding-top:0;padding-bottom:0;">
-        <!-- Mobile Logo and Title -->
-        <div class="d-lg-none d-flex align-items-center">
-            <a href="{% url 'home-url' %}">
-                <img src="{% static 'img/logo1.jpg' %}"
-                     alt="Branchy Logo" class="logo">
-            </a>
-            <a href="#" style="text-decoration: none;">
-                <h1 class="mb-0" style="font-size:1.5rem; font-weight: 800; color: white; text-transform: uppercase;">BRANCHY</h1>
-            </a>
-        </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-between" id="navbarNav" style="background-color: #345;">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-start" style="font-size: 1.0rem;">
-                <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'home-url' %}">Home</a></li>
-                <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'product_list' %}">Products</a></li>
-                <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'shipping' %}">Shipping & Returns</a></li>
-                <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'contact' %}">Contact Us</a></li>
-                <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'about' %}">About Us</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white text-center text-uppercase" href="#" role="button" data-bs-toggle="dropdown">More</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
-                        <li><a class="dropdown-item" href="{% url 'profile-url' %}">Profile</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50 ml-auto custom-search-form" style="padding-right: 20px;">
-        <div class="input-group">
-            <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by first letter" aria-label="Search" style="height: 40px; font-size: 0.9rem;">
-            <div class="input-group-append">
-                <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem;background-color:#20c997">Search</button>
-            </div>
-        </div>
-        <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px;background-color:#20c997">
-            <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
-        </button>
-    </form>
-        </div>
-</nav>
+    <!-- Mobile Logo and Title -->
+    <div class="d-lg-none d-flex align-items-center" style="padding:15px">
+        <a href="{% url 'home-url' %}">
+            <img class="rounded" src="{% static 'img/logo1.jpg' %}"
+                 alt="Branchy Logo">
+        </a>
+        <a href="{% url 'home-url' %}" style="text-decoration: none;">
+            <h1 class="mb-0" style="font-size: 2.5rem;font-weight: 900; letter-spacing:-0.1rem; color: white; text-transform: uppercase;">BRANCHY</h1>
+        </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <style>
+    .nav-link:hover {
+    background-color: gray; /* Light gray background */
+    color: #333; /* Black text color */
+}
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0; /* Adjust the margin as needed */
+}
 
+    </style>
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav" style="background-color: #345;">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-start" style="font-size: 1.0rem;">
+            <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'home-url' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'product_list' %}">Products</a></li>
+            <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'shipping' %}">Shipping & Returns</a></li>
+            <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'contact' %}">Contact Us</a></li>
+
+            <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'about' %}">About Us</a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white text-center text-uppercase" href="#" role="button" data-bs-toggle="dropdown">More</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
+                    <li><a class="dropdown-item" href="{% url 'profile-url' %}">Profile</a></li>
+                </ul>
+            </li>
+        </ul>
+        <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50 ml-auto custom-search-form" style="padding-right: 20px;">
+            <div class="input-group">
+                <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem;">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997">Search</button>
+                </div>
+            </div>
+            <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997">
+                <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
+            </button>
+        </form>
+
+    </div>
+</nav>
 <script>
     const searchInput = document.getElementById('search_query');
     const voiceSearchBtn = document.getElementById('voice_search_btn');

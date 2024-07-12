@@ -1,12 +1,12 @@
 from django.urls import path
 from .views import ( analyze_sentiment_view,
-detect_fraud_view, churn_prediction_view, customer_segmentation_view, dynamic_price_update, recommend_products, paypal_cancel,paypal_return,order_success,blog_detail,blog_list,create_blog_post,index, search, order_detail, leave_review, wishlist_detail,
-    add_to_wishlist, remove_from_wishlist, cart_detail, add_to_cart,
-    update_cart_item,blog_post_detail,faq_list,policy_page_detail, 
-    product_list, product_detail, add_product, 
-    checkout, order_history, remove_cart_item, security_monitor_view, user_behavior_analysis_view
+                     detect_fraud_view, churn_prediction_view, customer_segmentation_view, dynamic_price_update, recommend_products, paypal_cancel,paypal_return,order_success,blog_detail,blog_list,create_blog_post,index, search, order_detail, leave_review, wishlist_detail,
+                     add_to_wishlist, remove_from_wishlist, cart_detail, add_to_cart,
+                     update_cart_item,blog_post_detail,faq_list,policy_page_detail,
+                     product_list, product_detail, add_product,
+                     checkout, order_history, remove_cart_item, security_monitor_view, user_behavior_analysis_view
 
-)
+                     )
 from . import views
 
 
@@ -51,12 +51,11 @@ urlpatterns = [
 
     path('personalized/', views.personalized_view, name='personalized_view'),
 
-    path('search/', views.search_view, name='search_results'),
 
     path('send-email/', views.send_personalized_email, name='send_personalized_email'),
 
     path('recommend-bundles/', views.display_bundle_recommendations, name='recommend_bundles'),
-    
+
     path('predict-clv/', views.display_clv_prediction, name='predict_clv'),
 
     path('image-search/', views.image_search, name='image_search'),
@@ -68,12 +67,10 @@ urlpatterns = [
     path('user-behavior/<int:user_id>/', user_behavior_analysis_view, name='user_behavior_analysis'),
 
     path('dynamic-landing-page/<int:user_id>/', views.dynamic_landing_page_view, name='dynamic_landing_page'),
-    
 
     path('analytics/', views.real_time_analytics, name='real_time_analytics'),
 
-
     path('voice_search/', views.voice_search, name='voice_search'),
 
-   path('search/', views.search, name='search'),
+    path('search/', views.search_view, name='search'),
 ]

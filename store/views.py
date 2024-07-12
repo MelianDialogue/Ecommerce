@@ -1443,3 +1443,16 @@ def convert_voice_to_text(voice_input):
     # Placeholder function; implement voice-to-text conversion here (using APIs like Google Cloud Speech-to-Text, etc.)
     return voice_input
 
+
+
+# views.py
+from django.shortcuts import render
+from .models import Product
+
+def search_view(request):
+    query = request.GET.get('q')
+    results = Product.search_by_name(query) if query else []
+    context = {
+        'results': results
+    }
+    return render(request, 'store/search_results.html', context)
