@@ -327,7 +327,8 @@
 
     </style>
     <div class="collapse navbar-collapse justify-content-between" id="navbarNav" style="background-color: #345;">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-start" style="font-size: 1.0rem;">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-start"
+            style="font-size: 1.0rem;padding-left:20px">
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'home-url' %}">Home</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'product_list' %}">Products</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'shipping' %}">Shipping & Returns</a></li>
@@ -342,7 +343,7 @@
                 </ul>
             </li>
         </ul>
-        <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50 ml-auto custom-search-form" style="padding-right: 20px;">
+        <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50  ml-auto custom-search-form" style="padding-right: 20px;">
             <div class="input-group">
                 <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem;">
                 <div class="input-group-append">
@@ -822,7 +823,7 @@ margin-right: 2px;
         <div class="row">
           <div class="col-lg-3">
     <div class="hero__categories">
-        <div class="hero__categories__all">
+        <div class="hero__categories__all"  style="background-color:#20c997">
             <span>Dashboard</span>
         </div>
         <ul class="nav flex-column">
@@ -842,6 +843,8 @@ margin-right: 2px;
             <li><a href="{% url 'analyze_sentiment'  %}" class="nav-link text-dark">Analyze Sentiment</a></li>
             <hr class="dropdown-divider">
             <li><a href="{% url 'forecast_list' %}" class="nav-link text-dark">Forecast Demand</a></li>
+            <hr class="dropdown-divider">
+             <li><a href="{% url 'image_search' %}" class="nav-link text-dark">Image Search</a></li>
             <hr class="dropdown-divider">
             <li><a href="{% url 'security_monitor' %}" class="nav-link text-dark">Security monitor</a></li>
             <hr class="dropdown-divider">

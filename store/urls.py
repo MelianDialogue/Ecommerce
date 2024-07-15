@@ -73,4 +73,5 @@ urlpatterns = [
     path('voice_search/', views.voice_search, name='voice_search'),
 
     path('search/', views.search_view, name='search'),
+
 ]

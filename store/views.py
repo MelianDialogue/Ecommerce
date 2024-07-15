@@ -531,12 +531,12 @@ def recommend_products(user_id):
     # Get user's order history
     orders = Order.objects.filter(user_id=user_id, status='completed')
     products_bought = []
-    
+
     for order in orders:
         order_items = OrderItem.objects.filter(order=order)
         for item in order_items:
             products_bought.append(item.product_id)
-    
+
     # Find users similar to the current user based on purchased products
     similar_users = OrderItem.objects.filter(product_id__in=products_bought) \
                      .exclude(order__user_id=user_id) \
@@ -551,13 +551,13 @@ def recommend_products(user_id):
             if order_item.product_id not in recommendations:
                 recommendations[order_item.product_id] = 0
             recommendations[order_item.product_id] += 1
-    
+
     # Sort recommendations by count
     recommendations = sorted(recommendations.items(), key=lambda x: x[1], reverse=True)[:5]
-    
+
     # Get product objects for recommended products
     recommended_products = [Product.objects.get(id=item[0]) for item in recommendations]
-    
+
     return recommended_products
 
 
@@ -1256,10 +1256,11 @@ def display_clv_prediction(request):
 
 
 import numpy as np
+import cv2
+from sklearn.metrics.pairwise import cosine_similarity
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from .models import Product
-
 import cloudinary.uploader
 import requests
 from io import BytesIO
@@ -1296,32 +1297,30 @@ def image_search(request):
 
     return render(request, 'store/image_search.html', {'results': results})
 
-
-import numpy as np
-import cv2
-from sklearn.metrics.pairwise import cosine_similarity
-from .models import Product
-
-def extract_image_features(image_path):
-    image = cv2.imread(image_path)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+def extract_image_features(image_data):
+    image = cv2.cvtColor(image_data, cv2.COLOR_BGR2GRAY)
     image = cv2.resize(image, (100, 100)).flatten()
     return image
 
-def find_similar_products(features, top_n=5):
-    products = Product.objects.all()
-    similarities = []
+def find_similar_products(query_features):
+    products = Product.objects.exclude(image__isnull=True).exclude(image__exact='')
+    similar_products = []
 
     for product in products:
-        product_image_path = product.image.path  # Ensure your Product model has an image field
-        product_features = extract_image_features(product_image_path)
-        similarity = cosine_similarity([features], [product_features])
-        similarities.append((product, similarity[0][0]))
+        # Fetch the product image from Cloudinary
+        response = requests.get(product.image.url)
+        if response.status_code == 200:
+            product_image_data = np.array(Image.open(BytesIO(response.content)))
+            product_features = extract_image_features(product_image_data)
 
-    # Sort products based on similarity score and return the top N results
-    similarities.sort(key=lambda x: x[1], reverse=True)
-    return [product for product, _ in similarities[:top_n]]
+            # Calculate similarity
+            similarity = cosine_similarity([query_features], [product_features])
 
+            # If the similarity is above a threshold, add to the similar products list
+            if similarity > 0.8:  # Adjust the threshold as needed
+                similar_products.append(product)
+
+    return similar_products
 
 from django.shortcuts import render
 from .models import Product
@@ -1456,3 +1455,4 @@ def search_view(request):
         'results': results
     }
     return render(request, 'store/search_results.html', context)
+

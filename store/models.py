@@ -39,7 +39,7 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
-    
+
     @property
     def total_price(self):
         return self.quantity * self.product.final_price
@@ -103,7 +103,7 @@ class Review(models.Model):
         else:
             # Handle the case where SentimentIntensityAnalyzer could not be imported
             self.sentiment = 'unknown'
-        
+
         super().save(*args, **kwargs)
 
 
@@ -207,7 +207,7 @@ class DemandForecast(models.Model):
 
     def __str__(self):
         return f"{self.product.name} - {self.forecast_date}: {self.forecast_quantity}"
-    
+
 
 class SearchQuery(models.Model):
     query = models.CharField(max_length=255)
@@ -233,7 +233,7 @@ class Preference(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     email_subscription = models.BooleanField(default=True)
     preferred_category = models.CharField(max_length=50, blank=True, null=True)
-    
+
     def __str__(self):
         return f"Preferences for {self.user.username}"
 
@@ -268,7 +268,7 @@ class UserInterest(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.interest}"
-    
+
 
 
 # models.py
@@ -290,26 +290,26 @@ class SocialMediaInteraction(models.Model):
 
 def analyze_social_media(user_id):
     from collections import defaultdict
-    
+
     social_data = SocialMediaInteraction.objects.filter(user_id=user_id)
-    
+
     product_scores = defaultdict(float)
-    
+
     for interaction in social_data:
         product_scores[interaction.product_id] += interaction.interaction_strength
-    
+
     for product_id, score in product_scores.items():
         product = Product.objects.get(id=product_id)
         product.social_media_score = score
         product.save()
-    
+
     recommendations = Product.objects.filter(social_media_score__gt=0).order_by('-social_media_score')[:5]
-    
+
     return recommendations
 
 
 def optimize_supply_chain():
-    
+
     def predictive_model(supply_chain_data):
 
         return f"Forecasted supply chain data based on analytics"
@@ -324,3 +324,4 @@ def optimize_supply_chain():
         product.save()
 
     return supply_chain_forecast
+

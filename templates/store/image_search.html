@@ -1,8 +1,8 @@
 {% extends 'store/base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1>Image-Based Product Search</h1>
+<div class="container-fluid mt-4 px-lg-5 px-3">
+    <h3>Image-Based Product Search</h3>
     <form method="POST" enctype="multipart/form-data" action="{% url 'image_search' %}">
         {% csrf_token %}
         <div class="form-group">
@@ -13,16 +13,31 @@
     </form>
 
     {% if results %}
-        <h2>Search Results</h2>
-        <ul class="list-group mt-3">
+        <h2 class="mt-4">Search Results</h2>
+        <div class="row">
             {% for product in results %}
-                <li class="list-group-item">
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-thumbnail" style="width: 100px;">
-                    <h5>{{ product.name }}</h5>
-                    <p>Price: ${{ product.price }}</p>
-                </li>
+                <div class="col-md-3 mb-4">
+                    <div class="card">
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">Price: ${{ product.price }}</p>
+                            <div class="d-flex justify-content-around">
+                                <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-outline-success">
+                                    <i class="fas fa-cart-plus"></i>
+                                </a>
+                                <a href="{% url 'add_to_wishlist' product.id %}" class="btn btn-outline-danger">
+                                    <i class="fas fa-heart"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
     {% elif results is not none %}
         <p>No matching products found.</p>
     {% endif %}
