@@ -34,6 +34,12 @@ class ReviewForm(forms.ModelForm):
             'comment': forms.Textarea(attrs={'rows': 4}),
         }
 
+    def clean_rating(self):
+        rating = self.cleaned_data.get('rating')
+        if rating > 5:
+            raise forms.ValidationError("Rating cannot exceed 5.")
+        return rating
+
 
 from django import forms
 from .models import BlogPost

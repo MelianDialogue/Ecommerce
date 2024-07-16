@@ -380,10 +380,29 @@ def order_detail(request, order_id):
     order_items = OrderItem.objects.filter(order=order)
     return render(request, 'store/order_detail.html', {'order': order, 'order_items': order_items})
 
-# views.py
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Avg
+from .models import Product, Review
+from .forms import ReviewForm
+from django.contrib.auth.decorators import login_required
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Avg
+from .models import Product, Review
+from .forms import ReviewForm
+from django.contrib.auth.decorators import login_required
+
 @login_required
 def leave_review(request, product_id):
     product = get_object_or_404(Product, id=product_id)
+
+    # Get all reviews for the product
+    reviews = Review.objects.filter(product=product)
+
+    # Calculate average rating
+    average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
+
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
@@ -391,24 +410,23 @@ def leave_review(request, product_id):
             review.user = request.user
             review.product = product
             review.save()
+            # Redirect to the product detail page after saving the review
             return redirect('product_detail', product_id=product.id)
     else:
         form = ReviewForm()
-    return render(request, 'store/leave_review.html', {'form': form, 'product': product})
+
+    return render(request, 'store/leave_review.html', {
+        'form': form,
+        'product': product,
+        'reviews': reviews,  # Pass all reviews to the template
+        'average_rating': average_rating  # Pass average rating to the template
+    })
 
 from django.shortcuts import render
 from .models import Product
 
 from django.shortcuts import render
 from .models import Product
-
-def search(request):
-    query = request.GET.get('q', '')
-    if query:
-        results = Product.objects.filter(name__istartswith=query)
-    else:
-        results = Product.objects.none()  # or results = []
-    return render(request, 'store/product_list.html', {'query': query, 'results': results})
 
 
 from django.contrib.auth.decorators import user_passes_test
@@ -603,6 +621,10 @@ def recommend_products(request, user_id):
     return render(request, 'store/recommendations.html', {'recommendations': recommended_products})
 
 
+
+
+
+
 def get_current_demand(product_id):
     product = Product.objects.get(id=product_id)
     return product.demand
@@ -656,6 +678,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(f'Updated price for {product.name} to {new_price}'))
 
 
+
 # customer segmentation
 from django.db.models import Sum, Count
 from django.shortcuts import render
@@ -707,6 +730,7 @@ def customer_segmentation_view(request):
     return render(request, 'store/customer_segmentation.html', {'segments': segments_dict})
 
 
+
 # churn_predictions
 import pandas as pd
 from django.contrib.auth.models import User
@@ -739,19 +763,22 @@ from sklearn.pipeline import Pipeline
 def fetch_customer_data_with_churn():
     customers = User.objects.all().values('id', 'date_joined', 'profile__age')
     customer_data = pd.DataFrame(customers)
-    
+    print("Customer Data:", customer_data)  # Debug print
+
     purchase_data = (
         Order.objects.values('user_id')
         .annotate(total_spent=Sum('total_price'), purchase_count=Count('id'))
         .order_by('user_id')
     )
     purchase_df = pd.DataFrame(purchase_data)
-    
+    print("Purchase Data:", purchase_df)  # Debug print
+
     churn_data = determine_churn()
-    
+    print("Churn Data:", churn_data)  # Debug print
+
     customer_data = customer_data.merge(purchase_df, left_on='id', right_on='user_id', how='left').fillna(0)
     customer_data = customer_data.merge(churn_data, left_on='id', right_on='user_id', how='left').fillna(0)
-    
+
     return customer_data
 
 
@@ -809,6 +836,7 @@ def predict_churn():
     customer_data['churn_risk'] = model.predict_proba(X_scaled)[:, 1]
     
     return customer_data[['id', 'churn_risk']]
+
 
 
 @login_required
@@ -1326,17 +1354,6 @@ from django.shortcuts import render
 from .models import Product
 
 
-def search_products(request):
-    query = request.GET.get('q', '')
-    products = None
-    if query:
-        keywords = understand_query(query)
-        
-        products = Product.objects.filter(
-            name__icontains=keywords[0] if keywords else ''
-        )
-
-    return render(request, 'store/search_results.html', {'products': products, 'query': query})
 
 # enhnaced security monitoring
 from sklearn.ensemble import IsolationForest
@@ -1419,40 +1436,42 @@ def real_time_analytics(request):
     return render(request, 'store/dashboard.html', context)
 
 
-# views.py
-from django.shortcuts import render
-from .models import Product, SearchQuery
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-
-
-@login_required
-@require_POST
-def voice_search(request):
-    voice_input = request.POST.get('voice_input')
-    query = convert_voice_to_text(voice_input)  # Implement this function
-    results = Product.search_by_name(query)
-    SearchQuery.objects.create(query=query, user=request.user)
-    return render(request, 'store/search_results.html', {'results': results})
-
-
-def convert_voice_to_text(voice_input):
-    # Placeholder function; implement voice-to-text conversion here (using APIs like Google Cloud Speech-to-Text, etc.)
-    return voice_input
-
-
 
 # views.py
+
 from django.shortcuts import render
-from .models import Product
+from .models import Product  # Adjust the import based on your model
+from .utils import process_query  # Import your utility function
 
 def search_view(request):
-    query = request.GET.get('q')
-    results = Product.search_by_name(query) if query else []
-    context = {
-        'results': results
-    }
-    return render(request, 'store/search_results.html', context)
+    query = request.GET.get('q', '')  # Use lowercase 'q' for query parameter
+    voice_input = request.GET.get('voice_input', '')
 
+    if voice_input:
+        query = voice_input  # Use voice_input directly for simplicity
+
+    print(f"Query: {query}")  # Debugging print statement
+
+    # Process the query using your utility function
+    processed_query = process_query(query)
+
+    # Example: Fetch products based on the processed query
+    products = Product.objects.filter(name__icontains=processed_query)
+
+    # Group products by category (adjust based on your category logic)
+    category_1_products = products.filter(category='1')
+    category_2_products = products.filter(category='2')
+    category_3_products = products.filter(category='3')
+    category_4_products = products.filter(category='4')
+    category_5_products = products.filter(category='5')
+
+    context = {
+        'query': query,
+        'category_1_products': category_1_products,
+        'category_2_products': category_2_products,
+        'category_3_products': category_3_products,
+        'category_4_products': category_4_products,
+        'category_5_products': category_5_products,
+    }
+
+    return render(request, 'store/search_results.html', context)

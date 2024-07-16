@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Review Form</title>
+{% extends "store/base.html" %}
+{% block content %}
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -35,16 +31,7 @@
         textarea {
             height: 100px;
         }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-        }
+
         button:hover {
             background-color: #45a049;
         }
@@ -63,8 +50,7 @@
                 <label for="id_comment">Comment:</label>
                 <textarea id="id_comment" name="comment" rows="4" required></textarea>
             </div>
-            <button type="submit">Submit</button>
+            <button class="btn btn-success btn-lg form-control" type="submit">Submit</button>
         </form>
     </div>
-</body>
-</html>
+{% endblock %}

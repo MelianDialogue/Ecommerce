@@ -340,20 +340,71 @@
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
                     <li><a class="dropdown-item" href="{% url 'profile-url' %}">Profile</a></li>
+                    <li><a href="{% url 'product_list' %}" class="dropdown-item">Products</a></li>
+                    <li><a href="{% url 'cart_detail' %}" class="dropdown-item">Shopping Cart</a></li>
+                    <li><a href="{% url 'wishlist_detail' %}" class="dropdown-item">Wishlist</a></li>
                 </ul>
             </li>
         </ul>
-        <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50  ml-auto custom-search-form" style="padding-right: 20px;">
-            <div class="input-group">
-                <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem;">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997">Search</button>
-                </div>
-            </div>
-            <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997">
-                <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
-            </button>
-        </form>
+             <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50 ml-auto custom-search-form" style="padding-right: 20px;">
+    <div class="input-group">
+        <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem;">
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997">Search</button>
+        </div>
+    </div>
+    <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997" onclick="startVoiceSearch()">
+        <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
+    </button>
+    <input type="hidden" id="voice_input" name="voice_input">
+</form>
+
+        <script>
+    function startVoiceSearch() {
+        // Start voice recognition or prompt user to allow microphone access
+        // For demonstration purposes, we'll set a dummy value
+        const voiceInput = "Voice search text"; // Replace with actual voice-to-text implementation
+
+        // Set the voice input to the hidden input field
+        document.getElementById('voice_input').value = voiceInput;
+
+        // Submit the form
+        document.forms[0].submit(); // Assumes this is the first form on your page
+    }
+</script>
+
+
+        <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const voiceSearchBtn = document.getElementById('voice_search_btn');
+    const searchInput = document.getElementById('q');
+
+    if ('webkitSpeechRecognition' in window) {
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        recognition.onresult = function(event) {
+            const voiceInput = event.results[0][0].transcript;
+            searchInput.value = voiceInput;
+            document.querySelector('.custom-search-form').submit();
+        };
+
+        recognition.onerror = function(event) {
+            console.error('Speech recognition error detected: ' + event.error);
+        };
+
+        voiceSearchBtn.addEventListener('click', function() {
+            recognition.start();
+        });
+    } else {
+        console.warn('Speech recognition not supported in this browser.');
+        voiceSearchBtn.disabled = true;
+    }
+});
+</script>
+
 
     </div>
 </nav>
@@ -821,12 +872,12 @@ margin-right: 2px;
 <section class="hero hero-normal px-lg-5 px-3"  style="padding-left:60px;padding-right:60px">
 
         <div class="row">
-          <div class="col-lg-3">
+         <div class="col-lg-3">
     <div class="hero__categories">
-        <div class="hero__categories__all"  style="background-color:#20c997">
-            <span>Dashboard</span>
+        <div class="hero__categories__all" style="background-color:#20c997">
+            <span>Analytics & Insights</span>
         </div>
-        <ul class="nav flex-column">
+        <ul class="nav flex-column" style="max-height: 400px; overflow-y: auto;">
 
             {% if request.user.is_authenticated %}
             <li><a href="{% url 'recommend_products' user.id %}" class="nav-link text-dark">See Recommendations</a></li>
@@ -844,22 +895,24 @@ margin-right: 2px;
             <hr class="dropdown-divider">
             <li><a href="{% url 'forecast_list' %}" class="nav-link text-dark">Forecast Demand</a></li>
             <hr class="dropdown-divider">
-             <li><a href="{% url 'image_search' %}" class="nav-link text-dark">Image Search</a></li>
+            <li><a href="{% url 'image_search' %}" class="nav-link text-dark">Image Search</a></li>
+            <hr class="dropdown-divider">
+            <li><a href="{% url 'recover_abandoned_cart' user_id=user.id %}"
+                   class="nav-link text-dark">Recover Abandoned Cart</a></li>
             <hr class="dropdown-divider">
             <li><a href="{% url 'security_monitor' %}" class="nav-link text-dark">Security monitor</a></li>
             <hr class="dropdown-divider">
-           {% if request.user.is_authenticated %}
+            {% if request.user.is_authenticated %}
             <li><a href="{% url 'user_behavior_analysis' user.id %}" class="nav-link text-dark">View Behavior Analysis</a></li>
-
             {% endif %}
             <hr class="dropdown-divider">
             {% if request.user.is_authenticated %}
             <li><a href="{% url 'dynamic_landing_page' user.id %}" class="nav-link text-dark">View Dynamic Landing Page</a></li>
-
             {% endif %}
         </ul>
     </div>
 </div>
+
             <style>
                 .dropdown-divider:hover {
     background-color: #f0f0f0; /* Light grey background on hover */

@@ -11,7 +11,6 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
     <!-- Custom CSS Styles -->
-
     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/elegant-icons.css' %}" type="text/css">
@@ -23,9 +22,6 @@
 
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" type="text/css">
 
-
-
-
     <!-- Bootstrap CSS link (place this in the <head> section of your HTML) -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 
@@ -35,8 +31,6 @@
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-
-
 
     <style>
         /* Additional Custom Styles */
@@ -340,24 +334,77 @@
 
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'about' %}">About Us</a></li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white text-center text-uppercase" href="#" role="button" data-bs-toggle="dropdown">More</a>
+                <a class="nav-link dropdown-toggle text-white text-center text-uppercase"
+                   href="#" role="button" data-bs-toggle="dropdown">More</a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
                     <li><a class="dropdown-item" href="{% url 'profile-url' %}">Profile</a></li>
+                    <li><a href="{% url 'product_list' %}" class="dropdown-item">Products</a></li>
+                    <li><a href="{% url 'cart_detail' %}" class="dropdown-item">Shopping Cart</a></li>
+                    <li><a href="{% url 'wishlist_detail' %}" class="dropdown-item">Wishlist</a></li>
                 </ul>
             </li>
         </ul>
-        <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50 ml-auto custom-search-form" style="padding-right: 20px;">
-            <div class="input-group">
-                <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem;">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997">Search</button>
-                </div>
-            </div>
-            <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997">
-                <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
-            </button>
-        </form>
+         <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50 ml-auto custom-search-form" style="padding-right: 20px;">
+    <div class="input-group">
+        <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem;">
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997">Search</button>
+        </div>
+    </div>
+    <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997" onclick="startVoiceSearch()">
+        <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
+    </button>
+    <input type="hidden" id="voice_input" name="voice_input">
+</form>
+
+        <script>
+    function startVoiceSearch() {
+        // Start voice recognition or prompt user to allow microphone access
+        // For demonstration purposes, we'll set a dummy value
+        const voiceInput = "Voice search text"; // Replace with actual voice-to-text implementation
+
+        // Set the voice input to the hidden input field
+        document.getElementById('voice_input').value = voiceInput;
+
+        // Submit the form
+        document.forms[0].submit(); // Assumes this is the first form on your page
+    }
+</script>
+
+
+        <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const voiceSearchBtn = document.getElementById('voice_search_btn');
+    const searchInput = document.getElementById('q');
+
+    if ('webkitSpeechRecognition' in window) {
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        recognition.onresult = function(event) {
+            const voiceInput = event.results[0][0].transcript;
+            searchInput.value = voiceInput;
+            document.querySelector('.custom-search-form').submit();
+        };
+
+        recognition.onerror = function(event) {
+            console.error('Speech recognition error detected: ' + event.error);
+        };
+
+        voiceSearchBtn.addEventListener('click', function() {
+            recognition.start();
+        });
+    } else {
+        console.warn('Speech recognition not supported in this browser.');
+        voiceSearchBtn.disabled = true;
+    }
+});
+</script>
+
+
 
     </div>
 </nav>
@@ -874,23 +921,47 @@ margin-right: 2px;
 </style>
 
 
-<section class="container-fluid  px-lg-5 px-3" style="padding-left:60px;padding-right:60px">
+<section class="container-fluid px-lg-5 px-3" style="padding-left: 60px; padding-right: 60px;">
     <div class="row">
-
-        <div class="col-lg-3 animated fadeInLeft" style="height: 100%;;margin-top:-25px">
+        <div class="col-lg-3 animated fadeInLeft" style="height: 100%; margin-top: -25px;">
             <div class="hero__categories" style="height: 100%;">
-                <div class="hero__categories__all" style="background-color:#20c997">
-                    <span>Dashboards</span>
+                <div class="hero__categories__all" style="background-color:#20c997;">
+                    <span>Analytics & Insights</span>
                 </div>
-                <ul>
-                    <li><a href="{% url 'home-url' %}" class="nav-link text-dark">Home</a></li>
-                    <li><a href="{% url 'product_list' %}" class="nav-link text-dark">Products</a></li>
-                    <li><a href="{% url 'cart_detail' %}" class="nav-link text-dark">Shopping Cart</a></li>
-                    <li><a href="{% url 'wishlist_detail' %}" class="nav-link text-dark">Wishlist</a></li>
-                </ul>
+                <div class="scrollable-dropdown-menu" style="max-height: 400px; overflow-y: auto;">
+                    <ul class="nav flex-column">
+                        {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'recommend_products' user.id %}" class="nav-link text-dark">See Recommendations</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'real_time_analytics'  %}" class="nav-link text-dark">Realtime analytics</a></li>
+
+                        <li><a href="{% url 'customer_segmentation'  %}" class="nav-link text-dark">Customer segmentation</a></li>
+
+                        <li><a href="{% url 'churn_prediction'  %}" class="nav-link text-dark">Churn prediction</a></li>
+
+                        <li><a href="{% url 'detect_fraud'  %}" class="nav-link text-dark">Detect Fraud</a></li>
+
+                        <li><a href="{% url 'analyze_sentiment'  %}" class="nav-link text-dark">Analyze Sentiment</a></li>
+
+                        <li><a href="{% url 'forecast_list' %}" class="nav-link text-dark">Forecast Demand</a></li>
+
+                        <li><a href="{% url 'image_search' %}" class="nav-link text-dark">Image Search</a></li>
+
+                        <li><a href="{% url 'recover_abandoned_cart' user_id=user.id %}" class="nav-link text-dark">Recover Abandoned Cart</a></li>
+
+                        <li><a href="{% url 'security_monitor' %}" class="nav-link text-dark">Security monitor</a></li>
+
+                        {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'user_behavior_analysis' user.id %}" class="nav-link text-dark">View Behavior Analysis</a></li>
+                        {% endif %}
+                        {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'dynamic_landing_page' user.id %}" class="nav-link text-dark">View Dynamic Landing Page</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="col-lg-9 animated fadeInRight" style="height: 100%;margin-top:-50px">
+        <div class="col-lg-9 animated fadeInRight" style="height: 100%; margin-top: -50px;">
             <div class="hero__search"></div>
 
             <div id="productCarousel" class="carousel slide" data-ride="carousel" style="height: 100%;">
@@ -1134,6 +1205,9 @@ margin-right: 2px;
                 <h5>{{ product.name }}</h5>
                 <div class="price">
                     <span>£{{ product.price }}</span>
+                    <div class="rating">
+                        <!-- Stars will be populated by JavaScript -->
+                    </div>
                     {% if product.discount > 0 %}
                     <span class="old-price">£{{ product.discount }}</span>
                     {% endif %}
@@ -1388,6 +1462,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <i class="fas fa-eye"></i>
                     <i class="fas fa-heart"></i>
                     <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="rating">
                 </div>
             </div>
             {% endfor %}

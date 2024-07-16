@@ -1,8 +1,6 @@
 {% extends "store/base.html" %}
 
 {% block content %}
-
-
 <!-- Shoping Cart Section Begin -->
 <section class="shoping-cart spad">
     <div class="container">
@@ -11,35 +9,35 @@
                 <div class="shoping__cart__table">
                     <table>
                         <thead>
-                            <tr>
-                                <th class="shoping__product">Products</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Total</th>
-                                <th></th>
-                            </tr>
+                        <tr>
+                            <th class="shoping__product">Products</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            {% for item in cart_items %}
-                            <tr data-cart-item-id="{{ item.id }}">
-                                <td class="shoping__cart__item">
-                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="height: 15vh;">
-                                    <h5>{{ item.product.name }}</h5>
-                                </td>
-                                <td class="shoping__cart__price">£{{ item.product.price }}</td>
-                                <td class="shoping__cart__quantity">
-                                    <div class="quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" value="{{ item.quantity }}">
-                                        </div>
+                        {% for item in cart_items %}
+                        <tr data-cart-item-id="{{ item.id }}">
+                            <td class="shoping__cart__item">
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="height: 15vh;">
+                                <h5>{{ item.product.name }}</h5>
+                            </td>
+                            <td class="shoping__cart__price">£{{ item.product.price }}</td>
+                            <td class="shoping__cart__quantity">
+                                <div class="quantity">
+                                    <div class="pro-qty">
+                                        <input type="text" value="{{ item.quantity }}">
                                     </div>
-                                </td>
-                                <td class="shoping__cart__total">£{{ item.total_price }}</td>
-                                <td class="shoping__cart__item__close">
-                                    <button class="icon_close remove-item"></button>
-                                </td>
-                            </tr>
-                            {% endfor %}
+                                </div>
+                            </td>
+                            <td class="shoping__cart__total">£{{ item.total_price }}</td>
+                            <td class="shoping__cart__item__close">
+                                <button class="icon_close remove-item"></button>
+                            </td>
+                        </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -75,12 +73,8 @@
             </div>
         </div>
     </div>
-
-    <hr>
-    <a class="text-dark" href="{% url 'recover_abandoned_cart' user_id=user.id %}">Recover Abandoned Cart</a>
-
 </section>
-<!-- Shoping Cart Section End -->
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

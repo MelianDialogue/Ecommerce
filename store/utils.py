@@ -79,3 +79,10 @@ def create_dynamic_page(user_id):
     interests = get_user_interests(user_id)
     landing_page = generate_landing_page(interests)
     return landing_page
+
+
+# utils.py
+def process_query(query):
+    # Example processing logic (replace with your actual processing logic)
+    processed_query = query.lower()  # Convert query to lowercase
+    return processed_query

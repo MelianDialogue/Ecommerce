@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import ( analyze_sentiment_view,
-                     detect_fraud_view, churn_prediction_view, customer_segmentation_view, dynamic_price_update, recommend_products, paypal_cancel,paypal_return,order_success,blog_detail,blog_list,create_blog_post,index, search, order_detail, leave_review, wishlist_detail,
+                     detect_fraud_view, churn_prediction_view, customer_segmentation_view, dynamic_price_update, recommend_products, paypal_cancel,paypal_return,order_success,blog_detail,blog_list,create_blog_post,index, order_detail, leave_review, wishlist_detail,
                      add_to_wishlist, remove_from_wishlist, cart_detail, add_to_cart,
                      update_cart_item,blog_post_detail,faq_list,policy_page_detail,
                      product_list, product_detail, add_product,
@@ -27,7 +27,6 @@ urlpatterns = [
     path('wishlist/', wishlist_detail, name='wishlist_detail'),
     path('remove_from_wishlist/<int:product_id>/', remove_from_wishlist, name='remove_from_wishlist'),
     path('product/<int:product_id>/review/', leave_review, name='leave_review'),
-    path('search/', search, name='search'),
     path('blog/<int:blog_post_id>/', blog_post_detail, name='blog_post_detail'),
     path('faq/', faq_list, name='faq_list'),
     path('policy/<int:policy_page_id>/', policy_page_detail, name='policy_page_detail'),
@@ -60,7 +59,6 @@ urlpatterns = [
 
     path('image-search/', views.image_search, name='image_search'),
 
-    path('search/', views.search_products, name='search_products'),
 
     path('security-monitor/', security_monitor_view, name='security_monitor'),
 
@@ -70,7 +68,7 @@ urlpatterns = [
 
     path('analytics/', views.real_time_analytics, name='real_time_analytics'),
 
-    path('voice_search/', views.voice_search, name='voice_search'),
+    # path('voice_search/', views.voice_search, name='voice_search'),
 
     path('search/', views.search_view, name='search'),
 
