@@ -271,29 +271,43 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6"></div>
-        <div class="col-md-3 text-center call-us-section">
-            <ul class="list-unstyled d-flex justify-content-center mb-0">
-                <li class="me-4">
-                    <a href="{% url 'contact' %}" class="text-decoration-none d-flex align-items-center">
-                        <i class="fas fa-mobile-alt me-2" style="font-size: 2.5rem;"></i>
-                        <div class="text-start ms-2">
-                            <p class="text-muted mb-0 fw-bold">CALL US NOW</p>
-                            <p class="text-muted mb-0">Toll Free: +447508516836</p>
-                        </div>
-                    </a>
-                </li>
-                <li><span style="height:40px;padding-right:5px;padding-left:5px">|</span></li>
-                <li>
-                    <a href="{% url 'cart_detail'  %}" class="cart-link text-decoration-none">
-                            <span class="cart-icon-bg">
-                                <i class="fa fa-shopping-bag text-white" style="font-size: 1.5rem;"></i>
-                            </span>
-                        <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+        <div class="col-md-5"></div>
+        <div class="col-md-4 call-us-section">
+    <ul class="list-unstyled d-flex justify-content-end mb-0">
+        <li class="me-4">
+            <a href="{% url 'contact' %}" class="text-decoration-none d-flex align-items-center">
+                <i class="fas fa-mobile-alt me-2" style="font-size: 2.5rem; color: gray;"></i>
+                <div class="text-start ms-2">
+                    <p class="text-muted mb-0 fw-bold">CALL US NOW</p>
+                    <p class="text-muted mb-0 fw-bold">Toll Free: +447508516836</p>
+                </div>
+            </a>
+        </li>
+        <li class="d-flex align-items-center me-4" style="height: 40px;padding-left:20px">
+            <span style="height: 100%; border-left: 1px solid black; padding-right: 5px; padding-left: 5px;"></span>
+        </li>
+        <li class="me-4" style="padding-right:20px">
+            <a href="{% url 'cart_detail' %}" class="cart-link text-decoration-none">
+                <span class="cart-icon-bg">
+                    <i class="fa fa-shopping-bag text-white" style="font-size: 1.5rem;"></i>
+                </span>
+                <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
+            </a>
+        </li>
+        <li class="me-4">
+            <a href="{% url 'profile-url' %}">
+                {% if user.profile.profile_photo %}
+                <img class="rounded-circle animate__animated animate__fadeIn" src="{{ user.profile.profile_photo.url }}"
+                     alt="Profile Photo" style="height: 50px;">
+                {% else %}
+                <img class="rounded-circle animate__animated animate__fadeIn" src="{% static 'img/profile.jpeg' %}"
+                     alt="Photo" style="height: 50px;">
+                {% endif %}
+            </a>
+        </li>
+    </ul>
+</div>
+
     </div>
 
 </header>
