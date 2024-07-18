@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'grappelli',
     'cloudinary',
     'cloudinary_storage',
+    'haystack',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
@@ -226,3 +227,10 @@ PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
 PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'live')
 
 LOGOUT_REDIRECT_URL = '/logout/'
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    },
+}

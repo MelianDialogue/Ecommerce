@@ -278,15 +278,26 @@
                     </a>
                 </li>
                 <li style="height: 40px; display: flex; align-items: center;">
-                    <span style="height: 100%; border-left: 1px solid black; padding-right: 5px; padding-left: 5px;"></span>
+                    <span style="height: 100%; border-left: 1px solid black;
+                    padding-right: 5px; padding-left: 5px;"></span>
                 </li>
-
                 <li>
                     <a href="{% url 'cart_detail'  %}" class="cart-link text-decoration-none">
                             <span class="cart-icon-bg">
                                 <i class="fa fa-shopping-bag text-white" style="font-size: 1.5rem;"></i>
                             </span>
                         <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'profile-url' %}">
+                        {% if user.profile.profile_photo %}
+                        <img class="rounded-circle animate__animated animate__fadeIn" src="{{ user.profile.profile_photo.url }}"
+                             alt="Profile Photo" style="height: 1.5rem;">
+                        {% else %}
+                        <img class="rounded-circle animate__animated animate__fadeIn" src="{% static 'img/profile.jpeg' %}"
+                             alt="Photo" style="height: 1.5rem;">
+                        {% endif %}
                     </a>
                 </li>
             </ul>
@@ -345,64 +356,64 @@
                 </ul>
             </li>
         </ul>
-         <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50 ml-auto custom-search-form" style="padding-right: 20px;">
-    <div class="input-group">
-        <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem;">
-        <div class="input-group-append">
-            <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997">Search</button>
-        </div>
-    </div>
-    <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997" onclick="startVoiceSearch()">
-        <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
-    </button>
-    <input type="hidden" id="voice_input" name="voice_input">
-</form>
+        <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50 ml-auto custom-search-form" style="padding-right: 20px;">
+            <div class="input-group">
+                <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem;">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997">Search</button>
+                </div>
+            </div>
+            <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997" onclick="startVoiceSearch()">
+                <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
+            </button>
+            <input type="hidden" id="voice_input" name="voice_input">
+        </form>
 
         <script>
-    function startVoiceSearch() {
-        // Start voice recognition or prompt user to allow microphone access
-        // For demonstration purposes, we'll set a dummy value
-        const voiceInput = "Voice search text"; // Replace with actual voice-to-text implementation
+            function startVoiceSearch() {
+                // Start voice recognition or prompt user to allow microphone access
+                // For demonstration purposes, we'll set a dummy value
+                const voiceInput = "Voice search text"; // Replace with actual voice-to-text implementation
 
-        // Set the voice input to the hidden input field
-        document.getElementById('voice_input').value = voiceInput;
+                // Set the voice input to the hidden input field
+                document.getElementById('voice_input').value = voiceInput;
 
-        // Submit the form
-        document.forms[0].submit(); // Assumes this is the first form on your page
-    }
-</script>
+                // Submit the form
+                document.forms[0].submit(); // Assumes this is the first form on your page
+            }
+        </script>
 
 
         <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const voiceSearchBtn = document.getElementById('voice_search_btn');
-    const searchInput = document.getElementById('q');
+            document.addEventListener('DOMContentLoaded', function() {
+                const voiceSearchBtn = document.getElementById('voice_search_btn');
+                const searchInput = document.getElementById('q');
 
-    if ('webkitSpeechRecognition' in window) {
-        const recognition = new webkitSpeechRecognition();
-        recognition.lang = 'en-US';
-        recognition.continuous = false;
-        recognition.interimResults = false;
+                if ('webkitSpeechRecognition' in window) {
+                    const recognition = new webkitSpeechRecognition();
+                    recognition.lang = 'en-US';
+                    recognition.continuous = false;
+                    recognition.interimResults = false;
 
-        recognition.onresult = function(event) {
-            const voiceInput = event.results[0][0].transcript;
-            searchInput.value = voiceInput;
-            document.querySelector('.custom-search-form').submit();
-        };
+                    recognition.onresult = function(event) {
+                        const voiceInput = event.results[0][0].transcript;
+                        searchInput.value = voiceInput;
+                        document.querySelector('.custom-search-form').submit();
+                    };
 
-        recognition.onerror = function(event) {
-            console.error('Speech recognition error detected: ' + event.error);
-        };
+                    recognition.onerror = function(event) {
+                        console.error('Speech recognition error detected: ' + event.error);
+                    };
 
-        voiceSearchBtn.addEventListener('click', function() {
-            recognition.start();
-        });
-    } else {
-        console.warn('Speech recognition not supported in this browser.');
-        voiceSearchBtn.disabled = true;
-    }
-});
-</script>
+                    voiceSearchBtn.addEventListener('click', function() {
+                        recognition.start();
+                    });
+                } else {
+                    console.warn('Speech recognition not supported in this browser.');
+                    voiceSearchBtn.disabled = true;
+                }
+            });
+        </script>
 
 
 
@@ -946,9 +957,9 @@ margin-right: 2px;
                         <li><a href="{% url 'forecast_list' %}" class="nav-link text-dark">Forecast Demand</a></li>
 
                         <li><a href="{% url 'image_search' %}" class="nav-link text-dark">Image Search</a></li>
-
+                           {% if request.user.is_authenticated %}
                         <li><a href="{% url 'recover_abandoned_cart' user_id=user.id %}" class="nav-link text-dark">Recover Abandoned Cart</a></li>
-
+                             {% endif %}
                         <li><a href="{% url 'security_monitor' %}" class="nav-link text-dark">Security monitor</a></li>
 
                         {% if request.user.is_authenticated %}
