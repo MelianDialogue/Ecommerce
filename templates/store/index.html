@@ -267,40 +267,40 @@
         </div>
         <div class="col-md-5"></div>
         <div class="col-md-4 call-us-section">
-    <ul class="list-unstyled d-flex justify-content-end mb-0">
-        <li class="me-4">
-            <a href="{% url 'contact' %}" class="text-decoration-none d-flex align-items-center">
-                <i class="fas fa-mobile-alt me-2" style="font-size: 2.5rem; color: gray;"></i>
-                <div class="text-start ms-2">
-                    <p class="text-muted mb-0 fw-bold">CALL US NOW</p>
-                    <p class="text-muted mb-0 fw-bold">Toll Free: +447508516836</p>
-                </div>
-            </a>
-        </li>
-        <li class="d-flex align-items-center me-4" style="height: 40px;padding-left:20px">
-            <span style="height: 100%; border-left: 1px solid black; padding-right: 5px; padding-left: 5px;"></span>
-        </li>
-        <li class="me-4">
-            <a href="{% url 'cart_detail' %}" class="cart-link text-decoration-none">
+            <ul class="list-unstyled d-flex justify-content-end mb-0">
+                <li class="me-4">
+                    <a href="{% url 'contact' %}" class="text-decoration-none d-flex align-items-center">
+                        <i class="fas fa-mobile-alt me-2" style="font-size: 2.5rem; color: gray;"></i>
+                        <div class="text-start ms-2">
+                            <p class="text-muted mb-0 fw-bold">CALL US NOW</p>
+                            <p class="text-muted mb-0 fw-bold">Toll Free: +447508516836</p>
+                        </div>
+                    </a>
+                </li>
+                <li class="d-flex align-items-center me-4" style="height: 40px;padding-left:20px">
+                    <span style="height: 100%; border-left: 1px solid black; padding-right: 5px; padding-left: 5px;"></span>
+                </li>
+                <li class="me-4">
+                    <a href="{% url 'cart_detail' %}" class="cart-link text-decoration-none">
                 <span class="cart-icon-bg">
                     <i class="fa fa-shopping-bag text-white" style="font-size: 1.5rem;"></i>
                 </span>
-                <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
-            </a>
-        </li>
-        <li class="me-4" style="height: 40px;padding-left:20px">
-            <a href="{% url 'profile-url' %}">
-                {% if user.profile.profile_photo %}
-                <img class="rounded-circle animate__animated animate__fadeIn" src="{{ user.profile.profile_photo.url }}"
-                     alt="Profile Photo" style="height: 50px;">
-                {% else %}
-                <img class="rounded-circle animate__animated animate__fadeIn" src="{% static 'img/profile.jpeg' %}"
-                     alt="Photo" style="height: 50px;">
-                {% endif %}
-            </a>
-        </li>
-    </ul>
-</div>
+                        <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
+                    </a>
+                </li>
+                <li class="me-4" style="height: 40px;padding-left:20px">
+                    <a href="{% url 'profile-url' %}">
+                        {% if user.profile.profile_photo %}
+                        <img class="rounded-circle animate__animated animate__fadeIn" src="{{ user.profile.profile_photo.url }}"
+                             alt="Profile Photo" style="height: 50px;">
+                        {% else %}
+                        <img class="rounded-circle animate__animated animate__fadeIn" src="{% static 'img/profile.jpeg' %}"
+                             alt="Photo" style="height: 50px;">
+                        {% endif %}
+                    </a>
+                </li>
+            </ul>
+        </div>
 
     </div>
 
@@ -339,7 +339,6 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-start"
             style="font-size: 1.0rem;padding-left:20px">
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'home-url' %}">Home</a></li>
-            <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'product_list' %}">Products</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'shipping' %}">Shipping & Returns</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'contact' %}">Contact Us</a></li>
 
@@ -350,7 +349,11 @@
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
                     <li><a class="dropdown-item" href="{% url 'profile-url' %}">Profile</a></li>
-                    <li><a href="{% url 'product_list' %}" class="dropdown-item">Products</a></li>
+                       <li><a href="{% url 'image_search' %}" class="dropdown-item">Image Search</a></li>
+                          {% if request.user.is_authenticated and request.user%}
+                        <li><a href="{% url 'recover_abandoned_cart' user_id=user.id %}" class="dropdown-item">Recover Abandoned Cart</a></li>
+                          {% endif %}
+                     <li><a href="{% url 'detect_fraud'  %}" class="dropdown-item">Detect Fraud</a></li>
                     <li><a href="{% url 'cart_detail' %}" class="dropdown-item">Shopping Cart</a></li>
                     <li><a href="{% url 'wishlist_detail' %}" class="dropdown-item">Wishlist</a></li>
                 </ul>
@@ -368,22 +371,17 @@
             </button>
             <input type="hidden" id="voice_input" name="voice_input">
         </form>
-
         <script>
             function startVoiceSearch() {
                 // Start voice recognition or prompt user to allow microphone access
                 // For demonstration purposes, we'll set a dummy value
                 const voiceInput = "Voice search text"; // Replace with actual voice-to-text implementation
-
                 // Set the voice input to the hidden input field
                 document.getElementById('voice_input').value = voiceInput;
-
                 // Submit the form
                 document.forms[0].submit(); // Assumes this is the first form on your page
             }
         </script>
-
-
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const voiceSearchBtn = document.getElementById('voice_search_btn');
@@ -414,11 +412,9 @@
                 }
             });
         </script>
-
-
-
     </div>
 </nav>
+
 
 <script>
     const searchInput = document.getElementById('search_query');
@@ -934,42 +930,36 @@ margin-right: 2px;
 
 <section class="container-fluid px-lg-5 px-3" style="padding-left: 60px; padding-right: 60px;">
     <div class="row">
-        <div class="col-lg-3 animated fadeInLeft" style="height: 100%; margin-top: -25px;">
+        <div class="col-lg-3 animated fadeInLeft" style="height: 70vh; margin-top: -25px;">
             <div class="hero__categories" style="height: 100%;">
                 <div class="hero__categories__all" style="background-color:#20c997;">
-                    <span>Analytics & Insights</span>
+                    <span>Product Category</span>
                 </div>
-                <div class="scrollable-dropdown-menu" style="max-height: 400px; overflow-y: auto;">
-                    <ul class="nav flex-column">
-                        {% if request.user.is_authenticated %}
-                        <li><a href="{% url 'recommend_products' user.id %}" class="nav-link text-dark">See Recommendations</a></li>
-                        {% endif %}
-                        <li><a href="{% url 'real_time_analytics'  %}" class="nav-link text-dark">Realtime analytics</a></li>
+<!--                {% if request.user.is_authenticated and request.user.is_staff %}-->
+<!--                <div class="scrollable-dropdown-menu" style="max-height: 400px; overflow-y: auto;">-->
+<!--                    <ul class="nav flex-column">-->
+<!--                        <li><a href="{% url 'recommend_products' user.id %}" class="nav-link text-dark">See Recommendations</a></li>-->
+<!--                        <li><a href="{% url 'real_time_analytics'  %}" class="nav-link text-dark">Realtime analytics</a></li>-->
+<!--                        <li><a href="{% url 'customer_segmentation'  %}" class="nav-link text-dark">Customer segmentation</a></li>-->
+<!--                        <li><a href="{% url 'churn_prediction'  %}" class="nav-link text-dark">Churn prediction</a></li>-->
+<!--                        <li><a href="{% url 'detect_fraud'  %}" class="nav-link text-dark">Detect Fraud</a></li>-->
+<!--                        <li><a href="{% url 'analyze_sentiment'  %}" class="nav-link text-dark">Analyze Sentiment</a></li>-->
+<!--                        <li><a href="{% url 'forecast_list' %}" class="nav-link text-dark">Forecast Demand</a></li>-->
+<!--                        <li><a href="{% url 'image_search' %}" class="nav-link text-dark">Image Search</a></li>-->
+<!--                        <li><a href="{% url 'recover_abandoned_cart' user_id=user.id %}" class="nav-link text-dark">Recover Abandoned Cart</a></li>-->
 
-                        <li><a href="{% url 'customer_segmentation'  %}" class="nav-link text-dark">Customer segmentation</a></li>
+<!--                        <li><a href="{% url 'security_monitor' %}" class="nav-link text-dark">Security monitor</a></li>-->
+<!--                        <li><a href="{% url 'user_behavior_analysis' user.id %}" class="nav-link text-dark">View Behavior Analysis</a></li>-->
+<!--                        <li><a href="{% url 'dynamic_landing_page' user.id %}" class="nav-link text-dark">View Dynamic Landing Page</a></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--                {% endif %}-->
+                <ul class="nav flex-column">
+                    <li><a class="nav-link text-dark" href="#feature">Featured Products</a></li>
+                    <li><a class="nav-link text-dark" href="#new">New Products</a></li>
+                    <li><a class="nav-link text-dark" href="#offer">Product on Offer</a></li>
+                </ul>
 
-                        <li><a href="{% url 'churn_prediction'  %}" class="nav-link text-dark">Churn prediction</a></li>
-
-                        <li><a href="{% url 'detect_fraud'  %}" class="nav-link text-dark">Detect Fraud</a></li>
-
-                        <li><a href="{% url 'analyze_sentiment'  %}" class="nav-link text-dark">Analyze Sentiment</a></li>
-
-                        <li><a href="{% url 'forecast_list' %}" class="nav-link text-dark">Forecast Demand</a></li>
-
-                        <li><a href="{% url 'image_search' %}" class="nav-link text-dark">Image Search</a></li>
-                           {% if request.user.is_authenticated %}
-                        <li><a href="{% url 'recover_abandoned_cart' user_id=user.id %}" class="nav-link text-dark">Recover Abandoned Cart</a></li>
-                             {% endif %}
-                        <li><a href="{% url 'security_monitor' %}" class="nav-link text-dark">Security monitor</a></li>
-
-                        {% if request.user.is_authenticated %}
-                        <li><a href="{% url 'user_behavior_analysis' user.id %}" class="nav-link text-dark">View Behavior Analysis</a></li>
-                        {% endif %}
-                        {% if request.user.is_authenticated %}
-                        <li><a href="{% url 'dynamic_landing_page' user.id %}" class="nav-link text-dark">View Dynamic Landing Page</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
             </div>
         </div>
         <div class="col-lg-9 animated fadeInRight" style="height: 100%; margin-top: -50px;">
@@ -1195,50 +1185,69 @@ margin-right: 2px;
     }
 </style>
 
-<section class="categories px-lg-5 px-3" style="padding-left:60px;padding-right:60px;">
-    <!-- Category 1 Products -->
-    <br><br>
-    <div class="product-section">
-        <h3 class="featured-product">Featured Product</h3>
-        <div class="scroll-column left" onclick="scrollLeft('category-1')"><i class="fas fa-chevron-left"></i></div>
-        <div class="product-row" id="category-1">
-            {% for product in category_1_products %}
-            <div class="product" id="product-{{ forloop.counter }}">
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                {% if product.discount > 0 %}
-                <div class="sale-badge">SALE</div>
-                {% endif %}
-                <div class="icons">
-                    <i class="fas fa-eye"></i>
-                    <i class="fas fa-heart"></i>
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-                <h5>{{ product.name }}</h5>
-                <div class="price">
-                    <span>£{{ product.price }}</span>
-                    <div class="rating">
-                        <!-- Stars will be populated by JavaScript -->
+
+
+<!-- Category 1 Products -->
+<div class="row px-lg-5 px-3" style="padding-left:60px;padding-right:60px">
+    <div class="col-lg-12 col-md-7">
+        <div class="product__discount">
+            <h3 class="featured-product">Featured Products</h3>
+            <br>
+            <div class="row">
+                <div class="product__discount__slider owl-carousel">
+                    {% for product in category_1_products %}
+                    <div class="col-lg-4 product-item-container">
+                        <div class="product__discount__item">
+                            <div class="product__discount__item__pic set-bg" data-setbg="{{ product.image.url }}">
+                                {% if product.discount > 0 %}
+                                <div class="sale-badge">SALE</div>
+                                {% endif %}
+                                <br>
+                                <br>
+                                <!-- <div class="product__discount__percent">-20%</div>-->
+                                <div class="product_discount_percent">
+                                    <p class="rating" data-rating="{{ rating }}" style="font-size: 20px;">
+                                        <!-- Stars will be populated by JavaScript -->
+                                    </p>
+                                </div>
+                                <ul class="product__item__pic__hover">
+                                    <li><a href="{% url 'product_detail' product.id %}"><i class="fa fa-eye"></i></a></li>
+                                    <li><a href="{% url 'add_to_wishlist' product.id %}"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="{% url 'add_to_cart' product.id %}"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="product__discount__item__text">
+                                <div class="product__item__price"><span> £{{ product.price }}</span></div>
+                                <h5><a href="#">{{ product.name }}</a></h5>
+                                <span> £{{ product.final_price }}</span>
+                            </div>
+                        </div>
                     </div>
-                    {% if product.discount > 0 %}
-                    <span class="old-price">£{{ product.discount }}</span>
-                    {% endif %}
-                </div>
-                <div class="stars">
-                    {% for _ in product.stars %}
-                    <i class="fas fa-star"></i>
                     {% endfor %}
-                    {% if product.stars_half %}
-                    <i class="fas fa-star-half-alt"></i>
-                    {% endif %}
                 </div>
             </div>
-            {% endfor %}
         </div>
-        <div class="scroll-column right" onclick="scrollRight('category-1')"><i class="fas fa-chevron-right"></i></div>
     </div>
+</div>
+<!-- End of Category 1 Products -->
 
-    <!-- Repeat for other categories as needed -->
-</section>
+<!-- Add the following CSS to your styles -->
+<style>
+    .product-item-container {
+        position: relative;
+        padding-right: 15px; /* Adjust this value as needed */
+    }
+
+    .product-item-container:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 2px; /* Adjust the width as needed */
+        background-color: #000; /* Adjust the color as needed */
+    }
+</style>
 
 
 <style>
@@ -1390,7 +1399,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <!-- Category 2 Products -->
-<div class="container-fluid product-section px-lg-5 px-3" style="padding-left:60px; padding-right:60px;">
+<div class="container-fluid product-section px-lg-5 px-3" id="offer" style="padding-left:60px; padding-right:60px;">
     <div class="row">
         <!-- First Column -->
         <div class="col-md-4">
@@ -1451,129 +1460,44 @@ document.addEventListener('DOMContentLoaded', () => {
 </style>
 
 <!-- Category 3 Products -->
-<div class="container-fluid product-section px-lg-5 px-3" style="padding-left:60px; padding-right:60px;">
-    <h3 class="featured-product">New Products</h3>
-    <div class="position-relative">
-        <button class="scroll-button scroll-left" onclick="scrollLeft()">&#10094;</button>
-        <button class="scroll-button scroll-right" onclick="scrollRight()">&#10095;</button>
-        <div class="product-row" id="category-3-row">
-            {% for product in category_3_products %}
-            <div class="product">
-                <a href="{{ product.get_absolute_url }}">
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                </a>
-                <h5>{{ product.name }}</h5>
-                <div class="price">
-                    <span>£{{ product.price }}</span>
-                    {% if product.discount > 0 %}
-                    <span class="old-price">£{{ product.discount }}</span>
-                    {% endif %}
-                </div>
-                <div class="icons">
-                    <i class="fas fa-eye"></i>
-                    <i class="fas fa-heart"></i>
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-                <div class="rating">
+<!-- Category 3 Products -->
+<div class="row px-lg-5 px-3" style="padding-left:60px;padding-right:60px">
+    <div class="col-lg-12 col-md-7">
+        <div class="product__discount">
+            <h3 class="featured-product">New Products</h3>
+            <div class="row">
+                <div class="product__discount__slider owl-carousel">
+                    {% for product in category_3_products %}
+                    <div class="col-lg-4">
+                        <div class="product__discount__item">
+                            <div class="product__discount__item__pic set-bg" data-setbg="{{ product.image.url }}">
+                                <div class="product__discount__percent">-20%</div>
+                                <div class="product_discount_percent">
+                                    <p class="rating" data-rating="{{ rating }}" style="font-size: 20px;">
+                                        <!-- Stars will be populated by JavaScript -->
+                                    </p>
+                                </div>
+                                <ul class="product__item__pic__hover">
+                                    <li><a href="{% url 'product_detail' product.id %}"><i class="fa fa-eye"></i></a></li>
+                                    <li><a href="{% url 'add_to_wishlist' product.id %}"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="{% url 'add_to_cart' product.id %}"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="product__discount__item__text">
+                                <div class="product__item__price"><span> £{{ product.price }}</span></div>
+                                <h5><a href="#">{{ product.name }}</a></h5>
+                                <span> £{{ product.final_price }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
-            {% endfor %}
         </div>
     </div>
 </div>
-<style>
-    /* Styles for product display */
-.product-section {
-    margin-bottom: 40px;
-}
+<!-- End of Category 3 Products -->
 
-.product-row {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    padding-bottom: 10px; /* To accommodate scroll buttons */
-}
-
-.product-row::-webkit-scrollbar {
-    display: none;
-}
-
-.product {
-    flex: 0 0 25%; /* Display 4 products at a time */
-    max-width: 25%; /* Ensure it takes up 25% of the row */
-    margin-right: 20px;
-    text-align: center;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.product:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.product img {
-    width: 100%;
-    height: auto;
-    max-height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-}
-
-.price {
-    font-weight: bold;
-    color: #28a745;
-    margin-top: 10px;
-}
-
-.old-price {
-    text-decoration: line-through;
-    margin-left: 5px;
-    color: #dc3545;
-}
-
-.icons {
-    margin-top: 10px;
-}
-
-.icons i {
-    color: #333;
-    margin: 0 8px;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-
-.icons i:hover {
-    color: #007bff;
-}
-
-/* Scroll Buttons */
-.scroll-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 1000;
-}
-
-.scroll-left {
-    left: 10px;
-}
-
-.scroll-right {
-    right: 10px;
-}
-
-</style>
 
 <script>
     let scrollAmount = 0;
@@ -1606,6 +1530,58 @@ setInterval(autoScroll, scrollInterval);
 </script>
 
 
+
+<style>
+  .product-img {
+    max-height: 200px;
+    object-fit: cover;
+  }
+  .product-card {
+    height: 100%;
+  }
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .icon-buttons a {
+    margin: 0 5px;
+  }
+</style>
+
+<div class="container mt-4">
+  <h3 class="text-center mb-4">Recommended Products</h3>
+  <div class="row">
+    {% for product in recommendations %}
+      <div class="col-md-3 mb-4">
+        <div class="card product-card">
+          <img src="{{ product.image.url }}" class="card-img-top product-img" alt="{{ product.name }}">
+          <div class="card-body text-center">
+            <h5 class="card-title">
+              <a class="text-dark" href="{% url 'product_detail' product.id %}">
+                {{ product.name }}
+              </a>
+            </h5>
+            <p class="card-text">Price: £{{ product.final_price }}</p>
+            <div class="icon-buttons d-flex justify-content-center">
+              <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-primary" title="View Details">
+                <i class="fas fa-eye"></i>
+              </a>
+              <a href="{% url 'add_to_cart' product.id %}" class="btn btn-outline-success" title="Add to Cart">
+                <i class="fas fa-cart-plus"></i>
+              </a>
+              <a href="{% url 'add_to_wishlist' product.id %}" class="btn btn-outline-danger" title="Add to Wishlist">
+                <i class="fas fa-heart"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+
 <div class="footer spad px-lg-5 px-3" style="padding-left:60px;padding-right:60px;">
     <div class="container-fluid">
         <div class="row">
@@ -1614,34 +1590,55 @@ setInterval(autoScroll, scrollInterval);
                     <img class="rounded" src="{% static 'img/logo1.jpg' %}" alt=""> BRANCHY
                 </h6>
                 <div class="contact-info">
-                    <p class="text-uppercase"><i class="fas fa-map-marker-alt"></i> Address: 4 Durham Workspace, PityMe, Durham DH1 5JZ, UK</p>
-                    <p class="text-uppercase"><i class="fas fa-phone-alt"></i> Phone: +447508516836</p>
-                    <p class="text-uppercase"><i class="fas fa-envelope"></i>Email: hello@meliandialogue.com</p>
+                    <a class="text-decoration-none" href="https://www.google.com/maps?q=4+Durham+Workspace,+PityMe,+Durham+DH1+5JZ,+UK" target="_blank">
+                        <p class="">
+                            <i class="fas fa-map-marker-alt"></i> Address: 4 Durham Workspace, PityMe, Durham DH1 5JZ, UK
+                        </p>
+                    </a>
+                    <style>
+                        .clickable {
+                          cursor: pointer;
+                          color: blue; /* Optional: Change the color to indicate it's clickable */
+                        }
+                        .clickable:hover {
+                          text-decoration: underline; /* Optional: Add underline on hover */
+                        }
+                    </style>
+
+
+                    <p class=""><i class="fas fa-phone-alt"></i> Phone: +447508516836</p>
+                    <a class="text-decoration-none" href="mailto:hello@meliandialogue.com">
+                        <p class="">
+                            <i class="fas fa-envelope"></i> Email: hello@meliandialogue.com
+                        </p>
+                    </a>
                 </div>
             </div>
             <div class="col-md-3 footer-column">
                 <h6>NAVIGATE</h6>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
                 <ul>
-                    <li><a class="text-uppercase" href="{% url 'home-url' %}">Home</a></li>
-                    <li><a class="text-uppercase" href="{% url 'product_list' %}">Our Shop</a></li>
-                    <li><a class="text-uppercase" href="{% url 'cart_detail' %}">Shopping Cart</a></li>
-                    <li><a class="text-uppercase" href="{% url 'faq_list' %}">FAQs</a></li>
-                    <li><a class="text-uppercase" href="{% url 'blog_list' %}">Blog</a></li>
-                    <li><a class="text-uppercase" href="{% url 'contact' %}">Contact Us</a></li>
+                    <li><a class="" href="{% url 'home-url' %}"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a class="" href="{% url 'product_list' %}"><i class="fas fa-chevron-right"></i> Our Shop</a></li>
+                    <li><a class="" href="{% url 'cart_detail' %}"><i class="fas fa-chevron-right"></i> Shopping Cart</a></li>
+                    <li><a class="" href="{% url 'faq_list' %}"><i class="fas fa-chevron-right"></i> FAQs</a></li>
+                    <li><a class="" href="{% url 'blog_list' %}"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                    <li><a class="" href="{% url 'contact' %}"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
                 </ul>
             </div>
             <div class="col-md-3 footer-column">
                 <h6>LEGAL</h6>
                 <ul>
-                    <li><a class="text-uppercase" href="{% url 'terms' %}">Terms and Conditions</a></li>
-                    <li><a class="text-uppercase" href="{% url 'privacy' %}">Privacy Policy</a></li>
-                    <li><a class="text-uppercase" href="{% url 'cookies' %}">Cookies</a></li>
-                    <li><a class="text-uppercase" href="{% url 'accessibility' %}">Accessibility</a></li>
+                    <li><a class="" href="{% url 'terms' %}"><i class="fas fa-chevron-right"></i> Terms and Conditions</a></li>
+                    <li><a class="" href="{% url 'privacy' %}"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                    <li><a class="" href="{% url 'cookies' %}"><i class="fas fa-chevron-right"></i> Cookies</a></li>
+                    <li><a class="" href="{% url 'accessibility' %}"><i class="fas fa-chevron-right"></i> Accessibility</a></li>
                 </ul>
             </div>
             <div class="col-md-3 footer-column">
                 <h6 class="text-uppercase">Join Our Newsletter Now</h6>
-                <p class="text-dark text-uppercase">Get E-mail updates about our latest shop and special offers.</p>
+                <p class="text-dark">Get E-mail updates about our latest shop and special offers.</p>
                 <form method="post" action="{% url 'subscribe' %}" class="newsletter-form">
                     {% csrf_token %}
                     <div class="form-group">
@@ -1682,12 +1679,12 @@ setInterval(autoScroll, scrollInterval);
             <div class="row">
                 <div class="col-md-6">
                     <p>
-                        <a class="text-uppercase" href="{% url 'shipping' %}">Shipping & Returns</a> |
-                        <a class="text-uppercase" href="{% url 'contact' %}">Contact Us</a> |
-                        <a class="text-uppercase" href="{% url 'about' %}">About Us</a> |
-                        <a class="text-uppercase" href="{% url 'blog_list' %}">Blog</a> |
+                        <a class="" href="{% url 'shipping' %}">Shipping & Returns</a> |
+                        <a class="" href="{% url 'contact' %}">Contact Us</a> |
+                        <a class="" href="{% url 'about' %}">About Us</a> |
+                        <a class="" href="{% url 'blog_list' %}">Blog</a> |
                     </p>
-                    <p class="text-uppercase">Powered by Ecommerce © 2024</p>
+                    <p class="">Powered by Ecommerce © 2024</p>
                 </div>
                 <div class="col-md-6">
                     <img class="w-50" src="{% static 'assets/img/payment-item.png' %}"

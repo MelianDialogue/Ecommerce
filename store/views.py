@@ -618,7 +618,7 @@ def recommend_products(request, user_id):
     similar_users = find_similar_users(user_id)
     recommendations = aggregate_recommendations(similar_users, user_id)
     recommended_products = Product.objects.filter(id__in=recommendations)
-    return render(request, 'store/recommendations.html', {'recommendations': recommended_products})
+    return render(request, 'store/index.html', {'recommendations': recommended_products})
 
 
 

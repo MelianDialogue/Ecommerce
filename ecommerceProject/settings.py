@@ -30,6 +30,7 @@ DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -233,4 +234,11 @@ HAYSTACK_CONNECTIONS = {
         'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
         'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
     },
+}
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Branchy",
+    "site_header": "Branchy",
+    "site_brand": "Branchy",
+    "welcome_sign": "Welcome to Branchy admin",
 }

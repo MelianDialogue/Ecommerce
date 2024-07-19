@@ -50,7 +50,7 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('product_list')
+            return redirect('home-url')
         else:
             return render(request, 'user_app/login.html', {'error_message': 'Invalid username or password.'})
     return render(request, 'user_app/login.html')

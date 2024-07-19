@@ -273,40 +273,40 @@
         </div>
         <div class="col-md-5"></div>
         <div class="col-md-4 call-us-section">
-    <ul class="list-unstyled d-flex justify-content-end mb-0">
-        <li class="me-4">
-            <a href="{% url 'contact' %}" class="text-decoration-none d-flex align-items-center">
-                <i class="fas fa-mobile-alt me-2" style="font-size: 2.5rem; color: gray;"></i>
-                <div class="text-start ms-2">
-                    <p class="text-muted mb-0 fw-bold">CALL US NOW</p>
-                    <p class="text-muted mb-0 fw-bold">Toll Free: +447508516836</p>
-                </div>
-            </a>
-        </li>
-        <li class="d-flex align-items-center me-4" style="height: 40px;padding-left:20px">
-            <span style="height: 100%; border-left: 1px solid black; padding-right: 5px; padding-left: 5px;"></span>
-        </li>
-        <li class="me-4" style="padding-right:20px">
-            <a href="{% url 'cart_detail' %}" class="cart-link text-decoration-none">
+            <ul class="list-unstyled d-flex justify-content-end mb-0">
+                <li class="me-4">
+                    <a href="{% url 'contact' %}" class="text-decoration-none d-flex align-items-center">
+                        <i class="fas fa-mobile-alt me-2" style="font-size: 2.5rem; color: gray;"></i>
+                        <div class="text-start ms-2">
+                            <p class="text-muted mb-0 fw-bold">CALL US NOW</p>
+                            <p class="text-muted mb-0 fw-bold">Toll Free: +447508516836</p>
+                        </div>
+                    </a>
+                </li>
+                <li class="d-flex align-items-center me-4" style="height: 40px;padding-left:20px">
+                    <span style="height: 100%; border-left: 1px solid black; padding-right: 5px; padding-left: 5px;"></span>
+                </li>
+                <li class="me-4" style="padding-right:20px">
+                    <a href="{% url 'cart_detail' %}" class="cart-link text-decoration-none">
                 <span class="cart-icon-bg">
                     <i class="fa fa-shopping-bag text-white" style="font-size: 1.5rem;"></i>
                 </span>
-                <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
-            </a>
-        </li>
-        <li class="me-4">
-            <a href="{% url 'profile-url' %}">
-                {% if user.profile.profile_photo %}
-                <img class="rounded-circle animate__animated animate__fadeIn" src="{{ user.profile.profile_photo.url }}"
-                     alt="Profile Photo" style="height: 50px;">
-                {% else %}
-                <img class="rounded-circle animate__animated animate__fadeIn" src="{% static 'img/profile.jpeg' %}"
-                     alt="Photo" style="height: 50px;">
-                {% endif %}
-            </a>
-        </li>
-    </ul>
-</div>
+                        <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
+                    </a>
+                </li>
+                <li class="me-4">
+                    <a href="{% url 'profile-url' %}">
+                        {% if user.profile.profile_photo %}
+                        <img class="rounded-circle animate__animated animate__fadeIn" src="{{ user.profile.profile_photo.url }}"
+                             alt="Profile Photo" style="height: 50px;">
+                        {% else %}
+                        <img class="rounded-circle animate__animated animate__fadeIn" src="{% static 'img/profile.jpeg' %}"
+                             alt="Photo" style="height: 50px;">
+                        {% endif %}
+                    </a>
+                </li>
+            </ul>
+        </div>
 
     </div>
 
@@ -331,21 +331,20 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <style>
-    .nav-link:hover {
-    background-color: gray; /* Light gray background */
-    color: #333; /* Black text color */
-}
-.nav-item.dropdown:hover .dropdown-menu {
-    display: block;
-    margin-top: 0; /* Adjust the margin as needed */
-}
+        .nav-link:hover {
+        background-color: gray; /* Light gray background */
+        color: #333; /* Black text color */
+    }
+    .nav-item.dropdown:hover .dropdown-menu {
+        display: block;
+        margin-top: 0; /* Adjust the margin as needed */
+    }
 
     </style>
     <div class="collapse navbar-collapse justify-content-between" id="navbarNav" style="background-color: #345;">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-start"
             style="font-size: 1.0rem;padding-left:20px">
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'home-url' %}">Home</a></li>
-            <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'product_list' %}">Products</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'shipping' %}">Shipping & Returns</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'contact' %}">Contact Us</a></li>
 
@@ -355,70 +354,75 @@
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
                     <li><a class="dropdown-item" href="{% url 'profile-url' %}">Profile</a></li>
-                    <li><a href="{% url 'product_list' %}" class="dropdown-item">Products</a></li>
+                       <li><a href="{% url 'image_search' %}" class="dropdown-item">Image Search</a></li>
+                          {% if request.user.is_authenticated and request.user %}
+                        <li><a href="{% url 'recover_abandoned_cart' user_id=user.id %}"
+                               class="dropdown-item">Recover Abandoned Cart</a></li>
+                          {% endif %}
+                     <li><a href="{% url 'detect_fraud'  %}" class="dropdown-item">Detect Fraud</a></li>
                     <li><a href="{% url 'cart_detail' %}" class="dropdown-item">Shopping Cart</a></li>
                     <li><a href="{% url 'wishlist_detail' %}" class="dropdown-item">Wishlist</a></li>
                 </ul>
             </li>
         </ul>
-             <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50 ml-auto custom-search-form" style="padding-right: 20px;">
-    <div class="input-group">
-        <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem;">
-        <div class="input-group-append">
-            <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997">Search</button>
-        </div>
-    </div>
-    <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997" onclick="startVoiceSearch()">
-        <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
-    </button>
-    <input type="hidden" id="voice_input" name="voice_input">
-</form>
+        <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50 ml-auto custom-search-form" style="padding-right: 20px;">
+            <div class="input-group">
+                <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem;">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997">Search</button>
+                </div>
+            </div>
+            <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997" onclick="startVoiceSearch()">
+                <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
+            </button>
+            <input type="hidden" id="voice_input" name="voice_input">
+        </form>
 
         <script>
-    function startVoiceSearch() {
-        // Start voice recognition or prompt user to allow microphone access
-        // For demonstration purposes, we'll set a dummy value
-        const voiceInput = "Voice search text"; // Replace with actual voice-to-text implementation
+            function startVoiceSearch() {
+                // Start voice recognition or prompt user to allow microphone access
+                // For demonstration purposes, we'll set a dummy value
+                const voiceInput = "Voice search text"; // Replace with actual voice-to-text implementation
 
-        // Set the voice input to the hidden input field
-        document.getElementById('voice_input').value = voiceInput;
+                // Set the voice input to the hidden input field
+                document.getElementById('voice_input').value = voiceInput;
 
-        // Submit the form
-        document.forms[0].submit(); // Assumes this is the first form on your page
-    }
-</script>
+                // Submit the form
+                document.forms[0].submit(); // Assumes this is the first form on your page
+            }
+        </script>
 
 
         <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const voiceSearchBtn = document.getElementById('voice_search_btn');
-    const searchInput = document.getElementById('q');
+            document.addEventListener('DOMContentLoaded', function() {
+                const voiceSearchBtn = document.getElementById('voice_search_btn');
+                const searchInput = document.getElementById('q');
 
-    if ('webkitSpeechRecognition' in window) {
-        const recognition = new webkitSpeechRecognition();
-        recognition.lang = 'en-US';
-        recognition.continuous = false;
-        recognition.interimResults = false;
+                if ('webkitSpeechRecognition' in window) {
+                    const recognition = new webkitSpeechRecognition();
+                    recognition.lang = 'en-US';
+                    recognition.continuous = false;
+                    recognition.interimResults = false;
 
-        recognition.onresult = function(event) {
-            const voiceInput = event.results[0][0].transcript;
-            searchInput.value = voiceInput;
-            document.querySelector('.custom-search-form').submit();
-        };
+                    recognition.onresult = function(event) {
+                        const voiceInput = event.results[0][0].transcript;
+                        searchInput.value = voiceInput;
+                        document.querySelector('.custom-search-form').submit();
+                    };
 
-        recognition.onerror = function(event) {
-            console.error('Speech recognition error detected: ' + event.error);
-        };
+                    recognition.onerror = function(event) {
+                        console.error('Speech recognition error detected: ' + event.error);
+                    };
 
-        voiceSearchBtn.addEventListener('click', function() {
-            recognition.start();
-        });
-    } else {
-        console.warn('Speech recognition not supported in this browser.');
-        voiceSearchBtn.disabled = true;
-    }
-});
-</script>
+                    voiceSearchBtn.addEventListener('click', function() {
+                        recognition.start();
+                    });
+                } else {
+                    console.warn('Speech recognition not supported in this browser.');
+                    voiceSearchBtn.disabled = true;
+                }
+            });
+        </script>
 
 
     </div>
@@ -881,79 +885,6 @@ margin-right: 2px;
     }
 </style>
 
-
-<br>
-<!-- Hero Section Begin -->
-<section class="hero hero-normal px-lg-5 px-3"  style="padding-left:60px;padding-right:60px">
-
-        <div class="row">
-         <div class="col-lg-3">
-    <div class="hero__categories">
-        <div class="hero__categories__all" style="background-color:#20c997">
-            <span>Analytics & Insights</span>
-        </div>
-        <ul class="nav flex-column" style="max-height: 400px; overflow-y: auto;">
-
-            {% if request.user.is_authenticated %}
-            <li><a href="{% url 'recommend_products' user.id %}" class="nav-link text-dark">See Recommendations</a></li>
-            {% endif %}
-            <hr class="dropdown-divider">
-            <li><a href="{% url 'real_time_analytics'  %}" class="nav-link text-dark">Realtime analytics</a></li>
-            <hr class="dropdown-divider">
-            <li><a href="{% url 'customer_segmentation'  %}" class="nav-link text-dark">Customer segmentation</a></li>
-            <hr class="dropdown-divider">
-            <li><a href="{% url 'churn_prediction'  %}" class="nav-link text-dark">Churn prediction</a></li>
-            <hr class="dropdown-divider">
-            <li><a href="{% url 'detect_fraud'  %}" class="nav-link text-dark">Detect Fraud</a></li>
-            <hr class="dropdown-divider">
-            <li><a href="{% url 'analyze_sentiment'  %}" class="nav-link text-dark">Analyze Sentiment</a></li>
-            <hr class="dropdown-divider">
-            <li><a href="{% url 'forecast_list' %}" class="nav-link text-dark">Forecast Demand</a></li>
-            <hr class="dropdown-divider">
-            <li><a href="{% url 'image_search' %}" class="nav-link text-dark">Image Search</a></li>
-            <hr class="dropdown-divider">
-            {% if request.user.is_authenticated %}
-            <li><a href="{% url 'recover_abandoned_cart' user_id=user.id %}"
-                   class="nav-link text-dark">Recover Abandoned Cart</a></li>
-            {% endif %}
-            <hr class="dropdown-divider">
-            <li><a href="{% url 'security_monitor' %}" class="nav-link text-dark">Security monitor</a></li>
-            <hr class="dropdown-divider">
-            {% if request.user.is_authenticated %}
-            <li><a href="{% url 'user_behavior_analysis' user.id %}" class="nav-link text-dark">View Behavior Analysis</a></li>
-            {% endif %}
-            <hr class="dropdown-divider">
-            {% if request.user.is_authenticated %}
-            <li><a href="{% url 'dynamic_landing_page' user.id %}" class="nav-link text-dark">View Dynamic Landing Page</a></li>
-            {% endif %}
-        </ul>
-    </div>
-</div>
-
-            <style>
-                .dropdown-divider:hover {
-    background-color: #f0f0f0; /* Light grey background on hover */
-}
-
-            </style>
-      <div class="col-lg-9 d-flex justify-content-end">
-    <!-- Sort By Dropdown -->
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" style="background-color:#20c997"
-                id="sortDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Sort By Category
-        </button>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="sortDropdown">
-            <a class="dropdown-item" href="#">Category 1</a>
-            <a class="dropdown-item" href="#">Category 2</a>
-            <a class="dropdown-item" href="#">Category 3</a>
-        </div>
-    </div>
-    <!-- Your existing content can go here -->
-</div>
-
-        </div>
-</section>
 {% block content %}
 
 {% endblock %}
@@ -991,71 +922,86 @@ margin-right: 2px;
 </script>
 <!-- Hero Section End -->
 
-<div class="container-fluid px-lg-5 px-3"  style="padding-left:60px;padding-right:60px">
-    <h3 class="mt-4 mb-4">Emerging Trends</h3>
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead class="thead-secondary">
-                <tr>
-                    <th>Date</th>
-                    <th>Predicted Trend</th>
-                    <th>Lower Bound</th>
-                    <th>Upper Bound</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for trend in trends %}
-                    <tr>
-                        <td>{{ trend.ds }}</td>
-                        <td>{{ trend.yhat }}</td>
-                        <td>{{ trend.yhat_lower }}</td>
-                        <td>{{ trend.yhat_upper }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-
-
 
 <div class="footer spad px-lg-5 px-3" style="padding-left:60px;padding-right:60px;">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3 footer-column">
+              <div class="col-md-3 footer-column">
                 <h6 class="branchy-logo" style="font-size: 1.5rem; letter-spacing: -0.2rem">
                     <img class="rounded" src="{% static 'img/logo1.jpg' %}" alt=""> BRANCHY
                 </h6>
                 <div class="contact-info">
-                    <p class="text-uppercase"><i class="fas fa-map-marker-alt"></i> Address: 4 Durham Workspace, PityMe, Durham DH1 5JZ, UK</p>
-                    <p class="text-uppercase"><i class="fas fa-phone-alt"></i> Phone: +447508516836</p>
-                    <p class="text-uppercase"><i class="fas fa-envelope"></i>Email: hello@meliandialogue.com</p>
+                    <a class="text-decoration-none" href="https://www.google.com/maps?q=4+Durham+Workspace,+PityMe,+Durham+DH1+5JZ,+UK" target="_blank">
+                        <p class="">
+                            <i class="fas fa-map-marker-alt"></i> Address: 4 Durham Workspace, PityMe, Durham DH1 5JZ, UK
+                        </p>
+                    </a>
+                    <style>
+                        .clickable {
+                          cursor: pointer;
+                          color: blue; /* Optional: Change the color to indicate it's clickable */
+                        }
+                        .clickable:hover {
+                          text-decoration: underline; /* Optional: Add underline on hover */
+                        }
+                    </style>
+
+
+                    <p class=""><i class="fas fa-phone-alt"></i> Phone: +447508516836</p>
+                    <a class="text-decoration-none" href="mailto:hello@meliandialogue.com">
+                        <p class="">
+                            <i class="fas fa-envelope"></i> Email: hello@meliandialogue.com
+                        </p>
+                    </a>
                 </div>
             </div>
-            <div class="col-md-3 footer-column">
+          <div class="col-md-3 footer-column">
                 <h6>NAVIGATE</h6>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+                <style>
+                    ul {
+                      list-style: none;
+                      padding: 0;
+                    }
+
+
+
+
+                    ul li a i {
+                      margin-right: 8px;
+                      color: #007bff; /* Change the icon color */
+                    }
+
+                    ul li a:hover i {
+                      color: #0056b3; /* Change the icon color on hover */
+                    }
+
+                    ul li a:hover {
+                      text-decoration: underline;
+                    }
+                </style>
                 <ul>
-                    <li><a class="text-uppercase" href="{% url 'home-url' %}">Home</a></li>
-                    <li><a class="text-uppercase" href="{% url 'product_list' %}">Our Shop</a></li>
-                    <li><a class="text-uppercase" href="{% url 'cart_detail' %}">Shopping Cart</a></li>
-                    <li><a class="text-uppercase" href="{% url 'faq_list' %}">FAQs</a></li>
-                    <li><a class="text-uppercase" href="{% url 'blog_list' %}">Blog</a></li>
-                    <li><a class="text-uppercase" href="{% url 'contact' %}">Contact Us</a></li>
+                    <li><a class="" href="{% url 'home-url' %}"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a class="" href="{% url 'product_list' %}"><i class="fas fa-chevron-right"></i> Our Shop</a></li>
+                    <li><a class="" href="{% url 'cart_detail' %}"><i class="fas fa-chevron-right"></i> Shopping Cart</a></li>
+                    <li><a class="" href="{% url 'faq_list' %}"><i class="fas fa-chevron-right"></i> FAQs</a></li>
+                    <li><a class="" href="{% url 'blog_list' %}"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                    <li><a class="" href="{% url 'contact' %}"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
                 </ul>
             </div>
             <div class="col-md-3 footer-column">
                 <h6>LEGAL</h6>
-                <ul>
-                    <li><a class="text-uppercase" href="{% url 'terms' %}">Terms and Conditions</a></li>
-                    <li><a class="text-uppercase" href="{% url 'privacy' %}">Privacy Policy</a></li>
-                    <li><a class="text-uppercase" href="{% url 'cookies' %}">Cookies</a></li>
-                    <li><a class="text-uppercase" href="{% url 'accessibility' %}">Accessibility</a></li>
+               <ul>
+                    <li><a class="" href="{% url 'terms' %}"><i class="fas fa-chevron-right"></i> Terms and Conditions</a></li>
+                    <li><a class="" href="{% url 'privacy' %}"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                    <li><a class="" href="{% url 'cookies' %}"><i class="fas fa-chevron-right"></i> Cookies</a></li>
+                    <li><a class="" href="{% url 'accessibility' %}"><i class="fas fa-chevron-right"></i> Accessibility</a></li>
                 </ul>
             </div>
             <div class="col-md-3 footer-column">
                 <h6 class="text-uppercase">Join Our Newsletter Now</h6>
-                <p class="text-dark text-uppercase">Get E-mail updates about our latest shop and special offers.</p>
+                <p class="text-dark">Get E-mail updates about our latest shop and special offers.</p>
                 <form method="post" action="{% url 'subscribe' %}" class="newsletter-form">
                     {% csrf_token %}
                     <div class="form-group">
@@ -1084,7 +1030,7 @@ margin-right: 2px;
 
                 </style>
                 <div class="footer__widget__social">
-                    <a href="https://www.facebook.com" target="_blank"><i class="fas fa-facebook"></i></a>
+                    <a href="https://www.facebook.com" target="_blank"><i class="fas fa-facebook text-black"></i></a>
                     <a href="https://www.instagram.com" target="_blank"><i class="fas fa-instagram"></i></a>
                     <a href="https://www.twitter.com" target="_blank"><i class="fas fa-twitter"></i></a>
                     <a href="https://www.pinterest.com" target="_blank"><i class="fas fa-pinterest"></i></a>
@@ -1096,12 +1042,12 @@ margin-right: 2px;
             <div class="row">
                 <div class="col-md-6">
                     <p>
-                        <a class="text-uppercase" href="{% url 'shipping' %}">Shipping & Returns</a> |
-                        <a class="text-uppercase" href="{% url 'contact' %}">Contact Us</a> |
-                        <a class="text-uppercase" href="{% url 'about' %}">About Us</a> |
-                        <a class="text-uppercase" href="{% url 'blog_list' %}">Blog</a> |
+                        <a class="" href="{% url 'shipping' %}">Shipping & Returns</a> |
+                        <a class="" href="{% url 'contact' %}">Contact Us</a> |
+                        <a class="" href="{% url 'about' %}">About Us</a> |
+                        <a class="" href="{% url 'blog_list' %}">Blog</a> |
                     </p>
-                    <p class="text-uppercase">Powered by Ecommerce © 2024</p>
+                    <p class="">Powered by Ecommerce © 2024</p>
                 </div>
                 <div class="col-md-6">
                     <img class="w-50" src="{% static 'assets/img/payment-item.png' %}"
