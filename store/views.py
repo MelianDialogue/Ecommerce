@@ -1475,3 +1475,79 @@ def search_view(request):
     }
 
     return render(request, 'store/search_results.html', context)
+
+
+# views.py
+import numpy as np
+from django.db.models import Avg
+from django.shortcuts import render
+from .models import Product, UserProductInteraction, User
+
+
+def find_similar_users(user_id, num_users=5):
+    interactions = UserProductInteraction.objects.filter(user_id=user_id)
+    user_ratings = {interaction.product_id: interaction.rating for interaction in interactions}
+
+    all_users = User.objects.exclude(id=user_id)
+    similarities = []
+    for other_user in all_users:
+        other_interactions = UserProductInteraction.objects.filter(user_id=other_user.id)
+        other_user_ratings = {interaction.product_id: interaction.rating for interaction in other_interactions}
+        similarity = calculate_similarity(user_ratings, other_user_ratings)
+        similarities.append((other_user.id, similarity))
+
+    similarities.sort(key=lambda x: x[1], reverse=True)
+    similar_users = [user_id for user_id, _ in similarities[:num_users]]
+    return similar_users
+
+
+def calculate_similarity(user_ratings, other_user_ratings):
+    common_products = set(user_ratings.keys()) & set(other_user_ratings.keys())
+    if not common_products:
+        return 0
+    user_ratings_vector = np.array([user_ratings[product_id] for product_id in common_products])
+    other_ratings_vector = np.array([other_user_ratings[product_id] for product_id in common_products])
+    return np.dot(user_ratings_vector, other_ratings_vector) / (
+                np.linalg.norm(user_ratings_vector) * np.linalg.norm(other_ratings_vector))
+
+
+def aggregate_recommendations(similar_users, user_id, num_recommendations=5):
+    similar_users_interactions = UserProductInteraction.objects.filter(user_id__in=similar_users).exclude(
+        user_id=user_id)
+    product_recommendations = similar_users_interactions.values('product_id').annotate(
+        avg_rating=Avg('rating')).order_by('-avg_rating')
+    recommendations = [interaction['product_id'] for interaction in product_recommendations[:num_recommendations]]
+    return Product.objects.filter(id__in=recommendations)
+
+
+def recommend_products(user_id):
+    similar_users = find_similar_users(user_id)
+    recommendations = aggregate_recommendations(similar_users, user_id)
+    return recommendations
+
+
+def index(request):
+    user_id = request.user.id  # Assuming user is logged in and authenticated
+
+    # Get recommended products for the user
+    recommended_products = recommend_products(user_id)
+
+    # Debug Output
+    print(f"Recommended products for user {user_id}: {[product.id for product in recommended_products]}")
+
+    # Filter products by category
+    category_1_products = Product.objects.filter(category='1')[:6]
+    category_2_products = Product.objects.filter(category='2')[:4]
+    category_3_products = Product.objects.filter(category='3')[:6]
+    category_4_products = Product.objects.filter(category='4')[:4]
+    category_5_products = Product.objects.filter(category='5')[:3]
+
+    context = {
+        'recommended_products': recommended_products,
+        'category_1_products': category_1_products,
+        'category_2_products': category_2_products,
+        'category_3_products': category_3_products,
+        'category_4_products': category_4_products,
+        'category_5_products': category_5_products,
+    }
+    return render(request, 'store/index.html', context)

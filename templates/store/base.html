@@ -12,6 +12,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
     <!-- Custom CSS Styles -->
 
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
+
+
+
     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/elegant-icons.css' %}" type="text/css">
@@ -227,11 +232,11 @@
                 </div>
                 <span style="height:30px;padding-right:5px;padding-left:5px">|</span>
                 <div class="dropdown ms-2">
-                    <a class="dropdown-toggle" href="#" role="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white; padding: 0.375rem 0.75rem; border-radius: 0.25rem;">
+                    <a class="dropdown-toggle" href="/" role="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white; padding: 0.375rem 0.75rem; border-radius: 0.25rem;">
                         Select Currency: GBP
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
-                        <li><a class="dropdown-item" href="#">Default Currency Pounds</a></li>
+                        <li><a class="dropdown-item" href="{% url 'home-url' %}">Default Currency Pounds</a></li>
                     </ul>
                 </div>
             </div>
@@ -345,6 +350,7 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-start"
             style="font-size: 1.0rem;padding-left:20px">
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'home-url' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'product_list' %}">Products</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'shipping' %}">Shipping & Returns</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'contact' %}">Contact Us</a></li>
 
@@ -353,15 +359,7 @@
                 <a class="nav-link dropdown-toggle text-white text-center text-uppercase" href="#" role="button" data-bs-toggle="dropdown">More</a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
-                    <li><a class="dropdown-item" href="{% url 'profile-url' %}">Profile</a></li>
-                       <li><a href="{% url 'image_search' %}" class="dropdown-item">Image Search</a></li>
-                          {% if request.user.is_authenticated and request.user %}
-                        <li><a href="{% url 'recover_abandoned_cart' user_id=user.id %}"
-                               class="dropdown-item">Recover Abandoned Cart</a></li>
-                          {% endif %}
                      <li><a href="{% url 'detect_fraud'  %}" class="dropdown-item">Detect Fraud</a></li>
-                    <li><a href="{% url 'cart_detail' %}" class="dropdown-item">Shopping Cart</a></li>
-                    <li><a href="{% url 'wishlist_detail' %}" class="dropdown-item">Wishlist</a></li>
                 </ul>
             </li>
         </ul>
@@ -858,6 +856,21 @@ margin-right: 2px;
              margin-top: 10px;
          }
      }
+</style>
+
+
+
+<style>
+    .featured-product {
+    font-family: 'Roboto', sans-serif; /* Use the professional font */
+    font-size: 2.0rem; /* Adjust the size as needed */
+    letter-spacing: -0.1rem; /* Adjust the spacing as needed */
+    font-weight: 900; /* Bold text */
+    color: #333; /* Dark grey color for text */
+    text-align: center; /* Center align text */
+    margin: 20px 0; /* Space above and below */
+}
+
 </style>
 
 

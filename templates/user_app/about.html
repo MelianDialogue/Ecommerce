@@ -14,22 +14,97 @@
             color: #333;
             text-align: center;
             margin-bottom: 20px;
+            animation: fadeIn 2s ease-in-out;
         }
-        h2 {
+        h5 {
             color: #555;
             margin-top: 20px;
+            animation: fadeInUp 1.5s ease-in-out;
         }
         p {
             color: #666;
             text-align: justify;
+            animation: fadeInUp 1.5s ease-in-out;
+        }
+        .about-us-images {
+            position: relative;
+            animation: fadeInLeft 2s ease-in-out;
+        }
+        .about-us-image-large {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .about-us-image-small {
+            position: absolute;
+            top: 20%;
+            left: 10%;
+            width: 40%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .about-us-content {
+            padding-left: 20px;
+            animation: fadeInRight 2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
     </style>
-
-    <div class="container1">
-        <h3>ABOUT US</h3>
-        <h4>What is an about us page?</h4>
-        <p>The about us page is commonly used by all types of businesses to give customers more insight into who is involved with a given business and exactly what it does. The history of a business is often provided, and the histories of the people in charge are usually expressed through short articles, usually accompanied by photographs.</p>
-        <h4>What is the purpose of an about us page?</h4>
-        <p>The primary purpose of an about us page is to inform the reader about the company and its operations. This is a straightforward goal that nearly all businesses have to fulfill in some fashion or another. However, there are other reasons why about us pages are common fixtures on business websites. The text on these pages is a marketing tool for a business, enticing potential customers with both the history and the aspirations of a business, as well as adding a human element. Additionally, about us pages are incorporated into search-engine marketing efforts as a way to find potential customers through Web searches.</p>
+    <br><br>
+    <div class="container-fluid px-lg-5 px-3">
+        <h3 class="featured-product" style="font-size:2.5rem; letter-spacing: -0.2rem; font-weight:900;">ABOUT US</h3>
+        <br>
+        <!-- About Us Section -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="about-us-images">
+                    <img src="{% static 'img/san-francisco-6950837_640.jpg' %}" alt="About Us" class="about-us-image-large">
+                </div>
+            </div>
+            <div class="col-md-6 about-us-content">
+                <h5>What is an about us page?</h5>
+                <p>The about us page is commonly used by all types of businesses to give customers more insight into who is involved with a given business and exactly what it does. The history of a business is often provided, and the histories of the people in charge are usually expressed through short articles, usually accompanied by photographs.</p>
+                <h5>What is the purpose of an about us page?</h5>
+                <p>The primary purpose of an about us page is to inform the reader about the company and its operations. This is a straightforward goal that nearly all businesses have to fulfill in some fashion or another. However, there are other reasons why about us pages are common fixtures on business websites. The text on these pages is a marketing tool for a business, enticing potential customers with both the history and the aspirations of a business, as well as adding a human element. Additionally, about us pages are incorporated into search-engine marketing efforts as a way to find potential customers through Web searches.</p>
+            </div>
+        </div>
     </div>
-    {% endblock %}
+    <br><br>
+{% endblock %}

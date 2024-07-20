@@ -1,118 +1,199 @@
 {% extends "store/base.html" %}
+{% load static %}
 
 {% block content %}
 <!-- Shoping Cart Section Begin -->
 <section class="shoping-cart spad">
-    <div class="container">
+    <div class="container-fluid px-lg-5 px-3">
         <div class="row">
             <div class="col-lg-12">
-                <div class="shoping__cart__table">
-                    <table>
-                        <thead>
-                        <tr>
-                            <th class="shoping__product">Products</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for item in cart_items %}
-                        <tr data-cart-item-id="{{ item.id }}">
-                            <td class="shoping__cart__item">
-                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="height: 15vh;">
-                                <h5>{{ item.product.name }}</h5>
-                            </td>
-                            <td class="shoping__cart__price">£{{ item.product.price }}</td>
-                            <td class="shoping__cart__quantity">
-                                <div class="quantity">
-                                    <div class="pro-qty">
-                                        <input type="text" value="{{ item.quantity }}">
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="shoping__cart__total">£{{ item.total_price }}</td>
-                            <td class="shoping__cart__item__close">
-                                <button class="icon_close remove-item"></button>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                <div class="shoping__cart__table" data-aos="fade-up">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="shoping__product">Products</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in cart_items %}
+                                <tr data-cart-item-id="{{ item.id }}">
+                                    <td class="shoping__cart__item d-flex align-items-center">
+                                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="img-fluid rounded me-3" style="height: 100px; object-fit: cover;">
+                                        <h5 class="mb-0">{{ item.product.name }}</h5>
+                                    </td>
+                                    <td class="shoping__cart__price">£{{ item.product.price }}</td>
+                                    <td class="shoping__cart__quantity">
+                                        <div class="quantity d-flex justify-content-center align-items-center">
+                                            <div class="pro-qty">
+                                                <input type="text" value="{{ item.quantity }}" readonly class="form-control text-center">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="shoping__cart__total">£{{ item.total_price }}</td>
+                                    <td class="shoping__cart__item__close text-center">
+                                        <button class="btn btn-danger remove-item" title="Remove Item">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-4">
             <div class="col-lg-12">
-                <div class="shoping__cart__btns">
-                    <a href="{% url 'product_list' %}" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-                    <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span> Update Cart</a>
+                <div class="shoping__cart__btns d-flex flex-column flex-sm-row justify-content-between">
+                    <a href="{% url 'product_list' %}" class="btn btn-success mb-2 mb-sm-0">CONTINUE SHOPPING</a>
+                    <a href="#" class="btn btn-info"><span class="spinner-border spinner-border-sm"></span> Update Cart</a>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 mt-4">
                 <div class="shoping__continue">
                     <div class="shoping__discount">
                         <h5>Discount Codes</h5>
-                        <form action="#">
-                            <input type="text" placeholder="Enter your coupon code">
-                            <button type="submit" class="site-btn">APPLY COUPON</button>
+                        <form action="#" class="d-flex flex-column flex-sm-row">
+                            <input type="text" placeholder="Enter your coupon code" class="form-control mb-2 mb-sm-0 me-sm-2">
+                            <button type="submit" class="btn btn-secondary w-100 w-sm-auto">APPLY COUPON</button>
                         </form>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 mt-4">
                 <div class="shoping__checkout">
                     <h5>Cart Total</h5>
-                    <ul>
-                        <li>Subtotal <span>£{{ subtotal }}</span></li>
-                        <li>Total <span>£{{ total_price|floatformat:2 }}</span></li>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between">
+                            Subtotal <span>£{{ subtotal }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            Total <span>£{{ total_price|floatformat:2 }}</span>
+                        </li>
                     </ul>
-                    <a href="{% url 'checkout' order.id %}?subtotal={{ subtotal|floatformat:2 }}&total={{ total_price|floatformat:2 }}" class="primary-btn">PROCEED TO CHECKOUT</a>
+                    <a href="{% url 'checkout' order.id %}?subtotal={{ subtotal|floatformat:2 }}&total={{ total_price|floatformat:2 }}" class="btn btn-info mt-3 w-100">PROCEED TO CHECKOUT</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Include AOS JS -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
 
+<!-- Custom Scripts for Cart -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
     $(document).ready(function(){
-        $('.update-quantity').click(function(){
-            var action = $(this).data('action');
-            var cartItemId = $(this).closest('tr').data('cart-item-id');
-            $.ajax({
-                url: '{% url "update_cart_item" 0 %}'.replace('0', cartItemId),
-                data: {'action': action},
-                success: function(data) {
-                    $('tr[data-cart-item-id="' + cartItemId + '"] .item-total-price').text('$' + data.total_price.toFixed(2));
-                    var cartTotal = 0;
-                    $('.item-total-price').each(function(){
-                        cartTotal += parseFloat($(this).text().replace('$', ''));
-                    });
-                    $('#cart-total').text('$' + cartTotal.toFixed(2));
-                    $('#checkout-link').attr('href', '{% url "checkout" order.id %}?total=' + cartTotal.toFixed(2));
-                }
-            });
-        });
-
         $('.remove-item').click(function(){
             var cartItemId = $(this).closest('tr').data('cart-item-id');
             $.ajax({
                 url: '{% url "remove_cart_item" 0 %}'.replace('0', cartItemId),
                 success: function(data) {
-                    $('tr[data-cart-item-id="' + cartItemId + '"]').remove();
-                    var cartTotal = 0;
-                    $('.item-total-price').each(function(){
-                        cartTotal += parseFloat($(this).text().replace('$', ''));
+                    $('tr[data-cart-item-id="' + cartItemId + '"]').fadeOut('slow', function() {
+                        $(this).remove();
+                        var cartTotal = 0;
+                        $('.shoping__cart__total').each(function(){
+                            cartTotal += parseFloat($(this).text().replace('£', ''));
+                        });
+                        $('.shoping__checkout ul li:last-child span').text('£' + cartTotal.toFixed(2));
+                        $('#checkout-link').attr('href', '{% url "checkout" order.id %}?total=' + cartTotal.toFixed(2));
                     });
-                    $('#cart-total').text('$' + cartTotal.toFixed(2));
-                    $('#checkout-link').attr('href', '{% url "checkout" order.id %}?total=' + cartTotal.toFixed(2));
                 }
             });
         });
     });
 </script>
+
+<style>
+    .shoping__cart__table {
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .shoping__cart__item img {
+        border-radius: 8px;
+    }
+
+    .shoping__cart__quantity .pro-qty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+    }
+
+    .shoping__checkout ul {
+        padding: 0;
+        list-style: none;
+    }
+
+    .shoping__checkout ul li {
+        border: none;
+        padding: 0.75rem 1rem;
+        background: #f8f9fa;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .shoping__checkout ul li span {
+        font-weight: bold;
+    }
+
+    .quantity input {
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        text-align: center;
+        width: 100%;
+        height: 38px; /* Ensure consistency with button height */
+    }
+
+    .icon_close {
+        font-size: 18px;
+    }
+
+    .spinner-border {
+        width: 1rem;
+        height: 1rem;
+    }
+</style>
 {% endblock %}

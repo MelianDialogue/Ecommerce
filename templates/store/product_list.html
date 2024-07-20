@@ -2,14 +2,36 @@
 {% load static %}
 {% block content %}
 
-       <style>
+<style>
+    /* CSS for product images */
+    .product__discount__item__pic {
+        border: 1px solid #ddd; /* Add border to product images */
+        border-radius: 8px; /* Rounded corners for the border */
+        overflow: hidden; /* Ensure border is clipped to the image's boundary */
+    }
+
     /* CSS for vertical lines */
     .product__discount__item {
         border-right: 1px solid #ddd; /* Vertical line between products */
         padding-right: 15px; /* Optional padding between images */
+        margin-bottom: 15px; /* Space between rows */
     }
     .product__discount__item:last-child {
         border-right: none; /* Remove right border from the last item in each row */
+    }
+
+    /* Ensure images are responsive */
+    .product__discount__item__pic img {
+        width: 100%; /* Full width to fit within the container */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .product__discount__item {
+            border-right: none; /* Remove vertical lines on small screens */
+            margin-bottom: 15px; /* Ensure vertical spacing on small screens */
+        }
     }
 </style>
 
@@ -30,10 +52,6 @@
     </div>
 </section>
 <!-- Breadcrumb Section End -->
-
-
-
-
 
 <!-- Category 1 Products -->
 <div class="row px-lg-5 px-3" style="padding-left:60px;padding-right:60px">
@@ -114,53 +132,9 @@
 
 <br>
 
-
 <!-- AOS Animation Script -->
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>
     AOS.init();
 </script>
 {% endblock %}
-
-<style>
-    .recommended-products {
-        margin-bottom: 20px;
-    }
-
-    .product-image {
-        max-width: 100px;
-        height: auto;
-        margin-right: 10px;
-    }
-
-    .product-details {
-        display: inline-block;
-        vertical-align: top;
-    }
-
-    .product-name {
-        font-weight: bold;
-    }
-
-    .product-price {
-        margin-left: 10px;
-    }
-
-    .ml-features {
-        margin-top: 30px;
-    }
-
-    .feature-item {
-        margin-bottom: 20px;
-    }
-
-    .list-group-item {
-        border: none;
-        padding: 10px 0;
-    }
-
-    .fraud-detection {
-        color: red;
-        font-weight: bold;
-    }
-</style>

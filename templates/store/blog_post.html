@@ -9,10 +9,8 @@
     .blog-header {
         text-align: center;
         margin-bottom: 30px;
-        background: linear-gradient(to right, #ff7e5f, #feb47b);
         padding: 30px;
         border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         animation: fadeInDown 1s;
     }
     .blog-header h1 {
@@ -24,25 +22,29 @@
         color: #f8f9fa;
         font-size: 1rem;
     }
-    .blog-content {
+    .blog-post {
         background: #ffffff;
         padding: 30px;
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         animation: fadeInUp 1s;
+        margin-bottom: 30px;
     }
-    .blog-content p {
+    .blog-post h3 {
+        color: #333;
+        margin-bottom: 15px;
+    }
+    .blog-post p {
         line-height: 1.7;
         font-size: 1.1rem;
         color: #343a40;
     }
-    .blog-meta {
-        margin-top: 20px;
+    .blog-post-meta {
+        margin-top: 10px;
         font-size: 0.9rem;
         color: #6c757d;
-        animation: fadeIn 2s;
     }
-    .blog-meta i {
+    .blog-post-meta i {
         margin-right: 5px;
     }
     .author-info {
@@ -52,7 +54,7 @@
         background: #f8f9fa;
         padding: 15px;
         border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.001);
         animation: fadeIn 2s;
     }
     .author-info img {
@@ -96,15 +98,22 @@
     }
 </style>
 
-<div class="container py-5">
+<div class="container-fluid  px-lg-5 px-3">
+    <div class="blog-header animate__animated animate__fadeInDown">
+        <h1 class="text-dark">Our E-commerce Blog</h1>
+        <p class="text-dark">Insights, trends, and stories from the world of e-commerce</p>
+    </div>
+
     {% for blog_post in blog_posts %}
-    <div class="blog-post">
+    <div class="blog-post animate__animated animate__fadeInUp">
         <h3>{{ blog_post.title }}</h3>
-        <p>By {{ blog_post.author.username }} on {{ blog_post.created_at }}</p>
-        <p>{{ blog_post.content|truncatewords:50 }}</p>
+        <p class="blog-post-meta">
+            <i class="fas fa-user"></i> By {{ blog_post.author.username }}
+            <i class="fas fa-calendar-alt"></i> {{ blog_post.created_at }}
+        </p>
+        <p>{{ blog_post.content|truncatewords:5000 }}</p>
 <!--        <a class="text-dark" href="{% url 'blog_detail' blog_post.id %}">Read more</a>-->
     </div>
-    <hr>
     {% endfor %}
 </div>
 {% endblock %}
