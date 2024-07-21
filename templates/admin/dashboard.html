@@ -1,0 +1,54 @@
+{% extends 'admin/base_site.html' %}
+
+{% block content %}
+    <!-- Bootstrap CSS (link to your Bootstrap CSS file) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <div class="container mt-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="card-title mb-4">Real-Time Analytics Dashboard</h1>
+                <br><br>
+
+                <div class="mb-4">
+                    <h2 class="h4">Total Sales:</h2>
+                    <p class="display-4 font-weight-bold">{{ total_sales }}</p>
+                </div>
+
+                <div class="mb-4">
+                    <h2 class="h4">Top Searches:</h2>
+                    <ul class="list-group">
+                        {% for behavior in top_searches %}
+                            <li class="list-group-item">
+                                <strong>{{ behavior.user.username }}</strong> searched for
+                                <em>"{{ behavior.query }}"</em>
+                            </li>
+                        {% empty %}
+                            <li class="list-group-item">No top searches available.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div>
+                    <h2 class="h4">Top Social Media Interactions:</h2>
+                    <ul class="list-group">
+                        {% for interaction in top_interactions %}
+                            <li class="list-group-item">
+                                <strong>{{ interaction.user.username }}</strong> interacted with
+                                <em>{{ interaction.product.name }}</em> on
+                                <strong>{{ interaction.platform }}</strong>
+                            </li>
+                        {% empty %}
+                            <li class="list-group-item">No social media interactions available.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optionally include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

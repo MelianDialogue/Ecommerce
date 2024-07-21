@@ -1,0 +1,157 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .card-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card-custom {
+            height: 200px; /* Set height for all cards */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-custom:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-custom:nth-child(1) {
+            background-color: #f8d7da; /* Light red */
+        }
+
+        .card-custom:nth-child(2) {
+            background-color: #d4edda; /* Light green */
+        }
+
+        .card-custom:nth-child(3) {
+            background-color: #d1ecf1; /* Light blue */
+        }
+
+        .card-custom:nth-child(4) {
+            background-color: #fff3cd; /* Light yellow */
+        }
+
+        .card-custom:nth-child(5) {
+            background-color: #cce5ff; /* Light blue */
+        }
+
+        .card-custom:nth-child(6) {
+            background-color: #e2e3e5; /* Light gray */
+        }
+
+        .card-custom:nth-child(7) {
+            background-color: #f5c6cb; /* Light pink */
+        }
+
+        .card-custom:nth-child(8) {
+            background-color: #c3e6cb; /* Light green */
+        }
+
+        .container {
+            margin-top: 30px;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            flex: 1;
+            margin: 10px;
+        }
+    </style>
+
+    <div class="container">
+        <h1 class="my-4">Admin Dashboard Links</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <a href="{% url 'admin_customer_segmentation' %}" class="card-link">
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            Customer Segmentation
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'churn_prediction' %}" class="card-link">
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            Churn Prediction
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'detect_fraud' %}" class="card-link">
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            Fraud Detection
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'analyze_sentiment' %}" class="card-link">
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            Analyze Sentiment
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'recommend_bundles' %}" class="card-link">
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            Recommend Bundles
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'security_monitor' %}" class="card-link">
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            Security Monitor
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'user_behavior_analysis' %}" class="card-link">
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            View Behavior Analysis
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'real_time_analytics' %}" class="card-link">
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            Real Time Analytics
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'forecast_list' %}" class="card-link">
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            Forecast Demand
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

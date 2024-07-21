@@ -71,7 +71,8 @@ def get_user_interests(user_id):
     return list(interests)
 
 def generate_landing_page(interests):
-    content = f"<h1>Welcome!</h1><p>Based on your interests in {', '.join(interests)}, we recommend the following:</p>"
+    content = (f"<h1>Welcome!</h1><p>Based on your interests in {', '.join(interests)}, "
+               f"we recommend the following:</p>")
     # Add more logic to generate content dynamically based on interests
     return content
 
@@ -86,3 +87,4 @@ def process_query(query):
     # Example processing logic (replace with your actual processing logic)
     processed_query = query.lower()  # Convert query to lowercase
     return processed_query
+

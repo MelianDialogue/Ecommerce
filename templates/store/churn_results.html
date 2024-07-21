@@ -1,0 +1,21 @@
+{% extends "store/base.html" %}
+{% block content %}
+<h1>Churn Prediction Results</h1>
+<table>
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Churn Risk</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for prediction in churn_predictions %}
+        <tr>
+            <td>{{ prediction.id }}</td>
+            <td>{{ prediction.churn_risk }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'admin:predict_churn' %}">Back to Prediction</a>
+{% endblock %}

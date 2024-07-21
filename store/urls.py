@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import ( analyze_sentiment_view,
-                     detect_fraud_view, churn_prediction_view, customer_segmentation_view, dynamic_price_update, recommend_products, paypal_cancel,paypal_return,order_success,blog_detail,blog_list,create_blog_post,index, order_detail, leave_review, wishlist_detail,
+                     detect_fraud_view, churn_prediction_view, dynamic_price_update, recommend_products, paypal_cancel,paypal_return,order_success,blog_detail,blog_list,create_blog_post,index, order_detail, leave_review, wishlist_detail,
                      add_to_wishlist, remove_from_wishlist, cart_detail, add_to_cart,
                      update_cart_item,blog_post_detail,faq_list,policy_page_detail,
                      product_list, product_detail, add_product,
@@ -39,7 +39,7 @@ urlpatterns = [
     path('paypal-cancel/', paypal_cancel, name='paypal_cancel'),
     path('recommendations/<int:user_id>/', recommend_products, name='recommend_products'),
     path('dynamic_price_update/<int:product_id>/', dynamic_price_update, name='dynamic_price_update'),
-    path('customer_segmentation/', customer_segmentation_view, name='customer_segmentation'),
+    # path('customer_segmentation/', customer_segmentation_view, name='customer_segmentation'),
     path('churn_prediction/', churn_prediction_view, name='churn_prediction'),
     path('detect_fraud/', detect_fraud_view, name='detect_fraud'),
     path('analyze_sentiment/', analyze_sentiment_view, name='analyze_sentiment'),
@@ -62,7 +62,7 @@ urlpatterns = [
 
     path('security-monitor/', security_monitor_view, name='security_monitor'),
 
-    path('user-behavior/<int:user_id>/', user_behavior_analysis_view, name='user_behavior_analysis'),
+    # path('user-behavior/<int:user_id>/', user_behavior_analysis_view, name='user_behavior_analysis'),
 
     path('dynamic-landing-page/<int:user_id>/', views.dynamic_landing_page_view, name='dynamic_landing_page'),
 
@@ -71,5 +71,7 @@ urlpatterns = [
     # path('voice_search/', views.voice_search, name='voice_search'),
 
     path('search/', views.search_view, name='search'),
+
+    # path('admin/customer-segmentation/', views.admin_customer_segmentation_view, name='admin_customer_segmentation'),
 
 ]

@@ -1,0 +1,94 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+
+<h3>Customer Segmentation</h3>
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+    }
+
+    .table-container {
+        width: 100%; /* Ensure the container takes full width */
+        overflow-x: auto; /* Allows horizontal scroll if needed */
+        margin: 20px 0; /* Margin for spacing */
+    }
+
+    table {
+        width: 100%; /* Make the table cover the full width of the container */
+        border-collapse: collapse;
+        font-size: 16px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for visual depth */
+        table-layout: fixed; /* Ensures columns have a fixed width */
+    }
+
+    thead {
+        background-color: #007bff; /* Blue color for the header */
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: left;
+        border: 1px solid #dddddd; /* Borders for better separation */
+        box-sizing: border-box; /* Include padding and border in element’s width */
+    }
+
+    tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    tbody tr:nth-of-type(even) {
+        background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+        background-color: #e9ecef; /* Light gray hover effect */
+    }
+
+    tbody tr:last-of-type {
+        border-bottom: 2px solid #007bff;
+    }
+
+    h3 {
+        font-family: 'Arial', sans-serif;
+        color: #333333;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        table {
+            font-size: 14px;
+        }
+    }
+</style>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>Age</th>
+                <th>Total Spent</th>
+                <th>Purchase Count</th>
+                <th>Segment</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in segments %}
+                <tr>
+                    <td>{{ customer.id }}</td>
+                    <td>{{ customer.profile__age }}</td>
+                    <td>${{ customer.total_spent|floatformat:2 }}</td>
+                    <td>{{ customer.purchase_count }}</td>
+                    <td>{{ customer.segment }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

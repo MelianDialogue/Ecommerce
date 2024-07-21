@@ -54,9 +54,9 @@ from .models import Product
 
 def index(request):
     # Example: Filter products for Category 1
-    category_1_products = Product.objects.filter(category='1')[:6]
+    category_1_products = Product.objects.filter(category='1')
     category_2_products = Product.objects.filter(category='2')[:4]
-    category_3_products = Product.objects.filter(category='3')[:6]
+    category_3_products = Product.objects.filter(category='3')
     category_4_products = Product.objects.filter(category='4')[:4]
     category_5_products = Product.objects.filter(category='5')[:3]
     # Repeat for other categories as needed
@@ -89,15 +89,11 @@ from .models import Product
 
 def product_list(request):
     category_1_products = Product.objects.filter(category='1')
-    category_2_products = Product.objects.filter(category='2')
     category_3_products = Product.objects.filter(category='3')
-    category_4_products = Product.objects.filter(category='4')
 
     context = {
         'category_1_products': category_1_products,
-        'category_2_products': category_2_products,
         'category_3_products': category_3_products,
-        'category_4_products': category_4_products,
     }
 
     return render(request, 'store/product_list.html', context)
@@ -678,68 +674,54 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(f'Updated price for {product.name} to {new_price}'))
 
 
-
-# customer segmentation
-from django.db.models import Sum, Count
+# views.py
+from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from user_app.models import Profile 
+from user_app.models import Profile
+from store.models import Order
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 import pandas as pd
 
-# Fetch customer data
+
 def fetch_customer_data():
-    customers = User.objects.all().values('id', 'date_joined', 'profile__age')  # Assuming Profile model has age
+    customers = User.objects.all().values('id', 'profile__age')
     customer_data = pd.DataFrame(customers)
-    
-    # Fetch purchase data
+
     purchase_data = (
         Order.objects.values('user_id')
         .annotate(total_spent=Sum('total_price'), purchase_count=Count('id'))
         .order_by('user_id')
     )
     purchase_df = pd.DataFrame(purchase_data)
-    
-    # Merge customer and purchase data
+
     customer_data = customer_data.merge(purchase_df, left_on='id', right_on='user_id', how='left').fillna(0)
-    
+
     return customer_data
 
-# Segment customers using KMeans
+
 def segment_customers():
     customer_data = fetch_customer_data()
-    
-    # Features for clustering
+
     features = ['profile__age', 'total_spent', 'purchase_count']
-    
-    # Standardizing the features
+
     scaler = StandardScaler()
     standardized_data = scaler.fit_transform(customer_data[features])
-    
-    # Apply k-means clustering
+
     kmeans = KMeans(n_clusters=3, random_state=42)
     customer_data['segment'] = kmeans.fit_predict(standardized_data)
-    
+
     return customer_data
 
-# View for customer segmentation
-def customer_segmentation_view(request):
+
+@staff_member_required
+def admin_customer_segmentation_view(request):
     segments = segment_customers()
     segments_dict = segments.to_dict(orient='records')
-    return render(request, 'store/customer_segmentation.html', {'segments': segments_dict})
+    return render(request, 'admin/customer_segmentation.html', {'segments': segments_dict})
 
 
-
-# churn_predictions
-import pandas as pd
-from django.contrib.auth.models import User
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score
-import pandas as pd
-from django.contrib.auth.models import User
 
 # churn_predictions
 import pandas as pd
@@ -759,12 +741,13 @@ from django.contrib.auth.decorators import login_required
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 
-
 def fetch_customer_data_with_churn():
+    # Fetch customer data
     customers = User.objects.all().values('id', 'date_joined', 'profile__age')
     customer_data = pd.DataFrame(customers)
     print("Customer Data:", customer_data)  # Debug print
 
+    # Fetch purchase data
     purchase_data = (
         Order.objects.values('user_id')
         .annotate(total_spent=Sum('total_price'), purchase_count=Count('id'))
@@ -773,111 +756,133 @@ def fetch_customer_data_with_churn():
     purchase_df = pd.DataFrame(purchase_data)
     print("Purchase Data:", purchase_df)  # Debug print
 
+    # Fetch churn data
     churn_data = determine_churn()
     print("Churn Data:", churn_data)  # Debug print
 
+    # Merge dataframes
     customer_data = customer_data.merge(purchase_df, left_on='id', right_on='user_id', how='left').fillna(0)
     customer_data = customer_data.merge(churn_data, left_on='id', right_on='user_id', how='left').fillna(0)
 
     return customer_data
-
 
 def determine_churn():
     churn_data = []
     six_months_ago = timezone.now() - timedelta(days=180)
     for user in User.objects.all():
         last_order = Order.objects.filter(user=user).order_by('-created_at').first()
-        if last_order and last_order.created_at < six_months_ago:
+        if last_order is None or last_order.created_at < six_months_ago:
             churn_data.append({'user_id': user.id, 'churn': 1})  # Churned
         else:
             churn_data.append({'user_id': user.id, 'churn': 0})  # Not churned
-    
-    return pd.DataFrame(churn_data)
 
+    return pd.DataFrame(churn_data)
 
 def train_churn_model():
     customer_data = fetch_customer_data_with_churn()
-    
+
+    # Check churn class distribution
     churn_counts = customer_data['churn'].value_counts()
-    print(churn_counts)
-    
+    print("Churn Counts:", churn_counts)
+
     if len(churn_counts) < 2:
-        raise ValueError("Not enough classes to train the model.")
-    
+        raise ValueError(f"Not enough classes to train the model. Available classes: {churn_counts}")
+
     customer_data = shuffle(customer_data)
-    
+
     features = ['profile__age', 'total_spent', 'purchase_count']
     X = customer_data[features]
     y = customer_data['churn']
-    
+
+    # Standardize features
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
-    
+
     X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42, stratify=y)
-    
+
     model = LogisticRegression(random_state=42)
     model.fit(X_train, y_train)
-    
+
     y_pred = model.predict(X_test)
     print(classification_report(y_test, y_pred))
-    
-    return model, scaler
 
+    return model, scaler
 
 def predict_churn():
     model, scaler = train_churn_model()
-    
+
     customer_data = fetch_customer_data_with_churn()
-    
+
     features = ['profile__age', 'total_spent', 'purchase_count']
     X = customer_data[features]
     X_scaled = scaler.transform(X)
-    
+
     customer_data['churn_risk'] = model.predict_proba(X_scaled)[:, 1]
-    
+
     return customer_data[['id', 'churn_risk']]
-
-
 
 @login_required
 def churn_prediction_view(request):
     profiles = Profile.objects.all()
-    
+
     churn_data = {
         'profile__age': [profile.age for profile in profiles],
         'total_spent': [profile.total_spent for profile in profiles],
         'purchase_count': [profile.purchase_count for profile in profiles],
         'churn': [profile.churn for profile in profiles],
     }
-    
+
     churn_df = pd.DataFrame(churn_data)
-    
+
     if churn_df.empty:
         return render(request, 'store/error_page.html', {'message': 'No data available for churn prediction.'})
-    
+
     churn_df.fillna(churn_df.mean(), inplace=True)
-    
+
     X = churn_df[['profile__age', 'total_spent', 'purchase_count']]
     y = churn_df['churn']
-    
+
     # Check if the target variable has at least two classes
     if y.nunique() < 2:
         return render(request, 'store/error_page.html', {'message': 'Not enough class diversity to perform churn prediction.'})
-    
+
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    
+
     pipeline = Pipeline([
         ('imputer', SimpleImputer(strategy='mean')),
         ('logreg', LogisticRegression()),
     ])
-    
+
     pipeline.fit(X_train, y_train)
-    
+
     y_pred = pipeline.predict(X_test)
-    
+
     accuracy = accuracy_score(y_test, y_pred)
-    
-    return render(request, 'store/churn_prediction.html', {'accuracy': accuracy})
+
+    return render(request, 'admin/churn_prediction.html', {'accuracy': accuracy})
+
+
+
+# store/admin_views.py or user_app/admin_views.py
+# from django.shortcuts import render
+# from django.contrib.admin.views.decorators import staff_member_required
+# from django.contrib.auth.models import User
+# from .models import Order
+# from .churn_predictions import predict_churn
+# import pandas as pd
+
+@staff_member_required
+def churn_prediction_view(request):
+    churn_data = predict_churn()
+
+    if churn_data.empty:
+        return render(request, 'admin/error_page.html', {'message': 'No data available for churn prediction.'})
+
+    churn_data = churn_data.to_dict('records')
+
+    return render(request, 'admin/churn_prediction.html', {'churn_data': churn_data})
+
+
 
 
 from django.shortcuts import render
@@ -894,39 +899,39 @@ def fetch_transactions():
 @login_required
 def detect_fraud_view(request):
     transactions = fetch_transactions()
-    
+
     if not transactions.exists():
-        return render(request, 'store/error_page.html', {'message': 'No transactions available.'})
-    
+        return render(request, 'admin/error_page.html', {'message': 'No transactions available.'})
+
     # Convert transactions into a DataFrame
     transaction_data = {
         'amount': [transaction.total_price for transaction in transactions],
-        'product_name': [transaction.product.name for transaction in transactions], 
+        'product_name': [transaction.product.name for transaction in transactions],
     }
-    
+
     transactions_df = pd.DataFrame(transaction_data)
-    
-   
+
+
     isolation_forest = IsolationForest(contamination=0.1)
-    
-  
+
+
     isolation_forest.fit(transactions_df[['amount']])
-    
+
     # Predict anomalies (fraudulent transactions)
     transactions_df['fraud_score'] = isolation_forest.decision_function(transactions_df[['amount']])
-    
+
     # Determine fraud based on a threshold
     threshold = -0.5
     transactions_df['is_fraud'] = transactions_df['fraud_score'] < threshold
-    
+
     # Prepare data to pass to template
     fraud_transactions = transactions_df[transactions_df['is_fraud']]
-    
+
     context = {
         'fraud_transactions': fraud_transactions.to_dict(orient='records'),
     }
-    
-    return render(request, 'store/fraud_detection.html', context)
+
+    return render(request, 'admin/fraud_detection.html', context)
 
 
 
@@ -935,7 +940,10 @@ from .models import Review
 
 def analyze_sentiment_view(request):
     reviews = Review.objects.all()
-    return render(request, 'store/analyze_sentiment.html', {'reviews': reviews})
+    return render(request, 'admin/analyze_sentiment.html', {'reviews': reviews})
+
+
+
 
 
 import pandas as pd
@@ -1007,7 +1015,7 @@ from .models import DemandForecast
 
 def forecast_list(request):
     forecasts = DemandForecast.objects.all()
-    return render(request, 'store/forecast_list.html', {'forecasts': forecasts})
+    return render(request, 'admin/forecast_list.html', {'forecasts': forecasts})
 
 
 
@@ -1072,6 +1080,8 @@ def predict_trends():
 def trends_view(request):
     trends = predict_trends()
     return render(request, 'store/product_list.html', {'trends': trends.to_dict(orient='records')})
+
+
 
 
 from django.shortcuts import get_object_or_404, redirect, render
@@ -1224,6 +1234,11 @@ def send_personalized_email(request):
     return render(request, 'store/email_sent.html', {'email_content': email_content})
 
 
+
+
+
+
+
 # views.py
 
 from django.shortcuts import render
@@ -1249,7 +1264,11 @@ def recommend_bundles(user_id):
 def display_bundle_recommendations(request):
     user_id = request.user.id
     bundles = recommend_bundles(user_id)
-    return render(request, 'store/bundle_recommendations.html', {'bundles': bundles})
+    return render(request, 'admin/bundle_recommendations.html', {'bundles': bundles})
+
+
+
+
 
 
 from django.shortcuts import render
@@ -1386,23 +1405,29 @@ from .models import SecurityLog
 
 def security_monitor_view(request):
     alerts = monitor_security()
-    return render(request, 'store/security_monitor.html', {'alerts': alerts})
+    return render(request, 'admin/security_monitor.html', {'alerts': alerts})
 
 
-
-# views.py
 
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from .utils import analyze_behavior
 
-def user_behavior_analysis_view(request, user_id):
-    user = User.objects.get(pk=user_id)
-    behavior_patterns = analyze_behavior(user_id)
-    return render(request, 'store/user_behavior_analysis.html', {'user': user, 'behavior_patterns': behavior_patterns})
+def user_behavior_analysis_view(request):
+    users = User.objects.all()  # Fetch all users
+    behavior_patterns = []
+
+    for user in users:
+        user_behavior = analyze_behavior(user.id)  # Analyze behavior for each user
+        behavior_patterns.append({
+            'user': user,
+            'behavior_patterns': user_behavior
+        })
+
+    return render(request, 'admin/user_behavior_analysis.html', {'behavior_patterns': behavior_patterns})
+
 
 # views.py
-
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from .utils import create_dynamic_page
@@ -1433,7 +1458,7 @@ def real_time_analytics(request):
         'top_interactions': top_interactions,
     }
     
-    return render(request, 'store/dashboard.html', context)
+    return render(request, 'admin/dashboard.html', context)
 
 
 

@@ -227,7 +227,7 @@ PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
 PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
 PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'live')
 
-LOGOUT_REDIRECT_URL = '/logout/'
+LOGOUT_REDIRECT_URL = 'logout/'
 
 HAYSTACK_CONNECTIONS = {
     'default': {
@@ -241,4 +241,11 @@ JAZZMIN_SETTINGS = {
     "site_header": "Branchy",
     "site_brand": "Branchy",
     "welcome_sign": "Welcome to Branchy admin",
+    "custom_links": {
+        "store": [{
+            "name": "Customer Segmentation",
+            "url": "admin_customer_segmentation",
+            "icon": "fas fa-users",
+        }],
+    },
 }

@@ -2,6 +2,8 @@ from django.contrib import admin
 from .models import Product, Cart, CartItem, Order, OrderItem, Review, Wishlist, BlogPost, FAQ, PolicyPage, Notification
 
 from .models import Product, UserProductInteraction, Transaction, SalesData, Customer, UserBehavior, UserInterest, SocialMediaInteraction
+from .views import predict_churn
+
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -34,4 +36,3 @@ admin.site.register(UserBehavior)
 admin.site.register(UserInterest)
 
 admin.site.register(SocialMediaInteraction)
-

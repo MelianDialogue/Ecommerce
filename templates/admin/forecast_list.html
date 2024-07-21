@@ -1,0 +1,85 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+
+<h1>Demand Forecasts</h1>
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+    }
+
+    .table-container {
+        width: 100%; /* Full width of the container */
+        overflow-x: auto; /* Allows horizontal scroll if needed */
+        margin: 20px 0;
+    }
+
+    table {
+        width: 100%; /* Full width of the container */
+        border-collapse: collapse;
+        font-size: 16px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for visual depth */
+        table-layout: fixed; /* Fixed table layout for better column width control */
+    }
+
+    thead {
+        background-color: #4CAF50; /* Green color for the header */
+        color: white;
+        font-weight: bold;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        border: 1px solid #ddd; /* Light gray borders */
+        text-align: left;
+        box-sizing: border-box; /* Include padding and border in element’s width */
+    }
+
+    tbody tr {
+        border-bottom: 1px solid #ddd;
+    }
+
+    tbody tr:nth-of-type(even) {
+        background-color: #f9f9f9; /* Light gray for even rows */
+    }
+
+    tbody tr:hover {
+        background-color: #f1f1f1; /* Slightly darker gray for row hover effect */
+    }
+
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px; /* Increased bottom margin for spacing */
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        table {
+            font-size: 14px;
+        }
+    }
+</style>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Forecast Date</th>
+                <th>Forecast Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for forecast in forecasts %}
+            <tr>
+                <td>{{ forecast.product.name }}</td>
+                <td>{{ forecast.forecast_date }}</td>
+                <td>{{ forecast.forecast_quantity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
