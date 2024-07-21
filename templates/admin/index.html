@@ -1,6 +1,7 @@
 {% extends "admin/base_site.html" %}
 {% block content %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         .card-link {
             text-decoration: none;
@@ -66,6 +67,11 @@
             flex: 1;
             margin: 10px;
         }
+
+        .card-body i {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
     </style>
 
     <div class="container">
@@ -75,7 +81,8 @@
                 <a href="{% url 'admin_customer_segmentation' %}" class="card-link">
                     <div class="card card-custom">
                         <div class="card-body">
-                            Customer Segmentation
+                            <i class="fas fa-users"></i>
+                            <div>Customer Segmentation</div>
                         </div>
                     </div>
                 </a>
@@ -84,7 +91,8 @@
                 <a href="{% url 'churn_prediction' %}" class="card-link">
                     <div class="card card-custom">
                         <div class="card-body">
-                            Churn Prediction
+                            <i class="fas fa-chart-line"></i>
+                            <div>Churn Prediction</div>
                         </div>
                     </div>
                 </a>
@@ -93,7 +101,8 @@
                 <a href="{% url 'detect_fraud' %}" class="card-link">
                     <div class="card card-custom">
                         <div class="card-body">
-                            Fraud Detection
+                            <i class="fas fa-shield-alt"></i>
+                            <div>Fraud Detection</div>
                         </div>
                     </div>
                 </a>
@@ -102,7 +111,8 @@
                 <a href="{% url 'analyze_sentiment' %}" class="card-link">
                     <div class="card card-custom">
                         <div class="card-body">
-                            Analyze Sentiment
+                            <i class="fas fa-comments"></i>
+                            <div>Analyze Sentiment</div>
                         </div>
                     </div>
                 </a>
@@ -111,7 +121,8 @@
                 <a href="{% url 'recommend_bundles' %}" class="card-link">
                     <div class="card card-custom">
                         <div class="card-body">
-                            Recommend Bundles
+                            <i class="fas fa-gift"></i>
+                            <div>Recommend Bundles</div>
                         </div>
                     </div>
                 </a>
@@ -120,7 +131,8 @@
                 <a href="{% url 'security_monitor' %}" class="card-link">
                     <div class="card card-custom">
                         <div class="card-body">
-                            Security Monitor
+                            <i class="fas fa-lock"></i>
+                            <div>Security Monitor</div>
                         </div>
                     </div>
                 </a>
@@ -129,7 +141,8 @@
                 <a href="{% url 'user_behavior_analysis' %}" class="card-link">
                     <div class="card card-custom">
                         <div class="card-body">
-                            View Behavior Analysis
+                            <i class="fas fa-chart-bar"></i>
+                            <div>User Behavior Analysis</div>
                         </div>
                     </div>
                 </a>
@@ -138,7 +151,8 @@
                 <a href="{% url 'real_time_analytics' %}" class="card-link">
                     <div class="card card-custom">
                         <div class="card-body">
-                            Real Time Analytics
+                            <i class="fas fa-clock"></i>
+                            <div>Real Time Analytics</div>
                         </div>
                     </div>
                 </a>
@@ -147,7 +161,8 @@
                 <a href="{% url 'forecast_list' %}" class="card-link">
                     <div class="card card-custom">
                         <div class="card-body">
-                            Forecast Demand
+                            <i class="fas fa-chart-pie"></i>
+                            <div>Forecast Demand</div>
                         </div>
                     </div>
                 </a>
