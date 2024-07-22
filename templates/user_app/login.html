@@ -159,6 +159,9 @@
                             <div class="form-group text-center">
                                 <input class="btn btn-info btn-lg rounded mt-4" value="Login" type="submit">
                             </div>
+                            <div class="text-center mt-3">
+                                <a href="{% url 'password_reset' %}">Forgot Password?</a>
+                            </div>
                             <div class="text-center text-muted mt-3">Not Registered? <a href="{% url 'register-url' %}">SignUp</a></div>
                             <p class="text-center mt-3">Go Back <a class="text-primary" href="{% url 'home-url' %}">Homepage</a></p>
                         </form>
