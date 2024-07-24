@@ -1,7 +1,7 @@
 import openai
 
 # Set your OpenAI API key
-openai.api_key = 'sk-proj-q9sIpSKeTJUMQnfVBqi7T3BlbkFJ8nBzYMT1gBH92AEZah72'
+openai.api_key = 'your api'
 
 def support_chatbot(user_query):
     response = openai.Completion.create(
