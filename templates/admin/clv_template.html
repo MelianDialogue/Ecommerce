@@ -1,0 +1,68 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h1 class="mb-0">Customer Lifetime Value Prediction</h1>
+            </div>
+            <div class="card-body">
+                {% if clv_data %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Email</th>
+                                    <th>Predicted Lifetime Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for entry in clv_data %}
+                                    <tr>
+                                        <td>{{ entry.user.username }}</td>
+                                        <td>{{ entry.user.email }}</td>
+                                        <td>
+                                            {% if entry.clv %}
+                                                ${{ entry.clv }}
+                                            {% else %}
+                                                No Data Available
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning" role="alert">
+                        <h4 class="alert-heading">No Data Available</h4>
+                        <p>We couldn't find any data to predict the Customer Lifetime Value for any user.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional Custom CSS -->
+    <style>
+        .container {
+            max-width: 800px;
+        }
+        .card-header {
+            background-color: #007bff; /* Bootstrap primary color */
+        }
+        .card-body {
+            font-size: 1.2rem;
+        }
+        .alert-heading {
+            font-size: 1.5rem;
+        }
+        .alert p {
+            margin-bottom: 0;
+        }
+        table th, table td {
+            text-align: left;
+        }
+    </style>
+{% endblock %}

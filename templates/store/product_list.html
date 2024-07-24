@@ -33,18 +33,113 @@
             margin-bottom: 15px; /* Ensure vertical spacing on small screens */
         }
     }
+
+    /* Filter and Sort Form Styles */
+    .filter-sort-container {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #ddd;
+    }
+
+    .filter-sort-container select {
+        padding: 10px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        margin-right: 10px;
+        font-size: 16px;
+    }
+
+    .filter-sort-container button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        background-color: #3498db;
+        color: #fff;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .filter-sort-container button:hover {
+        background-color: #2980b9;
+    }
+
+    /* Breadcrumb Section Styles */
+    .breadcrumb-section {
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        padding: 60px 0; /* Reduced padding for a smaller height */
+        color: black;
+    }
+
+    .breadcrumb-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.7);
+        z-index: 1;
+    }
+
+    .breadcrumb__text {
+        position: relative;
+        z-index: 2;
+    }
+
+    .breadcrumb__text h2 {
+        font-size: 36px; /* Reduced font size for a more compact look */
+        font-weight: 700;
+        margin-bottom: 15px; /* Reduced margin for better spacing */
+        color: black;
+    }
+
+    .breadcrumb__option {
+        font-size: 16px; /* Reduced font size for a more compact look */
+    }
+
+    .breadcrumb__option a {
+        color: #3498db;
+        text-decoration: none;
+        margin-right: 10px;
+    }
+
+    .breadcrumb__option span {
+        color: black;
+    }
+
+    .breadcrumb__option a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 767px) {
+        .breadcrumb__text h2 {
+            font-size: 28px; /* Adjusted for smaller screens */
+        }
+
+        .breadcrumb__option {
+            font-size: 14px; /* Adjusted for smaller screens */
+        }
+    }
 </style>
 
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section set-bg" style="background-image: url('{% static 'img/product-2.jpg' %}');">
-    <div class="container-fluid px-lg-5 px-3">
+<section class="breadcrumb-section set-bg px-lg-5 px-3"
+         data-setbg="{% static 'img/ecommerce-3640321_960_720.jpg' %}">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="breadcrumb__text">
-                    <h2 class="text-dark">Products</h2>
+                    <h2>Products</h2>
                     <div class="breadcrumb__option">
-                        <a class="text-dark" href="{% url 'home-url' %}">Home</a>
-                        <span class="text-dark">Featured Products</span>
+                        <a href="{% url 'home-url' %}">Home</a>
+                        <span>Featured Products</span>
                     </div>
                 </div>
             </div>
@@ -52,13 +147,83 @@
     </div>
 </section>
 <!-- Breadcrumb Section End -->
+<br>
+<!-- Filter and Sort Options -->
+<div class="container-fluid px-lg-5 px-3">
+    <div class="filter-sort-container">
+        <form id="filter-sort-form" method="get" action="{% url 'product_list' %}" class="d-flex align-items-center justify-content-between">
+            <!-- Category Select -->
+            <select name="category" id="category" class="form-select">
+                <option value="">All Categories</option>
+                {% for category in categories %}
+                <option value="{{ category.id }}" {% if category.id == current_category %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- Sort Select -->
+            <select name="sort" id="sort" class="form-select">
+                <option value="price_asc" {% if current_sort == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+                <option value="price_desc" {% if current_sort == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+                <option value="name_asc" {% if current_sort == 'name_asc' %}selected{% endif %}>Name: A to Z</option>
+                <option value="name_desc" {% if current_sort == 'name_desc' %}selected{% endif %}>Name: Z to A</option>
+            </select>
+
+            <!-- Apply Button -->
+            <button type="submit" class="btn btn-primary">Apply</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .filter-sort-container {
+        display: flex;
+        justify-content: space-between; /* Distribute space between items */
+        align-items: center;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Add shadow for depth */
+        transition: box-shadow 0.3s ease; /* Add transition for shadow */
+    }
+
+    .filter-sort-container:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Increase shadow on hover */
+    }
+
+    .filter-sort-container .form-select {
+        flex: 1; /* Make selects grow to fill space */
+        margin-right: 10px; /* Space between selects */
+    }
+
+    .filter-sort-container .form-select:last-child {
+        margin-right: 0; /* Remove margin from last select */
+    }
+
+    .filter-sort-container button {
+        flex-shrink: 0; /* Prevent button from shrinking */
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        background-color: #3498db;
+        color: #fff;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease; /* Add transition for background color */
+    }
+
+    .filter-sort-container button:hover {
+        background-color: #2980b9; /* Darker background color on hover */
+    }
+</style>
+
+
 
 <!-- Category 1 Products -->
 <div class="row px-lg-5 px-3" style="padding-left:60px;padding-right:60px">
     <div class="col-lg-12 col-md-7">
         <div class="product__discount">
             <h3 class="featured-product">Featured Products</h3>
-            <br>
             <div class="row">
                 <div class="product__discount__slider owl-carousel">
                     {% for product in category_1_products %}
@@ -137,4 +302,5 @@
 <script>
     AOS.init();
 </script>
+
 {% endblock %}

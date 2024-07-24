@@ -1,0 +1,90 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+
+<h1>Supply Chain Forecasts</h1>
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+    }
+
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        margin: 20px 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 16px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        table-layout: fixed;
+    }
+
+    thead {
+        background-color: #28a745;
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: left;
+        border: 1px solid #dddddd;
+        box-sizing: border-box;
+    }
+
+    tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    tbody tr:nth-of-type(even) {
+        background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+        background-color: #e9ecef;
+    }
+
+    tbody tr:last-of-type {
+        border-bottom: 2px solid #ff6f61;
+    }
+
+    h1 {
+        color: #333333;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    @media (max-width: 768px) {
+        table {
+            font-size: 14px;
+        }
+    }
+</style>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Forecast Date</th>
+                <th>Forecast Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for obj in cl.result_list %}
+                <tr>
+                    <td>{{ obj.forecast_date }}</td>
+                    <td>{{ obj.forecast_data }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="2">No forecasts available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

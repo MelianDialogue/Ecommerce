@@ -1,12 +1,15 @@
 from django.urls import path
-from .views import ( analyze_sentiment_view,
-                     detect_fraud_view, churn_prediction_view, dynamic_price_update, recommend_products, paypal_cancel,paypal_return,order_success,blog_detail,blog_list,create_blog_post,index, order_detail, leave_review, wishlist_detail,
-                     add_to_wishlist, remove_from_wishlist, cart_detail, add_to_cart,
-                     update_cart_item,blog_post_detail,faq_list,policy_page_detail,
-                     product_list, product_detail, add_product,
-                     checkout, order_history, remove_cart_item, security_monitor_view, user_behavior_analysis_view
+from .views import (analyze_sentiment_view,
+                    detect_fraud_view, churn_prediction_view, dynamic_price_update, recommend_products, paypal_cancel,
+                    paypal_return, order_success, blog_detail, blog_list, create_blog_post, index, order_detail,
+                    leave_review, wishlist_detail,
+                    add_to_wishlist, remove_from_wishlist, cart_detail, add_to_cart,
+                    update_cart_item, blog_post_detail, faq_list, policy_page_detail,
+                    product_list, product_detail, add_product,
+                    checkout, order_history, remove_cart_item, security_monitor_view, user_behavior_analysis_view,
+                    suggest, chatbot_view, dynamic_landing_page, user_profile, supply_chain_view
 
-                     )
+                    )
 from . import views
 
 
@@ -72,6 +75,18 @@ urlpatterns = [
 
     path('search/', views.search_view, name='search'),
 
+    # path('clear-notifications/', views.clear_notifications, name='clear_notifications'),
+    path('clear_notification/<int:notification_id>/', views.clear_notification, name='clear_notification'),
+
     # path('admin/customer-segmentation/', views.admin_customer_segmentation_view, name='admin_customer_segmentation'),
+
+    path('suggest/', suggest, name='suggest'),
+
+    path('chatbot/', chatbot_view, name='chatbot'),
+
+    path('dynamic-landing/', dynamic_landing_page, name='dynamic_landing_page'),
+
+    path('user-profile/', user_profile, name='user_profile'),
+    path('supply-chain/', supply_chain_view, name='supply_chain'),
 
 ]

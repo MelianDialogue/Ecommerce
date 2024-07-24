@@ -17,7 +17,6 @@ class Product(models.Model):
     supply_chain_forecast = models.TextField(blank=True, null=True)
 
 
-
     @property
     def final_price(self):
         final_price = self.price - (self.price * self.discount / 100)
@@ -29,6 +28,14 @@ class Product(models.Model):
     @classmethod
     def search_by_name(cls, query):
         return cls.objects.filter(name__icontains=query)
+
+
+class SupplyChainForecast(models.Model):
+    forecast_date = models.DateField()
+    forecast_data = models.TextField()
+
+    def __str__(self):
+        return f"Forecast for {self.forecast_date}"
 
 
 class Cart(models.Model):
@@ -169,6 +176,7 @@ class Transaction(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
+    quantity = models.IntegerField()
     product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='transactions')
 
     def __str__(self):
@@ -263,11 +271,13 @@ class SecurityLog(models.Model):
 
 
 class UserInterest(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    interest = models.CharField(max_length=255)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    interests = models.JSONField(default=list)
 
     def __str__(self):
-        return f"{self.user.username} - {self.interest}"
+        return f'{self.user.username} - Interests: {self.interests}'
+
+
 
 
 

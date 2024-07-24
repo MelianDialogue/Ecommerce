@@ -273,7 +273,7 @@
                         <i class="fas fa-mobile-alt me-2" style="font-size: 2.5rem; color: gray;"></i>
                         <div class="text-start ms-2">
                             <p class="text-muted mb-0 fw-bold">CALL US NOW</p>
-                            <p class="text-muted mb-0 fw-bold">Toll Free: +447508516836</p>
+                            <p class="text-muted mb-0 fw-bold">+447508516836</p>
                         </div>
                     </a>
                 </li>
@@ -288,6 +288,149 @@
                         <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
                     </a>
                 </li>
+<li class="me-4" style="padding-left:20px;">
+    <!-- Notifications Link and Display -->
+    {% if request.user.is_authenticated %}
+        <a href="#" class="notifications-link text-decoration-none">
+            <span class="notification-icon-bg">
+                <i class="fas fa-bell text-success" style="font-size: 1.5rem;"></i>
+                <span class="badge badge-pill badge-danger notification-count">
+                    {% if request.user.notification_set.count == 0 %}0{% else %}{{ request.user.notification_set.count }}{% endif %}
+                </span>
+            </span>
+        </a>
+        <ul class="notifications-list">
+            {% for notification in request.user.notification_set.all %}
+                <li class="notification-item">
+                    <span class="notification-message">{{ notification.message }}</span>
+                    <a href="{% url 'clear_notification' notification.id %}" class="clear-notification-link">Clear</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</li>
+
+<style>
+  /* Clear Notifications Link Styling */
+.clear-notification-link {
+    display: inline-block;
+    margin-left: 10px;
+    color: #dc3545; /* Red color for clear link */
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 0.2rem 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.clear-notification-link:hover {
+    color: #fff; /* White text on hover */
+    background-color: #dc3545; /* Red background on hover */
+    border-color: #dc3545; /* Border color on hover */
+}
+
+/* Notifications Link Styling */
+.notifications-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+}
+
+/* Notification Icon Background Styling */
+.notification-icon-bg {
+    position: relative;
+    background-color: #f8f9fa; /* Light background color */
+    border-radius: 50%;
+    padding: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Notification Count Styling */
+.notification-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #dc3545; /* Red background */
+    color: #fff;
+    font-size: 0.75rem;
+    border-radius: 50%;
+    padding: 0.2rem 0.5rem;
+    box-shadow: 0 0 2px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 1;
+}
+
+/* Notifications List Styling */
+.notifications-list {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 300px; /* Adjust width as needed */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    opacity: 0; /* Start hidden */
+    visibility: hidden; /* Start hidden */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
+}
+
+/* Notification Item Styling */
+.notification-item {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-message {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+/* Show Notifications List on Hover */
+.me-4:hover .notifications-list {
+    display: block; /* Show on hover */
+    opacity: 1; /* Fade in */
+    visibility: visible; /* Make visible */
+    animation: fadeIn 0.3s ease;
+}
+
+/* Animation for Notifications List */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+</style>
+
+
                 <li class="me-4" style="height: 40px;padding-left:20px">
                     <a href="{% url 'profile-url' %}">
                         {% if user.profile.profile_photo %}
@@ -339,7 +482,7 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-start"
             style="font-size: 1.0rem;padding-left:20px">
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'home-url' %}">Home</a></li>
-             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'product_list' %}">Products</a></li>
+            <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'product_list' %}">Products</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'shipping' %}">Shipping & Returns</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'contact' %}">Contact Us</a></li>
 
@@ -349,21 +492,72 @@
                    href="#" role="button" data-bs-toggle="dropdown">More</a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
+                    <li><a class="dropdown-item" href="{% url 'user_profile' %}">User profile</a></li>
+                    <li><a class="dropdown-item" href="{% url 'supply_chain' %}">Supply chain</a></li>
+                    <li><a class="dropdown-item" href="{% url 'dynamic_landing_page' %}">Dynamic Landing page</a></li>
                 </ul>
             </li>
         </ul>
-        <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50 ml-auto custom-search-form" style="padding-right: 20px;">
-            <div class="input-group">
-                <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem;">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997">Search</button>
-                </div>
-            </div>
-            <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997" onclick="startVoiceSearch()">
-                <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
-            </button>
-            <input type="hidden" id="voice_input" name="voice_input">
-        </form>
+        <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50 ml-auto custom-search-form" style="padding-right: 20px; position: relative;">
+    <div class="input-group">
+        <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem; border-right: none; box-shadow: none;" onkeyup="showSuggestions(this.value)">
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997; border-left: none; box-shadow: none;">Search</button>
+        </div>
+    </div>
+    <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997" onclick="startVoiceSearch()">
+        <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
+    </button>
+    <input type="hidden" id="voice_input" name="voice_input">
+    <div id="suggestions-container" class="suggestions-container" style="position: absolute; z-index: 1000;"></div>
+</form>
+
+<script>
+function showSuggestions(query) {
+    if (query.length === 0) {
+        document.getElementById('suggestions-container').innerHTML = '';
+        return;
+    }
+
+    fetch(`/suggest/?q=${query}`)
+        .then(response => response.json())
+        .then(data => {
+            const suggestionsContainer = document.getElementById('suggestions-container');
+            suggestionsContainer.innerHTML = '';
+
+            data.forEach(item => {
+                const suggestionItem = document.createElement('div');
+                suggestionItem.className = 'suggestion-item';
+                suggestionItem.textContent = item.name;
+                suggestionItem.onclick = () => {
+                    document.getElementById('q').value = item.name;
+                    suggestionsContainer.innerHTML = '';
+                };
+                suggestionsContainer.appendChild(suggestionItem);
+            });
+        });
+}
+</script>
+
+<style>
+    .suggestions-container {
+        background-color: white;
+        width: calc(100% - 50px); /* Adjust the width based on your form */
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    .suggestion-item {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .suggestion-item:hover {
+        background-color: #f0f0f0;
+    }
+</style>
+
+
         <script>
             function startVoiceSearch() {
                 // Start voice recognition or prompt user to allow microphone access
@@ -855,8 +1049,175 @@ margin-right: 2px;
             <h2 class="text-muted"><i class="fas fa-shipping-fast text-muted"></i> SAME DAY SHIPPING</h2>
         </div>
     </div>
-
 </section>
+<!-- Add this to your homepage template -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<div id="chatbot-icon" class="chatbot-icon">
+    <i class="fas fa-comments"></i>
+</div>
+<div id="chatbot" class="chatbot-container">
+    <div id="chatbot-header">
+        <span>Support Chatbot</span>
+        <button id="close-chatbot"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="chatbot-messages" class="chatbot-messages">
+        <!-- Messages will appear here -->
+    </div>
+    <div class="chatbot-input-container">
+        <input id="chatbot-input" type="text" placeholder="Type your message..." />
+        <button id="send-message">Send</button>
+    </div>
+</div>
+
+<style>
+    .chatbot-icon {
+        position: fixed;
+        bottom: 20px;
+        right: 150px; /* Added padding from the right */
+        background: #007bff;
+        color: #fff;
+        padding: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 1000;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease-in-out;
+    }
+    .chatbot-icon i {
+        font-size: 24px;
+    }
+    .chatbot-container {
+        position: fixed;
+        bottom: 80px; /* Moved higher */
+        right: 150px; /* Added padding from the right */
+        width: 350px;
+        height: 500px; /* Increased height */
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        background: #fff;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 999;
+        transition: transform 0.3s ease-in-out;
+        transform: scale(0);
+        transform-origin: bottom right;
+    }
+    .chatbot-container.show {
+        display: flex;
+        transform: scale(1);
+    }
+    #chatbot-header {
+        background: #007bff;
+        color: #fff;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #chatbot-header button {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    #chatbot-messages {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+        max-height: 400px;
+    }
+    .chatbot-input-container {
+        display: flex;
+        border-top: 1px solid #ccc;
+    }
+    #chatbot-input {
+        border: none;
+        padding: 10px;
+        flex: 1;
+        border-radius: 0 0 0 10px;
+    }
+    #send-message {
+        background: #007bff;
+        border: none;
+        color: #fff;
+        padding: 10px;
+        border-radius: 0 0 10px 0;
+        cursor: pointer;
+    }
+</style>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatbotIcon = document.getElementById('chatbot-icon');
+        const chatbotContainer = document.getElementById('chatbot');
+        const closeChatbotButton = document.getElementById('close-chatbot');
+        const sendMessageButton = document.getElementById('send-message');
+        const chatbotInput = document.getElementById('chatbot-input');
+        const chatbotMessages = document.getElementById('chatbot-messages');
+
+        chatbotIcon.addEventListener('click', function() {
+            chatbotContainer.classList.add('show');
+            chatbotIcon.style.display = 'none';
+        });
+
+        closeChatbotButton.addEventListener('click', function() {
+            chatbotContainer.classList.remove('show');
+            setTimeout(() => {
+                chatbotContainer.style.display = 'none';
+                chatbotIcon.style.display = 'block';
+            }, 300); // Match the transition duration
+        });
+
+        sendMessageButton.addEventListener('click', function() {
+            const userQuery = chatbotInput.value.trim();
+            if (userQuery) {
+                const userMessage = document.createElement('div');
+                userMessage.textContent = `You: ${userQuery}`;
+                chatbotMessages.appendChild(userMessage);
+
+                fetch('/chatbot/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: new URLSearchParams({
+                        'user_query': userQuery
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const botMessage = document.createElement('div');
+                    botMessage.textContent = `Bot: ${data.response}`;
+                    chatbotMessages.appendChild(botMessage);
+                    chatbotInput.value = '';
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        });
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    });
+</script>
+
 
 <style>
     <style>

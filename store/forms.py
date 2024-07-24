@@ -54,3 +54,15 @@ from django import forms
 
 class ImageUploadForm(forms.Form):
     image = forms.ImageField()
+
+
+from django import forms
+from .models import SupplyChainForecast
+
+class SupplyChainForecastForm(forms.ModelForm):
+    class Meta:
+        model = SupplyChainForecast
+        fields = ['forecast_date', 'forecast_data']
+        widgets = {
+            'forecast_date': forms.DateInput(attrs={'type': 'date'}),
+        }

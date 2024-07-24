@@ -47,7 +47,14 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
     'haystack',
+	 'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
 ]
+
+SITE_ID = 1
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -72,6 +79,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'ecommerceProject.urls'
@@ -137,6 +145,7 @@ WSGI_APPLICATION = 'ecommerceProject.wsgi.application'
 # Authentication backends
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
+	'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 
@@ -249,3 +258,26 @@ JAZZMIN_SETTINGS = {
         }],
     },
 }
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'APP': {
+            'client_id': '<your-google-client-id>', #1215568026310409
+            'secret': '0913ccc0ede4fd4f07ffe9591d9f4d87',
+            'key': ''
+        }
+    },
+    'google': {
+        'APP': {
+            'client_id': '<your-google-client-id>',
+            'secret': '<your-google-client-secret>',
+            'key': ''
+        }
+    }
+}
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+

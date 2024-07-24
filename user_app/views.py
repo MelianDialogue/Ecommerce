@@ -10,6 +10,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .models import Subscription
 from django.core.mail import send_mail
+from store.models import Notification
 
 
 
@@ -20,6 +21,7 @@ def register(request):
             user = form.save()
             login(request, user)
             messages.success(request, 'You have successfully registered!')
+            Notification.objects.create(user=user, message='You have successfully registered!')
             return redirect('login-url')
     else:
         form = CustomUserCreationForm()
@@ -189,3 +191,4 @@ from django.contrib.auth import logout
 def logout_view(request):
     logout(request)
     return render(request, 'user_app/logout.html')
+

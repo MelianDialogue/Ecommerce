@@ -1,4 +1,5 @@
 import numpy as np
+from django.contrib import messages
 
 from sklearn.neighbors import NearestNeighbors
 from .models import Product
@@ -87,38 +88,66 @@ def index(request):
 from django.shortcuts import render
 from .models import Product
 
-def product_list(request):
-    category_1_products = Product.objects.filter(category='1')
-    category_3_products = Product.objects.filter(category='3')
-
-    context = {
-        'category_1_products': category_1_products,
-        'category_3_products': category_3_products,
-    }
-
-    return render(request, 'store/product_list.html', context)
-
-
 from django.shortcuts import render
 from .models import Product
 
 def product_list(request):
-    category_1_products = Product.objects.filter(category='1')
-    category_2_products = Product.objects.filter(category='2')
-    category_3_products = Product.objects.filter(category='3')
-    category_4_products = Product.objects.filter(category='4')
-    user_id = request.user.id if request.user.is_authenticated else None
+    # Get filter and sort parameters from request
+    category_id = request.GET.get('category')
+    sort_order = request.GET.get('sort', 'price_asc')  # Default sort order
+
+    # Base queryset
+    products = Product.objects.all()
+
+    # Filtering by category
+    if category_id:
+        products = products.filter(category=category_id)
+
+    # Sorting
+    if sort_order == 'price_asc':
+        products = products.order_by('price')
+    elif sort_order == 'price_desc':
+        products = products.order_by('-price')
+    elif sort_order == 'name_asc':
+        products = products.order_by('name')
+    elif sort_order == 'name_desc':
+        products = products.order_by('-name')
+
+    # Splitting products into categories
+    category_1_products = products.filter(category='1')
+    category_3_products = products.filter(category='3')
 
     context = {
         'category_1_products': category_1_products,
-        'category_2_products': category_2_products,
         'category_3_products': category_3_products,
-        'category_4_products': category_4_products,
-        'recommend_url': reverse('recommend_products', args=[user_id]) if user_id else None,
+        'current_category': category_id,
+        'current_sort': sort_order,
     }
 
     return render(request, 'store/product_list.html', context)
 
+
+
+# from django.shortcuts import render
+# from .models import Product
+#
+# def product_list(request):
+#     category_1_products = Product.objects.filter(category='1')
+#     category_2_products = Product.objects.filter(category='2')
+#     category_3_products = Product.objects.filter(category='3')
+#     category_4_products = Product.objects.filter(category='4')
+#     user_id = request.user.id if request.user.is_authenticated else None
+#
+#     context = {
+#         'category_1_products': category_1_products,
+#         'category_2_products': category_2_products,
+#         'category_3_products': category_3_products,
+#         'category_4_products': category_4_products,
+#         'recommend_url': reverse('recommend_products', args=[user_id]) if user_id else None,
+#     }
+#
+#     return render(request, 'store/product_list.html', context)
+#
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
@@ -126,7 +155,7 @@ def product_detail(request, product_id):
     
     # Fetch similar products
     similar_products = Product.objects.filter(category=product.category).exclude(id=product_id)[:4]
-    
+
     return render(request, 'store/product_detail.html', {
         'product': product,
         'reviews': reviews,
@@ -189,6 +218,8 @@ def add_to_cart(request, product_id):
     if not created:
         cart_item.quantity += 1
         cart_item.save()
+    # Create notification for adding product to cart
+    Notification.objects.create(user=request.user, message=f'You added {product.name} to your cart.')
     return redirect('cart_detail')
 
 def update_cart_item(request, cart_item_id):
@@ -339,7 +370,7 @@ def order_success(request, order_id):
 
 
 @login_required
-def paypal_return(request):
+def paypal_return(request, order=None):
     payment_id = request.GET.get('paymentId')
     payer_id = request.GET.get('PayerID')
 
@@ -466,6 +497,8 @@ def add_to_wishlist(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     wishlist, created = Wishlist.objects.get_or_create(user=request.user)
     wishlist.product.add(product)
+    message = f"You added {product.name} to your wishlist."
+    Notification.objects.create(user=request.user, message=message)
     return redirect('wishlist_detail')
 
 @login_required
@@ -1411,7 +1444,8 @@ def security_monitor_view(request):
 
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from .utils import analyze_behavior
+from .utils import analyze_behavior, get_user_behavior
+
 
 def user_behavior_analysis_view(request):
     users = User.objects.all()  # Fetch all users
@@ -1576,3 +1610,236 @@ def index(request):
         'category_5_products': category_5_products,
     }
     return render(request, 'store/index.html', context)
+
+
+
+# from django.shortcuts import redirect
+# from django.contrib.auth.decorators import login_required
+# from .models import Notification
+#
+# @login_required
+# def clear_notifications(request):
+#     request.user.notification_set.all().delete()
+#     messages.success(request, 'All notifications cleared.')
+#     return redirect('home-url')  # Replace 'some-view-name' with the name of the view you want to redirect to
+
+
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Notification
+
+@login_required
+def clear_notification(request, notification_id):
+    notification = get_object_or_404(Notification, id=notification_id, user=request.user)
+    notification.delete()
+    return redirect('home-url')  # or any other page you want to redirect to
+
+
+from django.http import JsonResponse
+from .models import Product
+
+def suggest(request):
+    query = request.GET.get('q', '')
+    suggestions = Product.objects.filter(name__icontains=query)[:10]
+    suggestions_list = [{'name': product.name} for product in suggestions]
+    return JsonResponse(suggestions_list, safe=False)
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Product, SalesData, SupplyChainForecast
+from .forms import SupplyChainForecastForm
+
+
+@login_required
+def optimize_supply_chain_view(request):
+    if request.method == 'POST':
+        form = SupplyChainForecastForm(request.POST)
+        if form.is_valid():
+            forecast_date = form.cleaned_data['forecast_date']
+            forecast_data = form.cleaned_data['forecast_data']
+
+            # Save forecast data
+            forecast, created = SupplyChainForecast.objects.get_or_create(
+                forecast_date=forecast_date,
+                defaults={'forecast_data': forecast_data}
+            )
+            if not created:
+                forecast.forecast_data = forecast_data
+                forecast.save()
+
+            # Apply forecast to products
+            supply_chain_forecast = forecast_data
+            products = Product.objects.all()
+            for product in products:
+                product.supply_chain_forecast = supply_chain_forecast
+                product.save()
+
+            return redirect('supply_chain_forecast_list')
+    else:
+        form = SupplyChainForecastForm()
+
+    return render(request, 'admin/optimize_supply_chain.html', {'form': form})
+
+
+@login_required
+def supply_chain_forecast_list(request):
+    forecasts = SupplyChainForecast.objects.all()
+    return render(request, 'admin/supply_chain_forecast_list.html', {'forecasts': forecasts})
+
+
+from django.shortcuts import render
+from .models import SalesData, SocialMediaInteraction
+from .analytics import predictive_model
+
+
+def trend_predictions(request):
+    sales_data = SalesData.objects.all()
+    social_media_data = SocialMediaInteraction.objects.all()
+
+    trends = predictive_model(sales_data, social_media_data)
+
+    return render(request, 'admin/trend_predictions.html', {'trends': trends})
+
+
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .chatbot import support_chatbot
+
+@csrf_exempt  # Disable CSRF for simplicity in this example
+def chatbot_view(request):
+    if request.method == 'POST':
+        user_query = request.POST.get('user_query')
+        if user_query:
+            response = support_chatbot(user_query)
+            return JsonResponse({'response': response})
+        return JsonResponse({'error': 'No query provided'}, status=400)
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+from django.shortcuts import render
+from .models import Product  # Adjust the import based on your model's location
+import spacy
+
+# Load the spaCy model
+nlp = spacy.load("en_core_web_sm")
+
+
+def understand_query(query):
+    """
+    Enhance search functionality with natural language processing.
+    Extracts keywords from the query using an NLP model.
+    """
+    # Process the query using the NLP model
+    doc = nlp(query)
+
+    # Extract keywords (nouns, proper nouns, and adjectives)
+    keywords = [token.text.lower() for token in doc if token.pos_ in ('NOUN', 'PROPN', 'ADJ')]
+
+    # Optionally add more logic here to handle synonyms or variations
+
+    return keywords
+
+
+def search(request):
+    query = request.GET.get('q', '')
+
+    keywords = understand_query(query)
+
+    results = Product.objects.filter(name__icontains=' '.join(keywords))
+
+    return render(request, 'store/search_results.html', {'results': results, 'query': query})
+
+
+from django.shortcuts import render
+from .utils import get_customer_data, predict_clv
+from .models import User
+
+def customer_clv_view(request):
+    # Fetch all users
+    users = User.objects.all()
+
+    # Prepare data for each user
+    clv_data = []
+    for user in users:
+        customer_data = get_customer_data(user.id)
+        if customer_data:
+            clv = predict_clv(customer_data)
+        else:
+            clv = None
+        clv_data.append({'user': user, 'clv': clv})
+
+    return render(request, 'admin/clv_template.html', {'clv_data': clv_data})
+
+
+def search(request):
+    query = request.GET.get('q', '')
+    user_id = request.user.id
+    if query:
+        # Perform the initial search
+        search_results = Product.objects.filter(name__icontains=query)
+
+        # Adjust the search result rankings based on user behavior
+        user_behavior = get_user_behavior(user_id)
+        ranked_results = rank_search_results(query, user_behavior)
+    else:
+        ranked_results = []
+
+    return render(request, 'store/search_results.html', {'results': ranked_results, 'query': query})
+
+
+
+# views.py
+from django.shortcuts import render
+from .models import UserInterest, Product
+
+
+def create_dynamic_page(user_id):
+    try:
+        user_interests = UserInterest.objects.get(user_id=user_id).interests
+        if isinstance(user_interests, int):  # If interests are stored as integers
+            user_interests = [user_interests]
+        elif isinstance(user_interests, str):
+            user_interests = user_interests.split(',')
+    except UserInterest.DoesNotExist:
+        user_interests = []
+
+    # Retrieve products related to the user's interests, grouped by category
+    products_by_category = {}
+    for category in user_interests:
+        products_by_category[category] = Product.objects.filter(category=category)
+
+    return products_by_category
+
+
+def dynamic_landing_page(request):
+    user_id = request.user.id
+    products_by_category = create_dynamic_page(user_id)
+
+    return render(request, 'store/landing_page.html', {'products_by_category': products_by_category})
+
+
+# views.py
+
+from django.shortcuts import render
+from .utils import analyze_social_media, optimize_supply_chain
+
+
+def user_profile(request):
+    user_id = request.user.id  # Get the current user's ID
+    recommendations = analyze_social_media(user_id)  # Get product recommendations
+
+    context = {
+        'recommendations': recommendations
+    }
+    return render(request, 'store/user_profile.html', context)
+
+
+def supply_chain_view(request):
+    forecast = optimize_supply_chain()  # Optimize supply chain
+
+    context = {
+        'forecast': forecast
+    }
+    return render(request, 'store/supply_chain.html', context)

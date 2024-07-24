@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 {% load static %}
+{% load socialaccount %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Branchy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="{% static 'img/logo1.jpg' %}"/>
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-    <!-- Custom CSS Styles -->
     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/elegant-icons.css' %}" type="text/css">
@@ -28,87 +26,71 @@
             margin: 0;
             padding: 0;
         }
-
         .card {
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             transition: box-shadow 0.3s ease, transform 0.3s ease;
         }
-
         .card:hover {
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
             transform: scale(1.02);
         }
-
         .card-body {
             padding: 2rem;
         }
-
         .card-title {
             font-family: 'Cairo', sans-serif;
             font-weight: 600;
             color: #343a40;
         }
-
         .btn-info {
             background-color: #17a2b8;
             border-color: #17a2b8;
             transition: background-color 0.3s ease;
         }
-
         .btn-info:hover {
             background-color: #138496;
         }
-
         .logo-container {
             display: flex;
             align-items: center;
             justify-content: center;
             animation: fadeIn 1s;
         }
-
         .branchy-logo1 {
             display: flex;
             align-items: center;
             text-decoration: none;
             color: #343a40;
         }
-
         .logo-image {
             width: 50px;
             height: 50px;
             border-radius: 50%;
             transition: transform 0.3s ease;
         }
-
         .logo-image:hover {
             transform: scale(1.1);
         }
-
         .branchy-text {
             font-size: 1.5rem;
             font-weight: 700;
             margin-left: 10px;
         }
-
         .form-group label {
             font-weight: 500;
         }
-
         .text-center p {
             margin-bottom: 0.5rem;
             color: #6c757d;
         }
-
         .text-center a {
             color: #17a2b8;
             text-decoration: none;
         }
-
         .text-center a:hover {
             text-decoration: underline;
         }
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -119,12 +101,42 @@
                 transform: translateY(0);
             }
         }
+        .social-login-btn {
+            margin: 0.5rem 0;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .social-login-btn i {
+            margin-right: 0.5rem;
+        }
+        .btn-google {
+            background-color: #dd4b39;
+            color: #fff;
+        }
+        .btn-google:hover {
+            background-color: #c23321;
+        }
+        .btn-facebook {
+            background-color: #3b5998;
+            color: #fff;
+        }
+        .btn-facebook:hover {
+            background-color: #2d4373;
+        }
+        .password-wrapper {
+            position: relative;
+        }
+        .password-toggle {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6c757d;
+        }
     </style>
 </head>
 <body>
-    {% load static %}
-    {% load crispy_forms_tags %}
-    {% load crispy_forms_filters %}
     <div class="container">
         <div class="row justify-content-center mt-5">
             <div class="col-lg-6 col-md-8 col-sm-10">
@@ -151,9 +163,10 @@
                                 <input type="text" class="form-control" id="username" name="username" required>
                             </div>
                             <br>
-                            <div class="form-group">
+                            <div class="form-group password-wrapper">
                                 <label for="password">Password:</label>
                                 <input type="password" class="form-control" id="password" name="password" required>
+                                <i class="fa fa-eye password-toggle mt-3 h1" id="togglePassword"></i>
                             </div>
                             <br>
                             <div class="form-group text-center">
@@ -165,12 +178,19 @@
                             <div class="text-center text-muted mt-3">Not Registered? <a href="{% url 'register-url' %}">SignUp</a></div>
                             <p class="text-center mt-3">Go Back <a class="text-primary" href="{% url 'home-url' %}">Homepage</a></p>
                         </form>
+                        <div class="text-center mt-3">
+                            <a href="{% provider_login_url 'google' %}" class="btn btn-google social-login-btn">
+                                <i class="fab fa-google"></i> Login with Google
+                            </a>
+                            <a href="{% provider_login_url 'facebook' %}" class="btn btn-facebook social-login-btn">
+                                <i class="fab fa-facebook"></i> Login with Facebook
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- JS Plugins -->
     <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
@@ -180,25 +200,24 @@
     <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'assets/js/main.js' %}"></script>
 
-   <!--Start of Tawk.to Script-->
     <script type="text/javascript">
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        (function(){
-            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-            s1.async=true;
-            s1.src='https://embed.tawk.to/665492ba9a809f19fb359301/1hut5qb1c';
-            s1.charset='UTF-8';
-            s1.setAttribute('crossorigin','*');
-            s0.parentNode.insertBefore(s1,s0);
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/649e09abcc26a871b023e4af/1h51rptlg';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
         })();
     </script>
-    <!--End of Tawk.to Script-->
-
-    <!-- Include AOS JS -->
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
-        AOS.init();
+        document.getElementById('togglePassword').addEventListener('click', function (e) {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
     </script>
-
 </body>
 </html>

@@ -284,7 +284,7 @@
                         <i class="fas fa-mobile-alt me-2" style="font-size: 2.5rem; color: gray;"></i>
                         <div class="text-start ms-2">
                             <p class="text-muted mb-0 fw-bold">CALL US NOW</p>
-                            <p class="text-muted mb-0 fw-bold">Toll Free: +447508516836</p>
+                            <h6 class="text-muted mb-0 fw-bold">+447508516836</h6>
                         </div>
                     </a>
                 </li>
@@ -299,6 +299,148 @@
                         <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
                     </a>
                 </li>
+              <li class="me-4" style="padding-right:20px;">
+    <!-- Notifications Link and Display -->
+    {% if request.user.is_authenticated %}
+        <a href="#" class="notifications-link text-decoration-none">
+            <span class="notification-icon-bg">
+                <i class="fas fa-bell text-success" style="font-size: 1.5rem;"></i>
+                <span class="badge badge-pill badge-danger notification-count">
+                    {% if request.user.notification_set.count == 0 %}0{% else %}{{ request.user.notification_set.count }}{% endif %}
+                </span>
+            </span>
+        </a>
+        <ul class="notifications-list">
+            {% for notification in request.user.notification_set.all %}
+                <li class="notification-item">
+                    <span class="notification-message">{{ notification.message }}</span>
+                    <a href="{% url 'clear_notification' notification.id %}" class="clear-notification-link">Clear</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</li>
+
+<style>
+  /* Clear Notifications Link Styling */
+.clear-notification-link {
+    display: inline-block;
+    margin-left: 10px;
+    color: #dc3545; /* Red color for clear link */
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 0.2rem 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.clear-notification-link:hover {
+    color: #fff; /* White text on hover */
+    background-color: #dc3545; /* Red background on hover */
+    border-color: #dc3545; /* Border color on hover */
+}
+
+/* Notifications Link Styling */
+.notifications-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+}
+
+/* Notification Icon Background Styling */
+.notification-icon-bg {
+    position: relative;
+    background-color: #f8f9fa; /* Light background color */
+    border-radius: 50%;
+    padding: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Notification Count Styling */
+.notification-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #dc3545; /* Red background */
+    color: #fff;
+    font-size: 0.75rem;
+    border-radius: 50%;
+    padding: 0.2rem 0.5rem;
+    box-shadow: 0 0 2px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 1;
+}
+
+/* Notifications List Styling */
+.notifications-list {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 300px; /* Adjust width as needed */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    opacity: 0; /* Start hidden */
+    visibility: hidden; /* Start hidden */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
+}
+
+/* Notification Item Styling */
+.notification-item {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-message {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+/* Show Notifications List on Hover */
+.me-4:hover .notifications-list {
+    display: block; /* Show on hover */
+    opacity: 1; /* Fade in */
+    visibility: visible; /* Make visible */
+    animation: fadeIn 0.3s ease;
+}
+
+/* Animation for Notifications List */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+</style>
+
                 <li class="me-4">
                     <a href="{% url 'profile-url' %}">
                         {% if user.profile.profile_photo %}
@@ -357,23 +499,72 @@
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'about' %}">About Us</a></li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-white text-center text-uppercase" href="#" role="button" data-bs-toggle="dropdown">More</a>
-                <ul class="dropdown-menu">
+                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
+                    <li><a class="dropdown-item" href="{% url 'dynamic_landing_page' %}">Dynamic Landing page</a></li>
                 </ul>
             </li>
         </ul>
-        <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50 ml-auto custom-search-form" style="padding-right: 20px;">
-            <div class="input-group">
-                <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem;">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997">Search</button>
-                </div>
-            </div>
-            <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997" onclick="startVoiceSearch()">
-                <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
-            </button>
-            <input type="hidden" id="voice_input" name="voice_input">
-        </form>
+             <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50 ml-auto custom-search-form" style="padding-right: 20px; position: relative;">
+    <div class="input-group">
+        <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem; border-right: none; box-shadow: none;" onkeyup="showSuggestions(this.value)">
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997; border-left: none; box-shadow: none;">Search</button>
+        </div>
+    </div>
+    <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997" onclick="startVoiceSearch()">
+        <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
+    </button>
+    <input type="hidden" id="voice_input" name="voice_input">
+    <div id="suggestions-container" class="suggestions-container" style="position: absolute; z-index: 1000;"></div>
+</form>
+<script>
+function showSuggestions(query) {
+    if (query.length === 0) {
+        document.getElementById('suggestions-container').innerHTML = '';
+        return;
+    }
+
+    fetch(`/suggest/?q=${query}`)
+        .then(response => response.json())
+        .then(data => {
+            const suggestionsContainer = document.getElementById('suggestions-container');
+            suggestionsContainer.innerHTML = '';
+
+            data.forEach(item => {
+                const suggestionItem = document.createElement('div');
+                suggestionItem.className = 'suggestion-item';
+                suggestionItem.textContent = item.name;
+                suggestionItem.onclick = () => {
+                    document.getElementById('q').value = item.name;
+                    suggestionsContainer.innerHTML = '';
+                };
+                suggestionsContainer.appendChild(suggestionItem);
+            });
+        });
+}
+</script>
+
+
+        <style>
+            .suggestions-container {
+    background-color: white;
+    width: calc(100% - 50px); /* Adjust the width based on your form */
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+        </style>
+
 
         <script>
             function startVoiceSearch() {
@@ -938,7 +1129,7 @@ margin-right: 2px;
 <div class="footer spad px-lg-5 px-3" style="padding-left:60px;padding-right:60px;">
     <div class="container-fluid">
         <div class="row">
-              <div class="col-md-3 footer-column">
+            <div class="col-md-3 footer-column">
                 <h6 class="branchy-logo" style="font-size: 1.5rem; letter-spacing: -0.2rem">
                     <img class="rounded" src="{% static 'img/logo1.jpg' %}" alt=""> BRANCHY
                 </h6>
@@ -967,7 +1158,7 @@ margin-right: 2px;
                     </a>
                 </div>
             </div>
-          <div class="col-md-3 footer-column">
+            <div class="col-md-3 footer-column">
                 <h6>NAVIGATE</h6>
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
@@ -1004,7 +1195,7 @@ margin-right: 2px;
             </div>
             <div class="col-md-3 footer-column">
                 <h6>LEGAL</h6>
-               <ul>
+                <ul>
                     <li><a class="" href="{% url 'terms' %}"><i class="fas fa-chevron-right"></i> Terms and Conditions</a></li>
                     <li><a class="" href="{% url 'privacy' %}"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
                     <li><a class="" href="{% url 'cookies' %}"><i class="fas fa-chevron-right"></i> Cookies</a></li>

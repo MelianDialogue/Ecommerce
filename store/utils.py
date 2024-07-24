@@ -88,3 +88,240 @@ def process_query(query):
     processed_query = query.lower()  # Convert query to lowercase
     return processed_query
 
+from .models import Transaction
+import pandas as pd
+import joblib
+
+# Load the pre-trained CLV model
+clv_model = joblib.load('store/clv_model.pkl')
+
+def predict_clv(customer_data):
+    # Ensure the features are floats
+    features = [float(customer_data['total_spent']), float(customer_data['total_quantity']),
+                float(customer_data['days_since_last_purchase'])]
+
+    # Predict CLV
+    clv = clv_model.predict([features])
+
+    return clv[0]  # Return the predicted CLV va
+
+
+
+
+from .models import Transaction
+import pandas as pd
+
+def get_customer_data(customer_id):
+    transactions = Transaction.objects.filter(user_id=customer_id).values('quantity', 'amount', 'timestamp')
+
+    if not transactions:
+        print(f"No transactions found for customer_id: {customer_id}")
+        return None
+
+    # Convert transactions to DataFrame
+    df = pd.DataFrame(list(transactions))
+    print(f"Transactions DataFrame:\n{df}")
+
+    if df.empty:
+        print("DataFrame is empty")
+        return None
+
+    df['total_price'] = df['quantity'] * df['amount']
+
+    # Compute features
+    total_spent = df['total_price'].sum()
+    total_quantity = df['quantity'].sum()
+    days_since_last_purchase = (pd.Timestamp.now() - pd.to_datetime(df['timestamp']).max().replace(tzinfo=None)).days
+
+    return {
+        'total_spent': float(total_spent),
+        'total_quantity': float(total_quantity),
+        'days_since_last_purchase': float(days_since_last_purchase),
+    }
+
+
+from datetime import datetime, timedelta
+from django.db.models import Count, Min, Max
+from .models import Transaction
+
+
+def get_user_behavior(user_id):
+    try:
+        # Fetch transactions for the user
+        transactions = Transaction.objects.filter(user_id=user_id)
+
+        # Calculate recent activity window (e.g., last 6 months)
+        recent_window = datetime.now() - timedelta(days=180)
+
+        # Filter transactions within the recent window
+        recent_transactions = transactions.filter(timestamp__gte=recent_window)
+
+        # Get frequent categories
+        frequent_categories = recent_transactions.values_list('product__category', flat=True).annotate(
+            count=Count('product__category')).order_by('-count')[:3]
+
+        # Get preferred price range
+        preferred_price_range = (
+            recent_transactions.aggregate(min_price=Min('amount'))['min_price'] or 0,
+            recent_transactions.aggregate(max_price=Max('amount'))['max_price'] or 1000
+        )
+
+        # Return user behavior data
+        user_behavior = {
+            'frequent_categories': frequent_categories,
+            'preferred_price_range': preferred_price_range,
+        }
+    except Exception as e:
+        print(f"Error fetching user behavior: {e}")
+        user_behavior = {}
+
+    return user_behavior
+
+
+from .models import Product
+
+from .models import Product
+
+
+def adaptive_ranking(query, user_id):
+    user_behavior = get_user_behavior(user_id)
+    search_results = Product.objects.filter(name__icontains=query).values('id', 'name', 'category', 'price')
+
+    # Convert search results to list of dictionaries
+    search_results_list = list(search_results)
+
+    # Rank search results based on user behavior
+    ranked_results = rank_search_results(search_results_list, user_behavior)
+
+    return ranked_results
+
+
+def get_user_behavior(user_id):
+    # Implement logic to fetch and analyze user behavior
+    # Example: frequent categories, preferred price range
+    user_behavior = {}
+    return user_behavior
+
+
+def rank_search_results(search_results, user_behavior):
+    def calculate_rank_score(product):
+        score = 0
+
+        # Boost score for products in frequent categories
+        if product['category'] in user_behavior.get('frequent_categories', []):
+            score += 10
+
+        # Boost score for products within preferred price range
+        min_price, max_price = user_behavior.get('preferred_price_range', (0, 1000))
+        if min_price <= product['price'] <= max_price:
+            score += 5
+
+        return score
+
+    # Rank results by score
+    search_results.sort(key=lambda product: calculate_rank_score(product), reverse=True)
+
+    return search_results
+
+
+# utils.py
+
+from collections import defaultdict
+from .models import Product, SocialMediaInteraction, SalesData
+
+
+def analyze_social_media(user_id):
+    social_data = SocialMediaInteraction.objects.filter(user_id=user_id)
+
+    product_scores = defaultdict(float)
+
+    for interaction in social_data:
+        product_scores[interaction.product_id] += interaction.interaction_strength
+
+    for product_id, score in product_scores.items():
+        product = Product.objects.get(id=product_id)
+        product.social_media_score = score
+        product.save()
+
+    recommendations = Product.objects.filter(social_media_score__gt=0).order_by('-social_media_score')[:5]
+
+    return recommendations
+
+
+def optimize_supply_chain():
+    def predictive_model(supply_chain_data):
+        # Placeholder for actual predictive modeling logic
+        return "Forecasted supply chain data based on analytics"
+
+    supply_chain_data = SalesData.objects.all()
+
+    supply_chain_forecast = predictive_model(supply_chain_data)
+
+    products = Product.objects.all()
+    for product in products:
+        product.supply_chain_forecast = supply_chain_forecast
+        product.save()
+
+    return supply_chain_forecast
+
+
+# utils.py
+
+from collections import defaultdict
+from .models import Product, SalesData
+from datetime import datetime, timedelta
+
+
+def optimize_supply_chain():
+    def predictive_model(supply_chain_data):
+        # Initialize data structures
+        product_sales = defaultdict(list)
+        product_forecast = {}
+
+        # Collect sales data and compute averages
+        for data in supply_chain_data:
+            product_sales[data.product_id].append(data.sales_quantity)
+
+        # Calculate average sales for each product
+        for product_id, quantities in product_sales.items():
+            average_quantity = sum(quantities) / len(quantities)
+
+            # Example forecasting logic
+            # Assuming we want to forecast sales for the next 30 days
+            forecast_quantity = average_quantity * 30
+
+            product_forecast[product_id] = forecast_quantity
+
+        return product_forecast
+
+    # Fetch all sales data
+    supply_chain_data = SalesData.objects.filter(sales_date__gte=datetime.now() - timedelta(days=365))
+    supply_chain_forecast = predictive_model(supply_chain_data)
+
+    # Save forecasts to products
+    products = Product.objects.all()
+    for product in products:
+        forecast_quantity = supply_chain_forecast.get(product.id, "No forecast data available")
+        product.supply_chain_forecast = f"Forecasted quantity for next 30 days: {forecast_quantity}" if isinstance(
+            forecast_quantity, (int, float)) else forecast_quantity
+        product.save()
+
+    return supply_chain_forecast
+
+
+# views.py
+
+from django.shortcuts import render
+from .utils import optimize_supply_chain
+
+
+def supply_chain_view(request):
+    forecast = optimize_supply_chain()  # Optimize supply chain
+
+    # Prepare data for display
+    formatted_forecast = {Product.objects.get(id=pid): quantity for pid, quantity in forecast.items()}
+
+    context = {
+        'forecast': formatted_forecast
+    }
+    return render(request, 'store/supply_chain.html', context)
