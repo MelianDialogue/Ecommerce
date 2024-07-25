@@ -260,24 +260,24 @@ JAZZMIN_SETTINGS = {
 }
 
 
+# Social account providers configuration using environment variables
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'APP': {
-            'client_id': '<your-google-client-id>', #1215568026310409
-            'secret': '0913ccc0ede4fd4f07ffe9591d9f4d87',
+            'client_id': os.getenv('FACEBOOK_CLIENT_ID'),
+            'secret': os.getenv('FACEBOOK_SECRET'),
             'key': ''
         }
     },
     'google': {
         'APP': {
-            'client_id': '<your-google-client-id>',
-            'secret': '<your-google-client-secret>',
+            'client_id': os.getenv('GOOGLE_CLIENT_ID'),
+            'secret': os.getenv('GOOGLE_SECRET'),
             'key': ''
         }
     }
 }
 
+
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
-

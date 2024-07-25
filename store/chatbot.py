@@ -1,7 +1,9 @@
 import openai
+import os
 
-# Set your OpenAI API key
-openai.api_key = 'api'
+# Set your OpenAI API key from environment variable
+api_key = os.getenv('OPENAI_API_KEY')
+openai.api_key = api_key
 
 def support_chatbot(user_query):
     response = openai.Completion.create(
