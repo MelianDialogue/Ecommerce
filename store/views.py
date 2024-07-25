@@ -10,7 +10,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.http import JsonResponse
 from .models import Product, Cart, CartItem, Order, OrderItem, Review, Wishlist
-from .forms import ReviewForm
+from .forms import ReviewForm, TransactionForm
 from .payments import create_stripe_payment_intent, create_paypal_payment, execute_paypal_payment
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -917,55 +917,64 @@ def churn_prediction_view(request):
 
 
 
-
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from sklearn.ensemble import IsolationForest
-import pandas as pd
-from .models import Transaction
-
-def fetch_transactions():
-    # Fetch transaction data from the database
-    transactions = Transaction.objects.all()  # Assuming Transaction is your model
-    return transactions
-
+#fraud Detection
 @login_required
 def detect_fraud_view(request):
-    transactions = fetch_transactions()
+    if request.method == 'POST':
+        form = TransactionForm(request.POST)
+        if form.is_valid():
+            amount = form.cleaned_data['amount']
+            product = form.cleaned_data['product']
 
-    if not transactions.exists():
-        return render(request, 'admin/error_page.html', {'message': 'No transactions available.'})
+            # Fetch transactions
+            transactions = Transaction.objects.all()
 
-    # Convert transactions into a DataFrame
-    transaction_data = {
-        'amount': [transaction.total_price for transaction in transactions],
-        'product_name': [transaction.product.name for transaction in transactions],
-    }
+            if not transactions.exists():
+                return render(request, 'admin/error_page.html', {'message': 'No transactions available.'})
 
-    transactions_df = pd.DataFrame(transaction_data)
+            # Convert transactions into a DataFrame
+            transaction_data = {
+                'amount': [transaction.amount for transaction in transactions],
+                'product_name': [transaction.product.name for transaction in transactions],
+            }
 
+            transactions_df = pd.DataFrame(transaction_data)
 
-    isolation_forest = IsolationForest(contamination=0.1)
+            # Normalize the data
+            scaler = StandardScaler()
+            transactions_df['scaled_amount'] = scaler.fit_transform(transactions_df[['amount']])
 
+            # Fit Isolation Forest
+            isolation_forest = IsolationForest(contamination=0.1)
+            isolation_forest.fit(transactions_df[['scaled_amount']])
 
-    isolation_forest.fit(transactions_df[['amount']])
+            # Predict anomalies
+            transactions_df['fraud_score'] = isolation_forest.decision_function(transactions_df[['scaled_amount']])
+            threshold = -0.5
+            transactions_df['is_fraud'] = transactions_df['fraud_score'] < threshold
 
-    # Predict anomalies (fraudulent transactions)
-    transactions_df['fraud_score'] = isolation_forest.decision_function(transactions_df[['amount']])
+            # Check if the current transaction is fraudulent
+            scaled_amount = scaler.transform([[amount]])
+            fraud_score = isolation_forest.decision_function(scaled_amount)
+            is_fraud = fraud_score < threshold
 
-    # Determine fraud based on a threshold
-    threshold = -0.5
-    transactions_df['is_fraud'] = transactions_df['fraud_score'] < threshold
+            # Debugging: Print fraud scores
+            print(f"Current Amount: {amount}")
+            print(f"Scaled Amount: {scaled_amount[0][0]}")
+            print(f"Fraud Score: {fraud_score[0]}")
+            print(f"Threshold: {threshold}")
+            print(f"Is Fraud: {is_fraud}")
 
-    # Prepare data to pass to template
-    fraud_transactions = transactions_df[transactions_df['is_fraud']]
+            context = {
+                'amount': amount,
+                'product_name': product,
+                'fraud_detected': is_fraud,
+            }
+            return render(request, 'admin/fraud_detection_result.html', context)
+    else:
+        form = TransactionForm()
 
-    context = {
-        'fraud_transactions': fraud_transactions.to_dict(orient='records'),
-    }
-
-    return render(request, 'admin/fraud_detection.html', context)
-
+    return render(request, 'admin/detect_fraud.html', {'form': form})
 
 
 from django.shortcuts import render
@@ -974,9 +983,6 @@ from .models import Review
 def analyze_sentiment_view(request):
     reviews = Review.objects.all()
     return render(request, 'admin/analyze_sentiment.html', {'reviews': reviews})
-
-
-
 
 
 import pandas as pd
@@ -1716,6 +1722,7 @@ def chatbot_view(request):
             return JsonResponse({'response': response})
         return JsonResponse({'error': 'No query provided'}, status=400)
     return JsonResponse({'error': 'Invalid request method'}, status=405)
+
 
 
 from django.shortcuts import render

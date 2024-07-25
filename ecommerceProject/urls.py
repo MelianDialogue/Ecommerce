@@ -30,6 +30,8 @@ urlpatterns = [
 
     path('clv/', customer_clv_view, name='customer_clv'),
 
+    path('detect-fraud/', detect_fraud_view, name='detect_fraud'),
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

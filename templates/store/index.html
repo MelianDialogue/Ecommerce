@@ -497,7 +497,7 @@
                 </ul>
             </li>
         </ul>
-        <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50 ml-auto custom-search-form" style="padding-right: 20px; position: relative;">
+        <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-75 ml-auto custom-search-form" style="padding-right: 20px; position: relative;">
     <div class="input-group">
         <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem; border-right: none; box-shadow: none;" onkeyup="showSuggestions(this.value)">
         <div class="input-group-append">
@@ -1073,7 +1073,7 @@ margin-right: 2px;
     .chatbot-icon {
         position: fixed;
         bottom: 20px;
-        right: 150px; /* Added padding from the right */
+        right: 100px; /* Added padding from the right */
         background: #007bff;
         color: #fff;
         padding: 10px;
@@ -1089,7 +1089,7 @@ margin-right: 2px;
     .chatbot-container {
         position: fixed;
         bottom: 80px; /* Moved higher */
-        right: 150px; /* Added padding from the right */
+        right: 30px; /* Added padding from the right */
         width: 350px;
         height: 500px; /* Increased height */
         border: 1px solid #ccc;
@@ -2362,6 +2362,61 @@ setInterval(autoScroll, scrollInterval);
 
 </script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+ <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        #scrollTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 80px; /* Adjusted to move the button higher */
+            right: 20px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        #scrollTopBtn:hover {
+            background-color: #555;
+        }
+    </style>
+
+    <!-- Your content here -->
+    <button onclick="topFunction()" id="scrollTopBtn" title="Go to top">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Get the button
+        var mybutton = document.getElementById("scrollTopBtn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction()
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document smoothly
+        function topFunction() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+
 
 </body>
 </html>

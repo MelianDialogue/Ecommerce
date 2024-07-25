@@ -506,7 +506,7 @@
                 </ul>
             </li>
         </ul>
-             <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-50 ml-auto custom-search-form" style="padding-right: 20px; position: relative;">
+             <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-75 ml-auto custom-search-form" style="padding-right: 20px; position: relative;">
     <div class="input-group">
         <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem; border-right: none; box-shadow: none;" onkeyup="showSuggestions(this.value)">
         <div class="input-group-append">
@@ -1089,6 +1089,176 @@ margin-right: 2px;
     }
 </style>
 
+
+<!-- Add this to your homepage template -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<div id="chatbot-icon" class="chatbot-icon">
+    <i class="fas fa-comments"></i>
+</div>
+<div id="chatbot" class="chatbot-container">
+    <div id="chatbot-header">
+        <span>Support Chatbot</span>
+        <button id="close-chatbot"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="chatbot-messages" class="chatbot-messages">
+        <!-- Messages will appear here -->
+    </div>
+    <div class="chatbot-input-container">
+        <input id="chatbot-input" type="text" placeholder="Type your message..." />
+        <button id="send-message">Send</button>
+    </div>
+</div>
+
+<style>
+    .chatbot-icon {
+        position: fixed;
+        bottom: 20px;
+        right: 100px; /* Added padding from the right */
+        background: #007bff;
+        color: #fff;
+        padding: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 1000;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease-in-out;
+    }
+    .chatbot-icon i {
+        font-size: 24px;
+    }
+    .chatbot-container {
+        position: fixed;
+        bottom: 80px; /* Moved higher */
+        right: 30px; /* Added padding from the right */
+        width: 350px;
+        height: 500px; /* Increased height */
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        background: #fff;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 999;
+        transition: transform 0.3s ease-in-out;
+        transform: scale(0);
+        transform-origin: bottom right;
+    }
+    .chatbot-container.show {
+        display: flex;
+        transform: scale(1);
+    }
+    #chatbot-header {
+        background: #007bff;
+        color: #fff;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #chatbot-header button {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    #chatbot-messages {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+        max-height: 400px;
+    }
+    .chatbot-input-container {
+        display: flex;
+        border-top: 1px solid #ccc;
+    }
+    #chatbot-input {
+        border: none;
+        padding: 10px;
+        flex: 1;
+        border-radius: 0 0 0 10px;
+    }
+    #send-message {
+        background: #007bff;
+        border: none;
+        color: #fff;
+        padding: 10px;
+        border-radius: 0 0 10px 0;
+        cursor: pointer;
+    }
+</style>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatbotIcon = document.getElementById('chatbot-icon');
+        const chatbotContainer = document.getElementById('chatbot');
+        const closeChatbotButton = document.getElementById('close-chatbot');
+        const sendMessageButton = document.getElementById('send-message');
+        const chatbotInput = document.getElementById('chatbot-input');
+        const chatbotMessages = document.getElementById('chatbot-messages');
+
+        chatbotIcon.addEventListener('click', function() {
+            chatbotContainer.classList.add('show');
+            chatbotIcon.style.display = 'none';
+        });
+
+        closeChatbotButton.addEventListener('click', function() {
+            chatbotContainer.classList.remove('show');
+            setTimeout(() => {
+                chatbotContainer.style.display = 'none';
+                chatbotIcon.style.display = 'block';
+            }, 300); // Match the transition duration
+        });
+
+        sendMessageButton.addEventListener('click', function() {
+            const userQuery = chatbotInput.value.trim();
+            if (userQuery) {
+                const userMessage = document.createElement('div');
+                userMessage.textContent = `You: ${userQuery}`;
+                chatbotMessages.appendChild(userMessage);
+
+                fetch('/chatbot/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: new URLSearchParams({
+                        'user_query': userQuery
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const botMessage = document.createElement('div');
+                    botMessage.textContent = `Bot: ${data.response}`;
+                    chatbotMessages.appendChild(botMessage);
+                    chatbotInput.value = '';
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        });
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    });
+</script>
+
+
 {% block content %}
 
 {% endblock %}
@@ -1404,6 +1574,59 @@ margin-right: 2px;
 </script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
+ <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        #scrollTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 80px; /* Adjusted to move the button higher */
+            right: 20px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        #scrollTopBtn:hover {
+            background-color: #555;
+        }
+    </style>
+
+    <!-- Your content here -->
+    <button onclick="topFunction()" id="scrollTopBtn" title="Go to top">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Get the button
+        var mybutton = document.getElementById("scrollTopBtn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction()
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document smoothly
+        function topFunction() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
 </body>
 </html>
 
