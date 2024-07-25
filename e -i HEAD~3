@@ -1,0 +1,252 @@
+[33mcommit 656ceb114839d654e4d3f98cbecee5cee937302e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Thu Jul 25 19:16:43 2024 +0300
+
+    updates
+
+[33mcommit 9cc5b90e6dd42e73e3f873fa575f162f5729f971[m
+Merge: d4098d0 70489d5
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Thu Jul 25 19:14:47 2024 +0300
+
+    Merge branch 'master' of https://github.com/MelianDialogue/Ecommerce
+
+[33mcommit 70489d597452d88ad4b441610486e09b46cbe4a0[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Omondi Jeff <87422694+kojeffi@users.noreply.github.com>
+Date:   Thu Jul 25 19:13:51 2024 +0300
+
+    Added README.md
+
+[33mcommit d4098d01ed75f8e6bdb1b8a36d7f0fdf8fe75c82[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Thu Jul 25 19:01:22 2024 +0300
+
+    updates
+
+[33mcommit a62ff52ea91b6a748ec4f361d4bfbe13e4d2a2c2[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Thu Jul 25 17:41:49 2024 +0300
+
+    updated the user interface
+
+[33mcommit f6a8e94f82d21c3caf403865e079b24f1ef6ac7f[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Thu Jul 25 17:07:36 2024 +0300
+
+    updated the user interface
+
+[33mcommit a32c5de66be05f88210ce34202793d3493cc11b9[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Thu Jul 25 16:59:50 2024 +0300
+
+    updated the user interface
+
+[33mcommit 5c862484c1c8ec6561b63706866523bc40ce20fb[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Thu Jul 25 09:31:37 2024 +0300
+
+    updated the user interface
+
+[33mcommit 08fcc436063fddbb11d9cab7f34b54d419f9fcf3[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Thu Jul 25 01:28:36 2024 +0300
+
+    Cleaned chatbot.py to remove secret key
+
+[33mcommit 348926a72cd14ecbba69515524f680305eff0330[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Thu Jul 25 01:07:31 2024 +0300
+
+    updates the ml
+
+[33mcommit e4b71f2f96c6cd0298fbfa7dc26f06830e92f191[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Thu Jul 25 01:05:06 2024 +0300
+
+    updates the ml
+
+[33mcommit 7d3ef0de3f7932655948d26d4d616d0acfa8b42f[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Mon Jul 22 11:11:38 2024 +0300
+
+    updated the admin side
+
+[33mcommit bd33f939b279335b3e07d9977ad2c7c15a497c7a[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Sun Jul 21 20:52:02 2024 +0300
+
+    updated the admin side
+
+[33mcommit d15e1e2573823536ea189b4a9917e6183d92aa45[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Sun Jul 21 16:41:21 2024 +0300
+
+    updated the admin side
+
+[33mcommit 52bad4cb5e804bf2e18e4dfda95256c4cd8c5a95[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Sat Jul 20 15:51:16 2024 +0300
+
+    updated the user interface
+
+[33mcommit bf86882b9f61f8af45f6e1ea4c14a3dd2a7bac40[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Sat Jul 20 15:11:44 2024 +0300
+
+    updated the user interface
+
+[33mcommit ca9438003fce5c9449023155f2467aa59e52c3c3[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Fri Jul 19 15:29:08 2024 +0300
+
+    updates on the ui
+
+[33mcommit fcaf4c869c511a21c5b732e10f350b072eb2c32c[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Thu Jul 18 11:39:53 2024 +0300
+
+    updates on the ui
+
+[33mcommit df654e58b3910bcf2e0e224f71bbf10c5acf92c5[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Thu Jul 18 11:30:08 2024 +0300
+
+    updates on the ui
+
+[33mcommit c7a64457cf6332b490437cbc94259b718fa1f802[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Thu Jul 18 10:24:26 2024 +0300
+
+    updates on the ser interface
+
+[33mcommit e4ccafdecb4b97e9cf825aa553dd92aa7b050710[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Tue Jul 16 18:34:19 2024 +0300
+
+    updates on the ser interface
+
+[33mcommit 839df4d592c949f5fad1c9ab59f9bfff3155cf7d[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Mon Jul 15 09:06:47 2024 +0300
+
+    updates on the ser interface
+
+[33mcommit c7a39486b44a0488fd1d5fc91def8733d66d0991[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Fri Jul 12 15:04:39 2024 +0300
+
+    updates
+
+[33mcommit a5cf450f571c800aae26627315bc9a131a6a09ef[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Wed Jul 10 08:00:29 2024 +0300
+
+    updated the user interface
+
+[33mcommit 16f52ecf382f2fa6fbe422ffea2053ca94846a2b[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Wed Jul 10 00:40:38 2024 +0300
+
+    updated the user interface
+
+[33mcommit 3cdba8275bed5f25f0b13266caee6120ae58cdda[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Tue Jul 9 16:35:50 2024 +0300
+
+    updated the user interface
+
+[33mcommit 7f4e119b0a5c190cc60c759aeac01e651ef48637[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Mon Jul 8 20:39:04 2024 +0300
+
+    updates
+
+[33mcommit f527a12ddcf401cc84396f313dfa24e83d94f907[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Mon Jul 8 20:25:20 2024 +0300
+
+    updates
+
+[33mcommit 5ff61af934ee6df98e493ce1d37cdec63cef4f03[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Mon Jul 8 19:10:03 2024 +0300
+
+    Upgrade pip and update dependencies
+
+[33mcommit 84cfdc555168f90b4821a0a6d0571c6ed2dd6545[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Mon Jul 8 18:54:48 2024 +0300
+
+    Upgrade pip and update dependencies
+
+[33mcommit 88121d23fee5f07d1b60087dc775fc58836403eb[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Mon Jul 8 18:50:07 2024 +0300
+
+    Upgrade pip and update dependencies
+
+[33mcommit 332f6cab7a62e530a1593dc77c798349f96091c4[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Mon Jul 8 18:06:51 2024 +0300
+
+    Upgrade pip and update dependencies
+
+[33mcommit f8e33613dbb20476e6a8bfe85a33d2f78b9d15fc[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Mon Jul 8 17:47:40 2024 +0300
+
+    Upgrade pip and update dependencies
+
+[33mcommit b2628f13c81733846cdbe6c021886ec5f150d3c7[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Mon Jul 8 17:40:07 2024 +0300
+
+    Upgrade pip and update dependencies
+
+[33mcommit 4b2bacf3ecdf1d4c08c8273931563591cc868991[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Mon Jul 8 17:36:25 2024 +0300
+
+    Upgrade pip and update dependencies
+
+[33mcommit 0d27bbb53a0a56ade3c76cf1c28832c6686184a5[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Mon Jul 8 17:28:12 2024 +0300
+
+    Upgrade pip and update dependencies
+
+[33mcommit 9e39288199d8d0a93c830c299fc9327e5adf8d21[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Mon Jul 8 15:50:04 2024 +0300
+
+    updates
+
+[33mcommit ded6493f0d8c56e556b25c049c88c65c63e0ebc2[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Mon Jul 8 09:26:11 2024 +0300
+
+    updates
+
+[33mcommit 01831cb854edda051a392b10bb0947410d16adf0[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Mon Jul 8 09:10:42 2024 +0300
+
+    Add .gitignore to ignore venv directory
+
+[33mcommit 78e17cfb5615053080c6bdac19ce1122983c292d[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Mon Jul 8 09:02:48 2024 +0300
+
+    Add .gitignore to ignore venv directory
+
+[33mcommit adba78a6680832b71978b78a86bfcde70df59bb6[m
+Author: kojeffi <omondijeff88@gmail.com>
+Date:   Mon Jul 8 08:58:09 2024 +0300
+
+    Add .gitignore to ignore venv directory
+
+[33mcommit 0bdbc2072adf87593ea7a7fdb343987af6dc8176[m
+Author: Ursulaemily <emilywaithira18@gmail.com>
+Date:   Mon Jul 8 07:59:42 2024 +0300
+
+    Your commit message
