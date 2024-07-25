@@ -4,7 +4,7 @@ from sklearn.preprocessing import StandardScaler
 import joblib
 
 # Load the dataset
-data_path = 'creditcard.csv'  # Replace with your dataset path
+data_path = ''  # Replace with your dataset path
 df = pd.read_csv(data_path)
 
 # Define features and target
