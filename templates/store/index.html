@@ -217,14 +217,14 @@
         <div class="col-md-6 text-start">
             <div class="d-flex align-items-center justify-content-center justify-content-md-start">
                 <div class="me-2">
-                    <a href="" class="text-decoration-none">Gift Certificates</a>
+                    <a href="" class="text-decoration-none top-header-link">Gift Certificates</a>
                 </div>
-                <span style="height:30px;padding-right:5px;padding-left:5px">|</span>
+                <span class="top-header-separator">|</span>
                 <div class="dropdown ms-2">
-                    <a class="dropdown-toggle" href="/" role="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white; padding: 0.375rem 0.75rem; border-radius: 0.25rem;">
+                    <a class="dropdown-toggle top-header-dropdown" href="/" role="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         Select Currency: GBP
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
+                    <ul class="dropdown-menu top-header-dropdown-menu" aria-labelledby="currencyDropdown">
                         <li><a class="dropdown-item" href="{% url 'home-url' %}">Default Currency Pounds</a></li>
                     </ul>
                 </div>
@@ -233,251 +233,409 @@
         <div class="col-md-6 text-end">
             <ul class="list-unstyled d-flex mb-0 justify-content-center justify-content-md-end">
                 <li class="me-2">
-                    <a href="{% url 'login-url' %}" class="text-decoration-none">Login</a>
-                </li> |
+                    <a href="{% url 'login-url' %}" class="text-decoration-none top-header-link">Login</a>
+                </li>
+                <li class="me-2">|</li>
                 <li class="ms-2">
-                    <a href="{% url 'register-url' %}" class="text-decoration-none">Sign Up</a>
-                </li> |
+                    <a href="{% url 'register-url' %}" class="text-decoration-none top-header-link">Sign Up</a>
+                </li>
+                <li class="ms-2">|</li>
                 <li class="ms-2">
-                    <a href="{% url 'logout-url' %}" class="text-decoration-none">Logout</a>
+                    <a href="{% url 'logout-url' %}" class="text-decoration-none top-header-link">Logout</a>
                 </li>
             </ul>
         </div>
     </div>
-
 </header>
 
-<!-- Middle Header -->
-<header class="container-fluid middle-header border-bottom  mt-2 px-lg-5 px-3" style="padding-left:60px;padding-right:60px">
+<style>
+    /* Basic styling */
+    .top-header {
+        background-color: #f8f9fa;
+        padding: 10px 0;
+    }
 
+    .top-header-link {
+        color: #007bff;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .top-header-link:hover {
+        color: #0056b3;
+        text-decoration: underline;
+        transform: scale(1.05);
+    }
+
+    .top-header-separator {
+        height: 30px;
+        padding-right: 5px;
+        padding-left: 5px;
+        color: #6c757d;
+    }
+
+    .top-header-dropdown {
+        background-color: white;
+        padding: 0.375rem 0.75rem;
+        border-radius: 0.25rem;
+        color: #007bff;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .top-header-dropdown:hover {
+        background-color: #e9ecef;
+        color: #0056b3;
+    }
+
+    .top-header-dropdown-menu {
+        border-radius: 0.25rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .dropdown-menu.show {
+        opacity: 1;
+    }
+
+    .top-header-dropdown-menu .dropdown-item {
+        transition: background-color 0.3s ease;
+    }
+
+    .top-header-dropdown-menu .dropdown-item:hover {
+        background-color: #f1f1f1;
+    }
+</style>
+
+
+<style>
+    /* Clear Notifications Link Styling */
+  .clear-notification-link {
+      display: inline-block;
+      margin-left: 10px;
+      color: #dc3545; /* Red color for clear link */
+      text-decoration: none;
+      font-weight: bold;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      transition: all 0.3s ease;
+  }
+
+  .clear-notification-link:hover {
+      color: #fff; /* White text on hover */
+      background-color: #dc3545; /* Red background on hover */
+      border-color: #dc3545; /* Border color on hover */
+  }
+
+  /* Notifications Link Styling */
+  .notifications-link {
+      position: relative;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #333;
+  }
+
+  /* Notification Icon Background Styling */
+  .notification-icon-bg {
+      position: relative;
+      background-color: #f8f9fa; /* Light background color */
+      border-radius: 50%;
+      padding: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+  /* Notification Count Styling */
+  .notification-count {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background-color: #dc3545; /* Red background */
+      color: #fff;
+      font-size: 0.75rem;
+      border-radius: 50%;
+      padding: 0.2rem 0.5rem;
+      box-shadow: 0 0 2px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 20px;
+      text-align: center;
+      line-height: 1;
+  }
+
+  /* Notifications List Styling */
+  .notifications-list {
+      display: none; /* Hidden by default */
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: 300px; /* Adjust width as needed */
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+      opacity: 0; /* Start hidden */
+      visibility: hidden; /* Start hidden */
+      transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
+  }
+
+  /* Notification Item Styling */
+  .notification-item {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #ddd;
+      color: #333;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+
+  .notification-item:last-child {
+      border-bottom: none;
+  }
+
+  .notification-message {
+      flex-grow: 1;
+      margin-right: 10px;
+  }
+
+  /* Show Notifications List on Hover */
+  .me-4:hover .notifications-list {
+      display: block; /* Show on hover */
+      opacity: 1; /* Fade in */
+      visibility: visible; /* Make visible */
+      animation: fadeIn 0.3s ease;
+  }
+
+  /* Animation for Notifications List */
+  @keyframes fadeIn {
+      from {
+          opacity: 0;
+          transform: translateY(-10px);
+      }
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
+
+</style>
+
+
+
+
+<!-- Middle Header -->
+<header class="container-fluid middle-header border-bottom mt-2 px-lg-5 px-3" style="padding-left:60px;padding-right:60px">
     <div class="row align-items-center">
         <div class="col-md-3">
             <div class="d-none d-md-flex align-items-center justify-content-center justify-content-md-start">
                 <div class="logo-container me-md-3">
                     <a href="{% url 'home-url' %}" style="text-decoration:none">
                         <h4 class="branchy-logo1">
-                            <img class="rounded logo-image" src="{% static 'img/logo1.jpg' %}"
-                                 alt="Branchy Logo">
+                            <img class="rounded logo-image animate__animated animate__fadeIn" src="{% static 'img/logo1.jpg' %}" alt="Branchy Logo">
                             <span class="branchy-text" style="letter-spacing: -0.2rem;">BRANCHY</span>
                         </h4>
-
                     </a>
                 </div>
             </div>
         </div>
-        <div class="col-md-5"></div>
+        <div class="col-md-5 d-block"></div>
         <div class="col-md-4 call-us-section">
             <ul class="list-unstyled d-flex justify-content-end mb-0">
-                <li class="me-4">
+                <li class="me-4 animate__animated animate__fadeIn">
                     <a href="{% url 'contact' %}" class="text-decoration-none d-flex align-items-center">
-                        <i class="fas fa-mobile-alt me-2" style="font-size: 2.5rem; color: gray;"></i>
+                        <i class="fas fa-mobile-alt me-2 contact-icon"></i>
                         <div class="text-start ms-2">
                             <p class="text-muted mb-0 fw-bold">CALL US NOW</p>
                             <p class="text-muted mb-0 fw-bold">+447508516836</p>
                         </div>
                     </a>
                 </li>
-                <li class="d-flex align-items-center me-4" style="height: 40px;padding-left:20px">
-                    <span style="height: 100%; border-left: 1px solid black; padding-right: 5px; padding-left: 5px;"></span>
+                <li class="d-flex align-items-center me-4 animate__animated animate__fadeIn" style="height: 40px; padding-left:20px">
+                    <span class="separator"></span>
                 </li>
-                <li class="me-4">
+                <li class="me-4 animate__animated animate__fadeIn">
                     <a href="{% url 'cart_detail' %}" class="cart-link text-decoration-none">
-                <span class="cart-icon-bg">
-                    <i class="fa fa-shopping-bag text-white" style="font-size: 1.5rem;"></i>
-                </span>
+                        <span class="cart-icon-bg">
+                            <i class="fa fa-shopping-bag text-white" style="font-size: 1.5rem;"></i>
+                        </span>
                         <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
                     </a>
                 </li>
-<li class="me-4" style="padding-left:20px;">
-    <!-- Notifications Link and Display -->
-    {% if request.user.is_authenticated %}
-        <a href="#" class="notifications-link text-decoration-none">
-            <span class="notification-icon-bg">
-                <i class="fas fa-bell text-success" style="font-size: 1.5rem;"></i>
-                <span class="badge badge-pill badge-danger notification-count">
-                    {% if request.user.notification_set.count == 0 %}0{% else %}{{ request.user.notification_set.count }}{% endif %}
-                </span>
-            </span>
-        </a>
-        <ul class="notifications-list">
-            {% for notification in request.user.notification_set.all %}
-                <li class="notification-item">
-                    <span class="notification-message">{{ notification.message }}</span>
-                    <a href="{% url 'clear_notification' notification.id %}" class="clear-notification-link">Clear</a>
+                <li class="me-4 animate__animated animate__fadeIn" style="padding-left:20px;">
+                    {% if request.user.is_authenticated %}
+                    <a href="#" class="notifications-link text-decoration-none">
+                            <span class="notification-icon-bg">
+                                <i class="fas fa-bell text-white"></i>
+                                <span class="badge badge-pill badge-danger notification-count">
+                                    {% if request.user.notification_set.count == 0 %}0{% else %}{{ request.user.notification_set.count }}{% endif %}
+                                </span>
+                            </span>
+                    </a>
+                    <ul class="notifications-list">
+                        {% for notification in request.user.notification_set.all %}
+                        <li class="notification-item animate__animated animate__fadeIn">
+                            <span class="notification-message">{{ notification.message }}</span>
+                            <a href="{% url 'clear_notification' notification.id %}" class="clear-notification-link">Clear</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
                 </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-</li>
-
-<style>
-  /* Clear Notifications Link Styling */
-.clear-notification-link {
-    display: inline-block;
-    margin-left: 10px;
-    color: #dc3545; /* Red color for clear link */
-    text-decoration: none;
-    font-weight: bold;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    padding: 0.2rem 0.5rem;
-    transition: all 0.3s ease;
-}
-
-.clear-notification-link:hover {
-    color: #fff; /* White text on hover */
-    background-color: #dc3545; /* Red background on hover */
-    border-color: #dc3545; /* Border color on hover */
-}
-
-/* Notifications Link Styling */
-.notifications-link {
-    position: relative;
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #333;
-}
-
-/* Notification Icon Background Styling */
-.notification-icon-bg {
-    position: relative;
-    background-color: #f8f9fa; /* Light background color */
-    border-radius: 50%;
-    padding: 0.5rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Notification Count Styling */
-.notification-count {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background-color: #dc3545; /* Red background */
-    color: #fff;
-    font-size: 0.75rem;
-    border-radius: 50%;
-    padding: 0.2rem 0.5rem;
-    box-shadow: 0 0 2px rgba(0,0,0,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 20px;
-    height: 20px;
-    text-align: center;
-    line-height: 1;
-}
-
-/* Notifications List Styling */
-.notifications-list {
-    display: none; /* Hidden by default */
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: 300px; /* Adjust width as needed */
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    z-index: 1000;
-    opacity: 0; /* Start hidden */
-    visibility: hidden; /* Start hidden */
-    transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
-}
-
-/* Notification Item Styling */
-.notification-item {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid #ddd;
-    color: #333;
-    font-size: 0.875rem;
-    line-height: 1.5;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.notification-item:last-child {
-    border-bottom: none;
-}
-
-.notification-message {
-    flex-grow: 1;
-    margin-right: 10px;
-}
-
-/* Show Notifications List on Hover */
-.me-4:hover .notifications-list {
-    display: block; /* Show on hover */
-    opacity: 1; /* Fade in */
-    visibility: visible; /* Make visible */
-    animation: fadeIn 0.3s ease;
-}
-
-/* Animation for Notifications List */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-</style>
-
-
-                <li class="me-4" style="height: 40px;padding-left:20px">
+                <li class="me-4 animate__animated animate__fadeIn" style="height: 40px;padding-left:20px">
                     <a href="{% url 'profile-url' %}">
                         {% if user.profile.profile_photo %}
-                        <img class="rounded-circle animate__animated animate__fadeIn" src="{{ user.profile.profile_photo.url }}"
-                             alt="Profile Photo" style="height: 50px;">
+                        <img class="rounded-circle profile-photo" src="{{ user.profile.profile_photo.url }}" alt="Profile Photo">
                         {% else %}
-                        <img class="rounded-circle animate__animated animate__fadeIn" src="{% static 'img/profile.jpeg' %}"
-                             alt="Photo" style="height: 50px;">
+                        <img class="rounded-circle profile-photo" src="{% static 'img/profile.jpeg' %}" alt="Photo">
                         {% endif %}
                     </a>
                 </li>
             </ul>
         </div>
-
     </div>
-
 </header>
 
+<style>
+    /* Basic styling */
+    .middle-header {
+        background-color: #ffffff;
+        padding: 15px 0;
+    }
+
+    .branchy-logo1 {
+        display: flex;
+        align-items: center;
+    }
+
+    .branchy-text {
+        color: #343a40;
+        font-weight: bold;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .branchy-logo1:hover .branchy-text {
+        color: #007bff;
+        transform: scale(1.1);
+    }
+
+    .contact-icon {
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .contact-icon:hover {
+        color: #007bff;
+        transform: scale(1.2);
+    }
+
+    .separator {
+        height: 100%;
+        border-left: 1px solid #343a40;
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+
+    .cart-icon-bg {
+        background-color: #007bff;
+        border-radius: 50%;
+        padding: 10px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .cart-icon-bg:hover {
+        background-color: #0056b3;
+        transform: scale(1.1);
+    }
+
+    .notifications-link {
+        position: relative;
+    }
+
+    .notification-icon-bg {
+        background-color: #007bff;
+        border-radius: 50%;
+        padding: 10px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .notification-icon-bg:hover {
+        background-color: #0056b3;
+        transform: scale(1.1);
+    }
+
+    .notifications-list {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 0.25rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 10px;
+        z-index: 1000;
+    }
+
+    .notifications-link:hover .notifications-list {
+        display: block;
+    }
+
+    .notification-item {
+        padding: 5px 0;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .notification-item:last-child {
+        border-bottom: none;
+    }
+
+    .clear-notification-link {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .clear-notification-link:hover {
+        text-decoration: underline;
+    }
+
+    .profile-photo {
+        height: 50px;
+        transition: transform 0.3s ease, border 0.3s ease;
+    }
+
+    .profile-photo:hover {
+        transform: scale(1.1);
+        border: 2px solid #007bff;
+    }
+</style>
+
+
+
+
 <!-- Navbar -->
-<nav class="container-fluid navbar navbar-expand-lg navbar-light gray-navbar  px-lg-5 px-3"
+<nav class="container-fluid navbar navbar-expand-lg navbar-light gray-navbar px-lg-5 px-3"
      style="padding-left:60px;padding-right:60px;padding-top:0;padding-bottom:0;">
     <!-- Mobile Logo and Title -->
     <div class="d-lg-none d-flex align-items-center" style="padding:15px">
         <a href="{% url 'home-url' %}">
-            <img class="rounded" src="{% static 'img/logo1.jpg' %}"
-                 alt="Branchy Logo">
+            <img class="rounded logo-image animate__animated animate__fadeIn" src="{% static 'img/logo1.jpg' %}" alt="Branchy Logo">
         </a>
         <a href="{% url 'home-url' %}" style="text-decoration: none;">
-            <h1 class="mb-0" style="font-size: 2.5rem;font-weight: 900; letter-spacing:-0.1rem; color: white; text-transform: uppercase;">BRANCHY</h1>
+            <h1 class="mb-0 logo-title animate__animated animate__fadeIn" style="font-size: 2.5rem;font-weight: 900; letter-spacing:-0.1rem; color: white; text-transform: uppercase;">BRANCHY</h1>
         </a>
     </div>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
+    <button class="navbar-toggler animate__animated animate__fadeIn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
             aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <style>
-        .nav-link:hover {
-        background-color: gray; /* Light gray background */
-        color: #333; /* Black text color */
-    }
-    .nav-item.dropdown:hover .dropdown-menu {
-        display: block;
-        margin-top: 0; /* Adjust the margin as needed */
-    }
 
-    </style>
-    <div class="collapse navbar-collapse justify-content-between"
+    <div class="collapse navbar-collapse justify-content-between animate__animated animate__fadeIn"
          id="navbarNav" style="background-color: #345;">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-start"
             style="font-size: 1.0rem;padding-left:20px">
@@ -485,76 +643,92 @@
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'product_list' %}">Products</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'shipping' %}">Shipping & Returns</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'contact' %}">Contact Us</a></li>
-
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'about' %}">About Us</a></li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-white text-center text-uppercase"
                    href="#" role="button" data-bs-toggle="dropdown">More</a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu animate__animated animate__fadeIn">
                     <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
                     <li><a class="dropdown-item" href="{% url 'user_profile' %}">Product recommendations <br> base on social media</a></li>
                     <li><a class="dropdown-item" href="{% url 'dynamic_landing_page' %}">Dynamic Landing page</a></li>
                 </ul>
             </li>
+            <li class="nav-item dropdown d-md-none">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Product Categories
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <li><a class="dropdown-item" href="#feature">Featured Products</a></li>
+                    <li><a class="dropdown-item" href="#new">New Products</a></li>
+                    <li><a class="dropdown-item" href="#offer">Product on Offer</a></li>
+                    <li><a class="dropdown-item" href="{% url 'image_search' %}">Image Search</a></li>
+                    {% if request.user.is_authenticated and request.user %}
+                    <li><a class="dropdown-item" href="{% url 'recover_abandoned_cart' user_id=user.id %}">Recover Abandoned Cart</a></li>
+                    {% endif %}
+                    <li><a class="dropdown-item" href="{% url 'cart_detail' %}">Shopping Cart</a></li>
+                    <li><a class="dropdown-item" href="{% url 'wishlist_detail' %}">Wishlist</a></li>
+                </ul>
+            </li>
+
         </ul>
         <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-75 ml-auto custom-search-form" style="padding-right: 20px; position: relative;">
-    <div class="input-group">
-        <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem; border-right: none; box-shadow: none;" onkeyup="showSuggestions(this.value)">
-        <div class="input-group-append">
-            <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997; border-left: none; box-shadow: none;">Search</button>
-        </div>
-    </div>
-    <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997" onclick="startVoiceSearch()">
-        <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
-    </button>
-    <input type="hidden" id="voice_input" name="voice_input">
-    <div id="suggestions-container" class="suggestions-container" style="position: absolute; z-index: 1000;"></div>
-</form>
+            <div class="input-group">
+                <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem; border-right: none; box-shadow: none;" onkeyup="showSuggestions(this.value)">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997; border-left: none; box-shadow: none;">Search</button>
+                </div>
+            </div>
+            <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997" onclick="startVoiceSearch()">
+                <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
+            </button>
+            <input type="hidden" id="voice_input" name="voice_input">
+            <div id="suggestions-container" class="suggestions-container" style="position: absolute; z-index: 1000;"></div>
+        </form>
 
-<script>
-function showSuggestions(query) {
-    if (query.length === 0) {
-        document.getElementById('suggestions-container').innerHTML = '';
-        return;
-    }
+        <script>
+            function showSuggestions(query) {
+                if (query.length === 0) {
+                    document.getElementById('suggestions-container').innerHTML = '';
+                    return;
+                }
 
-    fetch(`/suggest/?q=${query}`)
-        .then(response => response.json())
-        .then(data => {
-            const suggestionsContainer = document.getElementById('suggestions-container');
-            suggestionsContainer.innerHTML = '';
+                fetch(`/suggest/?q=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const suggestionsContainer = document.getElementById('suggestions-container');
+                        suggestionsContainer.innerHTML = '';
 
-            data.forEach(item => {
-                const suggestionItem = document.createElement('div');
-                suggestionItem.className = 'suggestion-item';
-                suggestionItem.textContent = item.name;
-                suggestionItem.onclick = () => {
-                    document.getElementById('q').value = item.name;
-                    suggestionsContainer.innerHTML = '';
-                };
-                suggestionsContainer.appendChild(suggestionItem);
-            });
-        });
-}
-</script>
+                        data.forEach(item => {
+                            const suggestionItem = document.createElement('div');
+                            suggestionItem.className = 'suggestion-item';
+                            suggestionItem.textContent = item.name;
+                            suggestionItem.onclick = () => {
+                                document.getElementById('q').value = item.name;
+                                suggestionsContainer.innerHTML = '';
+                            };
+                            suggestionsContainer.appendChild(suggestionItem);
+                        });
+                    });
+            }
+        </script>
 
-<style>
-    .suggestions-container {
-        background-color: white;
-        width: calc(100% - 50px); /* Adjust the width based on your form */
-        max-height: 200px;
-        overflow-y: auto;
-    }
+        <style>
+            .suggestions-container {
+                background-color: white;
+                width: calc(100% - 50px); /* Adjust the width based on your form */
+                max-height: 200px;
+                overflow-y: auto;
+            }
 
-    .suggestion-item {
-        padding: 10px;
-        cursor: pointer;
-    }
+            .suggestion-item {
+                padding: 10px;
+                cursor: pointer;
+            }
 
-    .suggestion-item:hover {
-        background-color: #f0f0f0;
-    }
-</style>
+            .suggestion-item:hover {
+                background-color: #f0f0f0;
+            }
+        </style>
 
 
         <script>
@@ -1036,7 +1210,7 @@ margin-right: 2px;
 </style>
 
 
-<section class="banner container-fluid  px-lg-5 px-3" style="padding-left:60px;padding-right:60px">
+<section class="banner container-fluid px-lg-5 px-3" style="padding-left:60px;padding-right:60px">
     <div class="row">
         <div class="col-md-4 d-flex justify-content-start animated fadeInUp">
             <h2 class="text-muted"><i class="fas fa-gift text-muted"></i> UP TO 5% REWARD</h2>
@@ -1048,7 +1222,20 @@ margin-right: 2px;
             <h2 class="text-muted"><i class="fas fa-shipping-fast text-muted"></i> SAME DAY SHIPPING</h2>
         </div>
     </div>
+    <div class="d-block d-sm-none" style="text-align: center;">
+        <br>
+        <br>
+    </div>
 </section>
+
+<style>
+    @media (max-width: 767px) {
+        .banner {
+            display: none;
+        }
+    }
+</style>
+
 <!-- Add this to your homepage template -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
@@ -1283,7 +1470,8 @@ margin-right: 2px;
 
 <section class="container-fluid px-lg-5 px-3" style="padding-left: 60px; padding-right: 60px;">
     <div class="row d-flex align-items-stretch">
-        <div class="col-lg-3 animated fadeInLeft d-flex flex-column" style="margin-top: -25px;">
+        <!-- Hidden on mobile view -->
+        <div class="col-lg-3 d-none d-lg-flex animated fadeInLeft flex-column" style="margin-top: -25px;">
             <div class="hero__categories flex-grow-1" style="border-radius: 0;">
                 <div class="hero__categories__all" style="background-color:#20c997; border-radius: 0;">
                     <span>Product Categories</span>
@@ -1316,28 +1504,30 @@ margin-right: 2px;
                 </style>
             </div>
         </div>
-        <div class="col-lg-9 animated fadeInRight d-flex flex-column" style="margin-top: -50px;">
-            <div class="hero__search flex-grow-1"></div>
-            <div id="productCarousel" class="carousel slide flex-grow-1" data-ride="carousel">
-                <div class="carousel-inner" style="height: 100%;">
-                    {% for product in category_4_products %}
-                    <div class="carousel-item {% if forloop.first %}active{% endif %}" style="height: 100%;">
-                        <a href="{% url 'product_detail' product.id %}">
-                            <img class="d-block w-100" src="{{ product.image.url }}" alt="{{ product.title }}">
-                        </a>
-                    </div>
-                    {% endfor %}
-                </div>
-                <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
+
+       <div class="col-lg-9 animated fadeInRight d-flex flex-column mt-lg-n5 mt-3">
+    <div class="hero__search flex-grow-1"></div>
+    <div id="productCarousel" class="carousel slide flex-grow-1" data-ride="carousel">
+        <div class="carousel-inner" style="height: 100%;">
+            {% for product in category_4_products %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}" style="height: 100%;">
+                <a href="{% url 'product_detail' product.id %}">
+                    <img class="d-block w-100" src="{{ product.image.url }}" alt="{{ product.title }}">
                 </a>
             </div>
+            {% endfor %}
         </div>
+        <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
+
     </div>
 </section>
 
@@ -2110,7 +2300,8 @@ setInterval(autoScroll, scrollInterval);
 
 
 
-<div class="footer spad px-lg-5 px-3" style="padding-left:60px;padding-right:60px;">
+
+<div class="footer spad px-lg-5 px-3 py-5 py-md-4">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3 footer-column">
@@ -2123,17 +2314,6 @@ setInterval(autoScroll, scrollInterval);
                             <i class="fas fa-map-marker-alt"></i> Address: 4 Durham Workspace, PityMe, Durham DH1 5JZ, UK
                         </p>
                     </a>
-                    <style>
-                        .clickable {
-                          cursor: pointer;
-                          color: blue; /* Optional: Change the color to indicate it's clickable */
-                        }
-                        .clickable:hover {
-                          text-decoration: underline; /* Optional: Add underline on hover */
-                        }
-                    </style>
-
-
                     <p class=""><i class="fas fa-phone-alt"></i> Phone: +447508516836</p>
                     <a class="text-decoration-none" href="mailto:hello@meliandialogue.com">
                         <p class="">
@@ -2144,8 +2324,6 @@ setInterval(autoScroll, scrollInterval);
             </div>
             <div class="col-md-3 footer-column">
                 <h6>NAVIGATE</h6>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
                 <ul>
                     <li><a class="" href="{% url 'home-url' %}"><i class="fas fa-chevron-right"></i> Home</a></li>
                     <li><a class="" href="{% url 'product_list' %}"><i class="fas fa-chevron-right"></i> Our Shop</a></li>
@@ -2164,58 +2342,142 @@ setInterval(autoScroll, scrollInterval);
                     <li><a class="" href="{% url 'accessibility' %}"><i class="fas fa-chevron-right"></i> Accessibility</a></li>
                 </ul>
             </div>
-            <div class="col-md-3 footer-column">
-                <h6 class="text-uppercase">Join Our Newsletter Now</h6>
-                <p class="text-dark">Get E-mail updates about our latest shop and special offers.</p>
-                <form method="post" action="{% url 'subscribe' %}" class="newsletter-form">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <input type="email" name="email" class="form-control" placeholder="Enter your email" required="required">
-                    </div>
-                    <button type="submit" class="btn btn-success form-control">Subscribe</button>
-                </form>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-                <style>
-                    .social-icons {
-    display: flex;
-    justify-content: center; /* Center the icons */
-    gap: 15px; /* Space between icons */
-    margin-top: 20px; /* Space above the icons */
-}
-
-.social-icons a {
-    color: #333; /* Default icon color */
-    font-size: 24px; /* Icon size */
-    transition: color 0.3s; /* Smooth color transition */
-}
-
-.social-icons a:hover {
-    color: #007bff; /* Color on hover */
-}
-
-                </style>
-                <div class="footer__widget__social">
-                    <a href="https://www.facebook.com" target="_blank"><i class="fas fa-facebook"></i></a>
-                    <a href="https://www.instagram.com" target="_blank"><i class="fas fa-instagram"></i></a>
-                    <a href="https://www.twitter.com" target="_blank"><i class="fas fa-twitter"></i></a>
-                    <a href="https://www.pinterest.com" target="_blank"><i class="fas fa-pinterest"></i></a>
-                </div>
-
+           <div class="col-md-3 footer-column">
+        <h6 class="text-uppercase">Join Our Newsletter Now</h6>
+        <p class="text-dark">Get E-mail updates about our latest shop and special offers.</p>
+        <form method="post" action="{% url 'subscribe' %}" class="newsletter-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="email" name="email" class="form-control" placeholder="Enter your email" required="required">
             </div>
+            <button type="submit" class="btn btn-success form-control">Subscribe</button>
+        </form>
+        <div class="footer__widget__social mt-3">
+            <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.pinterest.com" target="_blank"><i class="fab fa-pinterest"></i></a>
         </div>
-        <div class="footer-bottom">
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="">Powered by Ecommerce © 2024</p>
-                </div>
-                <div class="col-md-6">
-                    <img class="w-50" src="{% static 'assets/img/payment-item.png' %}"
-                         alt="Payment Methods">
-                </div>
-            </div>
+    </div>
+
+    <!-- Display messages -->
+    {% if success_message %}
+    <div class="alert alert-success">
+        {{ success_message }}
+    </div>
+    {% endif %}
+
+    {% if error_message %}
+    <div class="alert alert-danger">
+        {{ error_message }}
+    </div>
+    {% endif %}
+        </div>
+     <div class="footer-bottom" style="margin-bottom: 0; padding-bottom: 10px;">
+    <div class="row" style="margin-bottom: 0;">
+        <div class="col-md-6">
+            <p class="text-white" style="margin-bottom: 0;">Powered by Ecommerce © 2024</p>
+        </div>
+        <div class="col-md-6">
+            <img class="w-50" src="{% static 'assets/img/payment-item.png' %}"
+                 alt="Payment Methods" style="display: block; max-width: 100%;">
         </div>
     </div>
 </div>
+
+    </div>
+</div>
+
+<style>
+    .footer-bottom {
+    margin-bottom: 0; /* Remove bottom margin */
+    padding-bottom: 10px; /* Adjust padding as needed */
+}
+
+.footer-bottom .row {
+    margin-bottom: 0; /* Remove margin-bottom from rows */
+}
+
+.footer-bottom p {
+    margin-bottom: 0; /* Remove bottom margin from paragraphs */
+}
+
+.footer-bottom img {
+    display: block; /* Ensure image does not add extra space */
+    max-width: 100%; /* Ensure image scales correctly */
+}
+
+    .footer {
+    background-color: #f8f9fa; /* Light background color */
+}
+
+.footer-bottom {
+    background-color: #343a40; /* Dark background color for bottom footer */
+    color: #fff;
+    font-size: 0.875rem; /* Smaller font size */
+}
+
+.footer-bottom p {
+    margin: 0;
+}
+
+.footer__widget__social i {
+    color: #333;
+    font-size: 24px;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.footer__widget__social a:hover i {
+    color: #007bff; /* Change icon color on hover */
+    transform: scale(1.1); /* Slightly scale up on hover */
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.footer {
+    animation: fadeInUp 1s ease-out;
+}
+
+</style>
+
+
+
+<!-- Add this script in your HTML file, preferably in the <head> or before the closing </body> tag -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#subscriptionForm').on('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            var form = $(this);
+            var formData = form.serialize(); // Serialize form data
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url "subscribe" %}', // URL to the Django subscribe view
+                data: formData,
+                success: function(response) {
+                    if (response.status === 'success') {
+                        window.location.href = response.redirect_url; // Redirect to the URL
+                    }
+                },
+                error: function() {
+                    $('#errorMessage').text('An error occurred. Please try again.').show();
+                }
+            });
+        });
+    });
+</script>
 
 <script>
     // Function to set a cookie
@@ -2362,61 +2624,6 @@ setInterval(autoScroll, scrollInterval);
 
 </script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-        #scrollTopBtn {
-            display: none;
-            position: fixed;
-            bottom: 80px; /* Adjusted to move the button higher */
-            right: 20px;
-            z-index: 99;
-            border: none;
-            outline: none;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        #scrollTopBtn:hover {
-            background-color: #555;
-        }
-    </style>
-
-    <!-- Your content here -->
-    <button onclick="topFunction()" id="scrollTopBtn" title="Go to top">
-        <i class="fa fa-arrow-up"></i>
-    </button>
-
-    <script>
-        // Get the button
-        var mybutton = document.getElementById("scrollTopBtn");
-
-        // When the user scrolls down 20px from the top of the document, show the button
-        window.onscroll = function() {
-            scrollFunction()
-        };
-
-        function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                mybutton.style.display = "block";
-            } else {
-                mybutton.style.display = "none";
-            }
-        }
-
-        // When the user clicks on the button, scroll to the top of the document smoothly
-        function topFunction() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-    </script>
-
 
 </body>
 </html>

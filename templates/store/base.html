@@ -11,12 +11,6 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
     <!-- Custom CSS Styles -->
-
-
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
-
-
-
     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'assets/css/elegant-icons.css' %}" type="text/css">
@@ -28,9 +22,6 @@
 
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" type="text/css">
 
-
-
-
     <!-- Bootstrap CSS link (place this in the <head> section of your HTML) -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 
@@ -40,8 +31,6 @@
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-
-
 
     <style>
         /* Additional Custom Styles */
@@ -228,14 +217,14 @@
         <div class="col-md-6 text-start">
             <div class="d-flex align-items-center justify-content-center justify-content-md-start">
                 <div class="me-2">
-                    <a href="#" class="text-decoration-none">Gift Certificates</a>
+                    <a href="" class="text-decoration-none top-header-link">Gift Certificates</a>
                 </div>
-                <span style="height:30px;padding-right:5px;padding-left:5px">|</span>
+                <span class="top-header-separator">|</span>
                 <div class="dropdown ms-2">
-                    <a class="dropdown-toggle" href="/" role="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white; padding: 0.375rem 0.75rem; border-radius: 0.25rem;">
+                    <a class="dropdown-toggle top-header-dropdown" href="/" role="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         Select Currency: GBP
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
+                    <ul class="dropdown-menu top-header-dropdown-menu" aria-labelledby="currencyDropdown">
                         <li><a class="dropdown-item" href="{% url 'home-url' %}">Default Currency Pounds</a></li>
                     </ul>
                 </div>
@@ -244,281 +233,982 @@
         <div class="col-md-6 text-end">
             <ul class="list-unstyled d-flex mb-0 justify-content-center justify-content-md-end">
                 <li class="me-2">
-                    <a href="{% url 'login-url' %}" class="text-decoration-none">Login</a>
-                </li> |
+                    <a href="{% url 'login-url' %}" class="text-decoration-none top-header-link">Login</a>
+                </li>
+                <li class="me-2">|</li>
                 <li class="ms-2">
-                    <a href="{% url 'register-url' %}" class="text-decoration-none">Sign Up</a>
-                </li> |
+                    <a href="{% url 'register-url' %}" class="text-decoration-none top-header-link">Sign Up</a>
+                </li>
+                <li class="ms-2">|</li>
                 <li class="ms-2">
-                    <a href="{% url 'logout-url' %}" class="text-decoration-none">Logout</a>
+                    <a href="{% url 'logout-url' %}" class="text-decoration-none top-header-link">Logout</a>
                 </li>
             </ul>
         </div>
     </div>
-
 </header>
 
-<!-- Middle Header -->
-<header class="container-fluid middle-header border-bottom  mt-2 px-lg-5 px-3" style="padding-left:60px;padding-right:60px">
+<style>
+    /* Basic styling */
+    .top-header {
+        background-color: #f8f9fa;
+        padding: 10px 0;
+    }
 
+    .top-header-link {
+        color: #007bff;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .top-header-link:hover {
+        color: #0056b3;
+        text-decoration: underline;
+        transform: scale(1.05);
+    }
+
+    .top-header-separator {
+        height: 30px;
+        padding-right: 5px;
+        padding-left: 5px;
+        color: #6c757d;
+    }
+
+    .top-header-dropdown {
+        background-color: white;
+        padding: 0.375rem 0.75rem;
+        border-radius: 0.25rem;
+        color: #007bff;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .top-header-dropdown:hover {
+        background-color: #e9ecef;
+        color: #0056b3;
+    }
+
+    .top-header-dropdown-menu {
+        border-radius: 0.25rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .dropdown-menu.show {
+        opacity: 1;
+    }
+
+    .top-header-dropdown-menu .dropdown-item {
+        transition: background-color 0.3s ease;
+    }
+
+    .top-header-dropdown-menu .dropdown-item:hover {
+        background-color: #f1f1f1;
+    }
+</style>
+
+
+<style>
+    /* Clear Notifications Link Styling */
+  .clear-notification-link {
+      display: inline-block;
+      margin-left: 10px;
+      color: #dc3545; /* Red color for clear link */
+      text-decoration: none;
+      font-weight: bold;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      transition: all 0.3s ease;
+  }
+
+  .clear-notification-link:hover {
+      color: #fff; /* White text on hover */
+      background-color: #dc3545; /* Red background on hover */
+      border-color: #dc3545; /* Border color on hover */
+  }
+
+  /* Notifications Link Styling */
+  .notifications-link {
+      position: relative;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #333;
+  }
+
+  /* Notification Icon Background Styling */
+  .notification-icon-bg {
+      position: relative;
+      background-color: #f8f9fa; /* Light background color */
+      border-radius: 50%;
+      padding: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+  /* Notification Count Styling */
+  .notification-count {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background-color: #dc3545; /* Red background */
+      color: #fff;
+      font-size: 0.75rem;
+      border-radius: 50%;
+      padding: 0.2rem 0.5rem;
+      box-shadow: 0 0 2px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 20px;
+      text-align: center;
+      line-height: 1;
+  }
+
+  /* Notifications List Styling */
+  .notifications-list {
+      display: none; /* Hidden by default */
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: 300px; /* Adjust width as needed */
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+      opacity: 0; /* Start hidden */
+      visibility: hidden; /* Start hidden */
+      transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
+  }
+
+  /* Notification Item Styling */
+  .notification-item {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #ddd;
+      color: #333;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+
+  .notification-item:last-child {
+      border-bottom: none;
+  }
+
+  .notification-message {
+      flex-grow: 1;
+      margin-right: 10px;
+  }
+
+  /* Show Notifications List on Hover */
+  .me-4:hover .notifications-list {
+      display: block; /* Show on hover */
+      opacity: 1; /* Fade in */
+      visibility: visible; /* Make visible */
+      animation: fadeIn 0.3s ease;
+  }
+
+  /* Animation for Notifications List */
+  @keyframes fadeIn {
+      from {
+          opacity: 0;
+          transform: translateY(-10px);
+      }
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
+
+</style>
+
+
+
+
+<!-- Middle Header -->
+<header class="container-fluid middle-header border-bottom mt-2 px-lg-5 px-3" style="padding-left:60px;padding-right:60px">
     <div class="row align-items-center">
         <div class="col-md-3">
             <div class="d-none d-md-flex align-items-center justify-content-center justify-content-md-start">
                 <div class="logo-container me-md-3">
                     <a href="{% url 'home-url' %}" style="text-decoration:none">
                         <h4 class="branchy-logo1">
-                            <img class="rounded logo-image" src="{% static 'img/logo1.jpg' %}"
-                                 alt="Branchy Logo">
-                            <span class="branchy-text">BRANCHY</span>
+                            <img class="rounded logo-image animate__animated animate__fadeIn" src="{% static 'img/logo1.jpg' %}" alt="Branchy Logo">
+                            <span class="branchy-text" style="letter-spacing: -0.2rem;">BRANCHY</span>
                         </h4>
-
                     </a>
                 </div>
             </div>
         </div>
-        <div class="col-md-5"></div>
+        <div class="col-md-5 d-block"></div>
         <div class="col-md-4 call-us-section">
             <ul class="list-unstyled d-flex justify-content-end mb-0">
-                <li class="me-4">
+                <li class="me-4 animate__animated animate__fadeIn">
                     <a href="{% url 'contact' %}" class="text-decoration-none d-flex align-items-center">
-                        <i class="fas fa-mobile-alt me-2" style="font-size: 2.5rem; color: gray;"></i>
+                        <i class="fas fa-mobile-alt me-2 contact-icon"></i>
                         <div class="text-start ms-2">
                             <p class="text-muted mb-0 fw-bold">CALL US NOW</p>
-                            <h6 class="text-muted mb-0 fw-bold">+447508516836</h6>
+                            <p class="text-muted mb-0 fw-bold">+447508516836</p>
                         </div>
                     </a>
                 </li>
-                <li class="d-flex align-items-center me-4" style="height: 40px;padding-left:20px">
-                    <span style="height: 100%; border-left: 1px solid black; padding-right: 5px; padding-left: 5px;"></span>
+                <li class="d-flex align-items-center me-4 animate__animated animate__fadeIn" style="height: 40px; padding-left:20px">
+                    <span class="separator"></span>
                 </li>
-                <li class="me-4" style="padding-right:20px">
+                <li class="me-4 animate__animated animate__fadeIn">
                     <a href="{% url 'cart_detail' %}" class="cart-link text-decoration-none">
-                <span class="cart-icon-bg">
-                    <i class="fa fa-shopping-bag text-white" style="font-size: 1.5rem;"></i>
-                </span>
+                        <span class="cart-icon-bg">
+                            <i class="fa fa-shopping-bag text-white" style="font-size: 1.5rem;"></i>
+                        </span>
                         <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
                     </a>
                 </li>
-              <li class="me-4" style="padding-right:20px;">
-    <!-- Notifications Link and Display -->
-    {% if request.user.is_authenticated %}
-        <a href="#" class="notifications-link text-decoration-none">
-            <span class="notification-icon-bg">
-                <i class="fas fa-bell text-success" style="font-size: 1.5rem;"></i>
-                <span class="badge badge-pill badge-danger notification-count">
-                    {% if request.user.notification_set.count == 0 %}0{% else %}{{ request.user.notification_set.count }}{% endif %}
-                </span>
-            </span>
-        </a>
-        <ul class="notifications-list">
-            {% for notification in request.user.notification_set.all %}
-                <li class="notification-item">
-                    <span class="notification-message">{{ notification.message }}</span>
-                    <a href="{% url 'clear_notification' notification.id %}" class="clear-notification-link">Clear</a>
+                <li class="me-4 animate__animated animate__fadeIn" style="padding-left:20px;">
+                    {% if request.user.is_authenticated %}
+                    <a href="#" class="notifications-link text-decoration-none">
+                            <span class="notification-icon-bg">
+                                <i class="fas fa-bell text-white"></i>
+                                <span class="badge badge-pill badge-danger notification-count">
+                                    {% if request.user.notification_set.count == 0 %}0{% else %}{{ request.user.notification_set.count }}{% endif %}
+                                </span>
+                            </span>
+                    </a>
+                    <ul class="notifications-list">
+                        {% for notification in request.user.notification_set.all %}
+                        <li class="notification-item animate__animated animate__fadeIn">
+                            <span class="notification-message">{{ notification.message }}</span>
+                            <a href="{% url 'clear_notification' notification.id %}" class="clear-notification-link">Clear</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
                 </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-</li>
-
-<style>
-  /* Clear Notifications Link Styling */
-.clear-notification-link {
-    display: inline-block;
-    margin-left: 10px;
-    color: #dc3545; /* Red color for clear link */
-    text-decoration: none;
-    font-weight: bold;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    padding: 0.2rem 0.5rem;
-    transition: all 0.3s ease;
-}
-
-.clear-notification-link:hover {
-    color: #fff; /* White text on hover */
-    background-color: #dc3545; /* Red background on hover */
-    border-color: #dc3545; /* Border color on hover */
-}
-
-/* Notifications Link Styling */
-.notifications-link {
-    position: relative;
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #333;
-}
-
-/* Notification Icon Background Styling */
-.notification-icon-bg {
-    position: relative;
-    background-color: #f8f9fa; /* Light background color */
-    border-radius: 50%;
-    padding: 0.5rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Notification Count Styling */
-.notification-count {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background-color: #dc3545; /* Red background */
-    color: #fff;
-    font-size: 0.75rem;
-    border-radius: 50%;
-    padding: 0.2rem 0.5rem;
-    box-shadow: 0 0 2px rgba(0,0,0,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 20px;
-    height: 20px;
-    text-align: center;
-    line-height: 1;
-}
-
-/* Notifications List Styling */
-.notifications-list {
-    display: none; /* Hidden by default */
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: 300px; /* Adjust width as needed */
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    z-index: 1000;
-    opacity: 0; /* Start hidden */
-    visibility: hidden; /* Start hidden */
-    transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
-}
-
-/* Notification Item Styling */
-.notification-item {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid #ddd;
-    color: #333;
-    font-size: 0.875rem;
-    line-height: 1.5;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.notification-item:last-child {
-    border-bottom: none;
-}
-
-.notification-message {
-    flex-grow: 1;
-    margin-right: 10px;
-}
-
-/* Show Notifications List on Hover */
-.me-4:hover .notifications-list {
-    display: block; /* Show on hover */
-    opacity: 1; /* Fade in */
-    visibility: visible; /* Make visible */
-    animation: fadeIn 0.3s ease;
-}
-
-/* Animation for Notifications List */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-</style>
-
-                <li class="me-4">
+                <li class="me-4 animate__animated animate__fadeIn" style="height: 40px;padding-left:20px">
                     <a href="{% url 'profile-url' %}">
                         {% if user.profile.profile_photo %}
-                        <img class="rounded-circle animate__animated animate__fadeIn" src="{{ user.profile.profile_photo.url }}"
-                             alt="Profile Photo" style="height: 50px;">
+                        <img class="rounded-circle profile-photo" src="{{ user.profile.profile_photo.url }}" alt="Profile Photo">
                         {% else %}
-                        <img class="rounded-circle animate__animated animate__fadeIn" src="{% static 'img/profile.jpeg' %}"
-                             alt="Photo" style="height: 50px;">
+                        <img class="rounded-circle profile-photo" src="{% static 'img/profile.jpeg' %}" alt="Photo">
                         {% endif %}
                     </a>
                 </li>
             </ul>
         </div>
-
     </div>
-
 </header>
 
+<style>
+    /* Basic styling */
+    .middle-header {
+        background-color: #ffffff;
+        padding: 15px 0;
+    }
+
+    .branchy-logo1 {
+        display: flex;
+        align-items: center;
+    }
+
+    .branchy-text {
+        color: #343a40;
+        font-weight: bold;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .branchy-logo1:hover .branchy-text {
+        color: #007bff;
+        transform: scale(1.1);
+    }
+
+    .contact-icon {
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .contact-icon:hover {
+        color: #007bff;
+        transform: scale(1.2);
+    }
+
+    .separator {
+        height: 100%;
+        border-left: 1px solid #343a40;
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+
+    .cart-icon-bg {
+        background-color: #007bff;
+        border-radius: 50%;
+        padding: 10px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .cart-icon-bg:hover {
+        background-color: #0056b3;
+        transform: scale(1.1);
+    }
+
+    .notifications-link {
+        position: relative;
+    }
+
+    .notification-icon-bg {
+        background-color: #007bff;
+        border-radius: 50%;
+        padding: 10px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .notification-icon-bg:hover {
+        background-color: #0056b3;
+        transform: scale(1.1);
+    }
+
+    .notifications-list {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 0.25rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 10px;
+        z-index: 1000;
+    }
+
+    .notifications-link:hover .notifications-list {
+        display: block;
+    }
+
+    .notification-item {
+        padding: 5px 0;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .notification-item:last-child {
+        border-bottom: none;
+    }
+
+    .clear-notification-link {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .clear-notification-link:hover {
+        text-decoration: underline;
+    }
+
+    .profile-photo {
+        height: 50px;
+        transition: transform 0.3s ease, border 0.3s ease;
+    }
+
+    .profile-photo:hover {
+        transform: scale(1.1);
+        border: 2px solid #007bff;
+    }
+</style>
+
+
+
+
 <!-- Navbar -->
-<nav class="container-fluid navbar navbar-expand-lg navbar-light gray-navbar  px-lg-5 px-3"
+<nav class="container-fluid navbar navbar-expand-lg navbar-light gray-navbar px-lg-5 px-3"
      style="padding-left:60px;padding-right:60px;padding-top:0;padding-bottom:0;">
     <!-- Mobile Logo and Title -->
     <div class="d-lg-none d-flex align-items-center" style="padding:15px">
         <a href="{% url 'home-url' %}">
-            <img class="rounded" src="{% static 'img/logo1.jpg' %}"
-                 alt="Branchy Logo">
+            <img class="rounded logo-image animate__animated animate__fadeIn" src="{% static 'img/logo1.jpg' %}" alt="Branchy Logo">
         </a>
         <a href="{% url 'home-url' %}" style="text-decoration: none;">
-            <h1 class="mb-0" style="font-size: 2.5rem;font-weight: 900;
-            letter-spacing:-0.1rem; color: white; text-transform: uppercase;">BRANCHY</h1>
+            <h1 class="mb-0 logo-title animate__animated animate__fadeIn" style="font-size: 2.5rem;font-weight: 900; letter-spacing:-0.1rem; color: white; text-transform: uppercase;">BRANCHY</h1>
         </a>
     </div>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
+    <button class="navbar-toggler animate__animated animate__fadeIn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
             aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <style>
-        .nav-link:hover {
-        background-color: gray; /* Light gray background */
-        color: #333; /* Black text color */
-    }
-    .nav-item.dropdown:hover .dropdown-menu {
-        display: block;
-        margin-top: 0; /* Adjust the margin as needed */
-    }
 
-    </style>
-    <div class="collapse navbar-collapse justify-content-between" id="navbarNav" style="background-color: #345;">
+    <div class="collapse navbar-collapse justify-content-between animate__animated animate__fadeIn"
+         id="navbarNav" style="background-color: #345;">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-start"
             style="font-size: 1.0rem;padding-left:20px">
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'home-url' %}">Home</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'product_list' %}">Products</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'shipping' %}">Shipping & Returns</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'contact' %}">Contact Us</a></li>
-
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'about' %}">About Us</a></li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white text-center text-uppercase" href="#" role="button" data-bs-toggle="dropdown">More</a>
-                 <ul class="dropdown-menu">
+                <a class="nav-link dropdown-toggle text-white text-center text-uppercase"
+                   href="#" role="button" data-bs-toggle="dropdown">More</a>
+                <ul class="dropdown-menu animate__animated animate__fadeIn">
                     <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
                     <li><a class="dropdown-item" href="{% url 'user_profile' %}">Product recommendations <br> base on social media</a></li>
                     <li><a class="dropdown-item" href="{% url 'dynamic_landing_page' %}">Dynamic Landing page</a></li>
                 </ul>
             </li>
+            <li class="nav-item dropdown d-md-none">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Product Categories
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <li><a class="dropdown-item" href="#feature">Featured Products</a></li>
+                    <li><a class="dropdown-item" href="#new">New Products</a></li>
+                    <li><a class="dropdown-item" href="#offer">Product on Offer</a></li>
+                    <li><a class="dropdown-item" href="{% url 'image_search' %}">Image Search</a></li>
+                    {% if request.user.is_authenticated and request.user %}
+                    <li><a class="dropdown-item" href="{% url 'recover_abandoned_cart' user_id=user.id %}">Recover Abandoned Cart</a></li>
+                    {% endif %}
+                    <li><a class="dropdown-item" href="{% url 'cart_detail' %}">Shopping Cart</a></li>
+                    <li><a class="dropdown-item" href="{% url 'wishlist_detail' %}">Wishlist</a></li>
+                </ul>
+            </li>
+
         </ul>
-             <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-75 ml-auto custom-search-form" style="padding-right: 20px; position: relative;">
-    <div class="input-group">
-        <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem; border-right: none; box-shadow: none;" onkeyup="showSuggestions(this.value)">
-        <div class="input-group-append">
-            <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997; border-left: none; box-shadow: none;">Search</button>
-        </div>
+        <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-75 ml-auto custom-search-form" style="padding-right: 20px; position: relative;">
+            <div class="input-group">
+                <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem; border-right: none; box-shadow: none;" onkeyup="showSuggestions(this.value)">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997; border-left: none; box-shadow: none;">Search</button>
+                </div>
+            </div>
+            <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997" onclick="startVoiceSearch()">
+                <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
+            </button>
+            <input type="hidden" id="voice_input" name="voice_input">
+            <div id="suggestions-container" class="suggestions-container" style="position: absolute; z-index: 1000;"></div>
+        </form>
+
+        <script>
+            function showSuggestions(query) {
+                if (query.length === 0) {
+                    document.getElementById('suggestions-container').innerHTML = '';
+                    return;
+                }
+
+                fetch(`/suggest/?q=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const suggestionsContainer = document.getElementById('suggestions-container');
+                        suggestionsContainer.innerHTML = '';
+
+                        data.forEach(item => {
+                            const suggestionItem = document.createElement('div');
+                            suggestionItem.className = 'suggestion-item';
+                            suggestionItem.textContent = item.name;
+                            suggestionItem.onclick = () => {
+                                document.getElementById('q').value = item.name;
+                                suggestionsContainer.innerHTML = '';
+                            };
+                            suggestionsContainer.appendChild(suggestionItem);
+                        });
+                    });
+            }
+        </script>
+
+        <style>
+            .suggestions-container {
+                background-color: white;
+                width: calc(100% - 50px); /* Adjust the width based on your form */
+                max-height: 200px;
+                overflow-y: auto;
+            }
+
+            .suggestion-item {
+                padding: 10px;
+                cursor: pointer;
+            }
+
+            .suggestion-item:hover {
+                background-color: #f0f0f0;
+            }
+        </style>
+
+
+        <script>
+            function startVoiceSearch() {
+                // Start voice recognition or prompt user to allow microphone access
+                // For demonstration purposes, we'll set a dummy value
+                const voiceInput = "Voice search text"; // Replace with actual voice-to-text implementation
+                // Set the voice input to the hidden input field
+                document.getElementById('voice_input').value = voiceInput;
+                // Submit the form
+                document.forms[0].submit(); // Assumes this is the first form on your page
+            }
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const voiceSearchBtn = document.getElementById('voice_search_btn');
+                const searchInput = document.getElementById('q');
+
+                if ('webkitSpeechRecognition' in window) {
+                    const recognition = new webkitSpeechRecognition();
+                    recognition.lang = 'en-US';
+                    recognition.continuous = false;
+                    recognition.interimResults = false;
+
+                    recognition.onresult = function(event) {
+                        const voiceInput = event.results[0][0].transcript;
+                        searchInput.value = voiceInput;
+                        document.querySelector('.custom-search-form').submit();
+                    };
+
+                    recognition.onerror = function(event) {
+                        console.error('Speech recognition error detected: ' + event.error);
+                    };
+
+                    voiceSearchBtn.addEventListener('click', function() {
+                        recognition.start();
+                    });
+                } else {
+                    console.warn('Speech recognition not supported in this browser.');
+                    voiceSearchBtn.disabled = true;
+                }
+            });
+        </script>
     </div>
-    <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997" onclick="startVoiceSearch()">
-        <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
-    </button>
-    <input type="hidden" id="voice_input" name="voice_input">
-    <div id="suggestions-container" class="suggestions-container" style="position: absolute; z-index: 1000;"></div>
-</form>
+</nav>
+
+
+<script>
+    const searchInput = document.getElementById('search_query');
+    const voiceSearchBtn = document.getElementById('voice_search_btn');
+
+    voiceSearchBtn.addEventListener('click', () => {
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = 'en-US';
+
+        recognition.onresult = (event) => {
+            const voiceInput = event.results[0][0].transcript;
+            searchInput.value = voiceInput;
+        };
+
+        recognition.start();
+    });
+</script>
+
+<style>
+    @keyframes fadeInUp {
+from {
+opacity: 0;
+transform: translate3d(0, 40px, 0);
+}
+to {
+opacity: 1;
+transform: none;
+}
+}
+
+.animated {
+animation-duration: 1s;
+animation-fill-mode: both;
+}
+
+.fadeInUp {
+animation-name: fadeInUp;
+}
+
+</style>
+
+<style>
+    /* Global Styles */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    /* Section Styles */
+    .product-section {
+        margin-bottom: 40px;
+    }
+    .product-section h3 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+    }
+    .product-row {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        padding-bottom: 10px; /* To accommodate scroll buttons */
+    }
+    .product-row::-webkit-scrollbar {
+        display: none;
+    }
+    .product {
+        flex: 0 0 auto;
+        width: 200px;
+        margin-right: 20px;
+        text-align: center;
+        border: 1px solid #e1e4e8;
+        border-radius: 10px;
+        padding: 15px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .product:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .product img {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    .price {
+        font-weight: bold;
+        color: #28a745;
+        margin-top: 10px;
+    }
+    .old-price {
+        text-decoration: line-through;
+        margin-left: 5px;
+        color: #dc3545;
+    }
+    .icons {
+        margin-top: 10px;
+    }
+    .icons i {
+        color: #333;
+        margin: 0 8px;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    .icons i:hover {
+        color: #007bff;
+    }
+    /* Scroll Buttons */
+    .scroll-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 1000;
+    }
+    .scroll-left {
+        left: 10px;
+    }
+    .scroll-right {
+        right: 10px;
+    }
+</style>
+
+
+<style>
+    /* Cookie Consent Banner Styles */
+    .cookie-banner {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #343a40;
+        color: white;
+        padding: 15px 20px;
+        text-align: center;
+        display: none; /* Hidden by default */
+        z-index: 1000;
+    }
+    .cookie-banner button {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-left: 10px;
+    }
+    .cookie-banner button:hover {
+        background-color: #218838;
+    }
+</style>
+
+<style>
+    .footer {
+        background-color: #f8f8f8;
+        color: #333;
+
+    }
+
+    .footer .sign-up {
+        background-color: #20c997;
+        color: #333;
+        padding: 30px 0;
+        text-align: center;
+        border-radius: 5px;
+    }
+
+    .footer .sign-up input[type="email"] {
+        width: 60%;
+        margin-right: 10px;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .footer .sign-up button {
+        background-color: #ffffff;
+        color: #343a40;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    .footer h6 {
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .footer ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer ul li {
+        margin-bottom: 10px;
+    }
+
+    .footer ul li a {
+        color: #333;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .footer ul li a:hover {
+        color: #20c997;
+    }
+
+    .footer .contact-info p {
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    .footer-bottom {
+        border-top: 1px solid #495057;
+        padding: 20px 0;
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .footer-bottom p {
+        margin: 10px 0;
+    }
+
+    .footer-bottom img {
+        width: 40px;
+        margin: 0 5px;
+    }
+
+    .footer-bottom a {
+        color: #333;
+        text-decoration: none;
+        margin: 0 10px;
+        transition: color 0.2s;
+    }
+
+    .footer-bottom a:hover {
+        color: #20c997;
+    }
+</style>
+<style>
+    .footer-column {
+        border-right: 1px solid #ddd;
+        padding-right: 20px;
+        margin-right: -1px; /* to avoid double border between columns */
+    }
+
+    .footer-column:last-child {
+        border-right: none; /* Remove the border from the last column */
+    }
+</style>
+<style>
+
+    .rating i {
+color: #f5c518; /* Customize the color of the stars */
+margin-right: 2px;
+}
+
+     /* Basic Styling */
+     .logo-container {
+         width: 60px;
+         height: 60px;
+     }
+     .logo {
+         width: 100%;
+         height: 100%;
+         object-fit: contain;
+     }
+     .call-us-section {
+         font-size: 18px;
+     }
+     .navbar-nav .nav-link {
+         font-weight: 500;
+         color: #fff;
+         transition: color 0.3s ease;
+     }
+
+     /* Additional Styling for Professional Look */
+     header .container {
+         max-width: 1200px;
+     }
+
+     header h1 {
+         font-size: 1.5rem;
+         color: #333;
+     }
+
+     .call-us-section .call-us-text {
+         font-weight: bold;
+         color: #007bff;
+     }
+
+     .call-us-section .toll-free-text {
+         font-size: 1rem;
+         color: #6c757d;
+     }
+
+     header .btn-group .btn,
+     header .btn-outline-secondary {
+         border-radius: 20px;
+         font-size: 0.875rem;
+         padding: 0.375rem 1rem;
+     }
+
+
+     .navbar .navbar-nav .dropdown-menu {
+         border-radius: 0.5rem;
+         z-index: 1000;
+     }
+
+     .navbar .fa-shopping-bag {
+         font-size: 1.5rem;
+     }
+
+     .navbar .form-control {
+         border-radius: 20px;
+         font-size: 0.875rem;
+     }
+
+     .navbar .btn-outline-success {
+         border-radius: 20px;
+         font-size: 0.875rem;
+     }
+
+     /* Specific styling for increased height */
+     .navbar-expand-lg .navbar-nav .nav-link {
+         padding-top: 1rem;
+         padding-bottom: 1rem;
+     }
+
+     /* Color and Spacing Adjustments */
+     .top-header {
+         background-color: white;
+         padding: 10px 0;
+     }
+     .middle-header {
+         background-color: #f0f0f0;
+         padding: 15px 0;
+     }
+     .navbar {
+         background-color: gray;
+         padding: 20px 0;
+     }
+
+     /* Notification styling */
+     .notification-btn .badge {
+         font-size: 0.75rem;
+     }
+
+     .notifications {
+         display: none;
+         max-width: 300px;
+         right: 0;
+         top: 40px;
+         z-index: 1000;
+         border: 1px solid #ccc;
+         background-color: #fff;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+     }
+
+     .notification-btn:hover .notifications {
+         display: block;
+     }
+
+     .banner {
+         padding: 20px 0;
+         text-align: center;
+         padding-left:-20px;
+          padding-right:-20px;
+
+     }
+
+     .banner h2 {
+         font-size: 1.2rem;
+         color: #007bff;
+     }
+
+     .banner i {
+         font-size: 2rem;
+         color: #007bff;
+         margin-bottom: 10px;
+     }
+
+     /* Added CSS */
+     .cart-link {
+         position: relative;
+         display: inline-block;
+         color: inherit;
+         text-decoration: none;
+     }
+
+     .cart-icon-bg {
+         position: relative;
+         display: inline-block;
+         background-color: red;
+         border-radius: 50%;
+         padding: 5px;
+     }
+
+     .cart-count {
+         position: absolute;
+         top: -10px;
+         right: -10px;
+         font-size: 0.8rem;
+     }
+
+     /* Custom Mobile Styles */
+     @media (max-width: 767px) {
+         .call-us-section {
+             margin-bottom: 20px;
+             text-align: center;
+         }
+         .call-us-section .toll-free-text {
+             margin-top: 5px;
+         }
+         .middle-header .col-md-6 {
+             text-align: center;
+         }
+         .middle-header h1 {
+             margin-top: 10px;
+         }
+     }
+</style>
+
 <script>
 function showSuggestions(query) {
     if (query.length === 0) {
@@ -1297,7 +1987,7 @@ margin-right: 2px;
 <!-- Hero Section End -->
 
 
-<div class="footer spad px-lg-5 px-3" style="padding-left:60px;padding-right:60px;">
+<div class="footer spad px-lg-5 px-3 py-5 py-md-4">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3 footer-column">
@@ -1310,17 +2000,6 @@ margin-right: 2px;
                             <i class="fas fa-map-marker-alt"></i> Address: 4 Durham Workspace, PityMe, Durham DH1 5JZ, UK
                         </p>
                     </a>
-                    <style>
-                        .clickable {
-                          cursor: pointer;
-                          color: blue; /* Optional: Change the color to indicate it's clickable */
-                        }
-                        .clickable:hover {
-                          text-decoration: underline; /* Optional: Add underline on hover */
-                        }
-                    </style>
-
-
                     <p class=""><i class="fas fa-phone-alt"></i> Phone: +447508516836</p>
                     <a class="text-decoration-none" href="mailto:hello@meliandialogue.com">
                         <p class="">
@@ -1331,30 +2010,6 @@ margin-right: 2px;
             </div>
             <div class="col-md-3 footer-column">
                 <h6>NAVIGATE</h6>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-                <style>
-                    ul {
-                      list-style: none;
-                      padding: 0;
-                    }
-
-
-
-
-                    ul li a i {
-                      margin-right: 8px;
-                      color: #007bff; /* Change the icon color */
-                    }
-
-                    ul li a:hover i {
-                      color: #0056b3; /* Change the icon color on hover */
-                    }
-
-                    ul li a:hover {
-                      text-decoration: underline;
-                    }
-                </style>
                 <ul>
                     <li><a class="" href="{% url 'home-url' %}"><i class="fas fa-chevron-right"></i> Home</a></li>
                     <li><a class="" href="{% url 'product_list' %}"><i class="fas fa-chevron-right"></i> Our Shop</a></li>
@@ -1373,58 +2028,113 @@ margin-right: 2px;
                     <li><a class="" href="{% url 'accessibility' %}"><i class="fas fa-chevron-right"></i> Accessibility</a></li>
                 </ul>
             </div>
-            <div class="col-md-3 footer-column">
-                <h6 class="text-uppercase">Join Our Newsletter Now</h6>
-                <p class="text-dark">Get E-mail updates about our latest shop and special offers.</p>
-                <form method="post" action="{% url 'subscribe' %}" class="newsletter-form">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <input type="email" name="email" class="form-control" placeholder="Enter your email" required="required">
-                    </div>
-                    <button type="submit" class="btn btn-success form-control">Subscribe</button>
-                </form>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-                <style>
-                    .social-icons {
-    display: flex;
-    justify-content: center; /* Center the icons */
-    gap: 15px; /* Space between icons */
-    margin-top: 20px; /* Space above the icons */
-}
-
-.social-icons a {
-    color: #333; /* Default icon color */
-    font-size: 24px; /* Icon size */
-    transition: color 0.3s; /* Smooth color transition */
-}
-
-.social-icons a:hover {
-    color: #007bff; /* Color on hover */
-}
-
-                </style>
-                <div class="footer__widget__social">
-                    <a href="https://www.facebook.com" target="_blank"><i class="fas fa-facebook text-black"></i></a>
-                    <a href="https://www.instagram.com" target="_blank"><i class="fas fa-instagram"></i></a>
-                    <a href="https://www.twitter.com" target="_blank"><i class="fas fa-twitter"></i></a>
-                    <a href="https://www.pinterest.com" target="_blank"><i class="fas fa-pinterest"></i></a>
-                </div>
-
+              <div class="col-md-3 footer-column">
+        <h6 class="text-uppercase">Join Our Newsletter Now</h6>
+        <p class="text-dark">Get E-mail updates about our latest shop and special offers.</p>
+        <form method="post" action="{% url 'subscribe' %}" class="newsletter-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="email" name="email" class="form-control" placeholder="Enter your email" required="required">
             </div>
+            <button type="submit" class="btn btn-success form-control">Subscribe</button>
+        </form>
+        <div class="footer__widget__social mt-3">
+            <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.pinterest.com" target="_blank"><i class="fab fa-pinterest"></i></a>
         </div>
-        <div class="footer-bottom">
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="">Powered by Ecommerce © 2024</p>
-                </div>
-                <div class="col-md-6">
-                    <img class="w-50" src="{% static 'assets/img/payment-item.png' %}"
-                         alt="Payment Methods">
-                </div>
-            </div>
+    </div>
+
+    <!-- Display messages -->
+    {% if success_message %}
+    <div class="alert alert-success">
+        {{ success_message }}
+    </div>
+    {% endif %}
+
+    {% if error_message %}
+    <div class="alert alert-danger">
+        {{ error_message }}
+    </div>
+    {% endif %}
+        </div>
+     <div class="footer-bottom" style="margin-bottom: 0; padding-bottom: 10px;">
+    <div class="row" style="margin-bottom: 0;">
+        <div class="col-md-6">
+            <p class="text-white" style="margin-bottom: 0;">Powered by Ecommerce © 2024</p>
+        </div>
+        <div class="col-md-6">
+            <img class="w-50" src="{% static 'assets/img/payment-item.png' %}"
+                 alt="Payment Methods" style="display: block; max-width: 100%;">
         </div>
     </div>
 </div>
+
+    </div>
+</div>
+
+<style>
+    .footer-bottom {
+    margin-bottom: 0; /* Remove bottom margin */
+    padding-bottom: 10px; /* Adjust padding as needed */
+}
+
+.footer-bottom .row {
+    margin-bottom: 0; /* Remove margin-bottom from rows */
+}
+
+.footer-bottom p {
+    margin-bottom: 0; /* Remove bottom margin from paragraphs */
+}
+
+.footer-bottom img {
+    display: block; /* Ensure image does not add extra space */
+    max-width: 100%; /* Ensure image scales correctly */
+}
+
+    .footer {
+    background-color: #f8f9fa; /* Light background color */
+}
+
+.footer-bottom {
+    background-color: #343a40; /* Dark background color for bottom footer */
+    color: #fff;
+    font-size: 0.875rem; /* Smaller font size */
+}
+
+.footer-bottom p {
+    margin: 0;
+}
+
+.footer__widget__social i {
+    color: #333;
+    font-size: 24px;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.footer__widget__social a:hover i {
+    color: #007bff; /* Change icon color on hover */
+    transform: scale(1.1); /* Slightly scale up on hover */
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.footer {
+    animation: fadeInUp 1s ease-out;
+}
+
+</style>
 
 <script>
     // Function to set a cookie

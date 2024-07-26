@@ -124,27 +124,23 @@ from .models import Subscription
 
 def subscribe(request):
     if request.method == 'POST':
-        # Handle form submission
         email = request.POST.get('email')
 
-        # Check if the email already exists in the database
         if not Subscription.objects.filter(email=email).exists():
-            # Save the email to the database
             subscription = Subscription(email=email)
             subscription.save()
 
-            # Send email confirmation
             subject = 'Subscription Confirmation'
             message = 'Thank you for subscribing!'
-            sender_email = 'omondijeff88@gmail.com'  # Your email address
+            sender_email = 'omondijeff88@gmail.com'
             recipient_list = [email]
             send_mail(subject, message, sender_email, recipient_list)
 
-            # Redirect to the same page with a success message
-            return HttpResponseRedirect(reverse('subscribe') + '?success_message=Thank+you+for+subscribing!')
+            # Redirect to home with success message
+            return HttpResponseRedirect(reverse('home-url') + '?success_message=Thank+you+for+subscribing!')
         else:
-            # Redirect to the same page with an error message
-            return HttpResponseRedirect(reverse('subscribe') + '?error_message=Email+already+subscribed!')
+            # Redirect to home with error message
+            return HttpResponseRedirect(reverse('home-url') + '?error_message=Email+already+subscribed!')
     else:
         # If the request method is GET, render the subscription form
         success_message = request.GET.get('success_message', '')
@@ -153,8 +149,6 @@ def subscribe(request):
             'success_message': success_message,
             'error_message': error_message,
         })
-
-
 
 def about(request):
     return render(request, 'user_app/about.html')
