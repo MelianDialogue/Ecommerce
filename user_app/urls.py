@@ -4,8 +4,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
+
 urlpatterns = [
                   path('register/', views.register, name='register-url'),
+                  path('activate/<uidb64>/<token>/', views.activate, name='activate'),
                   path('login/', views.user_login, name='login-url'),
                   path('dashboard/', views.dashboard, name='home-url'),
                   path('terms/', views.terms, name='terms'),
@@ -31,6 +33,7 @@ urlpatterns = [
                   path('reset/done/', auth_views.PasswordResetCompleteView.as_view(
                       template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

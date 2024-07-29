@@ -71,11 +71,10 @@ class SupplyChainForecastForm(forms.ModelForm):
 from django import forms
 from .models import Transaction
 
+from django import forms
+from .models import Transaction
+
 class TransactionForm(forms.ModelForm):
     class Meta:
         model = Transaction
-        fields = ['amount', 'total_price', 'quantity', 'product']
-        widgets = {
-            'description': forms.Textarea(attrs={'rows': 2}),
-            'quantity': forms.NumberInput(attrs={'min': 1}),
-        }
+        fields = ['amount', 'product']

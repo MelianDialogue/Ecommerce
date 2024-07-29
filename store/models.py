@@ -234,6 +234,7 @@ class AbandonedCart(models.Model):
     cart = models.OneToOneField(Cart, on_delete=models.CASCADE)
     abandoned_at = models.DateTimeField(auto_now_add=True)
 
+
     def __str__(self):
         return f"Abandoned Cart for {self.cart.user.username}"
 
@@ -244,6 +245,7 @@ class Preference(models.Model):
 
     def __str__(self):
         return f"Preferences for {self.user.username}"
+
 
 
 

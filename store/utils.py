@@ -32,34 +32,38 @@ def predict_churn(customer_features, churn_target):
     return churn_probabilities.tolist()  # Convert numpy array to list for JSON serialization
 
 
-
-
-
 # utils.py
 
 import numpy as np
 from .models import UserBehavior
 
+
 def behavior_model(user_behavior_data):
-    # Example: Compute average clicks and time spent
     if not user_behavior_data:
         return {'average_clicks': 0, 'average_time_spent': 0}
-    
+
     clicks = [behavior.clicks for behavior in user_behavior_data]
     time_spent = [behavior.time_spent for behavior in user_behavior_data]
-    
+
     average_clicks = np.mean(clicks)
     average_time_spent = np.mean(time_spent)
-    
+
     return {
         'average_clicks': average_clicks,
         'average_time_spent': average_time_spent
     }
 
+
 def analyze_behavior(user_id):
     user_behavior_data = UserBehavior.objects.filter(user_id=user_id)
     behavior_patterns = behavior_model(user_behavior_data)
-    return behavior_patterns
+    # Example behavior patterns generation
+    behavior_descriptions = [
+        f"Logged in {np.random.randint(1, 10)} times",
+        f"Purchased {np.random.randint(1, 5)} items",
+        f"Browsed {np.random.randint(5, 20)} pages"
+    ]
+    return behavior_descriptions
 
 
 # utils.py

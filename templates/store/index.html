@@ -433,8 +433,8 @@
 <!-- Middle Header -->
 <header class="container-fluid middle-header border-bottom mt-2 px-lg-5 px-3" style="padding-left:60px;padding-right:60px">
     <div class="row align-items-center">
-        <div class="col-md-3">
-            <div class="d-none d-md-flex align-items-center justify-content-center justify-content-md-start">
+        <div class="col-md-3 d-none d-md-block text-center text-md-start">
+            <div class="d-flex align-items-center justify-content-center justify-content-md-start">
                 <div class="logo-container me-md-3">
                     <a href="{% url 'home-url' %}" style="text-decoration:none">
                         <h4 class="branchy-logo1">
@@ -445,12 +445,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-5 d-block"></div>
-        <div class="col-md-4 call-us-section">
-            <ul class="list-unstyled d-flex justify-content-end mb-0">
+        <div class="col-md-5 d-none d-md-block"></div>
+        <div class="col-md-4 col-12 text-center text-md-end call-us-section mt-2 mt-md-0">
+            <ul class="list-unstyled d-flex justify-content-center justify-content-md-end mb-0">
                 <li class="me-4 animate__animated animate__fadeIn">
                     <a href="{% url 'contact' %}" class="text-decoration-none d-flex align-items-center">
-                        <i class="fa fa-mobile-alt text-secondary  contact-icon" style="font-size: 3.0rem;"></i>
+                        <i class="fa fa-mobile-alt text-secondary contact-icon" style="font-size: 3.0rem;"></i>
                         <div class="text-start ms-2">
                             <p class="text-muted mb-0 fw-bold">CALL US NOW</p>
                             <p class="text-muted mb-0 fw-bold">+447508516836</p>
@@ -471,12 +471,12 @@
                 <li class="me-4 animate__animated animate__fadeIn" style="padding-left:20px;">
                     {% if request.user.is_authenticated %}
                     <a href="#" class="notifications-link text-decoration-none">
-                            <span class="notification-icon-bg">
-                                <i class="fas fa-bell text-white"></i>
-                                <span class="badge badge-pill badge-danger notification-count">
-                                    {% if request.user.notification_set.count == 0 %}0{% else %}{{ request.user.notification_set.count }}{% endif %}
-                                </span>
+                        <span class="notification-icon-bg">
+                            <i class="fas fa-bell text-white"></i>
+                            <span class="badge badge-pill badge-danger notification-count">
+                                {% if request.user.notification_set.count == 0 %}0{% else %}{{ request.user.notification_set.count }}{% endif %}
                             </span>
+                        </span>
                     </a>
                     <ul class="notifications-list">
                         {% for notification in request.user.notification_set.all %}
@@ -2625,6 +2625,60 @@ setInterval(autoScroll, scrollInterval);
 </script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
+
+ <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        #scrollTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 80px; /* Adjusted to move the button higher */
+            right: 20px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        #scrollTopBtn:hover {
+            background-color: #555;
+        }
+    </style>
+
+    <!-- Your content here -->
+    <button onclick="topFunction()" id="scrollTopBtn" title="Go to top">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Get the button
+        var mybutton = document.getElementById("scrollTopBtn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction()
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document smoothly
+        function topFunction() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
 </body>
 </html>
 

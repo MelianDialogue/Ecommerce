@@ -1,26 +1,23 @@
 {% extends "admin/base_site.html" %}
 
 {% block content %}
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
 <div class="container mt-5">
     <div class="card">
-        <div class="card-header bg-danger text-white">
+        <div class="card-header bg-primary text-white">
             <h1 class="card-title">Fraud Detection Result</h1>
         </div>
         <div class="card-body">
-            <p class="card-text"><strong>Amount:</strong> ${{ amount }}</p>
-            <p class="card-text"><strong>Product:</strong> {{ product_name }}</p>
-            <p class="card-text">
-                <strong>Fraud Detected:</strong>
-                <span class="badge {% if fraud_detected %}bg-danger{% else %}bg-success{% endif %}">
-                    {{ fraud_detected|yesno:"Yes,No" }}
-                </span>
+            <h3>Transaction Details</h3>
+            <p>Amount: {{ amount }}</p>
+            <p>Product: {{ product_name }}</p>
+            <h3>Fraud Detection Result</h3>
+            <p>
+                {% if fraud_detected %}
+                    Fraudulent
+                {% else %}
+                    Not Fraudulent
+                {% endif %}
             </p>
-        </div>
-        <div class="card-footer">
-            <a href="{% url 'admin:index' %}" class="btn btn-primary">Back to Admin</a>
-            <a href="{% url 'detect_fraud' %}" class="btn btn-secondary">Detect Another Transaction</a>
         </div>
     </div>
 </div>

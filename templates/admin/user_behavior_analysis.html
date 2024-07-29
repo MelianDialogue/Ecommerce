@@ -1,29 +1,30 @@
+<!-- user_behavior_analysis.html -->
 {% extends 'admin/base_site.html' %}
 
 {% block content %}
-  <div class="container mt-4">
-    <h1 class="mb-4">User Behavior Analysis</h1>
-    {% if behavior_patterns %}
-      <div class="list-group">
-        {% for entry in behavior_patterns %}
-          <div class="list-group-item">
-            <h2 class="h5">{{ entry.user.username }}</h2>
-            <p class="text-muted">Date Joined: {{ entry.user.date_joined }}</p>
-            <h3 class="h6 mt-3">Behavior Patterns:</h3>
-            <ul class="list-unstyled">
-              {% for pattern in entry.behavior_patterns %}
-                <li><i class="bi bi-info-circle"></i> {{ pattern }}</li>
-              {% empty %}
-                <li>No behavior patterns available for this user.</li>
-              {% endfor %}
-            </ul>
-          </div>
-        {% endfor %}
-      </div>
-    {% else %}
-      <div class="alert alert-warning" role="alert">
-        No users found.
-      </div>
-    {% endif %}
-  </div>
+<div class="container mt-4">
+  <h1 class="mb-4">User Behavior Analysis</h1>
+  {% if behavior_patterns %}
+    <div class="list-group">
+      {% for entry in behavior_patterns %}
+        <div class="list-group-item">
+          <h2 class="h5">{{ entry.user.username }}</h2>
+          <p class="text-muted">Date Joined: {{ entry.user.date_joined }}</p>
+          <h3 class="h6 mt-3">Behavior Patterns:</h3>
+          <ul class="list-unstyled">
+            {% for pattern in entry.behavior_patterns %}
+              <li><i class="bi bi-info-circle"></i> {{ pattern }}</li>
+            {% empty %}
+              <li>No behavior patterns available for this user.</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-warning" role="alert">
+      No users found.
+    </div>
+  {% endif %}
+</div>
 {% endblock %}

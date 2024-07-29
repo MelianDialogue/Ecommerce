@@ -1,102 +1,127 @@
 {% extends 'store/base.html' %}
 {% load static %}
 {% block content %}
-    <style>
-        .container1 {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+<style>
+    .container1 {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    h3 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+        animation: fadeIn 2s ease-in-out;
+    }
+
+    h5 {
+        color: #555;
+        margin-top: 20px;
+        animation: fadeInUp 1.5s ease-in-out;
+    }
+
+    p {
+        color: #666;
+        text-align: justify;
+        animation: fadeInUp 1.5s ease-in-out;
+    }
+
+    .about-us-images {
+        position: relative;
+        animation: fadeInLeft 2s ease-in-out;
+    }
+
+    .about-us-image-large {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+
+    .about-us-image-small {
+        position: absolute;
+        top: 20%;
+        left: 10%;
+        width: 40%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .about-us-content {
+        padding-left: 20px;
+        animation: fadeInRight 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
         }
-        h3 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 20px;
-            animation: fadeIn 2s ease-in-out;
+
+        to {
+            opacity: 1;
         }
-        h5 {
-            color: #555;
-            margin-top: 20px;
-            animation: fadeInUp 1.5s ease-in-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
         }
-        p {
-            color: #666;
-            text-align: justify;
-            animation: fadeInUp 1.5s ease-in-out;
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
         }
-        .about-us-images {
-            position: relative;
-            animation: fadeInLeft 2s ease-in-out;
+    }
+
+    @keyframes fadeInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-20px);
         }
-        .about-us-image-large {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
         }
-        .about-us-image-small {
-            position: absolute;
-            top: 20%;
-            left: 10%;
-            width: 40%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    @keyframes fadeInRight {
+        from {
+            opacity: 0;
+            transform: translateX(20px);
         }
-        .about-us-content {
-            padding-left: 20px;
-            animation: fadeInRight 2s ease-in-out;
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
         }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes fadeInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-    </style>
+    }
+
+    .hidden-content {
+        display: none;
+    }
+
+    .show-more {
+        color: #3498db;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+</style>
 
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section set-bg px-lg-5 px-3"
-         data-setbg="{% static 'img/ecommerce-3640321_960_720.jpg' %}">
+    data-setbg="{% static 'img/ecommerce-3640321_960_720.jpg' %}">
     <style>
         .breadcrumb-section {
             position: relative;
             background-size: cover;
             background-position: center;
-            padding: 60px 0; /* Reduced padding for a smaller height */
+            padding: 60px 0;
             color: black;
         }
 
@@ -117,14 +142,14 @@
         }
 
         .breadcrumb__text h2 {
-            font-size: 36px; /* Reduced font size for a more compact look */
+            font-size: 36px;
             font-weight: 700;
-            margin-bottom: 15px; /* Reduced margin for better spacing */
+            margin-bottom: 15px;
             color: black;
         }
 
         .breadcrumb__option {
-            font-size: 16px; /* Reduced font size for a more compact look */
+            font-size: 16px;
         }
 
         .breadcrumb__option a {
@@ -143,11 +168,11 @@
 
         @media (max-width: 767px) {
             .breadcrumb__text h2 {
-                font-size: 28px; /* Adjusted for smaller screens */
+                font-size: 28px;
             }
 
             .breadcrumb__option {
-                font-size: 14px; /* Adjusted for smaller screens */
+                font-size: 14px;
             }
         }
     </style>
@@ -167,29 +192,52 @@
 </section>
 <!-- Breadcrumb Section End -->
 
-
-
-
-
-
-    <div class="container-fluid px-lg-5 px-3">
-        <h3 class="featured-product" style="font-size:2.5rem; letter-spacing: -0.2rem;
-         font-weight:900;">ABOUT US</h3>
-        <br>
-        <!-- About Us Section -->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="about-us-images">
-                    <img src="{% static 'img/san-francisco-6950837_640.jpg' %}" alt="About Us" class="about-us-image-large">
-                </div>
-            </div>
-            <div class="col-md-6 about-us-content">
-                <h5>What is an about us page?</h5>
-                <p>The about us page is commonly used by all types of businesses to give customers more insight into who is involved with a given business and exactly what it does. The history of a business is often provided, and the histories of the people in charge are usually expressed through short articles, usually accompanied by photographs.</p>
-                <h5>What is the purpose of an about us page?</h5>
-                <p>The primary purpose of an about us page is to inform the reader about the company and its operations. This is a straightforward goal that nearly all businesses have to fulfill in some fashion or another. However, there are other reasons why about us pages are common fixtures on business websites. The text on these pages is a marketing tool for a business, enticing potential customers with both the history and the aspirations of a business, as well as adding a human element. Additionally, about us pages are incorporated into search-engine marketing efforts as a way to find potential customers through Web searches.</p>
+<div class="container-fluid px-lg-5 px-3">
+    <h3 class="featured-product" style="font-size:2.5rem; letter-spacing: -0.2rem; font-weight:900;">ABOUT US</h3>
+    <br>
+    <!-- About Us Section -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="about-us-images">
+                <img src="{% static 'img/san-francisco-6950837_640.jpg' %}" alt="About Us" class="about-us-image-large">
             </div>
         </div>
+        <div class="col-md-6 branchy-content">
+            <h5>Who We Are</h5>
+            <p>Our AI-driven e-commerce platform is dedicated to offering a seamless shopping experience. Leveraging advanced machine learning algorithms, we aim to provide personalized experiences and recommendations to our users.</p>
+
+            <div class="hidden-content">
+                <h5>Our Mission</h5>
+                <p>Our mission is to revolutionize the online shopping landscape by integrating cutting-edge AI technologies. We strive to enhance user engagement, personalize interactions, and optimize overall performance, making shopping more intuitive and enjoyable.</p>
+
+                <h5>Our Vision</h5>
+                <p>We envision a future where shopping online is not only convenient but also deeply personalized. Our goal is to become the leading AI-driven e-commerce platform, known for innovation, user-centric design, and exceptional service.</p>
+
+                <h5>Our Values</h5>
+                <ul>
+                    <li><strong>Innovation:</strong> Continuously integrating the latest technologies to improve user experience.</li>
+                    <li><strong>Customer-Centricity:</strong> Placing our users at the heart of everything we do.</li>
+                    <li><strong>Integrity:</strong> Maintaining transparency and honesty in all our operations.</li>
+                    <li><strong>Excellence:</strong> Striving for the highest standards in service and quality.</li>
+                </ul>
+
+                <h5>Our Story</h5>
+                <p>Founded with the belief that technology can transform the shopping experience, we have grown into a dynamic platform that combines AI with user-friendly design. From personalized recommendations to dynamic pricing, every feature is designed to cater to the unique needs of our users.</p>
+
+                <h5>Why Choose Us?</h5>
+                <p>With our AI-driven approach, we offer a shopping experience like no other. Our platform not only helps you find what you need but also recommends products based on your preferences and behaviors. Join us and experience the future of online shopping today.</p>
+            </div>
+            <p class="show-more" onclick="showMore()">Show More</p>
+        </div>
     </div>
-    <br><br>
+</div>
+<br><br>
+<script>
+    function showMore() {
+        var hiddenContent = document.querySelector('.hidden-content');
+        var showMoreButton = document.querySelector('.show-more');
+        hiddenContent.style.display = 'block';
+        showMoreButton.style.display = 'none';
+    }
+</script>
 {% endblock %}

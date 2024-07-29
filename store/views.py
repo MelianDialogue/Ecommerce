@@ -152,7 +152,7 @@ def product_list(request):
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     reviews = Review.objects.filter(product=product)
-    
+
     # Fetch similar products
     similar_products = Product.objects.filter(category=product.category).exclude(id=product_id)[:4]
 
@@ -222,6 +222,10 @@ def add_to_cart(request, product_id):
     Notification.objects.create(user=request.user, message=f'You added {product.name} to your cart.')
     return redirect('cart_detail')
 
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from .models import CartItem
+
 def update_cart_item(request, cart_item_id):
     cart_item = get_object_or_404(CartItem, id=cart_item_id)
     action = request.GET.get('action')
@@ -231,6 +235,7 @@ def update_cart_item(request, cart_item_id):
         cart_item.quantity -= 1
     cart_item.save()
     return JsonResponse({'quantity': cart_item.quantity, 'total_price': cart_item.total_price})
+
 
 def remove_cart_item(request, cart_item_id):
     cart_item = get_object_or_404(CartItem, id=cart_item_id)
@@ -420,6 +425,12 @@ from .models import Product, Review
 from .forms import ReviewForm
 from django.contrib.auth.decorators import login_required
 
+from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Avg
+from .models import Product, Review
+from .forms import ReviewForm
+from django.contrib.auth.decorators import login_required
+
 @login_required
 def leave_review(request, product_id):
     product = get_object_or_404(Product, id=product_id)
@@ -427,8 +438,9 @@ def leave_review(request, product_id):
     # Get all reviews for the product
     reviews = Review.objects.filter(product=product)
 
-    # Calculate average rating
-    average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
+    # Calculate average rating, ensuring it does not exceed 5
+    average_rating = reviews.aggregate(Avg('rating'))['rating__avg'] or 0
+    average_rating = min(average_rating, 5)
 
     if request.method == 'POST':
         form = ReviewForm(request.POST)
@@ -448,6 +460,8 @@ def leave_review(request, product_id):
         'reviews': reviews,  # Pass all reviews to the template
         'average_rating': average_rating  # Pass average rating to the template
     })
+
+
 
 from django.shortcuts import render
 from .models import Product
@@ -533,8 +547,8 @@ def policy_page_detail(request, policy_page_id):
     # Retrieve the policy page object
     policy_page = PolicyPage.objects.get(id=policy_page_id)
     return render(request, 'store/policy_page.html', {'policy_page': policy_page})
- 
- 
+
+
 #  blog_post_detail
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
@@ -904,6 +918,7 @@ def churn_prediction_view(request):
 # from .churn_predictions import predict_churn
 # import pandas as pd
 
+
 @staff_member_required
 def churn_prediction_view(request):
     churn_data = predict_churn()
@@ -916,8 +931,25 @@ def churn_prediction_view(request):
     return render(request, 'admin/churn_prediction.html', {'churn_data': churn_data})
 
 
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .forms import TransactionForm
+from .models import Transaction
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import IsolationForest
+import pandas as pd
 
-#fraud Detection
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .forms import TransactionForm
+from .models import Transaction
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import IsolationForest
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+
 @login_required
 def detect_fraud_view(request):
     if request.method == 'POST':
@@ -950,13 +982,27 @@ def detect_fraud_view(request):
 
             # Predict anomalies
             transactions_df['fraud_score'] = isolation_forest.decision_function(transactions_df[['scaled_amount']])
-            threshold = -0.5
+
+            # Calculate alternative thresholds
+            median_fraud_score = transactions_df['fraud_score'].median()
+            mean_fraud_score = transactions_df['fraud_score'].mean()
+            percentile_5 = transactions_df['fraud_score'].quantile(0.05)
+            percentile_20 = transactions_df['fraud_score'].quantile(0.20)
+
+            # Print thresholds for debugging
+            print(f"Median Fraud Score: {median_fraud_score}")
+            print(f"Mean Fraud Score: {mean_fraud_score}")
+            print(f"5th Percentile Threshold: {percentile_5}")
+            print(f"20th Percentile Threshold: {percentile_20}")
+
+            # Choose a threshold based on the distribution
+            threshold = percentile_5  # or choose another threshold as needed
             transactions_df['is_fraud'] = transactions_df['fraud_score'] < threshold
 
             # Check if the current transaction is fraudulent
             scaled_amount = scaler.transform([[amount]])
             fraud_score = isolation_forest.decision_function(scaled_amount)
-            is_fraud = fraud_score < threshold
+            is_fraud = fraud_score[0] < threshold
 
             # Debugging: Print fraud scores
             print(f"Current Amount: {amount}")
@@ -967,7 +1013,7 @@ def detect_fraud_view(request):
 
             context = {
                 'amount': amount,
-                'product_name': product,
+                'product_name': product.name,
                 'fraud_detected': is_fraud,
             }
             return render(request, 'admin/fraud_detection_result.html', context)
@@ -1080,7 +1126,7 @@ def predictive_model(sales_data, social_media_data):
     sales_data['sales_date'] = pd.to_datetime(sales_data['sales_date'])
     sales_data.set_index('sales_date', inplace=True)
     sales_data_resampled = sales_data.resample('M').sum()
-    
+
     # Merge datasets
     social_media_data['query_date'] = pd.to_datetime(social_media_data['created_at'])
     social_media_data.set_index('query_date', inplace=True)
@@ -1138,23 +1184,42 @@ def recover_abandoned_cart(request, user_id):
 
 from django.core.mail import send_mail
 from django.conf import settings
+from django.core.mail import send_mail
+from django.conf import settings
+import logging
+
+logger = logging.getLogger(__name__)
+import logging
+from django.core.mail import send_mail
+from django.conf import settings
+
+logger = logging.getLogger(__name__)
 
 def send_recovery_email(abandoned_cart):
-    user_email = abandoned_cart.user.email
-    cart_items = abandoned_cart.cart.cartitem_set.all()
+    try:
+        user_email = abandoned_cart.user.email
+        cart_items = abandoned_cart.cart.cartitem_set.all()
 
-    # Construct the email content
-    subject = 'Recover Your Abandoned Cart'
-    message = f'Hello {abandoned_cart.user.username},\n\n'
-    message += 'You have abandoned the following items in your cart:\n'
-    for item in cart_items:
-        message += f'- {item.product.name}, Quantity: {item.quantity}\n'
-    message += '\nPlease visit our website to complete your purchase.\n\n'
-    message += 'Thank you!\n'
-    message += 'Your Store Team'
+        # Construct the email content
+        subject = 'Recover Your Abandoned Cart'
+        message = f'Hello {abandoned_cart.user.username},\n\n'
+        message += 'You have abandoned the following items in your cart:\n'
+        for item in cart_items:
+            message += f'- {item.product.name}, Quantity: {item.quantity}\n'
+        message += '\nPlease visit our website to complete your purchase.\n\n'
+        message += 'Thank you!\n'
+        message += 'Your Store Team'
 
-    # Send the email
-    send_mail(subject, message, settings.EMAIL_HOST_USER, [user_email])
+        # Send the email
+        send_mail(subject, message, settings.EMAIL_HOST_USER, [user_email])
+        logger.info(f'Recovery email sent to {user_email}')
+        print(f'Recovery email sent to {user_email}')
+    except AttributeError as e:
+        logger.error(f'Attribute error: {e}')
+        print(f'Attribute error: {e}')
+    except Exception as e:
+        logger.error(f'An error occurred: {e}')
+        print(f'An error occurred: {e}')
 
 
 def get_real_time_profile(user):
@@ -1162,7 +1227,7 @@ def get_real_time_profile(user):
         user_profile = Profile.objects.get(user=user)
     except Profile.DoesNotExist:
         user_profile = None
-    
+
     return user_profile
 
 
@@ -1174,7 +1239,7 @@ def personalize_ui(user_profile):
             personalized_content['interests'] = user_profile.interests
         if user_profile.bio:
             personalized_content['bio'] = user_profile.bio
-    
+
     return personalized_content
 
 from django.shortcuts import render
@@ -1238,7 +1303,7 @@ def get_user_preferences(user_id):
         preferences = Preference.objects.get(user_id=user_id)
     except Preference.DoesNotExist:
         preferences = None
-    
+
     return preferences
 
 def generate_email_content(preferences):
@@ -1246,7 +1311,7 @@ def generate_email_content(preferences):
         email_content = f"Dear {preferences.user.username}, here is your personalized email content."
     else:
         email_content = "Generic email content when preferences are not available."
-    
+
     return email_content
 
 # views.py
@@ -1261,7 +1326,7 @@ def send_personalized_email(request):
     user_id = request.user.id
     preferences = get_user_preferences(user_id)
     email_content = generate_email_content(preferences)
-    
+
     send_mail(
         'Subject here',
         email_content,
@@ -1269,7 +1334,7 @@ def send_personalized_email(request):
         [request.user.email],
         fail_silently=False,
     )
-    
+
     return render(request, 'store/email_sent.html', {'email_content': email_content})
 
 
@@ -1289,15 +1354,15 @@ def recommend_bundles(user_id):
 
     for order_item in purchase_history:
         related_items = OrderItem.objects.filter(order__orderitem__product=order_item.product).exclude(product=order_item.product)
-        
+
         for related_item in related_items:
             if related_item.product not in bundle_recommendations:
                 bundle_recommendations[related_item.product] = 0
             bundle_recommendations[related_item.product] += 1
-    
+
     # Sort bundle recommendations by frequency
     sorted_bundles = sorted(bundle_recommendations.items(), key=lambda x: x[1], reverse=True)[:5]  # Top 5 bundles
-    
+
     return sorted_bundles
 
 def display_bundle_recommendations(request):
@@ -1453,18 +1518,30 @@ from django.contrib.auth.models import User
 from .utils import analyze_behavior, get_user_behavior
 
 
+from django.contrib.auth.models import User
+from django.shortcuts import render
+from .analysis import analyze_behavior  # Import the analyze_behavior function
+
+# views.py
+
+from django.shortcuts import render
+from django.contrib.auth.models import User
+from .utils import analyze_behavior
+
 def user_behavior_analysis_view(request):
-    users = User.objects.all()  # Fetch all users
+    users = User.objects.all()
     behavior_patterns = []
 
     for user in users:
-        user_behavior = analyze_behavior(user.id)  # Analyze behavior for each user
+        user_behavior = analyze_behavior(user.id)
         behavior_patterns.append({
             'user': user,
             'behavior_patterns': user_behavior
         })
 
     return render(request, 'admin/user_behavior_analysis.html', {'behavior_patterns': behavior_patterns})
+
+
 
 
 # views.py
@@ -1486,18 +1563,18 @@ def real_time_analytics(request):
     sales_data = SalesData.objects.all()
     user_behavior_data = UserBehavior.objects.all()
     social_media_data = SocialMediaInteraction.objects.all()
-    
+
     # Example analytics processing
     total_sales = sum(data.sales_quantity for data in sales_data)
     top_searches = UserBehavior.objects.order_by('-clicks')[:5]
     top_interactions = SocialMediaInteraction.objects.order_by('-interaction_strength')[:5]
-    
+
     context = {
         'total_sales': total_sales,
         'top_searches': top_searches,
         'top_interactions': top_interactions,
     }
-    
+
     return render(request, 'admin/dashboard.html', context)
 
 
@@ -1850,3 +1927,18 @@ def supply_chain_view(request):
         'forecast': forecast
     }
     return render(request, 'store/supply_chain.html', context)
+
+
+
+# views.py
+from django.http import JsonResponse
+from .models import Product
+
+def get_latest_price(request, product_id):
+    product = Product.objects.get(id=product_id)
+    return JsonResponse({'price': product.price})
+
+
+
+
+

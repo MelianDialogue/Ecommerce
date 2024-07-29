@@ -89,4 +89,5 @@ urlpatterns = [
     path('user-profile/', user_profile, name='user_profile'),
     path('supply-chain/', supply_chain_view, name='supply_chain'),
 
+
 ]

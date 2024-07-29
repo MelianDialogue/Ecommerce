@@ -32,6 +32,8 @@ urlpatterns = [
 
     path('detect-fraud/', detect_fraud_view, name='detect_fraud'),
 
+    path('accounts/', include('allauth.urls')),
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

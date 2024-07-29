@@ -82,130 +82,102 @@
 <!-- Breadcrumb Section End -->
 
 
-    <!-- Product Details Section Begin -->
-    <section class="product-details spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-6">
-                    <div class="product__details__pic">
-                        <div class="product__details__pic__item">
-                              {% if product.image %}
-                            <img class="product__details__pic__item--large"
-                                src="{{ product.image.url }}" alt="" style="height: 400px;">
-                                {% else %}
-                                <img src="https://via.placeholder.com/400" class="img-fluid rounded shadow" alt="No image available" data-aos="fade-right">
-                                {% endif %}
-                        </div>
-                        <div class="product__details__pic__slider owl-carousel">
+<!-- Product Details Section Begin -->
+<section class="product-details spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__pic">
+                    <div class="product__details__pic__item">
+                        {% if product.image %}
+                        <img class="product__details__pic__item--large"
+                             src="{{ product.image.url }}" alt="" style="height: 400px;">
+                        {% else %}
+                        <img src="https://via.placeholder.com/400" class="img-fluid rounded shadow" alt="No image available" data-aos="fade-right">
+                        {% endif %}
+                    </div>
+                    <div class="product__details__pic__slider owl-carousel">
 
-                        </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="product__details__text">
-                        <h3>{{ product.name }}</h3>
-                        <div class="product__details__price">£{{  product.price }}</div>
-                        <p>{{ product.description }}</p>
-                        <div class="product__details__quantity">
-                            <div class="quantity">
-                                <div class="pro-qty">
-                                    <input type="text" value="1">
-                                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__text">
+                    <h3>{{ product.name }}</h3>
+                    <div class="product__details__price">£{{  product.price }}</div>
+                    <a href="{% url 'add_to_cart' product.id %}" class="primary-btn">ADD TO CARD</a>
+                    <a href="{% url 'add_to_wishlist' product.id %}" class="heart-icon"><span class="icon_heart_alt"></span></a>
+
+                    <a class="btn btn-secondary" href="{% url 'dynamic_price_update' product.id %}">Refresh Price</a>
+                    <ul>
+                        <li><b>Availability</b> <span>Stock: {{ product.stock }}</span></li>
+
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+                        <li><b>Share on</b>
+                            <div class="share">
+                                <a href="https://www.facebook.com"><i class="fab fa-facebook"></i></a>
+                                <a href="https://twitter.com"><i class="fab fa-twitter"></i></a>
+                                <a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
+                                <a href="https://www.pinterest.com"><i class="fab fa-pinterest"></i></a>
                             </div>
-                        </div>
-                        <a href="{% url 'add_to_cart' product.id %}" class="primary-btn">ADD TO CARD</a>
-                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
-
-                        <a class="btn btn-secondary" href="{% url 'dynamic_price_update' product.id %}">Refresh Price</a>
-                        <ul>
-                            <li><b>Availability</b> <span>Stock: {{ product.stock }}</span></li>
-                            <li><b>Share on</b>
-                                <div class="share">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-instagram"></i></a>
-                                    <a href="#"><i class="fa fa-pinterest"></i></a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-
-                    <div class="reviews mt-5" data-aos="fade-up">
-                        <h2 class="mb-3">Reviews</h2>
-                        <ul class="list-unstyled">
-                            {% for review in reviews %}
-                            <li class="review-item" data-rating="{{ review.rating }}">
-                                <strong>{{ review.user.username }}</strong>
-                                  <p class="rating" data-rating="{{ rating }}" style="font-size: 20px;">
-                                        <!-- Stars will be populated by JavaScript -->
-                                    </p>
-                                <p>{{ review.comment }}</p>
-                                <small>{{ review.created_at }}</small>
-                            </li>
-                            {% empty %}
-                            <li class="no-reviews">No reviews yet.</li>
-                            {% endfor %}
-                        </ul>
-                        <a href="{% url 'leave_review' product.id %}" class="btn btn-outline-primary rounded-pill btn-block mt-3">Leave a review</a>
-                    </div>
-                    <script>
-                        document.addEventListener("DOMContentLoaded", function() {
-    const reviews = document.querySelectorAll('.review-item');
-
-    reviews.forEach(review => {
-        const rating = parseInt(review.dataset.rating);
-        const starsContainer = review.querySelector('.rating');
-
-        for (let i = 1; i <= 5; i++) {
-            const star = document.createElement('i');
-            star.classList.add('fa');
-            if (i <= rating) {
-                star.classList.add('fa-star');
-            } else {
-                star.classList.add('fa-star-o');
-            }
-            starsContainer.appendChild(star);
-        }
-    });
-});
-
-                    </script>
-
-<style>
-    .rating i {
-    color: #f5c518; /* Customize the color of the stars */
-    margin-right: 2px;
-}
-</style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
+                        </li>
+                    </ul>
                 </div>
-                <div class="col-lg-12">
-                    <div class="product__details__tab">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
-                                    aria-selected="true">Description</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                <div class="product__details__tab__desc">
-                                    <h6>Product Infomation</h6>
-                                    <p>{{ product.description }}</p>
-                                </div>
+
+
+                <div class="reviews mt-5" data-aos="fade-up">
+                    <h2 class="mb-3">Reviews</h2>
+                    <ul class="list-unstyled">
+                        {% for review in reviews %}
+                        <li class="review-item" data-rating="{{ review.rating }}">
+                            <strong>{{ review.user.username }}</strong>
+                            <p class="rating" data-rating="{{ rating }}" style="font-size: 20px;">
+                                <!-- Stars will be populated by JavaScript -->
+                            </p>
+                            <p>{{ review.comment }}</p>
+                            <small>{{ review.created_at }}</small>
+                        </li>
+                        {% empty %}
+                        <li class="no-reviews">No reviews yet.</li>
+                        {% endfor %}
+                    </ul>
+                    <a href="{% url 'leave_review' product.id %}" class="btn btn-outline-primary rounded-pill btn-block mt-3">Leave a review</a>
+                </div>
+
+
+                <style>
+                    .rating i {
+                    margin-right: 2px;
+                }
+                </style>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+            </div>
+            <div class="col-lg-12">
+                <div class="product__details__tab">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                               aria-selected="true">Description</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                            <div class="product__details__tab__desc">
+                                <h6>Product Infomation</h6>
+                                <p>{{ product.description }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Product Details Section End -->
+    </div>
+</section>
+<!-- Product Details Section End -->
 
-   <!-- Related Product Section Begin -->
+<!-- Related Product Section Begin -->
 <section class="related-product">
     <div class="container">
         <div class="row">
