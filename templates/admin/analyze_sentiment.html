@@ -16,7 +16,7 @@
                     {% for review in reviews %}
                     <tr>
                         <td>{{ review.user.username }}</td>
-                        <td>{{ review.review_text }}</td>
+                        <td>{{ review.comment }}</td>
                         <td>
                             {% if review.sentiment == 'positive' %}
                                 <span class="badge badge-success">Positive</span>

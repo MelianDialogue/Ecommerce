@@ -118,21 +118,21 @@
                 </a>
             </div>
             <div class="col-md-4">
-                <a href="{% url 'recommend_bundles' %}" class="card-link">
-                    <div class="card card-custom">
-                        <div class="card-body">
-                            <i class="fas fa-gift"></i>
-                            <div>Recommend Bundles</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4">
                 <a href="{% url 'security_monitor' %}" class="card-link">
                     <div class="card card-custom">
                         <div class="card-body">
                             <i class="fas fa-lock"></i>
                             <div>Security Monitor</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'email_marketing_admin' %}" class="card-link">
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            <i class="fas fa-lock"></i>
+                            <div>Email Marketing</div>
                         </div>
                     </div>
                 </a>
@@ -157,68 +157,87 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-4">
-                <a href="{% url 'forecast_list' %}" class="card-link">
-                    <div class="card card-custom">
-                        <div class="card-body">
-                            <i class="fas fa-chart-pie"></i>
-                            <div>Forecast Demand</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
 
-            <div class="col-md-4">
-                <a href="{% url 'optimize_supply_chain' %}" class="card-link">
-                    <div class="card card-custom">
-                        <div class="card-body">
-                            <i class="fas fa-chart-pie"></i>
-                            <div>Optimize Supply Chain</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-             <div class="col-md-4">
-                <a href="{% url 'supply_chain_forecast_list' %}" class="card-link">
-                    <div class="card card-custom">
-                        <div class="card-body">
-                            <i class="fas fa-chart-pie"></i>
-                            <div>Supply Chain Forecasts</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="{% url 'trend_predictions' %}" class="card-link">
-                    <div class="card card-custom">
-                        <div class="card-body">
-                            <i class="fas fa-chart-pie"></i>
-                            <div>Trend predictions</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
+           <!-- Ensure Font Awesome is included in your project -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-             <div class="col-md-4">
-                <a href="{% url 'customer_clv' %}" class="card-link">
-                    <div class="card card-custom">
-                        <div class="card-body">
-                            <i class="fas fa-chart-pie"></i>
-                            <div>Customer Lifetime Value Prediction</div>
-                        </div>
-                    </div>
-                </a>
+<div class="col-md-4">
+    <a href="{% url 'forecast_list' %}" class="card-link">
+        <div class="card card-custom">
+            <div class="card-body">
+                <i class="fas fa-calendar-day"></i>
+                <div>Forecast Demand</div>
             </div>
-            <div class="col-md-4">
-                <a href="{% url 'supply_chain' %}" class="card-link">
-                    <div class="card card-custom">
-                        <div class="card-body">
-                            <i class="fas fa-chart-pie"></i>
-                            <div>Supply chain</div>
-                        </div>
-                    </div>
-                </a>
+        </div>
+    </a>
+</div>
+
+<div class="col-md-4">
+    <a href="{% url 'optimize_supply_chain' %}" class="card-link">
+        <div class="card card-custom">
+            <div class="card-body">
+                <i class="fas fa-cogs"></i>
+                <div>Optimize Supply Chain</div>
             </div>
+        </div>
+    </a>
+</div>
+
+<div class="col-md-4">
+    <a href="{% url 'supply_chain_forecast_list' %}" class="card-link">
+        <div class="card card-custom">
+            <div class="card-body">
+                <i class="fas fa-boxes"></i>
+                <div>Supply Chain Forecasts</div>
+            </div>
+        </div>
+    </a>
+</div>
+<div class="col-md-4">
+    <a href="{% url 'trend_predictions' %}" class="card-link">
+        <div class="card card-custom">
+            <div class="card-body">
+                <i class="fa-solid fa-line-chart"></i> <!-- Alternative icon -->
+                <div>Trend Predictions</div>
+            </div>
+        </div>
+    </a>
+</div>
+
+<div class="col-md-4">
+    <a href="{% url 'customer_clv' %}" class="card-link">
+        <div class="card card-custom">
+            <div class="card-body">
+                <i class="fas fa-users"></i>
+                <div>Customer Lifetime Value Prediction</div>
+            </div>
+        </div>
+    </a>
+</div>
+
+<div class="col-md-4">
+    <a href="{% url 'social_media_analysis_report' %}" class="card-link">
+        <div class="card card-custom">
+            <div class="card-body">
+                <i class="fas fa-truck"></i>
+                <div>Social Media analysis report</div>
+            </div>
+        </div>
+    </a>
+</div>
+
+
+<div class="col-md-4">
+    <a href="{% url 'supply_chain' %}" class="card-link">
+        <div class="card card-custom">
+            <div class="card-body">
+                <i class="fas fa-truck"></i>
+                <div>Supply Chain</div>
+            </div>
+        </div>
+    </a>
+</div>
+
         </div>
     </div>
 {% endblock %}

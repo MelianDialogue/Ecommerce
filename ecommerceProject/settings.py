@@ -47,11 +47,12 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
     'haystack',
-	 'allauth',
+    'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
+    'django_celery_beat',
 ]
 
 SITE_ID = 1
@@ -79,7 +80,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-	'allauth.account.middleware.AccountMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'ecommerceProject.urls'
@@ -145,7 +146,7 @@ WSGI_APPLICATION = 'ecommerceProject.wsgi.application'
 # Authentication backends
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-	'allauth.account.auth_backends.AuthenticationBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 
@@ -281,3 +282,20 @@ SOCIALACCOUNT_PROVIDERS = {
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+
+# settings.py
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+
+
+# settings.py
+from celery.schedules import crontab
+
+CELERY_BEAT_SCHEDULE = {
+    'send-abandoned-cart-emails-every-day': {
+        'task': 'your_app.tasks.check_and_send_abandoned_cart_emails',
+        'schedule': crontab(hour=0, minute=0),  # Run daily at midnight
+    },
+}

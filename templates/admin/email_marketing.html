@@ -1,0 +1,23 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h1>Email Marketing Dashboard</h1>
+    {% if message %}
+        <div class="alert alert-success mt-4" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="userSelect">Select User to Send Email</label>
+            <select class="form-control" id="userSelect" name="user_id">
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.username }} - {{ user.email }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Send Personalized Email</button>
+    </form>
+</div>
+{% endblock %}

@@ -101,6 +101,11 @@
 </div>
 
 <div class="container py-5">
+
+      <p>
+            <a class="text-dark" href="{% url 'order_history' %}">order_history</a>
+        </p>
+
     <h2 class="mb-4 text-center animate__animated animate__fadeIn">Order History</h2>
     <div class="list-group">
         {% for order in orders %}

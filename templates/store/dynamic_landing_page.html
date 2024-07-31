@@ -1,13 +1,209 @@
 {% extends "store/base.html" %}
-
+{% load static %}
 {% block content %}
-<div class="container mt-5">
-    <h1 class="mb-4">Dynamic Landing Page for {{ user.username }}</h1>
-    <div class="card">
-        <div class="card-body">
-            {{ landing_page|safe }}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-0BrtGk+s9kP0f2Vo7PQ8CmG0X5Y6V/Utm1QfO1sYP7czFzT8i4McZg0/+/gHZ4ZzO/fBvdDQuulzAYvU1E+s4A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg px-lg-5 px-3"
+         data-setbg="{% static 'img/ecommerce-3640321_960_720.jpg' %}">
+    <style>
+        .breadcrumb-section {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            padding: 60px 0; /* Reduced padding for a smaller height */
+            color: black;
+        }
+
+        .breadcrumb-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 1;
+        }
+
+        .breadcrumb__text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .breadcrumb__text h2 {
+            font-size: 36px; /* Reduced font size for a more compact look */
+            font-weight: 700;
+            margin-bottom: 15px; /* Reduced margin for better spacing */
+            color: black;
+        }
+
+        .breadcrumb__option {
+            font-size: 16px; /* Reduced font size for a more compact look */
+        }
+
+        .breadcrumb__option a {
+            color: #3498db;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        .breadcrumb__option span {
+            color: black;
+        }
+
+        .breadcrumb__option a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 767px) {
+            .breadcrumb__text h2 {
+                font-size: 28px; /* Adjusted for smaller screens */
+            }
+
+            .breadcrumb__option {
+                font-size: 14px; /* Adjusted for smaller screens */
+            }
+        }
+    </style>
+    <div class="container-fluid px-lg-5 px-3">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Dynamic Landing Page</h2>
+                    <div class="breadcrumb__option">
+                        <a href="{% url 'home-url' %}">Home</a>
+                        <span>Dynamic Landing Page</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!--<h1 class="page-title text-center">Dynamic Landing Page</h1>-->
+<br><br>
+<div class="container px-lg-5 px-3">
+    <!-- User Interest Section -->
+    {% if user_interests %}
+        <section class="user-interest-section">
+            <h2>Your Preferred Categories:</h2>
+            <ul>
+                {% for interest in user_interests %}
+                    <li>{{ interest }}</li>
+                {% empty %}
+                    <li>No interests found.</li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
+
+    <!-- Product Categories Section -->
+    <div class="product-categories">
+        {% for category, products in category_products.items %}
+            <section class="category-section">
+                <h2>{{ category|slice:":-10" }}</h2> <!-- Remove "_products" suffix -->
+                <div class="product-list">
+                    {% for product in products %}
+                        <div class="product-card">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            <h3>{{ product.name }}</h3>
+                            <p>{{ product.description }}</p>
+                            <p>Price: ${{ product.final_price }}</p>
+                        </div>
+                    {% empty %}
+                        <p>No products available in this category.</p>
+                    {% endfor %}
+                </div>
+            </section>
+        {% empty %}
+            <p>No categories available based on your interests.</p>
+        {% endfor %}
+    </div>
 </div>
-<br><br><br>
+{% endblock %}
+
+{% block extrahead %}
+<style>
+    .page-title {
+        text-align: center;
+        margin: 20px;
+    }
+
+    .user-interest-section {
+        margin: 40px 0;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+
+    .user-interest-section h2 {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .user-interest-section ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .user-interest-section li {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .product-categories {
+        margin: 20px;
+    }
+
+    .category-section {
+        margin-bottom: 40px;
+    }
+
+    .product-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .product-card {
+        width: calc(25% - 20px); /* Adjust width to fit 4 items per row with gaps */
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .product-card img {
+        max-width: 100%;
+        border-radius: 4px;
+    }
+
+    .product-info {
+        margin-top: 10px;
+    }
+
+    .price {
+        color: #e74c3c;
+        font-weight: 600;
+    }
+
+    .no-products,
+    .no-categories {
+        text-align: center;
+        font-size: 18px;
+        color: #888;
+    }
+</style>
+<br><br>
 {% endblock %}

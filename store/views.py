@@ -53,14 +53,53 @@ from .models import Product
 from django.shortcuts import render
 from .models import Product
 
+from django.shortcuts import render
+from .models import Product, Preference
+
+from django.shortcuts import render
+from .models import Product, Preference
+
+from django.shortcuts import get_object_or_404
+from .models import Preference, Product
+
+
+def get_real_time_profile(user_id):
+    return get_object_or_404(Preference, user_id=user_id)
+
+
+def personalize_experience(user_id):
+    user_profile = get_real_time_profile(user_id)
+
+    # Fetch personalized products based on user profile
+    if user_profile.preferred_category:
+        personalized_products = Product.objects.filter(category=user_profile.preferred_category)[
+                                :5]  # Example: Top 5 products in preferred category
+    else:
+        personalized_products = Product.objects.all()[:5]  # Fallback: Top 5 products
+
+    # Prepare a personalized message
+    personalized_message = "Here are some products we think you'll love!" if user_profile.preferred_category else "Check out our top products!"
+
+    return personalized_products, personalized_message
+
+
+from django.shortcuts import render
+
+
 def index(request):
-    # Example: Filter products for Category 1
+    # Default products by category
     category_1_products = Product.objects.filter(category='1')
     category_2_products = Product.objects.filter(category='2')[:4]
     category_3_products = Product.objects.filter(category='3')
     category_4_products = Product.objects.filter(category='4')[:4]
     category_5_products = Product.objects.filter(category='5')[:3]
-    # Repeat for other categories as needed
+
+    # Real-time personalization
+    personalized_products = []
+    personalized_message = ""
+
+    if request.user.is_authenticated:
+        personalized_products, personalized_message = personalize_experience(request.user.id)
 
     context = {
         'category_1_products': category_1_products,
@@ -68,10 +107,10 @@ def index(request):
         'category_3_products': category_3_products,
         'category_4_products': category_4_products,
         'category_5_products': category_5_products,
-        # Include other categories similarly
+        'personalized_products': personalized_products,
+        'personalized_message': personalized_message,
     }
     return render(request, 'store/index.html', context)
-
 
 
 # Views for product display and cart management
@@ -949,6 +988,13 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .models import Transaction
+from .forms import TransactionForm
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import IsolationForest
 
 @login_required
 def detect_fraud_view(request):
@@ -983,45 +1029,24 @@ def detect_fraud_view(request):
             # Predict anomalies
             transactions_df['fraud_score'] = isolation_forest.decision_function(transactions_df[['scaled_amount']])
 
-            # Calculate alternative thresholds
-            median_fraud_score = transactions_df['fraud_score'].median()
-            mean_fraud_score = transactions_df['fraud_score'].mean()
-            percentile_5 = transactions_df['fraud_score'].quantile(0.05)
-            percentile_20 = transactions_df['fraud_score'].quantile(0.20)
-
-            # Print thresholds for debugging
-            print(f"Median Fraud Score: {median_fraud_score}")
-            print(f"Mean Fraud Score: {mean_fraud_score}")
-            print(f"5th Percentile Threshold: {percentile_5}")
-            print(f"20th Percentile Threshold: {percentile_20}")
-
-            # Choose a threshold based on the distribution
-            threshold = percentile_5  # or choose another threshold as needed
+            # Calculate threshold
+            threshold = transactions_df['fraud_score'].quantile(0.05)
             transactions_df['is_fraud'] = transactions_df['fraud_score'] < threshold
 
-            # Check if the current transaction is fraudulent
-            scaled_amount = scaler.transform([[amount]])
-            fraud_score = isolation_forest.decision_function(scaled_amount)
-            is_fraud = fraud_score[0] < threshold
+            # Update Transaction objects with fraud detection results
+            for idx, transaction in enumerate(transactions):
+                transaction.is_fraud = transactions_df['is_fraud'].iloc[idx]
+                transaction.save()
 
-            # Debugging: Print fraud scores
-            print(f"Current Amount: {amount}")
-            print(f"Scaled Amount: {scaled_amount[0][0]}")
-            print(f"Fraud Score: {fraud_score[0]}")
-            print(f"Threshold: {threshold}")
-            print(f"Is Fraud: {is_fraud}")
-
+            # Display the transactions along with fraud status
             context = {
-                'amount': amount,
-                'product_name': product.name,
-                'fraud_detected': is_fraud,
+                'transactions': transactions
             }
             return render(request, 'admin/fraud_detection_result.html', context)
     else:
         form = TransactionForm()
 
     return render(request, 'admin/detect_fraud.html', {'form': form})
-
 
 from django.shortcuts import render
 from .models import Review
@@ -1094,7 +1119,17 @@ def predict_clv_view(request, customer_id):
 
 
 # views.py
+from django.shortcuts import render
+from .models import DemandForecast
+from .forecast_utils import forecast_demand, load_sales_data
 
+
+# views.py
+from django.shortcuts import render
+from .models import DemandForecast
+from .forecast_utils import forecast_demand, load_sales_data
+
+# views.py
 from django.shortcuts import render
 from .models import DemandForecast
 
@@ -1102,10 +1137,21 @@ def forecast_list(request):
     forecasts = DemandForecast.objects.all()
     return render(request, 'admin/forecast_list.html', {'forecasts': forecasts})
 
+def generate_forecasts(request):
+    sales_data = load_sales_data()
+    forecast_results = forecast_demand(sales_data)
+    # Optionally, save the forecast results to the database
+    for result in forecast_results:
+        DemandForecast.objects.create(
+            product_id=1,  # Example; you should replace with actual product ID
+            forecast_date=result['date'],
+            forecast_quantity=result['quantity']
+        )
+    return redirect('forecast_list')  # Redirect to a page where forecasts are listed
+
 
 
 # views.py
-
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
@@ -1167,59 +1213,27 @@ def trends_view(request):
     return render(request, 'store/product_list.html', {'trends': trends.to_dict(orient='records')})
 
 
-
-
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, render
 from .models import Cart, AbandonedCart
-# from .utils import send_recovery_email
+from .utils import send_recovery_email  # Assuming send_recovery_email is defined in utils.py
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+from django.shortcuts import get_object_or_404, render
+from .models import Cart, AbandonedCart
+from .utils import send_recovery_email  # Import the utility function
 
 def recover_abandoned_cart(request, user_id):
     cart = get_object_or_404(Cart, user_id=user_id)
     abandoned_cart, created = AbandonedCart.objects.get_or_create(cart=cart)
 
     if created:
-        send_recovery_email(abandoned_cart)  # Send recovery email logic goes here
+        send_recovery_email(abandoned_cart)
 
     return render(request, 'store/recovery_success.html', {'cart': cart})
 
-from django.core.mail import send_mail
-from django.conf import settings
-from django.core.mail import send_mail
-from django.conf import settings
-import logging
-
-logger = logging.getLogger(__name__)
-import logging
-from django.core.mail import send_mail
-from django.conf import settings
-
-logger = logging.getLogger(__name__)
-
-def send_recovery_email(abandoned_cart):
-    try:
-        user_email = abandoned_cart.user.email
-        cart_items = abandoned_cart.cart.cartitem_set.all()
-
-        # Construct the email content
-        subject = 'Recover Your Abandoned Cart'
-        message = f'Hello {abandoned_cart.user.username},\n\n'
-        message += 'You have abandoned the following items in your cart:\n'
-        for item in cart_items:
-            message += f'- {item.product.name}, Quantity: {item.quantity}\n'
-        message += '\nPlease visit our website to complete your purchase.\n\n'
-        message += 'Thank you!\n'
-        message += 'Your Store Team'
-
-        # Send the email
-        send_mail(subject, message, settings.EMAIL_HOST_USER, [user_email])
-        logger.info(f'Recovery email sent to {user_email}')
-        print(f'Recovery email sent to {user_email}')
-    except AttributeError as e:
-        logger.error(f'Attribute error: {e}')
-        print(f'Attribute error: {e}')
-    except Exception as e:
-        logger.error(f'An error occurred: {e}')
-        print(f'An error occurred: {e}')
 
 
 def get_real_time_profile(user):
@@ -1294,8 +1308,9 @@ def search_view(request):
     return render(request, 'store/search_results.html', {'query': query, 'ranked_results': ranked_results})
 
 
-# utils.py
 
+
+# utils.py
 from .models import Preference
 
 def get_user_preferences(user_id):
@@ -1330,28 +1345,24 @@ def send_personalized_email(request):
     send_mail(
         'Subject here',
         email_content,
-        'from@example.com',
+        'omondijeff88@gmail.com',
         [request.user.email],
         fail_silently=False,
     )
-
     return render(request, 'store/email_sent.html', {'email_content': email_content})
 
 
 
 
-
-
-
-# views.py
-
 from django.shortcuts import render
 from .models import OrderItem, Product
 
 def recommend_bundles(user_id):
+    # Fetch the purchase history for the user
     purchase_history = OrderItem.objects.filter(order__user_id=user_id)
     bundle_recommendations = {}
 
+    # Generate bundle recommendations
     for order_item in purchase_history:
         related_items = OrderItem.objects.filter(order__orderitem__product=order_item.product).exclude(product=order_item.product)
 
@@ -1368,9 +1379,7 @@ def recommend_bundles(user_id):
 def display_bundle_recommendations(request):
     user_id = request.user.id
     bundles = recommend_bundles(user_id)
-    return render(request, 'admin/bundle_recommendations.html', {'bundles': bundles})
-
-
+    return render(request, 'store/bundle_recommendations.html', {'bundles': bundles})
 
 
 
@@ -1549,11 +1558,11 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from .utils import create_dynamic_page
 
-def dynamic_landing_page_view(request, user_id):
-    user = User.objects.get(pk=user_id)
-    landing_page = create_dynamic_page(user_id)
-    return render(request, 'store/dynamic_landing_page.html', {'user': user, 'landing_page': landing_page})
-
+# def dynamic_landing_page_view(request, user_id):
+#     user = User.objects.get(pk=user_id)
+#     landing_page = create_dynamic_page(user_id)
+#     return render(request, 'store/dynamic_landing_page.html', {'user': user, 'landing_page': landing_page})
+#
 
 from django.shortcuts import render
 from .models import SalesData, UserBehavior, SocialMediaInteraction, Product
@@ -1939,6 +1948,173 @@ def get_latest_price(request, product_id):
     return JsonResponse({'price': product.price})
 
 
+from django.shortcuts import render
+from django.core.mail import EmailMessage
+from .models import Preference, User
+
+
+def get_user_preferences(user_id):
+    try:
+        preferences = Preference.objects.get(user_id=user_id)
+        return preferences
+    except Preference.DoesNotExist:
+        return None
+
+
+def generate_email_content(preferences):
+    if preferences is None:
+        return "No preferences available."
+
+    content = f"Hello {preferences.user.username},\n\n"
+    if preferences.email_subscription:
+        content += "Thank you for subscribing to our emails!\n\n"
+        content += f"Based on your preferred category '{preferences.preferred_category}', we thought you might like the following products:\n"
+        # Example placeholder for recommended products
+        content += "Recommended Products: Product1, Product2, Product3\n"
+    else:
+        content += "You have opted out of email subscriptions.\n"
+
+    content += "\nThank you for being a valued customer!"
+    return content
+
+
+def send_personalized_email(user_id):
+    user = User.objects.get(id=user_id)
+    preferences = get_user_preferences(user_id)
+    email_content = generate_email_content(preferences)
+
+    # Send the email
+    email = EmailMessage(
+        'Personalized Recommendations Just for You!',
+        email_content,
+        'omondijeff88@gmail.com',  # Replace with your sender email
+        [user.email],
+    )
+    email.send()
+
+
+def email_marketing_admin_view(request):
+    users = User.objects.all()
+    if request.method == "POST":
+        user_id = request.POST.get('user_id')
+        send_personalized_email(user_id)
+        return render(request, 'admin/email_marketing.html', {'users': users, 'message': 'Email sent successfully!'})
+
+    return render(request, 'admin/email_marketing.html', {'users': users})
+
+
+def analyze_social_media(user_id):
+    from collections import defaultdict
+
+    # Get all social media interactions for the user
+    social_data = SocialMediaInteraction.objects.filter(user_id=user_id)
+
+    # Aggregate scores by product
+    product_scores = defaultdict(float)
+    for interaction in social_data:
+        product_scores[interaction.product_id] += interaction.interaction_strength
+
+    # Update product scores
+    for product_id, score in product_scores.items():
+        Product.objects.filter(id=product_id).update(social_media_score=score)
+
+    # Return top products based on updated scores
+    recommendations = Product.objects.filter(social_media_score__gt=0).order_by('-social_media_score')[:5]
+    return recommendations
 
 
 
+from django.shortcuts import render
+from .models import SocialMediaInteraction
+
+
+def admin_required(login_url):
+    pass
+
+from django.shortcuts import render
+from .models import SocialMediaInteraction, Product
+
+def social_media_analysis_report(request):
+    # Aggregate social media data
+    social_data = SocialMediaInteraction.objects.all()
+    product_scores = {}
+
+    for interaction in social_data:
+        if interaction.product not in product_scores:
+            product_scores[interaction.product] = 0
+        product_scores[interaction.product] += interaction.interaction_strength
+
+    # Sort products by their social media score
+    sorted_product_scores = sorted(product_scores.items(), key=lambda x: x[1], reverse=True)
+
+    context = {
+        'product_scores': sorted_product_scores
+    }
+    return render(request, 'admin/social_media_analysis_report.html', context)
+
+
+from django.shortcuts import render
+from .models import Product, UserInterest, BlogPost
+
+
+def get_user_interests(user_id):
+    try:
+        user_interest = UserInterest.objects.get(user_id=user_id)
+        # Ensure interests is a list
+        return user_interest.interests if isinstance(user_interest.interests, list) else []
+    except UserInterest.DoesNotExist:
+        return []
+
+
+def generate_landing_page(interests):
+    # Ensure interests is a list and not an empty list
+    if not isinstance(interests, list):
+        interests = []
+
+    # Use '__in' to filter by a list of categories
+    products = Product.objects.filter(category__in=interests).order_by('-social_media_score')[:5]
+    blog_posts = BlogPost.objects.filter(title__icontains=' '.join(interests)).order_by('-created_at')[:3]
+
+    context = {
+        'products': products,
+        'blog_posts': blog_posts,
+    }
+    return context
+
+from django.shortcuts import render
+from .models import Product, UserInterest
+
+def dynamic_landing_page(request):
+    user_id = request.user.id
+
+    try:
+        # Fetch the user's interests from the UserInterest model
+        user_interest_obj = UserInterest.objects.get(user_id=user_id)
+        user_interests = user_interest_obj.interests  # Ensure this is a list or similar iterable
+    except UserInterest.DoesNotExist:
+        # Default to an empty list if no interests are found
+        user_interests = []
+
+    # Print debug information
+    print("User Interests:", user_interests)
+    print("Type of User Interests:", type(user_interests))  # Debugging line
+
+    # Ensure user_interests is a list or set
+    if not isinstance(user_interests, (list, set)):
+        user_interests = []
+
+    # Define categories
+    categories = ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5']
+    category_products = {}
+
+    # Iterate through each category and filter products
+    for category in categories:
+        if category in user_interests:
+            # Query products for the category and order them
+            category_products[f'{category}_products'] = Product.objects.filter(category=category).order_by('-social_media_score')[:5]
+
+    # Render the template with the filtered products and user interests
+    return render(request, 'store/dynamic_landing_page.html', {
+        'category_products': category_products,
+        'user_interests': user_interests
+    })

@@ -105,7 +105,7 @@
                 <div class="product__details__text">
                     <h3>{{ product.name }}</h3>
                     <div class="product__details__price">£{{  product.price }}</div>
-                    <a href="{% url 'add_to_cart' product.id %}" class="primary-btn">ADD TO CARD</a>
+                    <a href="{% url 'add_to_cart' product.id %}" class="primary-btn">ADD TO CART</a>
                     <a href="{% url 'add_to_wishlist' product.id %}" class="heart-icon"><span class="icon_heart_alt"></span></a>
 
                     <a class="btn btn-secondary" href="{% url 'dynamic_price_update' product.id %}">Refresh Price</a>

@@ -649,8 +649,8 @@
                    href="#" role="button" data-bs-toggle="dropdown">More</a>
                 <ul class="dropdown-menu animate__animated animate__fadeIn">
                     <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
-                    <li><a class="dropdown-item" href="{% url 'user_profile' %}">Product recommendations <br> base on social media</a></li>
                     <li><a class="dropdown-item" href="{% url 'dynamic_landing_page' %}">Dynamic Landing page</a></li>
+                    <li><a class="dropdown-item" href="{% url 'recommend_bundles' %}">Recommend bundles</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown d-md-none">
@@ -2297,6 +2297,7 @@ setInterval(autoScroll, scrollInterval);
         {% endfor %}
     </div>
 </div>
+
 
 
 

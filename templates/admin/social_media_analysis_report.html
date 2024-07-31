@@ -1,0 +1,132 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<h1 class="report-title">Social Media Analysis Report</h1>
+<div class="report-container">
+    <table class="report-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product, score in product_scores %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ score }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">No data available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="chart-container">
+        <canvas id="socialMediaChart"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrahead %}
+<style>
+    .report-container {
+        padding: 40px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .report-title {
+        font-size: 36px;
+        margin-bottom: 30px;
+        color: #222;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .report-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .report-table th, .report-table td {
+        padding: 20px;
+        text-align: left;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .report-table th {
+        background-color: #f4f4f4;
+        color: #333;
+        font-size: 18px;
+    }
+
+    .report-table td {
+        font-size: 16px;
+    }
+
+    .report-table tr:hover {
+        background-color: #f9f9f9;
+    }
+
+    .report-table td[colspan="2"] {
+        text-align: center;
+        color: #888;
+        font-style: italic;
+    }
+
+    .chart-container {
+        margin-top: 40px;
+    }
+
+    canvas {
+        width: 100% !important;
+        height: 400px;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var ctx = document.getElementById('socialMediaChart').getContext('2d');
+
+        // Ensure the data is correctly formatted
+        var productScores = {{ product_scores_json|safe }};
+
+        var labels = productScores.map(function(item) { return item.product; });
+        var data = productScores.map(function(item) { return item.score; });
+
+        var socialMediaChart = new Chart(ctx, {
+            type: 'bar',  // Change to 'pie' if you prefer a pie chart
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Product Scores',
+                    data: data,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

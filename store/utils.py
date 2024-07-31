@@ -329,3 +329,55 @@ def supply_chain_view(request):
         'forecast': formatted_forecast
     }
     return render(request, 'store/supply_chain.html', context)
+
+
+
+# myapp/utils.py
+
+from django.core.mail import send_mail
+from django.conf import settings
+import logging
+
+logger = logging.getLogger(__name__)
+
+def send_recovery_email(abandoned_cart):
+    try:
+        # Fetch the email and cart items
+        user_email = abandoned_cart.cart.user.email
+        cart_items = abandoned_cart.cart.cartitem_set.all()
+
+        # Construct the email content
+        subject = 'Recover Your Abandoned Cart'
+        message = f'Hello {abandoned_cart.cart.user.username},\n\n'
+        message += 'You have abandoned the following items in your cart:\n'
+        for item in cart_items:
+            message += f'- {item.product.name}, Quantity: {item.quantity}\n'
+        message += '\nPlease visit our website to complete your purchase.\n\n'
+        message += 'Thank you!\nYour Store Team'
+
+        # Send the email
+        send_mail(subject, message, settings.EMAIL_HOST_USER, [user_email])
+        logger.info(f'Recovery email sent to {user_email}')
+    except AttributeError as e:
+        logger.error(f'Attribute error: {e}')
+    except Exception as e:
+        logger.error(f'An error occurred: {e}')
+
+
+# utils.py
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.conf import settings
+
+
+def send_recovery_email(abandoned_cart):
+    # Example email context
+    context = {
+        'user': abandoned_cart.cart.user,
+        'cart': abandoned_cart.cart,
+    }
+    subject = 'Recover Your Abandoned Cart'
+    message = render_to_string('store/recover_cart_email.html', context)
+    recipient_list = [abandoned_cart.cart.user.email]
+
+    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, recipient_list)

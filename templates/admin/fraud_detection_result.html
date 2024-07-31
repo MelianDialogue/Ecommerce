@@ -4,20 +4,40 @@
 <div class="container mt-5">
     <div class="card">
         <div class="card-header bg-primary text-white">
-            <h1 class="card-title">Fraud Detection Result</h1>
+            <h1 class="card-title">Fraud Detection Results</h1>
         </div>
         <div class="card-body">
             <h3>Transaction Details</h3>
-            <p>Amount: {{ amount }}</p>
-            <p>Product: {{ product_name }}</p>
-            <h3>Fraud Detection Result</h3>
-            <p>
-                {% if fraud_detected %}
-                    Fraudulent
-                {% else %}
-                    Not Fraudulent
-                {% endif %}
-            </p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Transaction ID</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                    <tr>
+                        <td>{{ transaction.id }}</td>
+                        <td>{{ transaction.user.username }}</td>
+                        <td>${{ transaction.amount }}</td>
+                        <td>{{ transaction.product.name }}</td>
+                        <td>{{ transaction.date }}</td>
+                        <td>
+                            {% if transaction.is_fraud %}
+                                <span class="badge bg-danger">Fraudulent</span>
+                            {% else %}
+                                <span class="badge bg-success">Not Fraudulent</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

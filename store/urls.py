@@ -67,7 +67,7 @@ urlpatterns = [
 
     # path('user-behavior/<int:user_id>/', user_behavior_analysis_view, name='user_behavior_analysis'),
 
-    path('dynamic-landing-page/<int:user_id>/', views.dynamic_landing_page_view, name='dynamic_landing_page'),
+    # path('dynamic-landing-page/<int:user_id>/', views.dynamic_landing_page_view, name='dynamic_landing_page'),
 
     path('analytics/', views.real_time_analytics, name='real_time_analytics'),
 

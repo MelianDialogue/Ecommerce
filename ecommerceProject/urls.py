@@ -7,7 +7,7 @@ from store.custom_admin import custom_admin_site
 from store.views import admin_customer_segmentation_view, churn_prediction_view, detect_fraud_view, \
     analyze_sentiment_view, display_bundle_recommendations, security_monitor_view, user_behavior_analysis_view, \
     real_time_analytics, forecast_list, optimize_supply_chain_view, supply_chain_forecast_list, trend_predictions, \
-    customer_clv_view
+    customer_clv_view, email_marketing_admin_view, social_media_analysis_report
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,6 +33,12 @@ urlpatterns = [
     path('detect-fraud/', detect_fraud_view, name='detect_fraud'),
 
     path('accounts/', include('allauth.urls')),
+
+    path('email-marketing/', email_marketing_admin_view, name='email_marketing_admin'),
+
+    path('social-media-report/', social_media_analysis_report, name='social_media_analysis_report'),
+
+    path('fraud-detection/', detect_fraud_view, name='fraud-detection-result'),
 
 ]
 if settings.DEBUG:
