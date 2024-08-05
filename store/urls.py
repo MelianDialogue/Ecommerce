@@ -7,10 +7,40 @@ from .views import (analyze_sentiment_view,
                     update_cart_item, blog_post_detail, faq_list, policy_page_detail,
                     product_list, product_detail, add_product,
                     checkout, order_history, remove_cart_item, security_monitor_view, user_behavior_analysis_view,
-                    suggest, chatbot_view, dynamic_landing_page, user_profile, supply_chain_view
+                    suggest, chatbot_view, dynamic_landing_page, user_profile, supply_chain_view, set_currency,
+                    set_language
 
                     )
 from . import views
+
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import ProductViewSet, CartViewSet, CartItemViewSet, OrderViewSet, OrderItemViewSet, ReviewViewSet, WishlistViewSet, BlogPostViewSet, FAQViewSet, PolicyPageViewSet, NotificationViewSet, UserProductInteractionViewSet, CustomerViewSet, TransactionViewSet, SalesDataViewSet, UserBehaviorViewSet, DemandForecastViewSet, SearchQueryViewSet, AbandonedCartViewSet, PreferenceViewSet, SecurityLogViewSet, UserInterestViewSet, SocialMediaInteractionViewSet
+
+router = DefaultRouter()
+router.register(r'products', ProductViewSet)
+router.register(r'carts', CartViewSet)
+router.register(r'cart-items', CartItemViewSet)
+router.register(r'orders', OrderViewSet)
+router.register(r'order-items', OrderItemViewSet)
+router.register(r'reviews', ReviewViewSet)
+router.register(r'wishlists', WishlistViewSet)
+router.register(r'blog-posts', BlogPostViewSet)
+router.register(r'faqs', FAQViewSet)
+router.register(r'policy-pages', PolicyPageViewSet)
+router.register(r'notifications', NotificationViewSet)
+router.register(r'user-product-interactions', UserProductInteractionViewSet)
+router.register(r'customers', CustomerViewSet)
+router.register(r'transactions', TransactionViewSet)
+router.register(r'sales-data', SalesDataViewSet)
+router.register(r'user-behaviors', UserBehaviorViewSet)
+router.register(r'demand-forecasts', DemandForecastViewSet)
+router.register(r'search-queries', SearchQueryViewSet)
+router.register(r'abandoned-carts', AbandonedCartViewSet)
+router.register(r'preferences', PreferenceViewSet)
+router.register(r'security-logs', SecurityLogViewSet)
+router.register(r'user-interests', UserInterestViewSet)
+router.register(r'social-media-interactions', SocialMediaInteractionViewSet)
 
 
 
@@ -88,6 +118,12 @@ urlpatterns = [
 
     path('user-profile/', user_profile, name='user_profile'),
     path('supply-chain/', supply_chain_view, name='supply_chain'),
+
+
+    path('set-currency/<str:currency_code>/', set_currency, name='set_currency'),
+    path('set-language/<str:language_code>/', set_language, name='set_language'),
+
+    path('api/', include(router.urls)),
 
 
 ]

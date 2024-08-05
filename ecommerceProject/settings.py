@@ -81,6 +81,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+	'django.middleware.locale.LocaleMiddleware',  # Include this for language settings
+    'store.middleware.LanguageMiddleware',  # Your custom middleware if you're using it
 ]
 
 ROOT_URLCONF = 'ecommerceProject.urls'
@@ -299,3 +301,13 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(hour=0, minute=0),  # Run daily at midnight
     },
 }
+
+
+
+LANGUAGE_CODE = 'en-gb'
+
+USE_I18N = True
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]

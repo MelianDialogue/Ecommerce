@@ -86,6 +86,50 @@ def personalize_experience(user_id):
 from django.shortcuts import render
 
 
+from .models import UserInterest, Product, UserProductInteraction
+
+def get_real_time_profile(user_id):
+    """
+    Fetch user profile data and preferences.
+    """
+    try:
+        user_interests = UserInterest.objects.get(user_id=user_id).interests
+    except UserInterest.DoesNotExist:
+        user_interests = []
+
+    user_interactions = UserProductInteraction.objects.filter(user_id=user_id)
+    interacted_products = [interaction.product for interaction in user_interactions]
+
+    return {
+        'interests': user_interests,
+        'interacted_products': interacted_products,
+    }
+
+def personalize_ui(user_profile):
+    """
+    Personalize the UI based on the user's profile data.
+    """
+    interests = user_profile.get('interests', [])
+    interacted_products = user_profile.get('interacted_products', [])
+
+    personalized_products = Product.objects.none()
+    personalized_message = "Here are some recommendations based on your interests:"
+
+    if interests:
+        personalized_products = Product.objects.filter(category__in=interests)[:5]
+    elif interacted_products:
+        personalized_products = Product.objects.filter(id__in=[product.id for product in interacted_products]).order_by('-created_at')[:5]
+        personalized_message = "Based on your recent activities, you might like these products:"
+
+    return personalized_products, personalized_message
+
+def personalize_experience(user_id):
+    user_profile = get_real_time_profile(user_id)
+    personalized_products, personalized_message = personalize_ui(user_profile)
+    return personalized_products, personalized_message
+
+
+
 def index(request):
     # Default products by category
     category_1_products = Product.objects.filter(category='1')
@@ -2118,3 +2162,124 @@ def dynamic_landing_page(request):
         'category_products': category_products,
         'user_interests': user_interests
     })
+
+
+# views.py
+# views.py
+
+from django.shortcuts import redirect
+from django.utils.translation import activate
+from django.utils import translation
+
+def set_currency(request, currency_code):
+    supported_currencies = ['GBP', 'USD', 'EUR', 'JPY', 'AUD', 'CAD', 'CNY']
+    if currency_code not in supported_currencies:
+        currency_code = 'GBP'
+    request.session['currency'] = currency_code
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+def set_language(request, language_code):
+    supported_languages = ['en', 'es', 'fr', 'de', 'zh', 'ja', 'ar']
+    if language_code not in supported_languages:
+        language_code = 'en'
+    request.session['django_language'] = language_code
+    activate(language_code)
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+
+from rest_framework import viewsets
+from .models import Product, Cart, CartItem, Order, OrderItem, Review, Wishlist, BlogPost, FAQ, PolicyPage, Notification, UserProductInteraction, Customer, Transaction, SalesData, UserBehavior, DemandForecast, SearchQuery, AbandonedCart, Preference, SecurityLog, UserInterest, SocialMediaInteraction
+from .serializers import ProductSerializer, CartSerializer, CartItemSerializer, OrderSerializer, OrderItemSerializer, ReviewSerializer, WishlistSerializer, BlogPostSerializer, FAQSerializer, PolicyPageSerializer, NotificationSerializer, UserProductInteractionSerializer, CustomerSerializer, TransactionSerializer, SalesDataSerializer, UserBehaviorSerializer, DemandForecastSerializer, SearchQuerySerializer, AbandonedCartSerializer, PreferenceSerializer, SecurityLogSerializer, UserInterestSerializer, SocialMediaInteractionSerializer
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+class CartViewSet(viewsets.ModelViewSet):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+
+class CartItemViewSet(viewsets.ModelViewSet):
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemSerializer
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+class OrderItemViewSet(viewsets.ModelViewSet):
+    queryset = OrderItem.objects.all()
+    serializer_class = OrderItemSerializer
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+class WishlistViewSet(viewsets.ModelViewSet):
+    queryset = Wishlist.objects.all()
+    serializer_class = WishlistSerializer
+
+class BlogPostViewSet(viewsets.ModelViewSet):
+    queryset = BlogPost.objects.all()
+    serializer_class = BlogPostSerializer
+
+class FAQViewSet(viewsets.ModelViewSet):
+    queryset = FAQ.objects.all()
+    serializer_class = FAQSerializer
+
+class PolicyPageViewSet(viewsets.ModelViewSet):
+    queryset = PolicyPage.objects.all()
+    serializer_class = PolicyPageSerializer
+
+class NotificationViewSet(viewsets.ModelViewSet):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+
+class UserProductInteractionViewSet(viewsets.ModelViewSet):
+    queryset = UserProductInteraction.objects.all()
+    serializer_class = UserProductInteractionSerializer
+
+class CustomerViewSet(viewsets.ModelViewSet):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+
+class TransactionViewSet(viewsets.ModelViewSet):
+    queryset = Transaction.objects.all()
+    serializer_class = TransactionSerializer
+
+class SalesDataViewSet(viewsets.ModelViewSet):
+    queryset = SalesData.objects.all()
+    serializer_class = SalesDataSerializer
+
+class UserBehaviorViewSet(viewsets.ModelViewSet):
+    queryset = UserBehavior.objects.all()
+    serializer_class = UserBehaviorSerializer
+
+class DemandForecastViewSet(viewsets.ModelViewSet):
+    queryset = DemandForecast.objects.all()
+    serializer_class = DemandForecastSerializer
+
+class SearchQueryViewSet(viewsets.ModelViewSet):
+    queryset = SearchQuery.objects.all()
+    serializer_class = SearchQuerySerializer
+
+class AbandonedCartViewSet(viewsets.ModelViewSet):
+    queryset = AbandonedCart.objects.all()
+    serializer_class = AbandonedCartSerializer
+
+class PreferenceViewSet(viewsets.ModelViewSet):
+    queryset = Preference.objects.all()
+    serializer_class = PreferenceSerializer
+
+class SecurityLogViewSet(viewsets.ModelViewSet):
+    queryset = SecurityLog.objects.all()
+    serializer_class = SecurityLogSerializer
+
+class UserInterestViewSet(viewsets.ModelViewSet):
+    queryset = UserInterest.objects.all()
+    serializer_class = UserInterestSerializer
+
+class SocialMediaInteractionViewSet(viewsets.ModelViewSet):
+    queryset = SocialMediaInteraction.objects.all()
+    serializer_class = SocialMediaInteractionSerializer
