@@ -220,36 +220,20 @@
                     <a href="" class="text-decoration-none top-header-link">Gift Certificates</a>
                 </div>
                 <span class="top-header-separator">|</span>
-                              <div class="dropdown ms-2">
-    <a class="dropdown-toggle top-header-dropdown" href="/" role="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-        Select Currency: GBP
-    </a>
-    <ul class="dropdown-menu top-header-dropdown-menu" aria-labelledby="currencyDropdown">
-        <li><a class="dropdown-item" href="{% url 'set_currency' 'GBP' %}">GBP - British Pound</a></li>
-        <li><a class="dropdown-item" href="{% url 'set_currency' 'USD' %}">USD - US Dollar</a></li>
-        <li><a class="dropdown-item" href="{% url 'set_currency' 'EUR' %}">EUR - Euro</a></li>
-        <li><a class="dropdown-item" href="{% url 'set_currency' 'JPY' %}">JPY - Japanese Yen</a></li>
-        <li><a class="dropdown-item" href="{% url 'set_currency' 'AUD' %}">AUD - Australian Dollar</a></li>
-        <li><a class="dropdown-item" href="{% url 'set_currency' 'CAD' %}">CAD - Canadian Dollar</a></li>
-        <li><a class="dropdown-item" href="{% url 'set_currency' 'CNY' %}">CNY - Chinese Yuan</a></li>
-    </ul>
-</div>
-
-<div class="dropdown ms-2">
-    <a class="dropdown-toggle top-header-dropdown" href="/" role="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-        Select Language: English
-    </a>
-    <ul class="dropdown-menu top-header-dropdown-menu" aria-labelledby="languageDropdown">
-        <li><a class="dropdown-item" href="{% url 'set_language' 'en' %}">English</a></li>
-        <li><a class="dropdown-item" href="{% url 'set_language' 'es' %}">Spanish</a></li>
-        <li><a class="dropdown-item" href="{% url 'set_language' 'fr' %}">French</a></li>
-        <li><a class="dropdown-item" href="{% url 'set_language' 'de' %}">German</a></li>
-        <li><a class="dropdown-item" href="{% url 'set_language' 'zh' %}">Chinese</a></li>
-        <li><a class="dropdown-item" href="{% url 'set_language' 'ja' %}">Japanese</a></li>
-        <li><a class="dropdown-item" href="{% url 'set_language' 'ar' %}">Arabic</a></li>
-    </ul>
-</div>
-
+                                 <div class="dropdown ms-2">
+                    <a class="dropdown-toggle top-header-dropdown" href="#" role="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Currency: {{ request.session.currency_symbol|default:"£" }}
+                    </a>
+                    <ul class="dropdown-menu top-header-dropdown-menu" aria-labelledby="currencyDropdown">
+                        <li><a class="dropdown-item" href="{% url 'set_currency' 'GBP' %}">£ - British Pound</a></li>
+<!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'USD' %}">$ - US Dollar</a></li>-->
+<!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'EUR' %}">€ - Euro</a></li>-->
+<!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'JPY' %}">¥ - Japanese Yen</a></li>-->
+<!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'AUD' %}">A$ - Australian Dollar</a></li>-->
+<!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'CAD' %}">C$ - Canadian Dollar</a></li>-->
+<!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'CNY' %}">¥ - Chinese Yuan</a></li>-->
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="col-md-6 text-end">
@@ -2301,6 +2285,7 @@ margin-right: 2px;
 });
 
 </script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">

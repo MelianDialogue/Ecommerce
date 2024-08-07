@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 {% load static %}
-{% load socialaccount %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -137,79 +136,79 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-lg-6 col-md-8 col-sm-10">
-                <div class="card shadow-sm mt-5 animate__animated animate__fadeIn">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                            <div class="logo-container me-md-3">
-                                <a href="{% url 'home-url' %}" class="branchy-logo1">
-                                    <img class="rounded logo-image" src="{% static 'img/logo1.jpg' %}" alt="Branchy Logo">
-                                    <span class="branchy-text">BRANCHY</span>
-                                </a>
-                            </div>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <div class="card shadow-sm mt-5 animate__animated animate__fadeIn">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-center justify-content-md-start">
+                        <div class="logo-container me-md-3">
+                            <a href="{% url 'home-url' %}" class="branchy-logo1">
+                                <img class="rounded logo-image" src="{% static 'img/logo1.jpg' %}" alt="Branchy Logo">
+                                <span class="branchy-text">BRANCHY</span>
+                            </a>
                         </div>
-                        <p>
-                            {% for message in messages %}
-                                {{ message }}
-                            {% endfor %}
-                        </p>
-                        <h3 class="card-title text-center">Welcome back</h3>
-                        <form method="post">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="username">Username:</label>
-                                <input type="text" class="form-control" id="username" name="username" required>
-                            </div>
-                            <br>
-                            <div class="form-group password-wrapper">
-                                <label for="password">Password:</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                                <i class="fa fa-eye password-toggle mt-3 h1" id="togglePassword"></i>
-                            </div>
-                            <br>
-                            <div class="form-group text-center">
-                                <input class="btn btn-info btn-lg rounded mt-4" value="Login" type="submit">
-                            </div>
-                            <div class="text-center mt-3">
-                                <a href="{% url 'password_reset' %}">Forgot Password?</a>
-                            </div>
-                            <div class="text-center text-muted mt-3">Not Registered? <a href="{% url 'register-url' %}">SignUp</a></div>
-                            <p class="text-center mt-3">Go Back <a class="text-primary" href="{% url 'home-url' %}">Homepage</a></p>
-                        </form>
                     </div>
+                    <p>
+                        {% for message in messages %}
+                        {{ message }}
+                        {% endfor %}
+                    </p>
+                    <h3 class="card-title text-center">Welcome back</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <br>
+                        <div class="form-group password-wrapper">
+                            <label for="password">Password:</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                            <i class="fa fa-eye password-toggle mt-3 h1" id="togglePassword"></i>
+                        </div>
+                        <br>
+                        <div class="form-group text-center">
+                            <input class="btn btn-info btn-lg rounded mt-4" value="Login" type="submit">
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="{% url 'password_reset' %}">Forgot Password?</a>
+                        </div>
+                        <div class="text-center text-muted mt-3">Not Registered? <a href="{% url 'register-url' %}">SignUp</a></div>
+                        <p class="text-center mt-3">Go Back <a class="text-primary" href="{% url 'home-url' %}">Homepage</a></p>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
-    <script src="{% static 'assets/js/jquery-ui.min.js' %}"></script>
-    <script src="{% static 'assets/js/jquery.slicknav.js' %}"></script>
-    <script src="{% static 'assets/js/mixitup.min.js' %}"></script>
-    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'assets/js/main.js' %}"></script>
+</div>
+<script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery-ui.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.slicknav.js' %}"></script>
+<script src="{% static 'assets/js/mixitup.min.js' %}"></script>
+<script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
 
-    <script type="text/javascript">
-        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-        (function() {
-            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-            s1.async = true;
-            s1.src = 'https://embed.tawk.to/649e09abcc26a871b023e4af/1h51rptlg';
-            s1.charset = 'UTF-8';
-            s1.setAttribute('crossorigin', '*');
-            s0.parentNode.insertBefore(s1, s0);
-        })();
-    </script>
-    <script>
-        document.getElementById('togglePassword').addEventListener('click', function (e) {
-            const passwordInput = document.getElementById('password');
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            this.classList.toggle('fa-eye-slash');
-        });
-    </script>
+<script type="text/javascript">
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function() {
+        var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+        s1.async = true;
+        s1.src = 'https://embed.tawk.to/649e09abcc26a871b023e4af/1h51rptlg';
+        s1.charset = 'UTF-8';
+        s1.setAttribute('crossorigin', '*');
+        s0.parentNode.insertBefore(s1, s0);
+    })();
+</script>
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function (e) {
+        const passwordInput = document.getElementById('password');
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
 </body>
 </html>

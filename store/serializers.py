@@ -115,3 +115,30 @@ class SocialMediaInteractionSerializer(serializers.ModelSerializer):
     class Meta:
         model = SocialMediaInteraction
         fields = '__all__'
+
+# serializers.py
+from rest_framework import serializers
+from django.contrib.auth.models import User
+from user_app.models import Profile, Message, Subscription
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email']
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Profile
+        fields = ['user', 'profile_photo', 'about', 'age', 'total_spent', 'purchase_count', 'churn', 'bio', 'interests']
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = ['user_message', 'bot_response', 'created_at']
+
+class SubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscription
+        fields = ['email', 'subscribed_at']

@@ -42,12 +42,18 @@ router.register(r'security-logs', SecurityLogViewSet)
 router.register(r'user-interests', UserInterestViewSet)
 router.register(r'social-media-interactions', SocialMediaInteractionViewSet)
 
+from .views import ProfileListCreateView, ProfileDetailView, MessageListCreateView, MessageDetailView, SubscriptionListCreateView, SubscriptionDetailView
+
 
 
 urlpatterns = [
     path('', index, name='home-url'),
     path('product_list/', product_list, name='product_list'),
     path('product/<int:product_id>/', product_detail, name='product_detail'),
+    path('add_to_compare/<int:product_id>/', views.add_to_compare, name='add_to_compare'),
+    path('compare/', views.compare_products, name='compare_products'),
+    path('compare/remove/<int:product_id>/', views.remove_from_compare, name='remove_from_compare'),
+
     path('add-product/', add_product, name='add_product'),
     path('checkout/<int:order_id>/', checkout, name='checkout'),
     path('order/<int:order_id>/', order_detail, name='order_detail'),
@@ -120,10 +126,23 @@ urlpatterns = [
     path('supply-chain/', supply_chain_view, name='supply_chain'),
 
 
-    path('set-currency/<str:currency_code>/', set_currency, name='set_currency'),
-    path('set-language/<str:language_code>/', set_language, name='set_language'),
+    path('set_currency/<str:currency>/', views.set_currency, name='set_currency'),
+    path('set_language/<str:language>/', views.set_language, name='set_language'),
+
 
     path('api/', include(router.urls)),
+
+    # Profile API
+    path('api/profiles/', ProfileListCreateView.as_view(), name='profile-list-create'),
+    path('api/profiles/<int:pk>/', ProfileDetailView.as_view(), name='profile-detail'),
+
+    # Message API
+    path('api/messages/', MessageListCreateView.as_view(), name='message-list-create'),
+    path('api/messages/<int:pk>/', MessageDetailView.as_view(), name='message-detail'),
+
+    # Subscription API
+    path('api/subscriptions/', SubscriptionListCreateView.as_view(), name='subscription-list-create'),
+    path('api/subscriptions/<int:pk>/', SubscriptionDetailView.as_view(), name='subscription-detail'),
 
 
 ]

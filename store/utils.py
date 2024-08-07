@@ -381,3 +381,5 @@ def send_recovery_email(abandoned_cart):
     recipient_list = [abandoned_cart.cart.user.email]
 
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, recipient_list)
+
+

@@ -234,3 +234,25 @@ def logout_view(request):
     logout(request)
     return render(request, 'user_app/logout.html')
 
+
+
+from rest_framework import viewsets
+from django.contrib.auth.models import User
+from .models import Profile, Message, Subscription
+from store.serializers import UserSerializer, ProfileSerializer, MessageSerializer, SubscriptionSerializer
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+class MessageViewSet(viewsets.ModelViewSet):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+
+class SubscriptionViewSet(viewsets.ModelViewSet):
+    queryset = Subscription.objects.all()
+    serializer_class = SubscriptionSerializer

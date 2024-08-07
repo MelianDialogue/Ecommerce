@@ -124,70 +124,70 @@
     </style>
 </head>
 <body>
-    {% load django_bootstrap5 %}
-    {% load widget_tweaks %}
-    {% load static %}
-    {% load crispy_forms_tags %}
-    {% load crispy_forms_filters %}
+{% load django_bootstrap5 %}
+{% load widget_tweaks %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-8 col-sm-10">
-                <div class="card shadow-sm mt-5">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                            <div class="logo-container me-md-3">
-                                <a href="{% url 'home-url' %}" class="branchy-logo1">
-                                    <img class="rounded logo-image" src="{% static 'img/logo1.jpg' %}" alt="Branchy Logo">
-                                    <span class="branchy-text">BRANCHY</span>
-                                </a>
-                            </div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <div class="card shadow-sm mt-5">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-center justify-content-md-start">
+                        <div class="logo-container me-md-3">
+                            <a href="{% url 'home-url' %}" class="branchy-logo1">
+                                <img class="rounded logo-image" src="{% static 'img/logo1.jpg' %}" alt="Branchy Logo">
+                                <span class="branchy-text">BRANCHY</span>
+                            </a>
                         </div>
-                        <h3 class="card-title text-center">Create Account</h3>
-                        <form method="post" action="{% url 'register-url' %}">
-                            {% csrf_token %}
-                            {% bootstrap_form form %}
-                            <div class="form-group text-center">
-                                <input class="btn btn-info btn-lg rounded mt-4" value="Register" type="submit">
-                            </div>
-                            <br>
-                            <div class="text-center text-muted">Already have an account? <a href="{% url 'login-url' %}">SignIn</a></div>
-                            <p class="text-center mt-3">Go Back <a class="text-primary" href="{% url 'home-url' %}">Homepage</a></p>
-                        </form>
                     </div>
+                    <h3 class="card-title text-center">Create Account</h3>
+                    <form method="post" action="{% url 'register-url' %}">
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                        <div class="form-group text-center">
+                            <input class="btn btn-info btn-lg rounded mt-4" value="Register" type="submit">
+                        </div>
+                        <br>
+                        <div class="text-center text-muted">Already have an account? <a href="{% url 'login-url' %}">SignIn</a></div>
+                        <p class="text-center mt-3">Go Back <a class="text-primary" href="{% url 'home-url' %}">Homepage</a></p>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- JS Plugins -->
-    <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
-    <script src="{% static 'assets/js/jquery-ui.min.js' %}"></script>
-    <script src="{% static 'assets/js/jquery.slicknav.js' %}"></script>
-    <script src="{% static 'assets/js/mixitup.min.js' %}"></script>
-    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'assets/js/main.js' %}"></script>
+<!-- JS Plugins -->
+<script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery-ui.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.slicknav.js' %}"></script>
+<script src="{% static 'assets/js/mixitup.min.js' %}"></script>
+<script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
 
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        (function(){
-            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-            s1.async=true;
-            s1.src='https://embed.tawk.to/665492ba9a809f19fb359301/1hut5qb1c';
-            s1.charset='UTF-8';
-            s1.setAttribute('crossorigin','*');
-            s0.parentNode.insertBefore(s1,s0);
-        })();
-    </script>
-    <!--End of Tawk.to Script-->
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/665492ba9a809f19fb359301/1hut5qb1c';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+<!--End of Tawk.to Script-->
 
-    <!-- Include AOS JS -->
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-    <script>
-        AOS.init();
-    </script>
+<!-- Include AOS JS -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
 </body>
 </html>

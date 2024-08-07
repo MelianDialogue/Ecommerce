@@ -109,6 +109,10 @@
                     <a href="{% url 'add_to_wishlist' product.id %}" class="heart-icon"><span class="icon_heart_alt"></span></a>
 
                     <a class="btn btn-secondary" href="{% url 'dynamic_price_update' product.id %}">Refresh Price</a>
+                    <a href="{% url 'add_to_compare' product.id %}" class="btn btn-outline-info">Add to Compare</a>
+                    <!-- Example in base.html or a navigation template -->
+                    <a href="{% url 'compare_products' %}" class="btn btn-outline-primary">Compare Products</a>
+
                     <ul>
                         <li><b>Availability</b> <span>Stock: {{ product.stock }}</span></li>
 
@@ -125,31 +129,52 @@
                 </div>
 
 
-                <div class="reviews mt-5" data-aos="fade-up">
-                    <h2 class="mb-3">Reviews</h2>
-                    <ul class="list-unstyled">
-                        {% for review in reviews %}
-                        <li class="review-item" data-rating="{{ review.rating }}">
-                            <strong>{{ review.user.username }}</strong>
-                            <p class="rating" data-rating="{{ rating }}" style="font-size: 20px;">
-                                <!-- Stars will be populated by JavaScript -->
-                            </p>
-                            <p>{{ review.comment }}</p>
-                            <small>{{ review.created_at }}</small>
-                        </li>
-                        {% empty %}
-                        <li class="no-reviews">No reviews yet.</li>
-                        {% endfor %}
-                    </ul>
-                    <a href="{% url 'leave_review' product.id %}" class="btn btn-outline-primary rounded-pill btn-block mt-3">Leave a review</a>
-                </div>
+               <div class="reviews mt-5" data-aos="fade-up">
+    <h2 class="mb-3">Reviews</h2>
+    <ul class="list-unstyled">
+        {% for review in reviews %}
+        <li class="review-item" id="review-{{ review.id }}" data-rating="{{ review.rating }}">
+            <strong>{{ review.user.username }}</strong>
+            <p id="rating-{{ review.id }}" style="font-size: 20px;">
+                <!-- Stars will be populated by JavaScript -->
+            </p>
+            <p>{{ review.comment }}</p>
+            <small>{{ review.created_at }}</small>
+        </li>
+        {% empty %}
+        <li class="no-reviews">No reviews yet.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'leave_review' product.id %}" class="btn btn-outline-primary rounded-pill btn-block mt-3">Leave a review</a>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.review-item').forEach(item => {
+        const rating = item.getAttribute('data-rating');
+        const starContainer = document.getElementById('rating-' + item.getAttribute('id').split('-')[1]);
+        starContainer.innerHTML = '';
+
+        // Generate star icons
+        for (let i = 1; i <= 5; i++) {
+            const star = document.createElement('span');
+            star.className = 'star';
+            star.innerHTML = i <= rating ? '&#9733;' : '&#9734;'; // Filled or empty star
+            starContainer.appendChild(star);
+        }
+    });
+});
+</script>
+
+<style>
+.star {
+    color: #f39c12; /* Gold color for filled stars */
+    font-size: 1.5em; /* Adjust size as needed */
+    margin-right: 2px; /* Space between stars */
+}
+</style>
 
 
-                <style>
-                    .rating i {
-                    margin-right: 2px;
-                }
-                </style>
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 

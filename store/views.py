@@ -175,6 +175,8 @@ from django.shortcuts import render
 from .models import Product
 
 def product_list(request):
+    currency = request.session.get('currency', 'GBP')
+    currency_symbol = request.session.get('currency_symbol', '£')
     # Get filter and sort parameters from request
     category_id = request.GET.get('category')
     sort_order = request.GET.get('sort', 'price_asc')  # Default sort order
@@ -232,11 +234,15 @@ def product_list(request):
 #     return render(request, 'store/product_list.html', context)
 #
 
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
+from .models import Product, Review
+from django.shortcuts import get_object_or_404, redirect, render
+from .models import Product, Review
+
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     reviews = Review.objects.filter(product=product)
-
-    # Fetch similar products
     similar_products = Product.objects.filter(category=product.category).exclude(id=product_id)[:4]
 
     return render(request, 'store/product_detail.html', {
@@ -244,6 +250,39 @@ def product_detail(request, product_id):
         'reviews': reviews,
         'similar_products': similar_products
     })
+
+def add_to_compare(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    compare_list = request.session.get('compare_list', [])
+    if product_id not in compare_list:
+        compare_list.append(product_id)
+        request.session['compare_list'] = compare_list
+    return redirect('product_detail', product_id=product_id)
+
+def compare_products(request):
+    compare_list = request.session.get('compare_list', [])
+    remove_product_id = request.GET.get('remove_product')
+
+    if remove_product_id:
+        compare_list = [pid for pid in compare_list if pid != remove_product_id]
+        request.session['compare_list'] = compare_list
+        return redirect('compare_products')
+
+    products = Product.objects.filter(id__in=compare_list)
+    return render(request, 'store/compare.html', {'products': products})
+
+
+from django.shortcuts import get_object_or_404, redirect
+from .models import Product
+
+def remove_from_compare(request, product_id):
+    compare_list = request.session.get('compare_list', [])
+    if product_id in compare_list:
+        compare_list.remove(product_id)
+        request.session['compare_list'] = compare_list
+    return redirect('compare_products')
+
+
 
 @login_required
 def add_to_wishlist(request, product_id):
@@ -514,28 +553,45 @@ from .models import Product, Review
 from .forms import ReviewForm
 from django.contrib.auth.decorators import login_required
 
+from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib.auth.decorators import login_required
+from django.db.models import Avg
+from .models import Product, Review
+from .forms import ReviewForm
+
 @login_required
 def leave_review(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
+    # Check if the user has already reviewed this product
+    existing_review = Review.objects.filter(product=product, user=request.user).first()
+
+    if existing_review:
+        # User has already reviewed the product
+        if request.method == 'POST':
+            form = ReviewForm(request.POST, instance=existing_review)
+            if form.is_valid():
+                form.save()  # Update the existing review
+                return redirect('product_detail', product_id=product.id)
+        else:
+            form = ReviewForm(instance=existing_review)
+    else:
+        # User has not reviewed the product yet
+        if request.method == 'POST':
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                review = form.save(commit=False)
+                review.user = request.user
+                review.product = product
+                review.save()
+                return redirect('product_detail', product_id=product.id)
+        else:
+            form = ReviewForm()
+
     # Get all reviews for the product
     reviews = Review.objects.filter(product=product)
-
-    # Calculate average rating, ensuring it does not exceed 5
     average_rating = reviews.aggregate(Avg('rating'))['rating__avg'] or 0
     average_rating = min(average_rating, 5)
-
-    if request.method == 'POST':
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            review = form.save(commit=False)
-            review.user = request.user
-            review.product = product
-            review.save()
-            # Redirect to the product detail page after saving the review
-            return redirect('product_detail', product_id=product.id)
-    else:
-        form = ReviewForm()
 
     return render(request, 'store/leave_review.html', {
         'form': form,
@@ -543,7 +599,6 @@ def leave_review(request, product_id):
         'reviews': reviews,  # Pass all reviews to the template
         'average_rating': average_rating  # Pass average rating to the template
     })
-
 
 
 from django.shortcuts import render
@@ -1727,6 +1782,8 @@ def index(request):
     # Get recommended products for the user
     recommended_products = recommend_products(user_id)
 
+    # Convert price based on the selected currency
+
     # Debug Output
     print(f"Recommended products for user {user_id}: {[product.id for product in recommended_products]}")
 
@@ -2165,26 +2222,31 @@ def dynamic_landing_page(request):
 
 
 # views.py
-# views.py
+from django.shortcuts import redirect
 
 from django.shortcuts import redirect
-from django.utils.translation import activate
-from django.utils import translation
 
-def set_currency(request, currency_code):
-    supported_currencies = ['GBP', 'USD', 'EUR', 'JPY', 'AUD', 'CAD', 'CNY']
-    if currency_code not in supported_currencies:
-        currency_code = 'GBP'
-    request.session['currency'] = currency_code
+# Mapping of currency codes to symbols
+CURRENCY_SYMBOLS = {
+    'GBP': '£',
+    'USD': '$',
+    'EUR': '€',
+    'JPY': '¥',
+    'AUD': 'A$',
+    'CAD': 'C$',
+    'CNY': '¥'
+}
+
+def set_currency(request, currency):
+    request.session['currency'] = currency
+    request.session['currency_symbol'] = CURRENCY_SYMBOLS.get(currency, '£')
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
-def set_language(request, language_code):
-    supported_languages = ['en', 'es', 'fr', 'de', 'zh', 'ja', 'ar']
-    if language_code not in supported_languages:
-        language_code = 'en'
-    request.session['django_language'] = language_code
-    activate(language_code)
+
+def set_language(request, language):
+    request.session['language'] = language
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
 
 
 
@@ -2283,3 +2345,74 @@ class UserInterestViewSet(viewsets.ModelViewSet):
 class SocialMediaInteractionViewSet(viewsets.ModelViewSet):
     queryset = SocialMediaInteraction.objects.all()
     serializer_class = SocialMediaInteractionSerializer
+
+
+# views.py
+from rest_framework import generics
+from user_app.models import Profile, Message, Subscription
+from .serializers import ProfileSerializer, MessageSerializer, SubscriptionSerializer
+
+# Profile API
+class ProfileListCreateView(generics.ListCreateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+# Message API
+class MessageListCreateView(generics.ListCreateAPIView):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+
+class MessageDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+
+# Subscription API
+class SubscriptionListCreateView(generics.ListCreateAPIView):
+    queryset = Subscription.objects.all()
+    serializer_class = SubscriptionSerializer
+
+class SubscriptionDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Subscription.objects.all()
+    serializer_class = SubscriptionSerializer
+
+
+
+
+from django.shortcuts import redirect
+from django.utils.translation import activate
+from forex_python.converter import CurrencyRates
+from django.conf import settings
+
+def set_currency(request, currency):
+    # Store the selected currency in the session
+    request.session['currency'] = currency
+    # Set the currency symbol based on the selected currency
+    currency_symbols = {
+        'GBP': '£',
+        'USD': '$',
+        'EUR': '€',
+        'JPY': '¥',
+        'AUD': 'A$',
+        'CAD': 'C$',
+        'CNY': '¥',
+    }
+    request.session['currency_symbol'] = currency_symbols.get(currency, '£')
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+def set_language(request, language):
+    # Store the selected language in the session
+    request.session['language'] = language
+    # Activate the selected language
+    activate(language)
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+from forex_python.converter import CurrencyRates
+
+def convert_currency(amount, from_currency, to_currency):
+    c = CurrencyRates()
+    return c.convert(from_currency, to_currency, amount)

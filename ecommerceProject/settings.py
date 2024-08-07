@@ -82,7 +82,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
 	'django.middleware.locale.LocaleMiddleware',  # Include this for language settings
-    'store.middleware.LanguageMiddleware',  # Your custom middleware if you're using it
+    'store.middleware.LocaleMiddleware',  # Your custom middleware if you're using it
 ]
 
 ROOT_URLCONF = 'ecommerceProject.urls'
