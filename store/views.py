@@ -2,6 +2,8 @@ import numpy as np
 from django.contrib import messages
 
 from sklearn.neighbors import NearestNeighbors
+
+from . import models
 from .models import Product
 
 from django.conf import settings
@@ -2416,4 +2418,78 @@ from forex_python.converter import CurrencyRates
 def convert_currency(amount, from_currency, to_currency):
     c = CurrencyRates()
     return c.convert(from_currency, to_currency, amount)
+
+#voice note
+
+
+
+
+
+from django.shortcuts import render
+from django.core.exceptions import ObjectDoesNotExist
+from .models import UserBehavior, UserInterest, Product, Preference
+from django.db.models import Sum
+
+from django.shortcuts import render
+from django.core.exceptions import ObjectDoesNotExist
+from .models import UserBehavior, UserInterest, Product, Preference
+from django.db.models import Sum
+
+
+def personalize_experience(user_id):
+    try:
+        user_profile = Profile.objects.get(user_id=user_id)
+    except Profile.DoesNotExist:
+        user_profile = None
+
+    try:
+        preferences = Preference.objects.get(user_id=user_id)
+    except Preference.DoesNotExist:
+        preferences = None
+
+    try:
+        user_interests = UserInterest.objects.get(user_id=user_id)
+
+        # Ensure user_interests.interests is iterable
+        if isinstance(user_interests.interests, (list, tuple, set)):
+            categories = user_interests.interests
+        else:
+            categories = [user_interests.interests]  # Convert single value to a list
+
+        recommended_products = Product.objects.filter(
+            category__in=categories
+        ).order_by('-social_media_score')[:5]
+
+    except UserInterest.DoesNotExist:
+        user_interests = None
+        recommended_products = []
+
+    user_behavior = UserBehavior.objects.filter(user_id=user_id)
+    behavior_data = user_behavior.aggregate(
+        total_clicks=Sum('clicks'),
+        total_time_spent=Sum('time_spent')
+    ) if user_behavior.exists() else {'total_clicks': 0, 'total_time_spent': 0}
+
+    context = {
+        'profile': user_profile,
+        'preferences': preferences,
+        'recommended_products': recommended_products,
+        'behavior_data': behavior_data,
+    }
+
+    return context
+
+
+from django.shortcuts import render
+from user_app.models import Profile
+
+
+def index1(request):
+    user_id = request.user.id if request.user.is_authenticated else None
+    context = {}
+
+    if user_id:
+        context = personalize_experience(user_id)
+
+    return render(request, 'store/index.html', context)
 

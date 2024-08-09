@@ -111,6 +111,7 @@ urlpatterns = [
 
     path('search/', views.search_view, name='search'),
 
+
     # path('clear-notifications/', views.clear_notifications, name='clear_notifications'),
     path('clear_notification/<int:notification_id>/', views.clear_notification, name='clear_notification'),
 
@@ -121,6 +122,7 @@ urlpatterns = [
     path('chatbot/', chatbot_view, name='chatbot'),
 
     path('dynamic-landing/', dynamic_landing_page, name='dynamic_landing_page'),
+
 
     path('user-profile/', user_profile, name='user_profile'),
     path('supply-chain/', supply_chain_view, name='supply_chain'),

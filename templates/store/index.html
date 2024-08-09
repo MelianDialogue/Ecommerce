@@ -221,18 +221,18 @@
                 </div>
                 <span class="top-header-separator">|</span>
                 <!-- Currency Dropdown -->
-                    <div class="dropdown ms-2">
+                <div class="dropdown ms-2">
                     <a class="dropdown-toggle top-header-dropdown" href="#" role="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         Select Currency: {{ request.session.currency_symbol|default:"£" }}
                     </a>
                     <ul class="dropdown-menu top-header-dropdown-menu" aria-labelledby="currencyDropdown">
                         <li><a class="dropdown-item" href="{% url 'set_currency' 'GBP' %}">£ - British Pound</a></li>
-<!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'USD' %}">$ - US Dollar</a></li>-->
-<!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'EUR' %}">€ - Euro</a></li>-->
-<!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'JPY' %}">¥ - Japanese Yen</a></li>-->
-<!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'AUD' %}">A$ - Australian Dollar</a></li>-->
-<!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'CAD' %}">C$ - Canadian Dollar</a></li>-->
-<!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'CNY' %}">¥ - Chinese Yuan</a></li>-->
+                        <!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'USD' %}">$ - US Dollar</a></li>-->
+                        <!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'EUR' %}">€ - Euro</a></li>-->
+                        <!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'JPY' %}">¥ - Japanese Yen</a></li>-->
+                        <!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'AUD' %}">A$ - Australian Dollar</a></li>-->
+                        <!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'CAD' %}">C$ - Canadian Dollar</a></li>-->
+                        <!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'CNY' %}">¥ - Chinese Yuan</a></li>-->
                     </ul>
                 </div>
             </div>
@@ -659,7 +659,6 @@
                    href="#" role="button" data-bs-toggle="dropdown">More</a>
                 <ul class="dropdown-menu animate__animated animate__fadeIn">
                     <li><a class="dropdown-item" href="{% url 'blog_list' %}">Blog</a></li>
-                    <li><a class="dropdown-item" href="{% url 'dynamic_landing_page' %}">Dynamic Landing page</a></li>
                     <li><a class="dropdown-item" href="{% url 'recommend_bundles' %}">Recommend bundles</a></li>
                 </ul>
             </li>
@@ -689,11 +688,66 @@
                 </div>
             </div>
             <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997" onclick="startVoiceSearch()">
-                <i class="fa fa-microphone-alt text-white"></i> <!-- Replace with your preferred icon class -->
+                <i class="fa fa-microphone-alt text-white"></i>
             </button>
             <input type="hidden" id="voice_input" name="voice_input">
             <div id="suggestions-container" class="suggestions-container" style="position: absolute; z-index: 1000;"></div>
         </form>
+        <script>
+            function startVoiceSearch() {
+                const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                recognition.lang = 'en-US';
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 1;
+
+                recognition.onresult = (event) => {
+                    const voiceInput = event.results[0][0].transcript;
+                    document.getElementById('voice_input').value = voiceInput;
+                    submitVoiceSearch();
+                };
+
+                recognition.onerror = (event) => {
+                    console.error('Speech recognition error', event.error);
+                };
+
+                recognition.start();
+            }
+
+            function submitVoiceSearch() {
+                const voiceInput = document.getElementById('voice_input').value;
+                fetch('/search/', {  // Adjust the URL according to your Django endpoint
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')  // Ensure CSRF protection
+                    },
+                    body: JSON.stringify({ query: voiceInput })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    displaySearchResults(data.results);  // Implement this function to display results
+                });
+            }
+
+            function getCookie(name) {
+                const cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            return decodeURIComponent(cookie.substring(name.length + 1));
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        </script>
+
+
+
+
+
 
         <script>
             function showSuggestions(query) {
@@ -2308,8 +2362,76 @@ setInterval(autoScroll, scrollInterval);
     </div>
 </div>
 
+  <style>
+        .product-card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
 
+        .product-card img {
+            width: 100%;
+            height: auto;
+        }
 
+        .product-card-body {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .product-card-body h5 {
+            margin-bottom: 15px;
+        }
+
+        .product-actions {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .product-actions .btn {
+            margin: 0 5px;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+    </style>
+
+<div class="container-fluid mt-5">
+    <div>
+        <h2 class="text-center my-4">Recommended for you:</h2>
+         <h1 class="text-center text-success">Welcome, {{ user.username }}!</h1>
+        <div class="row">
+            {% for product in recommended_products %}
+                <div class="col-md-3">
+                    <div class="product-card">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        <div class="product-card-body">
+                            <h5>{{ product.name }}</h5>
+                            <p>${{ product.final_price }}</p>
+                            <div class="product-actions">
+                                <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-outline-success">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </a>
+                                <a href="{% url 'add_to_wishlist' product.id %}" class="btn btn-outline-danger">
+                                    <i class="fas fa-heart"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<br><br>
 
 
 <div class="footer spad px-lg-5 px-3 py-5 py-md-4">
