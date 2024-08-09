@@ -47,12 +47,14 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
     'haystack',
-    'allauth',
+    'django_celery_beat',
+	'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
-    'django_celery_beat',
+
+    'social_django',
 ]
 
 SITE_ID = 1
@@ -90,7 +92,7 @@ ROOT_URLCONF = 'ecommerceProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+		'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -146,10 +148,24 @@ AUTH_PASSWORD_VALIDATORS = [
 WSGI_APPLICATION = 'ecommerceProject.wsgi.application'
 
 # Authentication backends
-AUTHENTICATION_BACKENDS = (
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
-)
+]
+
+SITE_ID = 1
+
+
+LOGIN_REDIRECT_URL = 'home-url'
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300  # 5 minutes
+
 
 
 # Secure Cookies
@@ -263,24 +279,6 @@ JAZZMIN_SETTINGS = {
 }
 
 
-# Social account providers configuration using environment variables
-SOCIALACCOUNT_PROVIDERS = {
-    'facebook': {
-        'APP': {
-            'client_id': os.getenv('FACEBOOK_CLIENT_ID'),
-            'secret': os.getenv('FACEBOOK_SECRET'),
-            'key': ''
-        }
-    },
-    'google': {
-        'APP': {
-            'client_id': os.getenv('GOOGLE_CLIENT_ID'),
-            'secret': os.getenv('GOOGLE_SECRET'),
-            'key': ''
-        }
-    }
-}
-
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
@@ -297,7 +295,7 @@ from celery.schedules import crontab
 
 CELERY_BEAT_SCHEDULE = {
     'send-abandoned-cart-emails-every-day': {
-        'task': 'your_app.tasks.check_and_send_abandoned_cart_emails',
+        'task': 'store.tasks.check_and_send_abandoned_cart_emails',
         'schedule': crontab(hour=0, minute=0),  # Run daily at midnight
     },
 }
@@ -311,3 +309,9 @@ USE_I18N = True
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
 ]
+
+
+# Load environment variables
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
+

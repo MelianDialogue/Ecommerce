@@ -22,6 +22,10 @@ urlpatterns = [
                   path('about/', views.about, name='about'),
                   path('shipping/', views.shipping, name='shipping'),
                   path('logout/', views.logout_view, name='logout-url'),
+
+                  path('social/login/', views.start_social_auth, name='social_login'),
+                  path('social/complete/<backend>/', views.complete_social_auth, name='social_complete'),
+
                   path('password_reset/',
                        auth_views.PasswordResetView.as_view(template_name='registration/password_reset_form.html'),
                        name='password_reset'),

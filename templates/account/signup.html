@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <div class="card shadow-sm mt-5">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-center justify-content-md-start">
+                        <div class="logo-container me-md-3">
+                            <a href="{% url 'home-url' %}" class="branchy-logo1">
+                                <img class="rounded logo-image" src="{% static 'img/logo1.jpg' %}" alt="Branchy Logo">
+                                <span class="branchy-text">BRANCHY</span>
+                            </a>
+                        </div>
+                    </div>
+                    <h3 class="card-title text-center">Create Account</h3>
+                    <form method="post" action="{% url 'account_signup' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="form-group text-center">
+                            <input class="btn btn-info btn-lg rounded mt-4" value="Register" type="submit">
+                        </div>
+                        <br>
+                        <div class="text-center text-muted">Already have an account? <a href="{% url 'account_login' %}">SignIn</a></div>
+                    </form>
+                    <hr>
+                    <div class="text-center">
+                        <p>Or sign up with</p>
+                        <a href="{% url 'socialaccount_login' %}?process=signup&provider=google" class="btn btn-google social-login-btn">
+                            <i class="fab fa-google"></i> Google
+                        </a>
+                        <a href="{% url 'socialaccount_login' %}?process=signup&provider=facebook" class="btn btn-facebook social-login-btn">
+                            <i class="fab fa-facebook-f"></i> Facebook
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

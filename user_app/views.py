@@ -93,17 +93,31 @@ def change_password(request):
         form = UserProfileForm()
     return render(request, 'store/index.html', {'form': form})
 
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from .forms import EmailLoginForm
+from django.contrib.auth.models import User
+
 def user_login(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('home-url')
-        else:
-            return render(request, 'user_app/login.html', {'error_message': 'Invalid username or password.'})
-    return render(request, 'user_app/login.html')
+        form = EmailLoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            try:
+                user = User.objects.get(email=email)
+                user = authenticate(request, username=user.username, password=password)
+                if user is not None:
+                    login(request, user)
+                    return redirect('home-url')
+                else:
+                    messages.error(request, 'Invalid email or password.')
+            except User.DoesNotExist:
+                messages.error(request, 'User with this email does not exist.')
+    else:
+        form = EmailLoginForm()
+    return render(request, 'user_app/login.html', {'form': form})
+
 
 @login_required
 def profile(request):
@@ -256,3 +270,13 @@ class MessageViewSet(viewsets.ModelViewSet):
 class SubscriptionViewSet(viewsets.ModelViewSet):
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
+
+
+from django.shortcuts import redirect
+from social_django.views import auth, complete
+
+def start_social_auth(request, backend):
+    return auth(request, backend)
+
+def complete_social_auth(request, backend):
+    return complete(request, backend, redirect_name='next')
