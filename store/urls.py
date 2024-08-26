@@ -8,7 +8,7 @@ from .views import (analyze_sentiment_view,
                     product_list, product_detail, add_product,
                     checkout, order_history, remove_cart_item, security_monitor_view, user_behavior_analysis_view,
                     suggest, chatbot_view, dynamic_landing_page, user_profile, supply_chain_view, set_currency,
-                    set_language
+                    set_language, notifications_view
 
                     )
 from . import views
@@ -145,6 +145,8 @@ urlpatterns = [
     # Subscription API
     path('api/subscriptions/', SubscriptionListCreateView.as_view(), name='subscription-list-create'),
     path('api/subscriptions/<int:pk>/', SubscriptionDetailView.as_view(), name='subscription-detail'),
+
+    path('notifications/', notifications_view, name='notifications'),
 
 
 ]

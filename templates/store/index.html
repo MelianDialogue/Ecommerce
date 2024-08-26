@@ -211,6 +211,7 @@
     <div class="loader"></div>
 </div>
 
+
 <!-- Top Header -->
 <header class="container-fluid top-header mt-2 px-lg-5 px-3">
     <div class="row align-items-center">
@@ -227,12 +228,7 @@
                     </a>
                     <ul class="dropdown-menu top-header-dropdown-menu" aria-labelledby="currencyDropdown">
                         <li><a class="dropdown-item" href="{% url 'set_currency' 'GBP' %}">£ - British Pound</a></li>
-                        <!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'USD' %}">$ - US Dollar</a></li>-->
-                        <!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'EUR' %}">€ - Euro</a></li>-->
-                        <!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'JPY' %}">¥ - Japanese Yen</a></li>-->
-                        <!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'AUD' %}">A$ - Australian Dollar</a></li>-->
-                        <!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'CAD' %}">C$ - Canadian Dollar</a></li>-->
-                        <!--                        <li><a class="dropdown-item" href="{% url 'set_currency' 'CNY' %}">¥ - Chinese Yuan</a></li>-->
+                        <!-- Additional currency options can be added here -->
                     </ul>
                 </div>
             </div>
@@ -241,7 +237,7 @@
             <ul class="list-unstyled d-flex mb-0 justify-content-center justify-content-md-end align-items-center">
                 <!-- My Account Dropdown -->
                 <li class="me-3 dropdown position-relative d-flex align-items-center">
-                    <a href="#" class="top-header-link dropdown-toggle" data-bs-toggle="dropdown" style="color: #0d6efd; text-decoration: none;">
+                    <a href="#" class="top-header-link dropdown-toggle" data-bs-toggle="dropdown" style="color:#20c997; text-decoration: none;">
                         <i class="fa fa-user"></i> My Account
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm">
@@ -275,7 +271,7 @@
 
                 <!-- Wishlist Link -->
                 <li class="ms-3 d-flex align-items-center">
-                    <a href="{% url 'wishlist_detail' %}" class="top-header-link" style="color: #ffc107; text-decoration: none;">
+                    <a href="{% url 'wishlist_detail' %}" class="top-header-link" style="color:#20c997; text-decoration: none;">
                         <i class="fa fa-heart"></i> Wishlist
                     </a>
                 </li>
@@ -287,16 +283,51 @@
 
                 <!-- Shopping Cart Link -->
                 <li class="ms-3 d-flex align-items-center">
-                    <a href="{% url 'cart_detail' %}" class="top-header-link" style="color: #198754; text-decoration: none;">
+                    <a href="{% url 'cart_detail' %}" class="top-header-link" style="color:#20c997; text-decoration: none;">
                         <i class="fa fa-shopping-cart"></i> Shopping Cart
                     </a>
                 </li>
             </ul>
         </div>
-
-
     </div>
 </header>
+
+<style>
+    /* Hide the top header on mobile devices */
+    @media (max-width: 767px) {
+        .top-header {
+            display: none;
+        }
+    }
+</style>
+
+
+
+<!-- Mobile Br Elements -->
+<div class="mobile-brs">
+    <br>
+    <br>
+</div>
+
+<style>
+    /* Hide the top header on mobile devices */
+    @media (max-width: 767px) {
+        .top-header {
+            display: none;
+        }
+        .mobile-brs {
+            display: block;
+        }
+    }
+
+    /* Hide the <br> elements on larger screens */
+    @media (min-width: 768px) {
+        .mobile-brs {
+            display: none;
+        }
+    }
+</style>
+
 
 <style>
     /* Basic styling */
@@ -481,7 +512,8 @@
 
 
 <!-- Middle Header -->
-<header class="container-fluid middle-header border-bottom mt-2 px-lg-5 px-3" style="padding-left:60px;padding-right:60px">
+<header class="container-fluid middle-header border-bottom mt-2 px-lg-5 px-3"
+        style="padding-left:60px;padding-right:60px">
     <div class="row align-items-center">
         <div class="col-md-3 d-none d-md-block text-center text-md-start">
             <div class="d-flex align-items-center justify-content-center justify-content-md-start">
@@ -500,7 +532,7 @@
             <ul class="list-unstyled d-flex justify-content-center justify-content-md-end mb-0">
                 <li class="me-4 animate__animated animate__fadeIn">
                     <a href="{% url 'contact' %}" class="text-decoration-none d-flex align-items-center">
-                        <i class="fa fa-mobile-alt text-secondary contact-icon" style="font-size: 3.0rem;"></i>
+                        <i class="fa fa-mobile-alt contact-icon" style="color:#20c997;font-size: 3.0rem;"></i>
                         <div class="text-start ms-2">
                             <p class="text-muted mb-0 fw-bold">CALL US NOW</p>
                             <p class="text-muted mb-0 fw-bold">+447508516836</p>
@@ -520,24 +552,17 @@
                 </li>
                 <li class="me-4 animate__animated animate__fadeIn" style="padding-left:20px;">
                     {% if request.user.is_authenticated %}
-                    <a href="#" class="notifications-link text-decoration-none">
-                        <span class="notification-icon-bg">
-                            <i class="fas fa-bell text-white"></i>
-                            <span class="badge badge-pill badge-danger notification-count">
-                                {% if request.user.notification_set.count == 0 %}0{% else %}{{ request.user.notification_set.count }}{% endif %}
-                            </span>
-                        </span>
+                    <a href="{% url 'notifications' %}" class="notifications-link text-decoration-none">
+        <span class="notification-icon-bg">
+            <i class="fas fa-bell text-white"></i>
+            <span class="badge badge-pill badge-danger notification-count">
+                {% if request.user.notification_set.count == 0 %}0{% else %}{{ request.user.notification_set.count }}{% endif %}
+            </span>
+        </span>
                     </a>
-                    <ul class="notifications-list">
-                        {% for notification in request.user.notification_set.all %}
-                        <li class="notification-item animate__animated animate__fadeIn">
-                            <span class="notification-message">{{ notification.message }}</span>
-                            <a href="{% url 'clear_notification' notification.id %}" class="clear-notification-link">Clear</a>
-                        </li>
-                        {% endfor %}
-                    </ul>
                     {% endif %}
                 </li>
+
                 <li class="me-4 animate__animated animate__fadeIn" style="height: 40px;padding-left:20px">
                     <a href="{% url 'profile-url' %}">
                         {% if user.profile.profile_photo %}
@@ -551,6 +576,16 @@
         </div>
     </div>
 </header>
+
+<style>
+    /* Hide the header on mobile devices */
+    @media (max-width: 767px) {
+        .middle-header {
+            display: none;
+        }
+    }
+</style>
+
 
 <style>
     /* Basic styling */
@@ -668,35 +703,90 @@
 
 
 
-<!-- Navbar -->
+
+
+
+
+
+
 <nav class="container-fluid navbar navbar-expand-lg navbar-light gray-navbar px-lg-5 px-3"
      style="padding-left:60px;padding-right:60px;padding-top:0;padding-bottom:0;">
+
     <!-- Mobile Logo and Title -->
-    <div class="d-lg-none d-flex align-items-center" style="padding:15px">
+    <div class="d-lg-none d-flex align-items-center justify-content-between" style="padding:15px;">
         <a href="{% url 'home-url' %}">
             <img class="rounded logo-image animate__animated animate__fadeIn"
-                 src="{% static 'img/logo1.jpg' %}" alt="Branchy Logo">
+                 src="{% static 'img/logo1.jpg' %}" alt="Branchy Logo" style="max-height: 40px;">
         </a>
         <a href="{% url 'home-url' %}" style="text-decoration: none;">
             <h1 class="mb-0 logo-title animate__animated animate__fadeIn"
-                style="font-size: 1.8rem;font-weight: 900; letter-spacing:-0.1rem;
+                style="font-size: 1.5rem; font-weight: 900; letter-spacing:-0.05rem;
                 color: white; text-transform: uppercase;">BRANCHY</h1>
         </a>
     </div>
+
+    <!-- Notification, Cart, and Profile Icons -->
+    <div class="d-lg-none d-flex align-items-center">
+        <ul class="navbar-nav mb-2 mb-lg-0 d-flex flex-row">
+            <li class="nav-item me-4">
+                {% if request.user.is_authenticated %}
+                <a href="#" class="notifications-link text-decoration-none">
+                    <span class="notification-icon-bg">
+                        <i class="fas fa-bell text-white"></i>
+                        <span class="badge badge-pill badge-danger notification-count">
+                            {% if request.user.notification_set.count == 0 %}0{% else %}{{ request.user.notification_set.count }}{% endif %}
+                        </span>
+                    </span>
+                </a>
+                {% endif %}
+            </li>
+            <li class="nav-item me-4" style="margin-left:15px;padding-top:-5px">
+                <a href="{% url 'cart_detail' %}" class="cart-link text-decoration-none">
+                    <span class="cart-icon-bg">
+                        <i class="fa fa-shopping-bag text-white" style="font-size: 1.5rem;"></i>
+                    </span>
+                    <span class="badge badge-pill badge-success cart-count">{{ cart_items_count }}</span>
+                </a>
+            </li>
+            <li class="nav-item" style="margin-left:15px;padding-top:-5px">
+                <a href="{% url 'profile-url' %}">
+                    {% if user.profile.profile_photo %}
+                    <img class="rounded-circle profile-photo" src="{{ user.profile.profile_photo.url }}" alt="Profile Photo" style="height: 40px;">
+                    {% else %}
+                    <img class="rounded-circle profile-photo" src="{% static 'img/profile.jpeg' %}" alt="Photo" style="height: 40px;">
+                    {% endif %}
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Navbar Toggler -->
     <button class="navbar-toggler animate__animated animate__fadeIn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
-            aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon text-white"></span>
+            aria-expanded="false" aria-label="Toggle navigation" onclick="toggleIcon(this)">
+        <i class="fas fa-bars text-white"></i>
     </button>
 
+    <!-- Navbar Collapse -->
     <div class="collapse navbar-collapse justify-content-between animate__animated animate__fadeIn"
          id="navbarNav" style="background-color: #345;">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-start"
-            style="font-size: 1.0rem;padding-left:20px">
+            style="font-size: 1.0rem; padding-left: 20px;">
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'home-url' %}">Home</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'product_list' %}">Products</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'shipping' %}">Shipping & Returns</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'contact' %}">Contact Us</a></li>
             <li class="nav-item"><a class="nav-link text-white text-center text-uppercase" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item dropdown d-lg-none">
+                <a class="nav-link dropdown-toggle text-white text-center text-uppercase"
+                   href="#" role="button" data-bs-toggle="dropdown">My account</a>
+                <ul class="dropdown-menu animate__animated animate__fadeIn">
+                    <li><a class="dropdown-item" href="{% url 'login-url' %}"><i class="fa fa-sign-in-alt"></i>  Login</a></li>
+                    <li><a class="dropdown-item" href="{% url 'register-url' %}"> <i class="fa fa-user-plus"></i> Register</a></li>
+                    <li><a class="dropdown-item" href="{% url 'profile-url' %}"><i class="fa fa-user-circle"></i> Profile</a></li>
+                    <li><a class="dropdown-item" href="{% url 'logout-url' %}"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </li>
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-white text-center text-uppercase"
                    href="#" role="button" data-bs-toggle="dropdown">More</a>
@@ -721,8 +811,8 @@
                     <li><a class="dropdown-item" href="{% url 'wishlist_detail' %}">Wishlist</a></li>
                 </ul>
             </li>
-
         </ul>
+        <!-- Search Form -->
         <form method="get" action="{% url 'search' %}" class="d-flex align-items-center w-75 ml-auto custom-search-form" style="padding-right: 20px; position: relative;">
             <div class="input-group">
                 <input type="search" class="form-control rounded-0 custom-search-input" id="q" name="q" placeholder="Search by product name" aria-label="Search" style="height: 40px; font-size: 0.9rem; border-right: none; box-shadow: none;" onkeyup="showSuggestions(this.value)">
@@ -730,157 +820,84 @@
                     <button type="submit" class="btn btn-block" style="height: 40px; font-size: 0.9rem; background-color:#20c997; border-left: none; box-shadow: none;">Search</button>
                 </div>
             </div>
-            <button type="button" class="btn ml-2 align-middle" id="voice_search_btn" style="height: 40px; background-color:#20c997" onclick="startVoiceSearch()">
-                <i class="fa fa-microphone-alt text-white"></i>
-            </button>
-            <input type="hidden" id="voice_input" name="voice_input">
-            <div id="suggestions-container" class="suggestions-container" style="position: absolute; z-index: 1000;"></div>
         </form>
-        <script>
-            function startVoiceSearch() {
-                const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-                recognition.lang = 'en-US';
-                recognition.interimResults = false;
-                recognition.maxAlternatives = 1;
-
-                recognition.onresult = (event) => {
-                    const voiceInput = event.results[0][0].transcript;
-                    document.getElementById('voice_input').value = voiceInput;
-                    submitVoiceSearch();
-                };
-
-                recognition.onerror = (event) => {
-                    console.error('Speech recognition error', event.error);
-                };
-
-                recognition.start();
-            }
-
-            function submitVoiceSearch() {
-                const voiceInput = document.getElementById('voice_input').value;
-                fetch('/search/', {  // Adjust the URL according to your Django endpoint
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': getCookie('csrftoken')  // Ensure CSRF protection
-                    },
-                    body: JSON.stringify({ query: voiceInput })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    displaySearchResults(data.results);  // Implement this function to display results
-                });
-            }
-
-            function getCookie(name) {
-                const cookieValue = null;
-                if (document.cookie && document.cookie !== '') {
-                    const cookies = document.cookie.split(';');
-                    for (let i = 0; i < cookies.length; i++) {
-                        const cookie = cookies[i].trim();
-                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                            return decodeURIComponent(cookie.substring(name.length + 1));
-                        }
-                    }
-                }
-                return cookieValue;
-            }
-        </script>
-
-
-
-
-
-
-        <script>
-            function showSuggestions(query) {
-                if (query.length === 0) {
-                    document.getElementById('suggestions-container').innerHTML = '';
-                    return;
-                }
-
-                fetch(`/suggest/?q=${query}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        const suggestionsContainer = document.getElementById('suggestions-container');
-                        suggestionsContainer.innerHTML = '';
-
-                        data.forEach(item => {
-                            const suggestionItem = document.createElement('div');
-                            suggestionItem.className = 'suggestion-item';
-                            suggestionItem.textContent = item.name;
-                            suggestionItem.onclick = () => {
-                                document.getElementById('q').value = item.name;
-                                suggestionsContainer.innerHTML = '';
-                            };
-                            suggestionsContainer.appendChild(suggestionItem);
-                        });
-                    });
-            }
-        </script>
-
-        <style>
-            .suggestions-container {
-                background-color: white;
-                width: calc(100% - 50px); /* Adjust the width based on your form */
-                max-height: 200px;
-                overflow-y: auto;
-            }
-
-            .suggestion-item {
-                padding: 10px;
-                cursor: pointer;
-            }
-
-            .suggestion-item:hover {
-                background-color: #f0f0f0;
-            }
-        </style>
-
-
-        <script>
-            function startVoiceSearch() {
-                // Start voice recognition or prompt user to allow microphone access
-                // For demonstration purposes, we'll set a dummy value
-                const voiceInput = "Voice search text"; // Replace with actual voice-to-text implementation
-                // Set the voice input to the hidden input field
-                document.getElementById('voice_input').value = voiceInput;
-                // Submit the form
-                document.forms[0].submit(); // Assumes this is the first form on your page
-            }
-        </script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const voiceSearchBtn = document.getElementById('voice_search_btn');
-                const searchInput = document.getElementById('q');
-
-                if ('webkitSpeechRecognition' in window) {
-                    const recognition = new webkitSpeechRecognition();
-                    recognition.lang = 'en-US';
-                    recognition.continuous = false;
-                    recognition.interimResults = false;
-
-                    recognition.onresult = function(event) {
-                        const voiceInput = event.results[0][0].transcript;
-                        searchInput.value = voiceInput;
-                        document.querySelector('.custom-search-form').submit();
-                    };
-
-                    recognition.onerror = function(event) {
-                        console.error('Speech recognition error detected: ' + event.error);
-                    };
-
-                    voiceSearchBtn.addEventListener('click', function() {
-                        recognition.start();
-                    });
-                } else {
-                    console.warn('Speech recognition not supported in this browser.');
-                    voiceSearchBtn.disabled = true;
-                }
-            });
-        </script>
     </div>
 </nav>
+
+
+
+
+<style>
+    /* Add this CSS to your stylesheet */
+
+/* Styling for the thin collapsed navbar */
+.navbar-collapse {
+    max-height: 50vh; /* Adjust height to make it thinner */
+    overflow-y: auto;
+    padding: 0; /* Remove default padding */
+}
+
+.navbar-nav {
+    margin: 0; /* Remove default margin */
+}
+
+.nav-item {
+    padding: 0; /* Remove default padding */
+}
+
+.nav-link {
+    padding: 10px 15px; /* Adjust padding for a thinner appearance */
+    font-size: 0.9rem; /* Adjust font size if needed */
+}
+
+.dropdown-menu {
+    padding: 0; /* Remove padding from dropdown menu */
+}
+
+@media (min-width: 992px) {
+    .navbar-collapse {
+        max-height: none; /* Remove restriction on larger screens */
+        overflow-y: visible;
+    }
+}
+
+</style>
+
+
+
+
+<style>
+    /* Apply this only to mobile devices */
+    @media (max-width: 767px) {
+        nav.container-fluid {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        body {
+            padding-top: 60px; /* Adjust this based on your navbar height */
+        }
+    }
+</style>
+
+
+
+<script>
+    function toggleIcon(button) {
+        const icon = button.querySelector('i');
+        if (icon.classList.contains('fa-bars')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+        } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+    }
+</script>
+
+
+
 
 
 <script>
@@ -1132,6 +1149,7 @@ animation-name: fadeInUp;
         color: #20c997;
     }
 </style>
+
 <style>
     .footer-column {
         border-right: 1px solid #ddd;
@@ -1343,6 +1361,8 @@ margin-right: 2px;
     }
 </style>
 
+
+
 <!-- Add this to your homepage template -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
@@ -1362,6 +1382,9 @@ margin-right: 2px;
         <button id="send-message">Send</button>
     </div>
 </div>
+
+
+
 
 <style>
     .chatbot-icon {
@@ -1442,6 +1465,7 @@ margin-right: 2px;
         cursor: pointer;
     }
 </style>
+
 
 
 <script>
@@ -1611,6 +1635,8 @@ margin-right: 2px;
                 </style>
             </div>
         </div>
+
+
 
         <div class="col-lg-9 animated fadeInRight d-flex flex-column mt-lg-n5 mt-3">
             <div class="hero__search flex-grow-1"></div>
@@ -1848,12 +1874,6 @@ margin-right: 2px;
                                 {% endif %}
                                 <br>
                                 <br>
-                                <!-- <div class="product__discount__percent">-20%</div>-->
-                                <!--                                <div class="product_discount_percent">-->
-                                <!--                                    <p class="rating" data-rating="{{ rating }}" style="font-size: 20px;">-->
-                                <!--                                        &lt;!&ndash; Stars will be populated by JavaScript &ndash;&gt;-->
-                                <!--                                    </p>-->
-                                <!--                                </div>-->
                                 <ul class="product__item__pic__hover">
                                     <li><a href="{% url 'product_detail' product.id %}"><i class="fa fa-eye"></i></a></li>
                                     <li><a href="{% url 'add_to_wishlist' product.id %}"><i class="fa fa-heart"></i></a></li>
@@ -2139,6 +2159,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 </div>
 
+
 <!-- Styles -->
 <style>
     .product-section {
@@ -2201,26 +2222,23 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="row featured__filter">
             {% for product in category_3_products %}
             <div class="col-lg-3 col-md-4 col-sm-6 mix {{ product.category }}">
-                <div class="featured__item" style="border: 1px solid #ddd; padding: 10px; background: #f8f9fa; border-radius: 10px;">
-                    <div class="featured__item__pic set-bg" data-setbg="{{ product.image.url }}">
-                        <ul class="featured__item__pic__hover">
+                <div class="product__discount__item" style="border: 1px solid #ccc;">
+                    <div class="product__discount__item__pic set-bg" data-setbg="{{ product.image.url }}">
+                        <br>
+                        <ul class="product__item__pic__hover">
                             <li><a href="{% url 'product_detail' product.id %}"><i class="fa fa-eye"></i></a></li>
                             <li><a href="{% url 'add_to_wishlist' product.id %}"><i class="fa fa-heart"></i></a></li>
                             <li><a href="{% url 'add_to_compare' product.id %}"><i class="fa fa-retweet"></i></a></li>
-
                             <li><a href="{% url 'add_to_cart' product.id %}"><i class="fa fa-shopping-cart"></i></a></li>
                         </ul>
                     </div>
-                    <div class="featured__item__text">
-                        <h6><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h6>
-                        <div class="product__item__price">
-                            <span style="text-decoration: line-through; color: #999;">£{{ product.price }}</span>
-                            <br>
-                            <span>£{{ product.final_price }}</span>
-                            <p class="rating" data-rating="{{ rating }}" style="font-size: 20px;">
-                                <!-- Stars will be populated by JavaScript -->
-                            </p>
-                        </div>
+                    <div class="product__discount__item__text">
+                        <h5><a href="#">{{ product.name }}</a></h5>
+                        <div class="product__item__price"><span> £{{ product.price }}</span></div>
+                        <span> £{{ product.final_price }}</span>
+                        <p class="rating" data-rating="{{ rating }}" style="font-size: 20px;">
+                            <!-- Stars will be populated by JavaScript -->
+                        </p>
                     </div>
                 </div>
             </div>
@@ -2461,6 +2479,8 @@ setInterval(autoScroll, scrollInterval);
         border-radius: 50%;
     }
 </style>
+
+
 
 <div class="container-fluid mt-5">
     <div>

@@ -2493,3 +2493,13 @@ def index1(request):
 
     return render(request, 'store/index.html', context)
 
+
+
+# views.py
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def notifications_view(request):
+    notifications = request.user.notification_set.all()
+    return render(request, 'store/notifications.html', {'notifications': notifications})

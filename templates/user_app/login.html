@@ -156,6 +156,58 @@
                             </a>
                         </div>
                     </div>
+
+                    <!-- Dynamic Greeting Based on Time of Day -->
+                    {% now "H" as current_hour %}
+                    <div class="greeting-container text-center py-4 mx-auto">
+                        {% if current_hour|add:0 >= 5 and current_hour|add:0 < 12 %}
+                        <h3 class="card-title text-center greeting-message">
+                            <i class="fas fa-sun text-warning"></i> Good Morning!
+                        </h3>
+                        {% elif current_hour|add:0 >= 12 and current_hour|add:0 < 17 %}
+                        <h3 class="card-title text-center greeting-message">
+                            <i class="fas fa-cloud-sun text-primary"></i> Good Afternoon!
+                        </h3>
+                        {% else %}
+                        <h3 class="card-title text-center greeting-message">
+                            <i class="fas fa-moon text-info"></i> Good Evening!
+                        </h3>
+                        {% endif %}
+                    </div>
+
+                    <!-- Additional Styling -->
+                    <style>
+                        .greeting-container {
+                            background: linear-gradient(135deg, rgba(248, 249, 250, 0.8), rgba(233, 236, 239, 0.8));
+                            border-radius: 8px;
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                            transition: transform 0.3s ease;
+                            max-width: 400px;
+                            margin: 0 auto;
+                        }
+
+                        .greeting-container:hover {
+                            transform: scale(1.05);
+                        }
+
+                        .greeting-message {
+                            font-family: 'Poppins', sans-serif;
+                            font-size: 1.5rem;
+                            font-weight: 600;
+                            margin: 0;
+                            color: #343a40;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            gap: 10px;
+                        }
+
+                        .greeting-message i {
+                            font-size: 1.75rem;
+                        }
+                    </style>
+
+
                     <p>
                         {% for message in messages %}
                         {{ message }}
