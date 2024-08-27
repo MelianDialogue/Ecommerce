@@ -98,6 +98,32 @@ from django.shortcuts import render, redirect
 from .forms import EmailLoginForm
 from django.contrib.auth.models import User
 
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from .forms import EmailLoginForm
+from django.contrib.auth.models import User
+from datetime import datetime
+
+def get_greeting():
+    current_hour = datetime.now().hour
+    if 5 <= current_hour < 12:
+        greeting = {
+            'message': 'Good Morning!',
+            'icon': 'fas fa-sun text-warning'
+        }
+    elif 12 <= current_hour < 17:
+        greeting = {
+            'message': 'Good Afternoon!',
+            'icon': 'fas fa-cloud-sun text-primary'
+        }
+    else:
+        greeting = {
+            'message': 'Good Evening!',
+            'icon': 'fas fa-moon text-info'
+        }
+    return greeting
+
 def user_login(request):
     if request.method == 'POST':
         form = EmailLoginForm(request.POST)
@@ -116,7 +142,10 @@ def user_login(request):
                 messages.error(request, 'User with this email does not exist.')
     else:
         form = EmailLoginForm()
-    return render(request, 'user_app/login.html', {'form': form})
+
+    greeting = get_greeting()  # Get the greeting based on the current time
+    return render(request, 'user_app/login.html', {'form': form, 'greeting': greeting})
+
 
 
 @login_required
@@ -280,3 +309,5 @@ def start_social_auth(request, backend):
 
 def complete_social_auth(request, backend):
     return complete(request, backend, redirect_name='next')
+
+

@@ -157,23 +157,12 @@
                         </div>
                     </div>
 
-                    <!-- Dynamic Greeting Based on Time of Day -->
-                    {% now "H" as current_hour %}
-                    <div class="greeting-container text-center py-4 mx-auto">
-                        {% if current_hour|add:0 >= 5 and current_hour|add:0 < 12 %}
+                   <div class="greeting-container text-center py-4 mx-auto">
                         <h3 class="card-title text-center greeting-message">
-                            <i class="fas fa-sun text-warning"></i> Good Morning!
+                            <i class="{{ greeting.icon }}"></i> {{ greeting.message }}
                         </h3>
-                        {% elif current_hour|add:0 >= 12 and current_hour|add:0 < 17 %}
-                        <h3 class="card-title text-center greeting-message">
-                            <i class="fas fa-cloud-sun text-primary"></i> Good Afternoon!
-                        </h3>
-                        {% else %}
-                        <h3 class="card-title text-center greeting-message">
-                            <i class="fas fa-moon text-info"></i> Good Evening!
-                        </h3>
-                        {% endif %}
                     </div>
+
 
                     <!-- Additional Styling -->
                     <style>
